@@ -1,0 +1,202 @@
+From: Sistem Informasi Magang - Diskominfo Kabupaten Tuban
+ <bagusdwijunior@gmail.com>
+To: 24050974004@mhs.unesa.ac.id
+Subject: Atur Ulang Kata Sandi =?utf-8?Q?=E2=80=94?= SIM-MAGANG Diskominfo
+ Tuban
+Message-ID: <75100088db68acd5f25ac1ee31e8533a@gmail.com>
+MIME-Version: 1.0
+Date: Mon, 10 Aug 2026 01:35:28 +0000
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html>
+<html lang=3D"id">
+<head>
+    <meta charset=3D"UTF-8"=
+>
+    <meta name=3D"viewport" content=3D"width=3Ddevice-width, initial-sc=
+ale=3D1.0">
+    <title>Atur Ulang Kata Sandi =E2=80=94 SIM-MAGANG Diskomi=
+nfo Tuban</title>
+    <style>
+        body {
+            font-family:=
+ -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, s=
+ans-serif;
+            background-color: #f8fafc;
+            color: #3=
+34155;
+            margin: 0;
+            padding: 0;
+            lin=
+e-height: 1.6;
+        }
+        .email-wrapper {
+            width: =
+100%;
+            background-color: #f8fafc;
+            padding: 40px =
+15px;
+        }
+        .email-container {
+            max-width: 580=
+px;
+            margin: 0 auto;
+            background-color: #ffffff;=
+
+            border-radius: 16px;
+            overflow: hidden;
+     =
+       border: 1px solid #e2e8f0;
+            box-shadow: 0 10px 25px -5p=
+x rgba(0, 0, 0, 0.05);
+        }
+        .email-header {
+            =
+background: linear-gradient(135deg, #0b1329 0%, #0d6efd 100%);
+          =
+  color: #ffffff;
+            padding: 32px 28px;
+            text-alig=
+n: center;
+        }
+        .email-header h1 {
+            margin: 0=
+ 0 6px 0;
+            font-size: 20px;
+            font-weight: 800;
+=
+            letter-spacing: -0.02em;
+        }
+        .email-header p =
+{
+            margin: 0;
+            font-size: 13px;
+            col=
+or: #cbd5e1;
+        }
+        .email-body {
+            padding: 36p=
+x 32px;
+        }
+        .email-body p {
+            margin: 0 0 18p=
+x 0;
+            font-size: 15px;
+            color: #475569;
+       =
+ }
+        .btn-container {
+            text-align: center;
+         =
+   margin: 32px 0;
+        }
+        .btn-reset {
+            display=
+: inline-block;
+            background-color: #0d6efd;
+            colo=
+r: #ffffff !important;
+            font-weight: 700;
+            font-s=
+ize: 15px;
+            padding: 14px 32px;
+            border-radius: 5=
+0px;
+            text-decoration: none;
+            box-shadow: 0 4px 1=
+2px rgba(13, 110, 253, 0.25);
+        }
+        .email-footer {
+     =
+       background-color: #f1f5f9;
+            padding: 24px 28px;
+     =
+       text-align: center;
+            border-top: 1px solid #e2e8f0;
+ =
+           font-size: 12px;
+            color: #64748b;
+        }
+   =
+     .email-footer p {
+            margin: 0 0 4px 0;
+        }
+    <=
+/style>
+</head>
+<body>
+    <div class=3D"email-wrapper">
+        <d=
+iv class=3D"email-container">
+            <div class=3D"email-header">
+=
+                <h1>Sistem Informasi Magang</h1>
+                <p>Dinas=
+ Komunikasi dan Informatika Kabupaten Tuban</p>
+            </div>
+
+ =
+           <div class=3D"email-body">
+                <p>Halo<strong> bag=
+us sucipto</strong>,</p>
+
+                <p>Kami menerima permintaan u=
+ntuk mengatur ulang kata sandi akun Anda pada Sistem Informasi Magang (SIM-=
+MAGANG) Diskominfo Kabupaten Tuban.</p>
+
+                <p>Silakan kli=
+k tombol di bawah ini untuk membuat kata sandi baru akun Anda:</p>
+
+   =
+             <div class=3D"btn-container">
+                    <a href=3D=
+"http://127.0.0.1:8000/reset-password/4365658a4c95db28d870a7cadfd2671fa3ae7=
+ac591b8f76af057be48cf1f27d7?email=3D24050974004%40mhs.unesa.ac.id" class=3D=
+"btn-reset">Atur Ulang Kata Sandi</a>
+                </div>
+
+       =
+         <p style=3D"font-size: 13px; color: #64748b; margin-top: 24px;">=
+
+                    Tautan atur ulang kata sandi ini akan kedaluwarsa da=
+lam <strong>60 menit</strong>.
+                </p>
+
+                =
+<p style=3D"font-size: 13px; color: #64748b;">
+                    Jika A=
+nda tidak meminta pengaturan ulang kata sandi, tidak ada tindakan lebih lan=
+jut yang diperlukan dan akun Anda tetap aman.
+                </p>
+
+ =
+               <hr style=3D"border: none; border-top: 1px solid #e2e8f0; ma=
+rgin: 24px 0;">
+
+                <p style=3D"font-size: 12px; color: #9=
+4a3b8; word-break: break-all;">
+                    Jika Anda mengalami k=
+endala saat menekan tombol di atas, salin dan tempel tautan URL berikut pad=
+a peramban web Anda:<br>
+                    <a href=3D"http://127.0.0.1:=
+8000/reset-password/4365658a4c95db28d870a7cadfd2671fa3ae7ac591b8f76af057be4=
+8cf1f27d7?email=3D24050974004%40mhs.unesa.ac.id" style=3D"color: #0d6efd;">=
+http://127.0.0.1:8000/reset-password/4365658a4c95db28d870a7cadfd2671fa3ae7a=
+c591b8f76af057be48cf1f27d7?email=3D24050974004%40mhs.unesa.ac.id</a>
+    =
+            </p>
+            </div>
+
+            <div class=3D"email-=
+footer">
+                <p>Email ini dikirim secara otomatis oleh Sistem=
+ Informasi Magang Diskominfo Kabupaten Tuban.</p>
+                <p>Moho=
+n tidak membalas email ini.</p>
+            </div>
+        </div>
+   =
+ </div>
+</body>
+</html>
