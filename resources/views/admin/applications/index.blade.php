@@ -53,9 +53,9 @@
     <div class="card border shadow-sm mb-4">
         <div class="card-body py-3">
             <form method="GET" action="{{ route('admin.applications.index') }}" class="row g-3 align-items-end">
-                <div class="col-md-5">
+                <div class="col-md-4">
                     <label for="search" class="form-label mb-1 small fw-semibold">
-                        <i class="bi bi-search me-1"></i> Cari (Nama / No. Pendaftaran / Email)
+                        <i class="bi bi-search me-1"></i> Cari (Nama / No. / Email)
                     </label>
                     <div class="input-group">
                         <input
@@ -64,7 +64,7 @@
                             id="search"
                             class="form-control"
                             value="{{ request('search', $filters['search'] ?? '') }}"
-                            placeholder="Ketik nama peserta atau nomor MAGANG-YYYY-XXXX ...">
+                            placeholder="Ketik nama atau nomor...">
                         <button type="submit" class="btn btn-primary" title="Cari Pendaftaran">
                             <i class="bi bi-search" aria-hidden="true"></i>
                         </button>
@@ -84,7 +84,7 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <label for="position_id" class="form-label mb-1 small fw-semibold">
                         <i class="bi bi-briefcase me-1"></i> Posisi Magang
                     </label>
@@ -96,6 +96,18 @@
                                 {{ $pos->nama_posisi }}{{ $pos->status->isAktif() ? '' : ' (Nonaktif)' }}
                             </option>
                         @endforeach
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label for="per_page" class="form-label mb-1 small fw-semibold">
+                        <i class="bi bi-list-ol me-1"></i> Per Halaman
+                    </label>
+                    <select name="per_page" id="per_page" class="form-select" onchange="this.form.submit()">
+                        <option value="5" @selected((string)request('per_page', $perPage) === '5')>5 data</option>
+                        <option value="10" @selected((string)request('per_page', $perPage) === '10')>10 data</option>
+                        <option value="15" @selected((string)request('per_page', $perPage) === '15')>15 data</option>
+                        <option value="25" @selected((string)request('per_page', $perPage) === '25')>25 data</option>
+                        <option value="50" @selected((string)request('per_page', $perPage) === '50')>50 data</option>
                     </select>
                 </div>
             </form>
@@ -195,10 +207,14 @@
                 </tbody>
             </table>
         </div>
-        <div class="card-footer bg-transparent border-top py-2 px-3 small">
-            Menampilkan {{ $applications->firstItem() ? $applications->firstItem().' s.d. '.$applications->lastItem().' dari '.$applications->total().' data' : '0 data' }}
-            <div class="float-end">
-                {{ $applications->links() }}
+        <div class="card-footer bg-transparent border-top py-3 px-3">
+            <div class="d-flex flex-column flex-md-row align-items-center justify-content-between gap-2">
+                <div class="text-muted small">
+                    Menampilkan <strong>{{ $applications->firstItem() ?? 0 }}</strong> s.d. <strong>{{ $applications->lastItem() ?? 0 }}</strong> dari <strong>{{ $applications->total() }}</strong> pendaftar
+                </div>
+                <div>
+                    {{ $applications->links() }}
+                </div>
             </div>
         </div>
     </div>

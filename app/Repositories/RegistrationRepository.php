@@ -88,26 +88,48 @@ class RegistrationRepository
 
     public function punyaPendaftaranAktif(int $userId): bool
     {
+        $today = now()->toDateString();
+
         return $this->model
             ->where('user_id', $userId)
-            ->whereIn('status', [
-                RegistrationStatus::Submitted->value,
-                RegistrationStatus::UnderReview->value,
-                RegistrationStatus::Accepted->value,
-            ])
+            ->where(function ($query) use ($today): void {
+                $query->whereIn('status', [
+                    RegistrationStatus::Submitted->value,
+                    RegistrationStatus::UnderReview->value,
+                ])
+                ->orWhere(function ($q) use ($today): void {
+                    $q->where('status', RegistrationStatus::Accepted->value)
+                        ->where('is_terminated', false)
+                        ->where(function ($sq) use ($today): void {
+                            $sq->whereNull('periode_selesai')
+                                ->orWhereDate('periode_selesai', '>=', $today);
+                        });
+                });
+            })
             ->exists();
     }
 
     public function punyaPendaftaranAktifUntukPosisi(int $userId, int $positionId, ?int $ignoreRegistrationId = null): bool
     {
+        $today = now()->toDateString();
+
         $query = $this->model
             ->where('user_id', $userId)
             ->where('position_id', $positionId)
-            ->whereIn('status', [
-                RegistrationStatus::Submitted->value,
-                RegistrationStatus::UnderReview->value,
-                RegistrationStatus::Accepted->value,
-            ]);
+            ->where(function ($q) use ($today): void {
+                $q->whereIn('status', [
+                    RegistrationStatus::Submitted->value,
+                    RegistrationStatus::UnderReview->value,
+                ])
+                ->orWhere(function ($sq) use ($today): void {
+                    $sq->where('status', RegistrationStatus::Accepted->value)
+                        ->where('is_terminated', false)
+                        ->where(function ($ssq) use ($today): void {
+                            $ssq->whereNull('periode_selesai')
+                                ->orWhereDate('periode_selesai', '>=', $today);
+                        });
+                });
+            });
 
         if ($ignoreRegistrationId !== null) {
             $query->where('id', '!=', $ignoreRegistrationId);

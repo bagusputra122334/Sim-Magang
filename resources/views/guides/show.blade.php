@@ -370,33 +370,7 @@
             }
         }
 
-        /* Breadcrumb Section */
-        .guide-breadcrumb-area {
-            background-color: var(--sim-surface-soft);
-            border-bottom: 1px solid var(--sim-border);
-            padding: 24px 0;
-        }
 
-        .guide-breadcrumbs {
-            display: flex;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 8px;
-            font-size: 13.5px;
-            font-weight: 500;
-            margin-bottom: 0;
-            color: var(--sim-text-muted);
-        }
-
-        .guide-breadcrumbs a {
-            color: var(--sim-text-secondary);
-            text-decoration: none;
-            transition: color 0.2s ease;
-        }
-
-        .guide-breadcrumbs a:hover {
-            color: var(--sim-primary);
-        }
 
         /* Article Main Styles */
         .guide-article-card {
@@ -687,19 +661,6 @@
             </div>
         </div>
     </nav>
-
-    <!--====== BREADCRUMB ======-->
-    <div class="guide-breadcrumb-area">
-        <div class="container">
-            <div class="guide-breadcrumbs">
-                <a href="{{ url('/') }}"><i class="bi bi-house-door-fill mr-1"></i> Beranda</a>
-                <span class="mx-1">/</span>
-                <a href="{{ url('/#blog') }}">Panduan Magang</a>
-                <span class="mx-1">/</span>
-                <span class="text-primary font-weight-bold">{{ Str::limit($guide['title'], 45) }}</span>
-            </div>
-        </div>
-    </div>
 
     <!--====== MAIN GUIDE CONTENT ======-->
     <main class="py-5" id="main-content">

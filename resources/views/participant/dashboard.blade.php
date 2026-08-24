@@ -17,25 +17,32 @@
 
 @section('content')
     {{-- Header --}}
-    <div class="page-heading">
+    <div class="page-heading mb-4">
         <div class="page-heading-copy">
             <h1 class="h3 mb-1">Selamat Datang, {{ $user->name }}!</h1>
             <p class="text-muted mb-0">
                 Pantau status pendaftaran magang Anda di Dinas Komunikasi, Informatika, Statistik dan Persandian Kabupaten Tuban.
             </p>
         </div>
-        <div class="heading-actions">
-            @if (!$hasProfile)
-                <a href="{{ route('participant.profile.create') }}" class="btn btn-success fw-semibold">
-                    <i class="bi bi-person-plus me-1" aria-hidden="true"></i> Lengkapi Profil
-                </a>
-            @else
-                <a href="{{ route('participant.registrations.create') }}" class="btn btn-primary fw-semibold">
-                    <i class="bi bi-send me-1" aria-hidden="true"></i> Daftar Magang
-                </a>
-            @endif
-        </div>
     </div>
+
+    @if($reg !== null && $reg->is_terminated)
+        <div class="alert alert-danger border-2 rounded-4 mb-4 d-flex align-items-start" role="alert">
+            <i class="bi bi-slash-circle-fill fs-3 text-danger me-3 flex-shrink-0 mt-1"></i>
+            <div class="flex-grow-1">
+                <h5 class="alert-heading fw-bold mb-1">Status Magang Sebelumnya Dinonaktifkan</h5>
+                <p class="mb-2">Status operasional magang Anda sebelumnya (<code>{{ $reg->nomor_pendaftaran }}</code>) telah dinonaktifkan oleh Admin. Anda diperbolehkan mengajukan pendaftaran magang baru.</p>
+                @if($reg->catatan_penonaktifan)
+                    <div class="small text-muted bg-white p-2.5 rounded border mb-2">
+                        <strong>Catatan Admin:</strong> {{ $reg->catatan_penonaktifan }}
+                    </div>
+                @endif
+                <a href="{{ route('participant.registrations.create') }}" class="btn btn-primary fw-semibold btn-sm shadow-sm">
+                    <i class="bi bi-send-fill me-1"></i> Ajukan Pendaftaran Magang Baru
+                </a>
+            </div>
+        </div>
+    @endif
 
     {{-- Overview Metrics Cards --}}
     <section class="row g-3" aria-label="Ringkasan Status Peserta">
@@ -82,8 +89,8 @@
                 </div>
                 <div class="metric-value fs-4">
                     @if ($reg !== null)
-                        <span class="badge {{ $badgeClass }} fs-6">
-                            {{ $reg->status->label() }}
+                        <span class="badge {{ $reg->is_terminated ? 'bg-danger-subtle text-danger border border-danger-subtle' : $badgeClass }} fs-6">
+                            {{ $reg->is_terminated ? 'Dinonaktifkan' : $reg->status->label() }}
                         </span>
                     @else
                         <span class="badge bg-secondary fs-6">Belum Ada</span>

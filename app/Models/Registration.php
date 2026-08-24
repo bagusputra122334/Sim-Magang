@@ -45,6 +45,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
     'tanggal_submit',
     'periode_mulai',
     'periode_selesai',
+    'is_terminated',
+    'catatan_penonaktifan',
+    'terminated_at',
 ])]
 class Registration extends Model
 {
@@ -55,6 +58,8 @@ class Registration extends Model
             'tanggal_submit'  => 'datetime',
             'periode_mulai'   => 'date',
             'periode_selesai' => 'date',
+            'is_terminated'   => 'boolean',
+            'terminated_at'   => 'datetime',
         ];
     }
 
@@ -62,7 +67,47 @@ class Registration extends Model
     {
         return [
             'periode_label',
+            'operational_status',
+            'operational_status_label',
+            'operational_status_badge_class',
         ];
+    }
+
+    public function getOperationalStatusAttribute(): string
+    {
+        if ($this->is_terminated) {
+            return 'terminated';
+        }
+
+        if ($this->periode_selesai && now()->isAfter($this->periode_selesai->copy()->endOfDay())) {
+            return 'completed';
+        }
+
+        if ($this->periode_mulai && now()->isBefore($this->periode_mulai->copy()->startOfDay())) {
+            return 'upcoming';
+        }
+
+        return 'active';
+    }
+
+    public function getOperationalStatusLabelAttribute(): string
+    {
+        return match ($this->operational_status) {
+            'terminated' => 'Dinonaktifkan / Berhenti',
+            'completed'  => 'Selesai Magang',
+            'upcoming'   => 'Belum Mulai',
+            default      => 'Aktif Magang',
+        };
+    }
+
+    public function getOperationalStatusBadgeClassAttribute(): string
+    {
+        return match ($this->operational_status) {
+            'terminated' => 'bg-danger-subtle text-danger border border-danger-subtle',
+            'completed'  => 'bg-secondary-subtle text-secondary border border-secondary-subtle',
+            'upcoming'   => 'bg-warning-subtle text-warning-emphasis border border-warning-subtle',
+            default      => 'bg-success-subtle text-success border border-success-subtle',
+        };
     }
 
     public function getPeriodeLabelAttribute(): ?string

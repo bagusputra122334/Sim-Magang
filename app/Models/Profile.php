@@ -115,6 +115,11 @@ class Profile extends Model
         return $this->isSiswa() ? 'Jurusan' : 'Program Studi';
     }
 
+    public function getInstansiAttribute(): string
+    {
+        return (string) ($this->attributes['institusi'] ?? '');
+    }
+
     public function getFotoUrlAttribute(): ?string
     {
         if ($this->foto === null || trim($this->foto) === '') {

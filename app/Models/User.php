@@ -100,6 +100,28 @@ class User extends Authenticatable
         }
     }
 
+    public function hasActiveApplication(): bool
+    {
+        $today = now()->toDateString();
+
+        return $this->registrations()
+            ->where(function ($query) use ($today): void {
+                $query->whereIn('status', [
+                    \App\Enums\RegistrationStatus::Submitted->value,
+                    \App\Enums\RegistrationStatus::UnderReview->value,
+                ])
+                ->orWhere(function ($q) use ($today): void {
+                    $q->where('status', \App\Enums\RegistrationStatus::Accepted->value)
+                        ->where('is_terminated', false)
+                        ->where(function ($sq) use ($today): void {
+                            $sq->whereNull('periode_selesai')
+                                ->orWhereDate('periode_selesai', '>=', $today);
+                        });
+                });
+            })
+            ->exists();
+    }
+
     public function getFotoUrlAttribute(): ?string
     {
         return $this->profile?->foto_url;

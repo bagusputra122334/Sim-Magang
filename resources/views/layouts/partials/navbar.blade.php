@@ -27,33 +27,6 @@
             <span></span>
         </button>
 
-        <div class="global-search-container d-none d-md-block ms-3 flex-grow-1 position-relative" style="max-width: 500px;">
-            <div class="input-group">
-                <span class="input-group-text bg-transparent border-end-0 text-muted ps-3">
-                    <i class="bi bi-search" aria-hidden="true"></i>
-                </span>
-                <input class="form-control search-input border-start-0 ps-1 rounded-end"
-                       id="globalSearchInput"
-                       type="search"
-                       placeholder="Cari pendaftar, posisi, atau nomor pendaftaran..."
-                       aria-label="Cari pendaftar, posisi, atau nomor pendaftaran"
-                       autocomplete="off"
-                       data-search-url="{{ route('global.search') }}">
-                <span class="position-absolute end-0 top-50 translate-middle-y me-3 d-none" id="globalSearchSpinner" style="z-index: 5;">
-                    <div class="spinner-border spinner-border-sm text-primary" role="status" style="width: 0.95rem; height: 0.95rem; border-width: 2px;">
-                        <span class="visually-hidden">Loading...</span>
-                    </div>
-                </span>
-            </div>
-
-            {{-- Search Results Dropdown --}}
-            <div class="global-search-dropdown shadow-lg rounded-3 border d-none" id="globalSearchDropdown" role="listbox" aria-label="Hasil Pencarian">
-                <div class="global-search-results-list" id="globalSearchResultsList">
-                    {{-- Dynamically populated via Javascript --}}
-                </div>
-            </div>
-        </div>
-
         <div class="navbar-actions ms-auto">
             <button class="icon-button theme-toggle" type="button" data-theme-toggle
                     aria-label="Switch color theme" title="Switch color theme">

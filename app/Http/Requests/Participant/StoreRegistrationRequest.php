@@ -32,10 +32,16 @@ class StoreRegistrationRequest extends FormRequest
                     }
                     $existing = $this->user()->registrations()
                         ->where('position_id', $value)
-                        ->whereIn('status', ['submitted', 'under_review', 'accepted'])
+                        ->where(function ($q): void {
+                            $q->whereIn('status', ['submitted', 'under_review'])
+                                ->orWhere(function ($sq): void {
+                                    $sq->where('status', 'accepted')
+                                        ->where('is_terminated', false);
+                                });
+                        })
                         ->exists();
                     if ($existing) {
-                        $fail('Anda sudah mendaftar untuk posisi ini. Silakan cek status pendaftaran di Dashboard.');
+                        $fail('Anda sudah memiliki pendaftaran magang aktif untuk posisi ini. Silakan cek status pendaftaran di Dashboard.');
                     }
                 },
             ],

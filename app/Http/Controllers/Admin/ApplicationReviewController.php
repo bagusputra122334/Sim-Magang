@@ -33,9 +33,9 @@ class ApplicationReviewController extends AdminController
      */
     public function index(Request $request): View
     {
-        $perPage = $request->integer('per_page', 15);
-        if (! in_array($perPage, [10, 15, 25, 50], true)) {
-            $perPage = 15;
+        $perPage = $request->integer('per_page', 5);
+        if (! in_array($perPage, [5, 10, 15, 25, 50], true)) {
+            $perPage = 5;
         }
 
         $filters = [

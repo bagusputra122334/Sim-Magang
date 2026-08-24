@@ -21,6 +21,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        \Illuminate\Pagination\Paginator::useBootstrapFive();
+
         RedirectIfAuthenticated::redirectUsing(function ($request) {
             $user = Auth::user();
 

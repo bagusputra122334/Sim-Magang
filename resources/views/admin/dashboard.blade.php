@@ -13,22 +13,12 @@
 
 @section('content')
     {{-- Header --}}
-    <div class="page-heading">
+    <div class="page-heading mb-4">
         <div class="page-heading-copy">
             <h1 class="h3 mb-1">Dashboard Administrator</h1>
             <p class="text-muted mb-0">
-                Selamat datang, <strong>Administrator Diskominfo Tuban</strong> — Monitoring pendaftaran magang Diskominfo SP Kabupaten Tuban.
+                Selamat datang, <strong>{{ auth()->user()->name }}</strong> — Monitoring pendaftaran magang Diskominfo SP Kabupaten Tuban.
             </p>
-        </div>
-        <div class="heading-actions">
-            <a href="{{ route('admin.applications.index') }}" class="btn btn-primary px-3 py-2 fw-semibold d-inline-flex align-items-center gap-2">
-                <i class="bi bi-journal-check" aria-hidden="true"></i>
-                <span>Kelola Pendaftaran</span>
-            </a>
-            <a href="{{ route('admin.positions.index') }}" class="btn btn-primary px-3 py-2 fw-semibold d-inline-flex align-items-center gap-2">
-                <i class="bi bi-briefcase" aria-hidden="true"></i>
-                <span>Kelola Posisi</span>
-            </a>
         </div>
     </div>
 

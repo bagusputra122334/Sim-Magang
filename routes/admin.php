@@ -97,3 +97,21 @@ Route::prefix('applications')
             ->name('reply-letter.download');
     });
 
+/*
+|--------------------------------------------------------------------------
+| ADMIN ACTIVE INTERNS (ActiveInternController)
+|--------------------------------------------------------------------------
+*/
+Route::prefix('active-interns')
+    ->name('active-interns.')
+    ->group(function (): void {
+        Route::get('/', [\App\Http\Controllers\Admin\ActiveInternController::class, 'index'])
+            ->name('index');
+
+        Route::get('{id}', [\App\Http\Controllers\Admin\ActiveInternController::class, 'show'])
+            ->name('show');
+
+        Route::patch('{id}/toggle-status', [\App\Http\Controllers\Admin\ActiveInternController::class, 'toggleStatus'])
+            ->name('toggle-status');
+    });
+
