@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Enums\RegistrationStatus;
 use App\Http\Requests\Admin\UpdateApplicationReviewRequest;
 use App\Mail\ApplicationAcceptedMail;
+use App\Notifications\ApplicationStatusUpdatedNotification;
 use App\Mail\ApplicationReviewedMail;
 use App\Mail\ApplicationRejectedMail;
 use App\Models\Registration;
@@ -228,26 +229,17 @@ class ApplicationReviewController extends AdminController
 
             $statusEnum = RegistrationStatus::from($validated['status']);
 
+            $reg->loadMissing(['user', 'position']);
+
             if (! empty($reg->user?->email)) {
                 try {
-                    if ($statusEnum === RegistrationStatus::Accepted) {
-                        Mail::to((string) $reg->user->email)->send(new ApplicationAcceptedMail($reg));
-                        AuditLogger::emailSent(true, ApplicationAcceptedMail::class, (string) $reg->user->email, $reg->id);
-                    } elseif ($statusEnum === RegistrationStatus::Rejected) {
-                        Mail::to((string) $reg->user->email)->send(
-                            new ApplicationRejectedMail(
-                                registration: $reg,
-                                catatanAdmin: (string) ($validated['catatan_admin'] ?? '')
-                            )
-                        );
-                        AuditLogger::emailSent(true, ApplicationRejectedMail::class, (string) $reg->user->email, $reg->id);
+                    if ($statusEnum === RegistrationStatus::Accepted || $statusEnum === RegistrationStatus::Rejected) {
+                        $reg->user->notify(new ApplicationStatusUpdatedNotification($reg, (string) ($validated['catatan_admin'] ?? '')));
+                        AuditLogger::emailSent(true, ApplicationStatusUpdatedNotification::class, (string) $reg->user->email, $reg->id);
                     }
                 } catch (\Throwable $e) {
-                    $cls = $statusEnum === RegistrationStatus::Accepted
-                        ? ApplicationAcceptedMail::class
-                        : ApplicationRejectedMail::class;
-                    AuditLogger::emailSent(false, $cls, (string) ($reg->user->email ?? 'unknown'), $reg->id, $e);
-                    Log::error('[SPRINT19] Gagal kirim mail status '.$statusEnum->value.' untuk Registration #'.$reg->id.' NP: '.$reg->nomor_pendaftaran, [
+                    AuditLogger::emailSent(false, ApplicationStatusUpdatedNotification::class, (string) ($reg->user->email ?? 'unknown'), $reg->id, $e);
+                    Log::error('[NOTIFICATION] Gagal dispatch ApplicationStatusUpdatedNotification ke user #'.$reg->user_id, [
                         'error_message' => $e->getMessage(),
                         'error_class'   => $e::class,
                         'registration_id' => $reg->id,

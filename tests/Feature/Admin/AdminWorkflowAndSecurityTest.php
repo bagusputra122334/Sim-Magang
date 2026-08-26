@@ -72,8 +72,6 @@ class AdminWorkflowAndSecurityTest extends TestCase
             'deskripsi'     => 'Deskripsi posisi magang',
             'kuota'         => 5,
             'status'        => PositionStatus::Aktif,
-            'tanggal_buka'  => now()->subDays(5),
-            'tanggal_tutup' => now()->addDays(20),
         ]);
     }
 
@@ -238,8 +236,6 @@ class AdminWorkflowAndSecurityTest extends TestCase
             'kualifikasi'   => 'Memahami ISO 27001 dan Vulnerability Assessment',
             'kuota'         => 2,
             'status'        => PositionStatus::Aktif->value,
-            'tanggal_buka'  => now()->format('Y-m-d'),
-            'tanggal_tutup' => now()->addMonth()->format('Y-m-d'),
         ]);
 
         $createResp->assertRedirect(route('admin.positions.index'));
@@ -268,8 +264,6 @@ class AdminWorkflowAndSecurityTest extends TestCase
             'kualifikasi'   => 'Kualifikasi Test',
             'kuota'         => 5,
             'status'        => PositionStatus::Aktif,
-            'tanggal_buka'  => now()->format('Y-m-d'),
-            'tanggal_tutup' => now()->addMonth()->format('Y-m-d'),
         ]);
 
         $originalUpdatedAt = $pos->updated_at;

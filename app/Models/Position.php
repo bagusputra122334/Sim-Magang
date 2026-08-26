@@ -37,8 +37,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
     'mentor_name',
     'mentor_nip',
     'status',
-    'tanggal_buka',
-    'tanggal_tutup',
 ])]
 class Position extends Model
 {
@@ -47,11 +45,9 @@ class Position extends Model
     protected function casts(): array
     {
         return [
-            'tanggal_buka' => 'date',
-            'tanggal_tutup' => 'date',
-            'kuota'        => 'integer',
-            'status'       => PositionStatus::class,
-            'deleted_at'   => 'datetime',
+            'kuota'      => 'integer',
+            'status'     => PositionStatus::class,
+            'deleted_at' => 'datetime',
         ];
     }
 

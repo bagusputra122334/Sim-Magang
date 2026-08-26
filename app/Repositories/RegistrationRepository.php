@@ -27,14 +27,14 @@ class RegistrationRepository
     public function getByIdWithRelations(int $id): ?Registration
     {
         return $this->model
-            ->with(['user:id,name,email', 'position:id,nama_posisi,slug,kuota,status,tanggal_buka,tanggal_tutup'])
+            ->with(['user:id,name,email', 'position:id,nama_posisi,slug,kuota,status'])
             ->find($id);
     }
 
     public function getByIdWithRelationsOrFail(int $id): Registration
     {
         return $this->model
-            ->with(['user:id,name,email', 'position:id,nama_posisi,slug,kuota,status,tanggal_buka,tanggal_tutup'])
+            ->with(['user:id,name,email', 'position:id,nama_posisi,slug,kuota,status'])
             ->findOrFail($id);
     }
 
@@ -46,7 +46,7 @@ class RegistrationRepository
                     $q->select(['id', 'name', 'email', 'created_at'])
                         ->with(['profile']);
                 },
-                'position:id,nama_posisi,slug,kuota,status,deskripsi,tanggal_buka,tanggal_tutup',
+                'position:id,nama_posisi,slug,kuota,status,deskripsi',
             ])
             ->findOrFail($id);
     }
@@ -175,16 +175,8 @@ class RegistrationRepository
     {
         return Position::query()
             ->where('status', \App\Enums\PositionStatus::Aktif->value)
-            ->where(function ($q) {
-                $q->whereNull('tanggal_buka')
-                    ->orWhere('tanggal_buka', '<=', now()->toDateString());
-            })
-            ->where(function ($q) {
-                $q->whereNull('tanggal_tutup')
-                    ->orWhere('tanggal_tutup', '>=', now()->toDateString());
-            })
             ->orderBy('nama_posisi')
-            ->get(['id', 'nama_posisi', 'slug', 'kuota', 'deskripsi', 'status', 'tanggal_buka', 'tanggal_tutup']);
+            ->get(['id', 'nama_posisi', 'slug', 'kuota', 'deskripsi', 'status', 'updated_at']);
     }
 
     public function countByPositionAndStatusAktif(int $positionId): int

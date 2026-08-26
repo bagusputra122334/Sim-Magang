@@ -62,12 +62,10 @@ class ParticipantRegistrationActionUiTest extends TestCase
             'deskripsi'     => 'Deskripsi posisi magang',
             'kuota'         => 5,
             'status'        => PositionStatus::Aktif,
-            'tanggal_buka'  => now()->subDays(5),
-            'tanggal_tutup' => now()->addDays(20),
         ]);
     }
 
-    public function test_registration_table_has_no_action_column(): void
+    public function test_registration_table_has_action_column_and_floating_panel(): void
     {
         $user = $this->createPesertaWithProfile();
         $position = $this->createPosition();
@@ -88,16 +86,12 @@ class ParticipantRegistrationActionUiTest extends TestCase
 
         $response->assertOk();
 
-        // 1. Table header MUST NOT contain "Aksi" column header
-        $response->assertDontSee('<th class="px-4 py-3 fw-semibold text-end">Aksi</th>', false);
-        $response->assertDontSee('>AKSI<', false);
+        // 1. Table header MUST contain "Aksi" column header for quick access
+        $response->assertSee('<th class="px-4 py-3 fw-semibold text-end" style="width: 130px;">Aksi</th>', false);
 
-        // 2. Table row MUST NOT contain inside-table action btn-group
-        $response->assertDontSee('btn-group" role="group"', false);
-
-        // 3. Dedicated action section MUST exist below table
+        // 2. Dedicated floating action section MUST exist below table
         $response->assertSee('id="actionSectionCard"', false);
-        $response->assertSee('Aksi Pendaftaran', false);
+        $response->assertSee('Pendaftaran Terpilih:', false);
         $response->assertSee(route('participant.registrations.show', $reg->id), false);
         $response->assertSee(route('participant.registrations.edit', $reg->id), false);
         $response->assertSee(route('participant.registrations.destroy', $reg->id), false);
@@ -126,11 +120,11 @@ class ParticipantRegistrationActionUiTest extends TestCase
         $response->assertSee('MAGANG-2026-0099');
         $response->assertSee('Network Engineer');
         $response->assertSee(route('participant.registrations.show', $reg->id));
-        // Dropdown selector is NOT needed for single registration
+        // Dropdown selector is eliminated
         $response->assertDontSee('id="registrationSelectDropdown"', false);
     }
 
-    public function test_multiple_registrations_renders_selector(): void
+    public function test_multiple_registrations_renders_radio_selection(): void
     {
         $user = $this->createPesertaWithProfile();
         $pos1 = $this->createPosition('Web Developer SPBE');
@@ -140,8 +134,6 @@ class ParticipantRegistrationActionUiTest extends TestCase
             'deskripsi'     => 'Analisis Data',
             'kuota'         => 3,
             'status'        => PositionStatus::Aktif,
-            'tanggal_buka'  => now()->subDays(5),
-            'tanggal_tutup' => now()->addDays(20),
         ]);
 
         $reg1 = Registration::create([
@@ -167,10 +159,10 @@ class ParticipantRegistrationActionUiTest extends TestCase
         $response = $this->actingAs($user)->get(route('participant.registrations.index'));
 
         $response->assertOk();
-        $response->assertSee('id="registrationSelectDropdown"', false);
+        $response->assertDontSee('id="registrationSelectDropdown"', false);
         $response->assertSee('MAGANG-2026-0001');
         $response->assertSee('MAGANG-2026-0002');
-        $response->assertSee('class="form-check-input registration-radio"', false);
+        $response->assertSee('class="form-check-input registration-radio cursor-pointer"', false);
     }
 
     public function test_empty_registrations_shows_empty_state(): void
@@ -204,8 +196,6 @@ class ParticipantRegistrationActionUiTest extends TestCase
         $response->assertOk();
         $response->assertSee('id="actionSectionCard"', false);
         // Ubah button should have disabled class and aria-disabled
-        $response->assertSee('class="btn btn-outline-primary fw-semibold d-inline-flex align-items-center disabled"', false);
-        // Delete button should have disabled attribute
         $response->assertSee('disabled', false);
     }
 

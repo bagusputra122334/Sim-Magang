@@ -114,11 +114,23 @@ class ActiveInternController extends AdminController
             return redirect()->back()->with('success', "Status magang untuk peserta {$intern->user?->name} berhasil diaktifkan kembali.");
         }
 
+        $catatan = trim((string) ($validated['catatan_penonaktifan'] ?? 'Nonaktif manual oleh Admin'));
+
         $intern->update([
             'is_terminated'        => true,
-            'catatan_penonaktifan' => trim((string) ($validated['catatan_penonaktifan'] ?? 'Nonaktif manual oleh Admin')),
+            'catatan_penonaktifan' => $catatan,
             'terminated_at'        => now(),
         ]);
+
+        $intern->loadMissing(['user', 'position']);
+        if ($intern->user) {
+            try {
+                $intern->user->notify(new \App\Notifications\InternDeactivatedNotification($intern, $catatan));
+                \App\Support\AuditLogger::emailSent(true, \App\Notifications\InternDeactivatedNotification::class, (string) $intern->user->email, $intern->id);
+            } catch (\Throwable $e) {
+                \App\Support\AuditLogger::emailSent(false, \App\Notifications\InternDeactivatedNotification::class, (string) ($intern->user->email ?? 'unknown'), $intern->id, $e);
+            }
+        }
 
         return redirect()->back()->with('success', "Status magang untuk peserta {$intern->user?->name} telah dinonaktifkan.");
     }

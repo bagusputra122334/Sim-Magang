@@ -3,7 +3,7 @@
 namespace Tests\Feature\Auth;
 
 use App\Models\User;
-use App\Notifications\CustomResetPasswordNotification;
+use App\Notifications\QueuedUserResetPassword;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
@@ -38,7 +38,7 @@ class PasswordResetTest extends TestCase
         $response = $this->post('/forgot-password', ['email' => 'peserta@example.com']);
 
         $response->assertSessionHas('status');
-        Notification::assertSentTo($user, CustomResetPasswordNotification::class);
+        Notification::assertSentTo($user, QueuedUserResetPassword::class);
     }
 
     /**
@@ -52,7 +52,7 @@ class PasswordResetTest extends TestCase
 
         $this->post('/forgot-password', ['email' => $user->email]);
 
-        Notification::assertSentTo($user, CustomResetPasswordNotification::class, function ($notification) use ($user) {
+        Notification::assertSentTo($user, QueuedUserResetPassword::class, function ($notification) use ($user) {
             $response = $this->get('/reset-password/' . $notification->token . '?email=' . urlencode($user->email));
 
             $response->assertStatus(200);
@@ -75,7 +75,7 @@ class PasswordResetTest extends TestCase
 
         $this->post('/forgot-password', ['email' => $user->email]);
 
-        Notification::assertSentTo($user, CustomResetPasswordNotification::class, function ($notification) use ($user) {
+        Notification::assertSentTo($user, QueuedUserResetPassword::class, function ($notification) use ($user) {
             $response = $this->post('/reset-password', [
                 'token'                 => $notification->token,
                 'email'                 => $user->email,
@@ -157,7 +157,7 @@ class PasswordResetTest extends TestCase
 
         $this->post('/forgot-password', ['email' => $user->email]);
 
-        Notification::assertSentTo($user, CustomResetPasswordNotification::class, function ($notification) use ($user) {
+        Notification::assertSentTo($user, QueuedUserResetPassword::class, function ($notification) use ($user) {
             // First reset: should succeed
             $this->post('/reset-password', [
                 'token'                 => $notification->token,

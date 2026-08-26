@@ -105,75 +105,75 @@
 
                         {{-- Status Radio --}}
                         <fieldset class="mb-4">
-                            <legend class="col-form-label fw-semibold mb-2">
-                                <i class="bi bi-ui-checks me-1"></i> Status Verifikasi <span class="text-danger">*</span>
+                            <legend class="col-form-label fw-semibold mb-3 text-dark d-flex align-items-center gap-2">
+                                <i class="bi bi-ui-checks text-primary fs-5"></i>
+                                <span>Status Verifikasi Final</span>
+                                <span class="text-danger">*</span>
                             </legend>
                             <div class="row g-3">
                                 <div class="col-md-6">
-                                    <label class="form-check-label d-block border rounded p-3 h-100 cursor-pointer
-                                           @selectedBorder(old('status') === 'accepted')
-                                           {{ old('status') === 'accepted' ? 'border-success bg-success bg-opacity-5' : 'border-secondary-subtle' }}"
+                                    <label class="form-check-label d-block border rounded-4 p-4 h-100 cursor-pointer transition-all shadow-sm
+                                           {{ old('status') === 'accepted' ? 'border-success border-2 bg-success-subtle bg-opacity-25' : 'border-secondary-subtle bg-white' }}"
                                            id="wrap-accepted"
                                            onclick="document.getElementById('status_accepted').checked = true; selectWrap('accepted');">
-                                        <div class="d-flex align-items-center gap-2">
-                                            <input class="form-check-input flex-shrink-0" type="radio" name="status"
+                                        <div class="d-flex align-items-start gap-3">
+                                            <input class="form-check-input flex-shrink-0 mt-1.5" type="radio" name="status"
                                                    id="status_accepted" value="accepted"
                                                    {{ old('status') === 'accepted' ? 'checked' : '' }}
                                                    onclick="selectWrap('accepted');">
                                             <div>
-                                                <div class="fw-bold text-success fs-5">
-                                                    <i class="bi bi-check-circle-fill me-1"></i> ACCEPTED
+                                                <div class="fw-bold text-success fs-5 mb-1 d-flex align-items-center gap-1.5">
+                                                    <i class="bi bi-check-circle-fill"></i>
+                                                    <span>ACCEPTED (Diterima)</span>
                                                 </div>
-                                                <div class="small text-muted">
-                                                    Diterima mengikuti magang di Diskominfo.
+                                                <div class="small text-muted lh-base">
+                                                    Peserta dinyatakan lolos verifikasi dan diterima mengikuti kegiatan magang di Diskominfo.
                                                 </div>
                                             </div>
                                         </div>
                                     </label>
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="form-check-label d-block border rounded p-3 h-100 cursor-pointer
-                                           {{ old('status') === 'rejected' ? 'border-danger bg-danger bg-opacity-5' : 'border-secondary-subtle' }}"
+                                    <label class="form-check-label d-block border rounded-4 p-4 h-100 cursor-pointer transition-all shadow-sm
+                                           {{ old('status') === 'rejected' ? 'border-danger border-2 bg-danger-subtle bg-opacity-25' : 'border-secondary-subtle bg-white' }}"
                                            id="wrap-rejected"
                                            onclick="document.getElementById('status_rejected').checked = true; selectWrap('rejected');">
-                                        <div class="d-flex align-items-center gap-2">
-                                            <input class="form-check-input flex-shrink-0" type="radio" name="status"
+                                        <div class="d-flex align-items-start gap-3">
+                                            <input class="form-check-input flex-shrink-0 mt-1.5" type="radio" name="status"
                                                    id="status_rejected" value="rejected"
                                                    {{ old('status') === 'rejected' ? 'checked' : '' }}
                                                    onclick="selectWrap('rejected');">
                                             <div>
-                                                <div class="fw-bold text-danger fs-5">
-                                                    <i class="bi bi-x-circle-fill me-1"></i> REJECTED
+                                                <div class="fw-bold text-danger fs-5 mb-1 d-flex align-items-center gap-1.5">
+                                                    <i class="bi bi-x-circle-fill"></i>
+                                                    <span>REJECTED (Ditolak)</span>
                                                 </div>
-                                                <div class="small text-muted">
-                                                    Ditolak — wajib sertakan alasan penolakan.
+                                                <div class="small text-muted lh-base">
+                                                    Pendaftaran ditolak — wajib menyertakan alasan penolakan pada catatan admin.
                                                 </div>
                                             </div>
                                         </div>
                                     </label>
                                 </div>
-                            </div>
-                            <div class="form-text small mt-1">
-                                Form Request validasi: <code>in:accepted,rejected</code> & <code>required</code>.
                             </div>
                         </fieldset>
 
                         {{-- Catatan Admin --}}
                         <div class="mb-4">
-                            <label for="catatan_admin" class="form-label fw-semibold">
-                                <i class="bi bi-chat-square-dots me-1"></i>
+                            <label for="catatan_admin" class="form-label fw-semibold text-dark">
+                                <i class="bi bi-chat-square-dots me-1 text-primary"></i>
                                 Catatan Admin
                                 <span class="text-danger" id="label-catatan-wajib">
                                     @if (old('status') === 'rejected' || ! old('status')) * @endif
                                 </span>
                             </label>
                             <textarea
-                                class="form-control @error('catatan_admin') is-invalid @enderror"
+                                class="form-control form-control-lg rounded-3 @error('catatan_admin') is-invalid @enderror"
                                 id="catatan_admin"
                                 name="catatan_admin"
-                                rows="6"
+                                rows="5"
                                 maxlength="1000"
-                                placeholder="@if (old('status') === 'rejected') Tuliskan alasan penolakan (min 10, maks 1000 karakter) @else Opsional: catatan untuk peserta dan arsip admin ... @endif"
+                                placeholder="@if (old('status') === 'rejected') Tuliskan alasan penolakan secara jelas (minimal 10, maksimal 1000 karakter) @else Opsional: catatan untuk peserta dan arsip admin ... @endif"
                             >{{ old('catatan_admin', $reg->catatan_admin) }}</textarea>
                             <div class="d-flex justify-content-between align-items-center mt-1">
                                 <div id="catatan-helper" class="form-text small">
@@ -194,16 +194,16 @@
 
                         {{-- Submit Bottom --}}
                         <div class="d-flex flex-wrap gap-2 justify-content-between border-top pt-3">
-                            <div class="small text-muted">
-                                <i class="bi bi-shield-lock me-1"></i>
-                                Menjalankan business rule: validasi status + final guard accepted/rejected.
+                            <div class="small text-muted d-flex align-items-center gap-1">
+                                <i class="bi bi-shield-lock text-primary"></i>
+                                Decision guard: keputusan final tidak dapat diubah setelah disubmit.
                             </div>
                             <div class="d-flex gap-2">
-                                <a href="{{ route('admin.applications.show', $reg->id) }}" class="btn btn-outline-secondary">
-                                    <i class="bi bi-x-lg"></i> Batal
+                                <a href="{{ route('admin.applications.show', $reg->id) }}" class="btn btn-outline-secondary rounded-3 px-3">
+                                    <i class="bi bi-x-lg me-1"></i> Batal
                                 </a>
-                                <button type="submit" id="btn-submit-verif" class="btn btn-primary">
-                                    <i class="bi bi-save2 me-1"></i>
+                                <button type="submit" id="btn-submit-verif" class="btn btn-primary rounded-3 px-4 fw-semibold">
+                                    <i class="bi bi-check2-circle me-1"></i>
                                     Submit Keputusan (Final)
                                 </button>
                             </div>
@@ -228,12 +228,17 @@
     window.selectWrap = function(which) {
         const wa = document.getElementById('wrap-accepted');
         const wr = document.getElementById('wrap-rejected');
-        wa.classList.remove('border-success', 'bg-success', 'bg-opacity-5', 'border-2');
-        wr.classList.remove('border-danger',  'bg-danger',  'bg-opacity-5', 'border-2');
+        wa.classList.remove('border-success', 'bg-success-subtle', 'bg-opacity-25', 'border-2', 'shadow-sm');
+        wr.classList.remove('border-danger',  'bg-danger-subtle',  'bg-opacity-25', 'border-2', 'shadow-sm');
+        wa.classList.add('border-secondary-subtle', 'bg-white');
+        wr.classList.add('border-secondary-subtle', 'bg-white');
+
         if (which === 'accepted') {
-            wa.classList.add('border-success', 'bg-success', 'bg-opacity-5', 'border-2');
-        } else {
-            wr.classList.add('border-danger', 'bg-danger', 'bg-opacity-5', 'border-2');
+            wa.classList.remove('border-secondary-subtle', 'bg-white');
+            wa.classList.add('border-success', 'bg-success-subtle', 'bg-opacity-25', 'border-2', 'shadow-sm');
+        } else if (which === 'rejected') {
+            wr.classList.remove('border-secondary-subtle', 'bg-white');
+            wr.classList.add('border-danger', 'bg-danger-subtle', 'bg-opacity-25', 'border-2', 'shadow-sm');
         }
         syncTextareaRequired();
     };

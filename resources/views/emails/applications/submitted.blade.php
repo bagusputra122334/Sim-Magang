@@ -32,8 +32,8 @@ Silakan selalu cek **email** dan halaman **Riwayat Pendaftaran** di Dashboard Pe
 
 Jika Anda memiliki pertanyaan, silakan hubungi Admin melalui kontak yang tertera pada website resmi Dinas Komunikasi, Informatika, Statistik dan Persandian Kabupaten Tuban.
 
-Terima kasih,
-**Tim SIM-MAGANG**
+Terima kasih,  
+**Tim SIM-MAGANG**  
 **Dinas Komunikasi, Informatika, Statistik dan Persandian Kabupaten Tuban**
 
 <x-mail::subcopy>

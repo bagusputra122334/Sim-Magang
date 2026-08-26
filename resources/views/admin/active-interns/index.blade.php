@@ -182,13 +182,12 @@
                                 </span>
                             </td>
                             <td class="text-end pe-3">
-                                <div class="btn-group btn-group-sm" role="group">
-                                    <a href="{{ route('admin.active-interns.show', $intern->id) }}"
-                                       class="btn btn-outline-primary"
-                                       title="Lihat Detail Peserta Magang">
-                                        <i class="bi bi-eye"></i> Detail
-                                    </a>
-                                </div>
+                                <a href="{{ route('admin.active-interns.show', $intern->id) }}"
+                                   class="btn btn-sm btn-primary-subtle text-primary border border-primary-subtle rounded-3 px-3 py-1.5 fw-semibold d-inline-flex align-items-center gap-1.5 shadow-sm"
+                                   title="Lihat Detail Peserta Magang">
+                                    <i class="bi bi-person-lines-fill"></i>
+                                    <span>Detail</span>
+                                </a>
                             </td>
                         </tr>
                     @empty

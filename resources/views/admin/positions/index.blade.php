@@ -149,14 +149,9 @@
                                 Status {!! sortIcon('status', $currentSort, $currentDir) !!}
                             </a>
                         </th>
-                        <th scope="col" style="width: 140px;">
-                            <a href="{{ sortUrl('tanggal_buka', $currentSort, $nextDir, $filters) }}" class="text-body text-decoration-none">
-                                Tanggal Buka {!! sortIcon('tanggal_buka', $currentSort, $currentDir) !!}
-                            </a>
-                        </th>
-                        <th scope="col" style="width: 140px;">
-                            <a href="{{ sortUrl('tanggal_tutup', $currentSort, $nextDir, $filters) }}" class="text-body text-decoration-none">
-                                Tanggal Tutup {!! sortIcon('tanggal_tutup', $currentSort, $currentDir) !!}
+                        <th scope="col" style="width: 170px;">
+                            <a href="{{ sortUrl('updated_at', $currentSort, $nextDir, $filters) }}" class="text-body text-decoration-none">
+                                Terakhir Diperbarui {!! sortIcon('updated_at', $currentSort, $currentDir) !!}
                             </a>
                         </th>
                         <th scope="col" class="text-end" style="width: 210px;">Aksi</th>
@@ -196,10 +191,7 @@
                                 @endif
                             </td>
                             <td class="text-muted small">
-                                {{ $position->tanggal_buka->format('d/m/Y') }}
-                            </td>
-                            <td class="text-muted small">
-                                {{ $position->tanggal_tutup->format('d/m/Y') }}
+                                {{ $position->updated_at?->translatedFormat('d F Y') ?? '-' }}
                             </td>
                             <td class="text-end">
                                 <div class="btn-group btn-group-sm" role="group" aria-label="Aksi Posisi">

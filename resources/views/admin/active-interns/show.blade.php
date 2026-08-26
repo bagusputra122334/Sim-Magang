@@ -34,15 +34,17 @@
                     </div>
                     <div>
                         @if(!$intern->is_terminated)
-                            <button type="button" class="btn btn-outline-danger btn-sm px-3" data-bs-toggle="modal" data-bs-target="#deactivateModal">
-                                <i class="bi bi-slash-circle me-1"></i> Nonaktifkan Magang Peserta
+                            <button type="button" class="btn btn-danger-subtle text-danger border border-danger-subtle rounded-3 px-3.5 py-2 fw-semibold shadow-sm hover-btn-danger transition-all d-inline-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#deactivateModal">
+                                <i class="bi bi-person-x-fill fs-6"></i>
+                                <span>Nonaktifkan Magang Peserta</span>
                             </button>
                         @else
                             <form method="POST" action="{{ route('admin.active-interns.toggle-status', $intern->id) }}" class="d-inline">
                                 @csrf
                                 @method('PATCH')
-                                <button type="submit" class="btn btn-success btn-sm px-3" onclick="return confirm('Apakah Anda yakin ingin mengaktifkan kembali status magang peserta ini?')">
-                                    <i class="bi bi-check-circle me-1"></i> Aktifkan Kembali Magang
+                                <button type="submit" class="btn btn-success-subtle text-success border border-success-subtle rounded-3 px-3.5 py-2 fw-semibold shadow-sm hover-btn-success transition-all d-inline-flex align-items-center gap-2" onclick="return confirm('Apakah Anda yakin ingin mengaktifkan kembali status magang peserta ini?')">
+                                    <i class="bi bi-check-circle-fill fs-6"></i>
+                                    <span>Aktifkan Kembali Magang</span>
                                 </button>
                             </form>
                         @endif

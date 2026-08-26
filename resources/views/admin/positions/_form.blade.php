@@ -215,10 +215,6 @@
                             </div>
                         </div>
                     </div>
-                @else
-                    {{-- Hidden defaults for Create Mode if not specified --}}
-                    <input type="hidden" name="tanggal_buka" value="{{ old('tanggal_buka', now()->format('Y-m-d')) }}">
-                    <input type="hidden" name="tanggal_tutup" value="{{ old('tanggal_tutup', now()->addYear()->format('Y-m-d')) }}">
                 @endif
             </div>
         </div>
@@ -271,14 +267,5 @@
                 slug.addEventListener('input', () => { slug.dataset.manual = slug.value.length > 0 ? 'true' : 'false'; });
             }
         @endif
-
-        // Pastikan tanggal tutup selalu >= tanggal buka
-        const tglBuka = document.getElementById('tanggal_buka');
-        const tglTutup = document.getElementById('tanggal_tutup');
-        if (tglBuka && tglTutup) {
-            const syncMin = () => { if (tglBuka.value) tglTutup.min = tglBuka.value; };
-            tglBuka.addEventListener('change', syncMin);
-            syncMin();
-        }
     </script>
 @endpush

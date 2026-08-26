@@ -36,8 +36,6 @@ class PositionValidationAndNumberingTest extends TestCase
             'kualifikasi'   => 'Kualifikasi',
             'kuota'         => 3,
             'status'        => PositionStatus::Aktif,
-            'tanggal_buka'  => now()->toDateString(),
-            'tanggal_tutup' => now()->addYear()->toDateString(),
         ]);
 
         $response = $this->actingAs($this->admin)
@@ -63,8 +61,6 @@ class PositionValidationAndNumberingTest extends TestCase
             'kualifikasi'   => 'Kualifikasi',
             'kuota'         => 2,
             'status'        => PositionStatus::Aktif,
-            'tanggal_buka'  => now()->toDateString(),
-            'tanggal_tutup' => now()->addYear()->toDateString(),
         ]);
 
         $deletedPos->delete(); // Soft delete
@@ -100,8 +96,6 @@ class PositionValidationAndNumberingTest extends TestCase
             'kualifikasi'   => 'Figma',
             'kuota'         => 4,
             'status'        => PositionStatus::Aktif,
-            'tanggal_buka'  => now()->toDateString(),
-            'tanggal_tutup' => now()->addYear()->toDateString(),
         ]);
 
         $response = $this->actingAs($this->admin)
@@ -129,8 +123,6 @@ class PositionValidationAndNumberingTest extends TestCase
                 'slug'          => 'posisi-'.$i,
                 'deskripsi'     => 'Deskripsi posisi '.$i,
                 'status'        => PositionStatus::Aktif,
-                'tanggal_buka'  => now()->toDateString(),
-                'tanggal_tutup' => now()->addYear()->toDateString(),
             ]);
         }
 

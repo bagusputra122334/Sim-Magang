@@ -51,11 +51,7 @@ if (!function_exists('statusBadgeIcon')) {
                 </h2>
                 <p class="text-muted mb-0"><i class="bi bi-info-circle me-1"></i>Semua riwayat pengajuan pendaftaran magang Anda akan ditampilkan disertai status prosesnya.</p>
             </div>
-            <div class="d-flex flex-column flex-sm-row align-items-sm-center gap-2 mt-3 mt-md-0">
-                <div class="badge bg-body-tertiary border text-body-secondary rounded-pill px-3 py-2 small shadow-sm d-inline-flex align-items-center" id="liveClockContainer">
-                    <i class="bi bi-clock-history me-1.5 text-primary"></i>
-                    <span id="liveJakartaClock">{{ now()->timezone('Asia/Jakarta')->translatedFormat('d F Y, H:i:s') }} WIB</span>
-                </div>
+            <div class="d-flex align-items-center gap-2 mt-3 mt-md-0">
                 <div id="serverTimeTracker" data-server-timestamp="{{ now()->timestamp }}" class="d-none"></div>
                 @if($bisaDaftarBaru)
                 <a href="{{ route('participant.registrations.create') }}" class="btn btn-success fw-semibold shadow-sm d-inline-flex align-items-center justify-content-center" style="min-height: 44px;">
@@ -112,6 +108,7 @@ if (!function_exists('statusBadgeIcon')) {
                                 <th class="px-4 py-3 fw-semibold">Tanggal Submit</th>
                                 <th class="px-4 py-3 fw-semibold text-center">Status</th>
                                 <th class="px-4 py-3 fw-semibold text-center">Surat Balasan</th>
+                                <th class="px-4 py-3 fw-semibold text-end" style="width: 130px;">Aksi</th>
                             </tr>
                         </thead>
                         <tbody class="border-0">
@@ -121,10 +118,12 @@ if (!function_exists('statusBadgeIcon')) {
                                     $isSelected = $index === 0;
                                     $hasSurat = $reg->isAccepted() && !empty($reg->surat_balasan_path) && \Illuminate\Support\Facades\Storage::disk('public')->exists($reg->surat_balasan_path);
                                     $isAccepted = $reg->isAccepted();
+                                    $isTerminated = (bool) ($reg->is_terminated || $reg->operational_status === 'terminated');
                                     $isExpired = false;
                                     if ($isAccepted && $reg->periode_selesai) {
                                         $isExpired = now()->timezone('Asia/Jakarta')->isAfter($reg->periode_selesai->copy()->timezone('Asia/Jakarta')->endOfDay());
                                     }
+                                    $statusLabel = $isTerminated ? 'Dinonaktifkan' : ($isAccepted && $isExpired ? 'Selesai Magang' : $reg->status->label());
                                 @endphp
                                 <tr class="border-bottom registration-row {{ $isSelected ? 'table-active' : '' }}"
                                     role="button"
@@ -132,9 +131,10 @@ if (!function_exists('statusBadgeIcon')) {
                                     data-id="{{ $reg->id }}"
                                     data-nomor="{{ $reg->nomor_pendaftaran }}"
                                     data-posisi="{{ $reg->position?->nama_posisi ?? '-' }}"
-                                    data-status-label="{{ $reg->status->label() }}"
+                                    data-status-label="{{ $statusLabel }}"
                                     data-status-val="{{ $sv }}"
                                     data-is-accepted="{{ $isAccepted ? '1' : '0' }}"
+                                    data-is-terminated="{{ $isTerminated ? '1' : '0' }}"
                                     data-is-expired="{{ $isExpired ? '1' : '0' }}"
                                     data-can-edit="{{ $reg->dapatDiubah() ? '1' : '0' }}"
                                     data-can-delete="{{ $reg->dapatDihapus() ? '1' : '0' }}"
@@ -148,7 +148,7 @@ if (!function_exists('statusBadgeIcon')) {
                                 >
                                     @if($registrations->count() > 1)
                                     <td class="px-3 py-3 text-center">
-                                        <input class="form-check-input registration-radio" 
+                                        <input class="form-check-input registration-radio cursor-pointer" 
                                                type="radio" 
                                                name="selected_registration" 
                                                id="reg_radio_{{ $reg->id }}" 
@@ -178,7 +178,11 @@ if (!function_exists('statusBadgeIcon')) {
                                         </div>
                                         @if($isAccepted)
                                         <div class="period-status-indicator mt-1" data-reg-id="{{ $reg->id }}">
-                                            @if($isExpired)
+                                            @if($isTerminated)
+                                                <span class="badge bg-danger-subtle text-danger rounded-pill px-2 py-0.5" style="font-size: 0.7rem;">
+                                                    <i class="bi bi-x-circle me-1"></i>Dinonaktifkan
+                                                </span>
+                                            @elseif($isExpired)
                                                 <span class="badge bg-secondary-subtle text-secondary rounded-pill px-2 py-0.5" style="font-size: 0.7rem;">
                                                     <i class="bi bi-clock-history me-1"></i>Periode Berakhir
                                                 </span>
@@ -195,7 +199,11 @@ if (!function_exists('statusBadgeIcon')) {
                                         <div class="small text-muted">{{ $reg->tanggal_submit?->translatedFormat('H:i') }} WIB</div>
                                     </td>
                                     <td class="px-4 py-3 text-center">
-                                        @if($isAccepted && $isExpired)
+                                        @if($isTerminated)
+                                            <span class="badge border rounded-pill px-3 py-2 fs-6 bg-danger-subtle text-danger-emphasis border-danger-subtle status-badge-cell" data-reg-id="{{ $reg->id }}">
+                                                <i class="bi bi-x-circle-fill me-1"></i>Dinonaktifkan
+                                            </span>
+                                        @elseif($isAccepted && $isExpired)
                                             <span class="badge border rounded-pill px-3 py-2 fs-6 bg-secondary-subtle text-secondary-emphasis border-secondary-subtle status-badge-cell" data-reg-id="{{ $reg->id }}">
                                                 <i class="bi bi-check-all me-1"></i>Selesai Magang
                                             </span>
@@ -225,6 +233,13 @@ if (!function_exists('statusBadgeIcon')) {
                                             <span class="text-muted small fst-italic">-</span>
                                         @endif
                                     </td>
+                                    <td class="px-4 py-3 text-end">
+                                        <a href="{{ route('participant.registrations.show', $reg->id) }}"
+                                           class="btn btn-sm btn-outline-success rounded-3 px-3 py-1.5 fw-semibold d-inline-flex align-items-center gap-1.5 shadow-xs"
+                                           title="Lihat Detail Pendaftaran">
+                                            <i class="bi bi-eye-fill"></i> Detail
+                                        </a>
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -244,104 +259,94 @@ if (!function_exists('statusBadgeIcon')) {
             </div>
         </div>
 
-        {{-- Area Aksi Khusus Pendaftaran (Ditempatkan di Bawah Tabel) --}}
+        {{-- Floating Action Panel --}}
         @php
             $firstReg = $registrations->first();
             $firstSv = $firstReg?->status->value;
             $firstIsAccepted = $firstReg?->isAccepted();
+            $firstIsTerminated = (bool) ($firstReg?->is_terminated || $firstReg?->operational_status === 'terminated');
             $firstHasSurat = $firstReg && $firstIsAccepted && !empty($firstReg->surat_balasan_path) && \Illuminate\Support\Facades\Storage::disk('public')->exists($firstReg->surat_balasan_path);
             $firstIsExpired = false;
             if ($firstIsAccepted && $firstReg?->periode_selesai) {
                 $firstIsExpired = now()->timezone('Asia/Jakarta')->isAfter($firstReg->periode_selesai->copy()->timezone('Asia/Jakarta')->endOfDay());
             }
+            $firstStatusLabel = $firstIsTerminated ? 'Dinonaktifkan' : ($firstIsAccepted && $firstIsExpired ? 'Selesai Magang' : $firstReg?->status->label());
         @endphp
 
-        <div class="card shadow-sm border-0 rounded-4 mt-4" id="actionSectionCard">
+        <div class="card shadow-sm border border-success-subtle rounded-4 mt-4 bg-white overflow-hidden" id="actionSectionCard">
             <div class="card-body p-4">
-                <div class="d-flex flex-column flex-lg-row align-items-lg-center justify-content-between gap-3">
-                    <div>
-                        <div class="d-flex align-items-center gap-2 mb-1">
-                            <h5 class="fw-bold mb-0 text-body">
-                                <i class="bi bi-sliders2-vertical me-2 text-success"></i>Aksi Pendaftaran
-                            </h5>
-                            @if($registrations->count() > 1)
-                                <span class="badge bg-success-subtle text-success-emphasis border border-success-subtle rounded-pill px-2.5 py-1 small">
-                                    {{ $registrations->count() }} Pendaftaran
-                                </span>
-                            @endif
+                <div class="d-flex flex-column flex-lg-row align-items-lg-center justify-content-between gap-4">
+                    <div class="d-flex align-items-start gap-3">
+                        <div class="p-3 rounded-3 bg-success-subtle text-success flex-shrink-0">
+                            <i class="bi bi-ticket-detailed-fill fs-3"></i>
                         </div>
-                        <p class="text-muted mb-0 small" id="actionDescription">
-                            @if($registrations->count() === 1)
-                                Lihat dan kelola pendaftaran Anda untuk nomor <strong class="text-body font-monospace" id="selectedNomorDisplay">{{ $firstReg->nomor_pendaftaran }}</strong> ({{ $firstReg->position?->nama_posisi ?? '-' }}).
-                            @else
-                                Pendaftaran terpilih: <strong class="text-body font-monospace" id="selectedNomorDisplay">{{ $firstReg->nomor_pendaftaran }}</strong> &bull; <span id="selectedPositionDisplay" class="text-body fw-medium">{{ $firstReg->position?->nama_posisi ?? '-' }}</span> (<span id="selectedStatusDisplay" class="text-muted">{{ $firstIsAccepted && $firstIsExpired ? 'Selesai Magang' : $firstReg->status->label() }}</span>)
-                            @endif
-                        </p>
+                        <div>
+                            <div class="d-flex align-items-center gap-2 mb-1 flex-wrap">
+                                <h5 class="fw-bold mb-0 text-dark">
+                                    Pendaftaran Terpilih: <span class="font-monospace text-success" id="selectedNomorDisplay">{{ $firstReg->nomor_pendaftaran }}</span>
+                                </h5>
+                                <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill px-3 py-1 small fw-semibold" id="selectedStatusDisplay">
+                                    {{ $firstStatusLabel }}
+                                </span>
+                            </div>
+                            <div class="text-secondary small mb-0 d-flex align-items-center gap-2 flex-wrap">
+                                <span><i class="bi bi-briefcase me-1 text-success"></i>Posisi: <strong class="text-dark" id="selectedPositionDisplay">{{ $firstReg->position?->nama_posisi ?? '-' }}</strong></span>
+                                <span class="text-muted">&bull;</span>
+                                <span class="text-muted"><i class="bi bi-info-circle me-1"></i>Klik baris lain pada tabel untuk memilih pendaftaran berbeda</span>
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="d-flex flex-column flex-sm-row flex-wrap align-items-stretch align-items-sm-center gap-3">
-                        @if($registrations->count() > 1)
-                        <div class="d-flex align-items-center gap-2">
-                            <label for="registrationSelectDropdown" class="form-label mb-0 small fw-semibold text-muted text-nowrap">
-                                <i class="bi bi-list-check me-1"></i>Pilih:
-                            </label>
-                            <select id="registrationSelectDropdown" class="form-select form-select-sm shadow-none" style="min-width: 200px; max-width: 280px;" aria-label="Pilih pendaftaran untuk dikelola">
-                                @foreach($registrations as $reg)
-                                    <option value="{{ $reg->id }}" {{ $loop->first ? 'selected' : '' }}>
-                                        {{ $reg->nomor_pendaftaran }} — {{ Str::limit($reg->position?->nama_posisi ?? '-', 20) }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
-                        @endif
+                    <div class="d-flex flex-wrap align-items-center gap-2.5 justify-content-start justify-content-lg-end" id="actionButtonsContainer">
+                        {{-- Detail Button (Selalu Tersedia) --}}
+                        <a href="{{ route('participant.registrations.show', $firstReg->id) }}"
+                           id="btnActionDetail"
+                           class="btn btn-success rounded-3 px-4 py-2.5 fw-semibold text-sm d-inline-flex align-items-center justify-content-center gap-2 shadow-sm"
+                           data-bs-toggle="tooltip"
+                           title="Lihat Detail Lengkap Pendaftaran">
+                            <i class="bi bi-eye-fill fs-6"></i>
+                            <span>Detail Pendaftaran</span>
+                        </a>
 
-                        <div class="d-flex flex-wrap align-items-center gap-2" id="actionButtonsContainer">
-                            {{-- Detail Button (Selalu Tersedia) --}}
-                            <a href="{{ route('participant.registrations.show', $firstReg->id) }}"
-                               id="btnActionDetail"
-                               class="btn btn-primary fw-semibold d-inline-flex align-items-center shadow-sm"
-                               data-bs-toggle="tooltip"
-                               title="Lihat Detail Pendaftaran">
-                                <i class="bi bi-eye-fill me-1.5"></i>Detail
-                            </a>
+                        {{-- Surat Balasan Button (Khusus Accepted jika surat tersedia dan tidak dinonaktifkan) --}}
+                        <a href="{{ route('participant.applications.reply-letter.download', $firstReg->id) }}"
+                           id="btnActionSurat"
+                           class="btn btn-success rounded-3 px-4 py-2.5 fw-semibold text-sm d-inline-flex align-items-center justify-content-center gap-2 shadow-sm {{ !$firstHasSurat || $firstIsTerminated ? 'd-none' : '' }}"
+                           data-bs-toggle="tooltip"
+                           title="Download Surat Balasan Resmi PDF">
+                            <i class="bi bi-file-earmark-pdf-fill fs-6"></i>
+                            <span>Download Surat Balasan</span>
+                        </a>
 
-                            {{-- Surat Balasan Button (Khusus Accepted jika surat tersedia) --}}
-                            <a href="{{ route('participant.applications.reply-letter.download', $firstReg->id) }}"
-                               id="btnActionSurat"
-                               class="btn btn-success fw-semibold d-inline-flex align-items-center shadow-sm {{ !$firstHasSurat ? 'd-none' : '' }}"
-                               data-bs-toggle="tooltip"
-                               title="Download Surat Balasan Resmi PDF">
-                                <i class="bi bi-file-earmark-pdf-fill me-1.5 text-white"></i>Surat Balasan
-                            </a>
+                        {{-- Ubah / Edit Button (Hanya jika belum diterima / status submitted) --}}
+                        <a href="{{ route('participant.registrations.edit', $firstReg->id) }}"
+                           id="btnActionEdit"
+                           class="btn btn-outline-primary rounded-3 px-4 py-2 fw-semibold d-inline-flex align-items-center gap-2 {{ $firstIsAccepted ? ' d-none' : '' }}{{ !$firstReg->dapatDiubah() ? ' disabled' : '' }}"
+                           {!! !$firstReg->dapatDiubah() ? 'aria-disabled="true" tabindex="-1"' : '' !!}
+                           data-bs-toggle="tooltip"
+                           title="{{ !$firstReg->dapatDiubah() ? 'Hanya pendaftaran berstatus Diajukan yang dapat diubah' : 'Ubah data pendaftaran' }}">
+                            <i class="bi bi-pencil-square fs-6"></i>
+                            <span>Ubah Data</span>
+                        </a>
 
-                            {{-- Ubah / Edit Button (Hanya jika belum diterima / status submitted) --}}
-                            <a href="{{ route('participant.registrations.edit', $firstReg->id) }}"
-                               id="btnActionEdit"
-                               class="btn btn-outline-primary fw-semibold d-inline-flex align-items-center{{ $firstIsAccepted ? ' d-none' : '' }}{{ !$firstReg->dapatDiubah() ? ' disabled' : '' }}"
-                               {!! !$firstReg->dapatDiubah() ? 'aria-disabled="true" tabindex="-1"' : '' !!}
-                               data-bs-toggle="tooltip"
-                               title="{{ !$firstReg->dapatDiubah() ? 'Hanya pendaftaran berstatus Diajukan yang dapat diubah' : 'Ubah data pendaftaran' }}">
-                                <i class="bi bi-pencil-square me-1.5"></i>Ubah
-                            </a>
-
-                            {{-- Hapus / Delete Form & Button (Hanya jika belum diterima / status submitted/rejected) --}}
-                            <form action="{{ route('participant.registrations.destroy', $firstReg->id) }}"
-                                  method="POST"
-                                  id="formActionDelete"
-                                  class="d-inline form-delete-registration {{ $firstIsAccepted ? 'd-none' : '' }}">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit"
-                                        id="btnActionDelete"
-                                        class="btn btn-outline-danger fw-semibold d-inline-flex align-items-center"
-                                        data-nomor="{{ $firstReg->nomor_pendaftaran }}"
-                                        {{ !$firstReg->dapatDihapus() ? 'disabled' : '' }}
-                                        data-bs-toggle="tooltip"
-                                        title="{{ !$firstReg->dapatDihapus() ? 'Pendaftaran yang sedang diproses atau diterima tidak dapat dihapus' : 'Hapus pendaftaran ini' }}">
-                                    <i class="bi bi-trash3-fill me-1.5"></i>Hapus
-                                </button>
-                            </form>
-                        </div>
+                        {{-- Hapus / Delete Form & Button (Hanya jika belum diterima / status submitted/rejected) --}}
+                        <form action="{{ route('participant.registrations.destroy', $firstReg->id) }}"
+                              method="POST"
+                              id="formActionDelete"
+                              class="d-inline form-delete-registration {{ $firstIsAccepted ? 'd-none' : '' }}">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit"
+                                    id="btnActionDelete"
+                                    class="btn btn-outline-danger rounded-3 px-4 py-2 fw-semibold d-inline-flex align-items-center gap-2"
+                                    data-nomor="{{ $firstReg->nomor_pendaftaran }}"
+                                    {{ !$firstReg->dapatDihapus() ? 'disabled' : '' }}
+                                    data-bs-toggle="tooltip"
+                                    title="{{ !$firstReg->dapatDihapus() ? 'Pendaftaran yang sedang diproses atau diterima tidak dapat dihapus' : 'Hapus pendaftaran ini' }}">
+                                <i class="bi bi-trash3-fill fs-6"></i>
+                                <span>Hapus</span>
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -377,7 +382,6 @@ if (!function_exists('statusBadgeIcon')) {
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     const rows = document.querySelectorAll('.registration-row');
-    const selectDropdown = document.getElementById('registrationSelectDropdown');
     const btnDetail = document.getElementById('btnActionDetail');
     const btnEdit = document.getElementById('btnActionEdit');
     const formDelete = document.getElementById('formActionDelete');
@@ -439,6 +443,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function checkAllPeriods() {
         rows.forEach(function (row) {
             const isAccepted = row.getAttribute('data-is-accepted') === '1';
+            const isTerminated = row.getAttribute('data-is-terminated') === '1';
             const selesaiStr = row.getAttribute('data-periode-selesai');
             const regId = row.getAttribute('data-id');
 
@@ -449,7 +454,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 // Update Status Cell in Table
                 const statusBadgeCell = row.querySelector('.status-badge-cell');
                 if (statusBadgeCell) {
-                    if (expired) {
+                    if (isTerminated) {
+                        statusBadgeCell.className = 'badge border rounded-pill px-3 py-2 fs-6 bg-danger-subtle text-danger-emphasis border-danger-subtle status-badge-cell';
+                        statusBadgeCell.innerHTML = '<i class="bi bi-x-circle-fill me-1"></i>Dinonaktifkan';
+                    } else if (expired) {
                         statusBadgeCell.className = 'badge border rounded-pill px-3 py-2 fs-6 bg-secondary-subtle text-secondary-emphasis border-secondary-subtle status-badge-cell';
                         statusBadgeCell.innerHTML = '<i class="bi bi-check-all me-1"></i>Selesai Magang';
                     } else {
@@ -461,7 +469,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 // Update Period Indicator
                 const periodIndicator = row.querySelector('.period-status-indicator');
                 if (periodIndicator) {
-                    if (expired) {
+                    if (isTerminated) {
+                        periodIndicator.innerHTML = '<span class="badge bg-danger-subtle text-danger rounded-pill px-2 py-0.5" style="font-size: 0.7rem;"><i class="bi bi-x-circle me-1"></i>Dinonaktifkan</span>';
+                    } else if (expired) {
                         periodIndicator.innerHTML = '<span class="badge bg-secondary-subtle text-secondary rounded-pill px-2 py-0.5" style="font-size: 0.7rem;"><i class="bi bi-clock-history me-1"></i>Periode Berakhir</span>';
                     } else {
                         periodIndicator.innerHTML = '<span class="badge bg-success-subtle text-success rounded-pill px-2 py-0.5" style="font-size: 0.7rem;"><i class="bi bi-broadcast me-1"></i>Periode Aktif</span>';
@@ -470,7 +480,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 // Update currently selected text if active
                 if (row.classList.contains('table-active') && statusDisplay) {
-                    statusDisplay.textContent = expired ? 'Selesai Magang' : 'Diterima';
+                    statusDisplay.textContent = isTerminated ? 'Dinonaktifkan' : (expired ? 'Selesai Magang' : 'Diterima');
                 }
             }
         });
@@ -484,9 +494,12 @@ document.addEventListener('DOMContentLoaded', function () {
         const posisi = row.getAttribute('data-posisi');
         const statusVal = row.getAttribute('data-status-val');
         const isAccepted = row.getAttribute('data-is-accepted') === '1';
+        const isTerminated = row.getAttribute('data-is-terminated') === '1';
         const isExpired = row.getAttribute('data-is-expired') === '1';
         let statusLabel = row.getAttribute('data-status-label');
-        if (isAccepted && isExpired) {
+        if (isTerminated) {
+            statusLabel = 'Dinonaktifkan';
+        } else if (isAccepted && isExpired) {
             statusLabel = 'Selesai Magang';
         }
 
@@ -515,10 +528,27 @@ document.addEventListener('DOMContentLoaded', function () {
             selectDropdown.value = id;
         }
 
-        // Update text labels
+        // Update action card theme & badge
+        const actionCard = document.getElementById('actionSectionCard');
+        if (actionCard) {
+            if (isTerminated) {
+                actionCard.className = 'card shadow-sm border border-danger-subtle rounded-4 mt-4 bg-danger-subtle bg-opacity-10 overflow-hidden';
+            } else {
+                actionCard.className = 'card shadow-sm border border-success-subtle rounded-4 mt-4 bg-white overflow-hidden';
+            }
+        }
+
+        // Update text labels & status badge
         if (nomorDisplay) nomorDisplay.textContent = nomor;
         if (positionDisplay) positionDisplay.textContent = posisi;
-        if (statusDisplay) statusDisplay.textContent = statusLabel;
+        if (statusDisplay) {
+            statusDisplay.textContent = statusLabel;
+            if (isTerminated) {
+                statusDisplay.className = 'badge bg-danger-subtle text-danger border border-danger-subtle rounded-pill px-3 py-1 small fw-semibold';
+            } else {
+                statusDisplay.className = 'badge bg-success-subtle text-success border border-success-subtle rounded-pill px-3 py-1 small fw-semibold';
+            }
+        }
 
         // 1. Detail Button (Always Available)
         if (btnDetail) {
@@ -526,9 +556,13 @@ document.addEventListener('DOMContentLoaded', function () {
             btnDetail.classList.remove('d-none');
         }
 
-        // 2. Accepted Application Action Rule:
-        // When Accepted: SHOW ONLY Detail & Surat Balasan. HIDE Ubah & Hapus.
-        if (isAccepted) {
+        // 2. Action Rules:
+        if (isTerminated) {
+            // When Deactivated: SHOW ONLY Detail button. Hide Surat Balasan, Ubah, & Hapus.
+            if (btnEdit) btnEdit.classList.add('d-none');
+            if (formDelete) formDelete.classList.add('d-none');
+            if (btnSurat) btnSurat.classList.add('d-none');
+        } else if (isAccepted) {
             if (btnEdit) btnEdit.classList.add('d-none');
             if (formDelete) formDelete.classList.add('d-none');
 
@@ -602,17 +636,6 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     });
-
-    // Dropdown change handler
-    if (selectDropdown) {
-        selectDropdown.addEventListener('change', function () {
-            const targetId = this.value;
-            const targetRow = document.querySelector('.registration-row[data-id="' + targetId + '"]');
-            if (targetRow) {
-                updateActionTarget(targetRow);
-            }
-        });
-    }
 
     // Delete confirmation handler
     document.querySelectorAll('.form-delete-registration').forEach(function (form) {

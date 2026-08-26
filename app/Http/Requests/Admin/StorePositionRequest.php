@@ -35,8 +35,6 @@ class StorePositionRequest extends FormRequest
             'mentor_name' => ['nullable', 'string', 'max:255'],
             'mentor_nip' => ['nullable', 'string', 'max:30'],
             'status' => ['required', Rule::enum(PositionStatus::class)],
-            'tanggal_buka' => ['sometimes', 'nullable', 'date'],
-            'tanggal_tutup' => ['sometimes', 'nullable', 'date'],
         ];
     }
 
@@ -69,14 +67,6 @@ class StorePositionRequest extends FormRequest
             $mergeData['kuota'] = 0;
         }
 
-        if (! $this->has('tanggal_buka') || $this->input('tanggal_buka') === null || $this->input('tanggal_buka') === '') {
-            $mergeData['tanggal_buka'] = now()->toDateString();
-        }
-
-        if (! $this->has('tanggal_tutup') || $this->input('tanggal_tutup') === null || $this->input('tanggal_tutup') === '') {
-            $mergeData['tanggal_tutup'] = now()->addYear()->toDateString();
-        }
-
         if (! empty($mergeData)) {
             $this->merge($mergeData);
         }
@@ -105,13 +95,6 @@ class StorePositionRequest extends FormRequest
 
             'status.required'       => 'Status posisi wajib dipilih.',
             'status.enum'        => 'Pilihan status tidak valid (hanya Aktif / Tidak Aktif).',
-
-            'tanggal_buka.required'  => 'Tanggal pendaftaran dibuka wajib diisi.',
-            'tanggal_buka.date'       => 'Format tanggal buka tidak valid.',
-
-            'tanggal_tutup.required' => 'Tanggal pendaftaran ditutup wajib diisi.',
-            'tanggal_tutup.date'       => 'Format tanggal tutup tidak valid.',
-            'tanggal_tutup.after'      => 'Tanggal tutup harus setelah tanggal buka.',
         ];
     }
 
@@ -124,8 +107,6 @@ class StorePositionRequest extends FormRequest
             'kualifikasi'   => 'Kualifikasi',
             'kuota'         => 'Kuota Jumlah Peserta',
             'status'        => 'Status Posisi',
-            'tanggal_buka'  => 'Tanggal Pendaftaran Dibuka',
-            'tanggal_tutup' => 'Tanggal Pendaftaran Ditutup',
         ];
     }
 }

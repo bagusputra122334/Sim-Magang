@@ -44,8 +44,6 @@ class UpdatePositionRequest extends FormRequest
             'mentor_name' => ['nullable', 'string', 'max:255'],
             'mentor_nip' => ['nullable', 'string', 'max:30'],
             'status' => ['required', Rule::enum(PositionStatus::class)],
-            'tanggal_buka' => ['sometimes', 'nullable', 'date'],
-            'tanggal_tutup' => ['sometimes', 'nullable', 'date'],
         ];
     }
 
@@ -106,13 +104,6 @@ class UpdatePositionRequest extends FormRequest
 
             'status.required'      => 'Status posisi wajib dipilih.',
             'status.enum'       => 'Pilihan status tidak valid (hanya Aktif / Tidak Aktif).',
-
-            'tanggal_buka.required' => 'Tanggal pendaftaran dibuka wajib diisi.',
-            'tanggal_buka.date'      => 'Format tanggal buka tidak valid.',
-
-            'tanggal_tutup.required' => 'Tanggal pendaftaran ditutup wajib diisi.',
-            'tanggal_tutup.date'      => 'Format tanggal tutup tidak valid.',
-            'tanggal_tutup.after'     => 'Tanggal tutup harus sesudah tanggal buka.',
         ];
     }
 
@@ -125,8 +116,6 @@ class UpdatePositionRequest extends FormRequest
             'kualifikasi'   => 'Kualifikasi',
             'kuota'         => 'Kuota Jumlah Peserta',
             'status'        => 'Status Posisi',
-            'tanggal_buka'  => 'Tanggal Pendaftaran Dibuka',
-            'tanggal_tutup' => 'Tanggal Pendaftaran Ditutup',
         ];
     }
 }

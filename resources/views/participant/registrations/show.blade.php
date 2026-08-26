@@ -188,18 +188,21 @@
 </style>
 @endpush
 
+@php
+    $isDeactivated = (bool) ($reg->is_terminated || $reg->operational_status === 'terminated');
+@endphp
+
 @section('content')
 <div class="row justify-content-center mb-4">
     <div class="col-lg-11">
 
-
-        {{-- Hero Header: Clean, High Contrast, Government Digital Standard --}}
-        <div class="card shadow-sm border rounded-4 overflow-hidden mb-4 bg-body">
+        {{-- Hero Header --}}
+        <div class="card shadow-sm border rounded-4 overflow-hidden mb-4 {{ $isDeactivated ? 'border-danger bg-danger-subtle bg-opacity-10' : 'bg-body' }}">
             <div class="card-body p-4 p-md-5">
                 <div class="row align-items-center g-3">
                     <div class="col-md-8">
                         <div class="d-flex align-items-center gap-2 mb-2 flex-wrap">
-                            <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-1 font-monospace small">
+                            <span class="badge {{ $isDeactivated ? 'bg-danger-subtle text-danger border-danger-subtle' : 'bg-primary-subtle text-primary border-primary-subtle' }} border rounded-pill px-3 py-1 font-monospace small">
                                 <i class="bi bi-ticket-perforated-fill me-1"></i>{{ $reg->nomor_pendaftaran }}
                             </span>
                             <span class="badge bg-body-tertiary text-body-secondary border rounded-pill px-2.5 py-1 small">
@@ -215,9 +218,15 @@
                     </div>
                     <div class="col-md-4 text-md-end">
                         <div class="d-inline-flex flex-column align-items-md-end gap-1">
-                            <span class="badge rounded-pill px-3.5 py-2 fs-6 border {!! statusBadgeClass_($sv) !!}" style="cursor: default; user-select: none;">
-                                {!! statusBadgeIcon_($sv) !!}{{ $reg->status->label() }}
-                            </span>
+                            @if($isDeactivated)
+                                <span class="badge rounded-pill px-3.5 py-2 fs-6 border bg-danger-subtle text-danger-emphasis border-danger-subtle" style="cursor: default; user-select: none;">
+                                    <i class="bi bi-x-circle-fill me-1.5"></i>Dinonaktifkan
+                                </span>
+                            @else
+                                <span class="badge rounded-pill px-3.5 py-2 fs-6 border {!! statusBadgeClass_($sv) !!}" style="cursor: default; user-select: none;">
+                                    {!! statusBadgeIcon_($sv) !!}{{ $reg->status->label() }}
+                                </span>
+                            @endif
                             <div class="small text-muted mt-1">
                                 Status Pengajuan Pendaftaran
                             </div>
@@ -226,6 +235,24 @@
                 </div>
             </div>
         </div>
+
+        {{-- Deactivated Status Alert Banner --}}
+        @if($isDeactivated)
+            <div class="alert alert-danger border-2 border-danger-subtle rounded-4 mb-4 d-flex align-items-start shadow-sm bg-danger-subtle bg-opacity-30" role="alert">
+                <i class="bi bi-slash-circle-fill fs-3 text-danger me-3 flex-shrink-0 mt-0.5"></i>
+                <div class="flex-grow-1">
+                    <h5 class="alert-heading fw-bold mb-1 text-danger"><i class="bi bi-exclamation-octagon-fill me-1.5"></i>Status Magang DINONAKTIFKAN</h5>
+                    <p class="mb-1 text-dark lh-base">
+                        Status kepesertaan magang Anda untuk posisi <strong>{{ $reg->position?->nama_posisi }}</strong> (#{{ $reg->nomor_pendaftaran }}) telah dinonaktifkan oleh Administrator Diskominfo SP Kabupaten Tuban.
+                    </p>
+                    @if(!empty($reg->catatan_penonaktifan))
+                        <div class="mt-2 pt-2 border-top border-danger-subtle text-danger-emphasis small">
+                            <strong>Catatan Penonaktifan:</strong> {{ $reg->catatan_penonaktifan }}
+                        </div>
+                    @endif
+                </div>
+            </div>
+        @endif
 
         @if($sv === 'rejected' && !empty(trim($reg->catatan_admin ?? '')))
             <div class="alert alert-danger border-2 rounded-4 mb-4 d-flex align-items-start" role="alert">
@@ -239,7 +266,7 @@
 
         @if($reg->isAccepted())
             @php
-                $suratAda = !empty($reg->surat_balasan_path) && \Illuminate\Support\Facades\Storage::disk('public')->exists($reg->surat_balasan_path);
+                $suratAda = !$isDeactivated && !empty($reg->surat_balasan_path) && \Illuminate\Support\Facades\Storage::disk('public')->exists($reg->surat_balasan_path);
                 $suratFileInfo = null;
                 if ($suratAda) {
                     $disk = \Illuminate\Support\Facades\Storage::disk('public');
@@ -253,23 +280,27 @@
                     ];
                 }
             @endphp
-            <div class="card border-{{ $suratAda ? 'success' : 'warning' }} border-2 shadow-sm rounded-4 overflow-hidden mb-4 bg-body">
-                <div class="card-header bg-{{ $suratAda ? 'success' : 'warning' }} bg-opacity-10 border-0 py-3.5 px-4 px-md-5 d-flex flex-wrap gap-3 align-items-center justify-content-between">
+            <div class="card border-{{ $isDeactivated ? 'danger' : ($suratAda ? 'success' : 'warning') }} border-2 shadow-sm rounded-4 overflow-hidden mb-4 {{ $isDeactivated ? 'bg-danger-subtle bg-opacity-10' : 'bg-body' }}">
+                <div class="card-header bg-{{ $isDeactivated ? 'danger' : ($suratAda ? 'success' : 'warning') }} bg-opacity-10 border-0 py-3.5 px-4 px-md-5 d-flex flex-wrap gap-3 align-items-center justify-content-between">
                     <div>
-                        <h5 class="mb-0 fw-bold text-{{ $suratAda ? 'success' : 'warning' }}-emphasis">
+                        <h5 class="mb-0 fw-bold text-{{ $isDeactivated ? 'danger' : ($suratAda ? 'success' : 'warning') }}-emphasis">
                             <i class="bi bi-envelope-paper-fill me-2"></i>
                             Surat Balasan Resmi — Dinas Komunikasi, Informatika, Statistik dan Persandian
                         </h5>
-                        <p class="mb-0 mt-1 small text-{{ $suratAda ? 'success' : 'warning' }}-emphasis opacity-75">
-                            @if($suratAda)
+                        <p class="mb-0 mt-1 small text-{{ $isDeactivated ? 'danger' : ($suratAda ? 'success' : 'warning') }}-emphasis opacity-75">
+                            @if($isDeactivated)
+                                <i class="bi bi-x-circle me-1"></i> Surat Balasan tidak tersedia karena status kepesertaan magang telah DINONAKTIFKAN.
+                            @elseif($suratAda)
                                 <i class="bi bi-check2-circle me-1"></i> Surat Balasan sudah diunggah Admin dan siap diunduh.
                             @else
                                 <i class="bi bi-hourglass-split me-1"></i> Menunggu Admin mengunggah Surat Balasan.
                             @endif
                         </p>
                     </div>
-                    <span class="badge rounded-pill bg-{{ $suratAda ? 'success' : 'warning' }} px-3 py-2 fs-6">
-                        @if($suratAda)
+                    <span class="badge rounded-pill bg-{{ $isDeactivated ? 'danger' : ($suratAda ? 'success' : 'warning') }} px-3 py-2 fs-6">
+                        @if($isDeactivated)
+                            <i class="bi bi-x-circle-fill me-1"></i> TIDAK TERSEDIA
+                        @elseif($suratAda)
                             <i class="bi bi-cloud-check-fill me-1"></i> SIAP DIUNDUH
                         @else
                             <i class="bi bi-clock-history me-1"></i> MENUNGGU UPLOAD
@@ -277,7 +308,18 @@
                     </span>
                 </div>
                 <div class="card-body px-4 px-md-5 py-4">
-                    @if($suratAda && $suratFileInfo)
+                    @if($isDeactivated)
+                        <div class="d-flex flex-column align-items-center text-center py-3">
+                            <i class="bi bi-file-earmark-x fs-1 text-danger mb-2 opacity-75"></i>
+                            <h6 class="fw-bold text-danger mb-1">Unduhan Surat Balasan Dinonaktifkan</h6>
+                            <p class="small text-muted mb-3 max-w-lg">
+                                Karena status pendaftaran magang Anda telah dinonaktifkan oleh administrator, surat balasan resmi tidak dapat diunduh kembali.
+                            </p>
+                            <button class="btn btn-secondary fw-semibold rounded-3 px-4 py-2 opacity-50 cursor-not-allowed d-inline-flex align-items-center gap-2" disabled>
+                                <i class="bi bi-slash-circle me-1"></i> Download Surat Balasan (Dinonaktifkan)
+                            </button>
+                        </div>
+                    @elseif($suratAda && $suratFileInfo)
                         <div class="row g-3 align-items-center">
                             <div class="col-lg-7">
                                 <dl class="row mb-0 small">

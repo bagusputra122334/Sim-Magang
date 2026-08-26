@@ -16,8 +16,6 @@ class PositionRepository
         'nama_posisi',
         'kuota',
         'status',
-        'tanggal_buka',
-        'tanggal_tutup',
         'created_at',
         'updated_at',
     ];

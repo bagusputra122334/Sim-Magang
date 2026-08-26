@@ -55,8 +55,6 @@ class ReapplicationTest extends TestCase
             'deskripsi'     => 'Deskripsi backend',
             'kuota'         => 5,
             'status'        => PositionStatus::Aktif->value,
-            'tanggal_buka'  => '2026-01-01',
-            'tanggal_tutup' => '2026-12-31',
         ]);
 
         $this->position2 = Position::create([
@@ -65,8 +63,6 @@ class ReapplicationTest extends TestCase
             'deskripsi'     => 'Deskripsi designer',
             'kuota'         => 5,
             'status'        => PositionStatus::Aktif->value,
-            'tanggal_buka'  => '2026-01-01',
-            'tanggal_tutup' => '2026-12-31',
         ]);
     }
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Participant;
 
 use App\Http\Requests\Participant\StoreRegistrationRequest;
 use App\Http\Requests\Participant\UpdateRegistrationRequest;
+use App\Notifications\ApplicationSubmittedNotification;
 use App\Mail\ApplicationSubmittedMail;
 use App\Models\Position;
 use App\Models\Registration;
@@ -89,11 +90,12 @@ class RegistrationController extends ParticipantController
         }
 
         try {
-            Mail::to((string) $user->email)->send(new ApplicationSubmittedMail($registration));
-            AuditLogger::emailSent(true, ApplicationSubmittedMail::class, (string) $user->email, $registration->id);
+            $registration->loadMissing(['position', 'user']);
+            $user->notify(new ApplicationSubmittedNotification($registration));
+            AuditLogger::emailSent(true, ApplicationSubmittedNotification::class, (string) $user->email, $registration->id);
         } catch (\Throwable $e) {
-            AuditLogger::emailSent(false, ApplicationSubmittedMail::class, (string) $user->email, $registration->id, $e);
-            Log::error('[SPRINT19] Gagal kirim ApplicationSubmittedMail ke peserta #'.$user->id.' <'.$user->email.'>. Registration #'.$registration->id.' NP: '.$registration->nomor_pendaftaran, [
+            AuditLogger::emailSent(false, ApplicationSubmittedNotification::class, (string) $user->email, $registration->id, $e);
+            Log::error('[NOTIFICATION] Gagal dispatch ApplicationSubmittedNotification ke peserta #'.$user->id.' <'.$user->email.'>. Registration #'.$registration->id.' NP: '.$registration->nomor_pendaftaran, [
                 'error_message' => $e->getMessage(),
                 'error_class'   => $e::class,
                 'registration_id' => $registration->id,

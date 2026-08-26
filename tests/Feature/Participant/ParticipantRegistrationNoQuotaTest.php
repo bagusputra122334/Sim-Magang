@@ -56,8 +56,6 @@ class ParticipantRegistrationNoQuotaTest extends TestCase
             'deskripsi'     => 'Pengembangan web dan aplikasi pemerintah daerah',
             'kuota'         => 1,
             'status'        => PositionStatus::Aktif,
-            'tanggal_buka'  => now()->subDays(5),
-            'tanggal_tutup' => now()->addDays(20),
         ]);
 
         // Create 3 already accepted registrations for this position (exceeding kuota of 1)
@@ -113,8 +111,6 @@ class ParticipantRegistrationNoQuotaTest extends TestCase
             'deskripsi'     => 'Desain publikasi pemerintah daerah',
             'kuota'         => 2,
             'status'        => PositionStatus::Aktif,
-            'tanggal_buka'  => now()->subDays(2),
-            'tanggal_tutup' => now()->addDays(15),
         ]);
 
         $participant = User::factory()->create(['role' => UserRole::Peserta]);

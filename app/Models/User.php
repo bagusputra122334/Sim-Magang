@@ -136,6 +136,6 @@ class User extends Authenticatable
             ]));
         }
 
-        $this->notify(new \App\Notifications\CustomResetPasswordNotification($token));
+        $this->notify(new \App\Notifications\QueuedUserResetPassword($token));
     }
 }

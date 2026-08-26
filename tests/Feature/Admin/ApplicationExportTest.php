@@ -87,8 +87,6 @@ class ApplicationExportTest extends TestCase
             'persyaratan'   => 'PHP, Laravel, MySQL',
             'kuota'         => 3,
             'status'        => PositionStatus::Aktif,
-            'tanggal_buka'  => now()->subDays(5)->toDateString(),
-            'tanggal_tutup' => now()->addDays(30)->toDateString(),
         ]);
 
         $this->position2 = Position::create([
@@ -98,8 +96,6 @@ class ApplicationExportTest extends TestCase
             'persyaratan'   => 'Cisco, Mikrotik',
             'kuota'         => 2,
             'status'        => PositionStatus::Aktif,
-            'tanggal_buka'  => now()->subDays(5)->toDateString(),
-            'tanggal_tutup' => now()->addDays(30)->toDateString(),
         ]);
 
         $this->reg1 = Registration::create([

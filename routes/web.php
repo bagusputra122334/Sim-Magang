@@ -57,6 +57,27 @@ Route::middleware('auth')->group(function () {
 
 /*
 |--------------------------------------------------------------------------
+| ADMIN GUEST AUTH ROUTES (Password Reset)
+| Prefix  : /admin
+| Name    : admin.*
+|--------------------------------------------------------------------------
+*/
+Route::prefix('admin')->name('admin.')->middleware('guest')->group(function () {
+    Route::get('forgot-password', [App\Http\Controllers\Admin\Auth\AdminPasswordResetLinkController::class, 'create'])
+        ->name('password.request');
+
+    Route::post('forgot-password', [App\Http\Controllers\Admin\Auth\AdminPasswordResetLinkController::class, 'store'])
+        ->name('password.email');
+
+    Route::get('reset-password/{token}', [App\Http\Controllers\Admin\Auth\AdminNewPasswordController::class, 'create'])
+        ->name('password.reset');
+
+    Route::post('reset-password', [App\Http\Controllers\Admin\Auth\AdminNewPasswordController::class, 'store'])
+        ->name('password.store');
+});
+
+/*
+|--------------------------------------------------------------------------
 | ADMIN ROUTES GROUP
 | Prefix  : /admin
 | Name    : admin.*

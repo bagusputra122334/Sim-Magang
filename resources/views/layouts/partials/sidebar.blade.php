@@ -32,7 +32,7 @@
             $sidebarMenu = [
                 ['icon' => 'bi-speedometer2', 'label' => 'Dashboard', 'route' => 'participant.dashboard', 'params' => []],
                 ['icon' => 'bi-person-badge', 'label' => 'Profil Saya', 'route' => 'participant.profile.index', 'params' => []],
-                ['icon' => 'bi-journal-text', 'label' => 'Pendaftaran Magang', 'route' => 'participant.registrations.index', 'params' => []],
+                ['icon' => 'bi-journal-text', 'label' => 'Riwayat Magang', 'route' => 'participant.registrations.index', 'params' => []],
                 ['icon' => 'bi-person-gear', 'label' => 'Akun Saya', 'route' => 'profile.edit', 'params' => []],
             ];
         }

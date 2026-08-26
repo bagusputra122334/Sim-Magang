@@ -34,8 +34,6 @@ class ActiveInternModuleTest extends TestCase
             'status'        => PositionStatus::Aktif,
             'mentor_name'   => 'Drs. Eko Prasetyo, M.Kom',
             'mentor_nip'    => '19820315 200801 1 004',
-            'tanggal_buka'  => now()->toDateString(),
-            'tanggal_tutup' => now()->addYear()->toDateString(),
         ]);
     }
 

@@ -82,8 +82,6 @@ class AdminAndMentorIdentityTest extends TestCase
             'status'        => PositionStatus::Aktif,
             'mentor_name'   => 'Nama Lama',
             'mentor_nip'    => '11111111',
-            'tanggal_buka'  => now()->toDateString(),
-            'tanggal_tutup' => now()->addYear()->toDateString(),
         ]);
 
         $response = $this->actingAs($this->admin)

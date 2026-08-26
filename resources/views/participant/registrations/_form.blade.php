@@ -10,14 +10,25 @@ $selectedPosId = old('position_id', $isEdit ? $reg?->position_id ?? '' : '');
 <div class="row g-5 mb-5">
     <div class="col-lg-8">
         <div class="mb-5">
-            <h5 class="fw-bold mb-3 text-success border-start border-4 border-success ps-3">
-                <i class="bi bi-geo-alt-fill me-2"></i>Pilih Posisi Magang
-            </h5>
+            <div class="d-flex align-items-center gap-2.5 mb-3 pb-2 border-bottom">
+                <div class="p-2 rounded-3 bg-success-subtle text-success">
+                    <i class="bi bi-briefcase-fill fs-5"></i>
+                </div>
+                <div>
+                    <h5 class="fw-bold mb-0 text-dark">Pilih Posisi Magang</h5>
+                    <small class="text-muted">Pilih salah satu posisi magang aktif yang tersedia di Diskominfo SP</small>
+                </div>
+            </div>
 
             @if($positions->count() === 0)
-                <div class="alert alert-warning border-2 rounded-4">
-                    <i class="bi bi-exclamation-triangle-fill me-2"></i>
-                    Saat ini tidak ada posisi magang yang sedang dibuka. Silakan kembali nanti.
+                <div class="alert alert-warning border border-warning-subtle rounded-4 p-4 shadow-sm">
+                    <div class="d-flex align-items-center gap-3">
+                        <i class="bi bi-exclamation-triangle-fill fs-3 text-warning"></i>
+                        <div>
+                            <strong class="d-block text-dark">Belum Ada Posisi Dibuka</strong>
+                            <span class="small text-muted">Saat ini belum ada posisi magang yang dibuka. Silakan pantau kembali secara berkala.</span>
+                        </div>
+                    </div>
                 </div>
             @else
             <div class="row g-3">
@@ -29,17 +40,17 @@ $selectedPosId = old('position_id', $isEdit ? $reg?->position_id ?? '' : '');
                     <input type="radio" name="position_id" value="{{ $pos->id }}" class="d-none position-select-radio"
                            @required(true)
                            @checked($active)>
-                    <div class="card border-2 rounded-4 h-100 transition position-select-card {{ $active ? 'border-success shadow bg-success-subtle' : 'border-light bg-white' }}">
+                    <div class="card border-2 rounded-4 h-100 transition-all position-select-card {{ $active ? 'border-success shadow-sm bg-success-subtle bg-opacity-25' : 'border-light-subtle bg-white' }}">
                         <div class="card-body p-4">
                             <div class="d-flex align-items-start justify-content-between mb-2">
                                 <div>
-                                    <div class="fw-bold fs-5 mb-1">{{ $pos->nama_posisi }}</div>
-                                    <div class="small text-muted fst-italic">
-                                        <i class="bi bi-hash me-1"></i>{{ $pos->slug ?? 'slug' }}
+                                    <div class="fw-bold fs-5 text-dark mb-1">{{ $pos->nama_posisi }}</div>
+                                    <div class="small text-muted font-monospace">
+                                        <i class="bi bi-hash me-0.5"></i>{{ $pos->slug ?? 'slug' }}
                                     </div>
                                 </div>
                                 <div class="ms-2">
-                                    <span class="badge border rounded-pill fs-7 bg-success-subtle text-success-emphasis border-success-subtle px-3 py-2">
+                                    <span class="badge rounded-pill fs-7 bg-success-subtle text-success border border-success-subtle px-3 py-1.5 fw-semibold">
                                         <i class="bi bi-check-circle-fill me-1"></i>Terbuka
                                     </span>
                                 </div>
@@ -47,8 +58,8 @@ $selectedPosId = old('position_id', $isEdit ? $reg?->position_id ?? '' : '');
                             @if(!empty(trim($pos->deskripsi ?? '')))
                             <p class="small text-secondary mt-3 mb-0 lh-lg line-clamp-3 text-truncate-3">{{ \Illuminate\Support\Str::limit($pos->deskripsi, 150) }}</p>
                             @endif
-                            <div class="mt-3 small text-muted">
-                                <i class="bi bi-clock-history me-1"></i>
+                            <div class="mt-3 small text-muted d-flex align-items-center gap-1">
+                                <i class="bi bi-clock-history text-secondary"></i>
                                 Terakhir Diperbarui: {{ $pos->updated_at?->locale('id')->translatedFormat('d M Y') ?? '-' }}
                             </div>
                         </div>
@@ -65,17 +76,23 @@ $selectedPosId = old('position_id', $isEdit ? $reg?->position_id ?? '' : '');
         </div>
 
         <div class="mb-5">
-            <h5 class="fw-bold mb-3 text-primary border-start border-4 border-primary ps-3">
-                <i class="bi bi-calendar-range-fill me-2"></i>Periode Pelaksanaan Magang
-            </h5>
+            <div class="d-flex align-items-center gap-2.5 mb-3 pb-2 border-bottom">
+                <div class="p-2 rounded-3 bg-primary-subtle text-primary">
+                    <i class="bi bi-calendar-range-fill fs-5"></i>
+                </div>
+                <div>
+                    <h5 class="fw-bold mb-0 text-dark">Periode Pelaksanaan Magang</h5>
+                    <small class="text-muted">Tentukan tanggal mulai dan selesai rencana kegiatan magang</small>
+                </div>
+            </div>
             <div class="row g-4">
                 <div class="col-md-6">
-                    <label for="periode_mulai" class="form-label fw-semibold">
+                    <label for="periode_mulai" class="form-label fw-semibold text-dark">
                         Periode Mulai <span class="text-danger">*</span>
                         <small class="text-muted fw-normal fst-italic ms-2">(minimal H+1 hari ini)</small>
                     </label>
                     <div class="input-group input-group-lg @error('periode_mulai') has-validation @enderror">
-                        <span class="input-group-text bg-white border-end-0"><i class="bi bi-calendar-plus-fill text-primary"></i></span>
+                        <span class="input-group-text bg-light border-end-0 text-primary"><i class="bi bi-calendar-plus-fill"></i></span>
                         <input type="date" name="periode_mulai" id="periode_mulai"
                                value="{{ old('periode_mulai', $isEdit && $reg?->periode_mulai ? $reg->periode_mulai->format('Y-m-d') : '') }}"
                                min="{{ $isEdit ? '2020-01-01' : now()->addDay()->format('Y-m-d') }}"
@@ -84,12 +101,12 @@ $selectedPosId = old('position_id', $isEdit ? $reg?->position_id ?? '' : '');
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <label for="periode_selesai" class="form-label fw-semibold">
+                    <label for="periode_selesai" class="form-label fw-semibold text-dark">
                         Periode Selesai <span class="text-danger">*</span>
                         <small class="text-muted fw-normal fst-italic ms-2">(setelah periode mulai)</small>
                     </label>
                     <div class="input-group input-group-lg @error('periode_selesai') has-validation @enderror">
-                        <span class="input-group-text bg-white border-end-0"><i class="bi bi-calendar2-check-fill text-primary"></i></span>
+                        <span class="input-group-text bg-light border-end-0 text-primary"><i class="bi bi-calendar2-check-fill"></i></span>
                         <input type="date" name="periode_selesai" id="periode_selesai"
                                value="{{ old('periode_selesai', $isEdit && $reg?->periode_selesai ? $reg->periode_selesai->format('Y-m-d') : '') }}"
                                min="{{ old('periode_mulai', $isEdit && $reg?->periode_mulai ? $reg->periode_mulai->format('Y-m-d') : now()->addDay()->format('Y-m-d')) }}"
@@ -97,9 +114,13 @@ $selectedPosId = old('position_id', $isEdit ? $reg?->position_id ?? '' : '');
                         @error('periode_selesai')<div class="invalid-feedback">{{ $message }}</div>@enderror
                     </div>
                 </div>
-                <div class="col-12 small text-muted bg-light p-3 rounded-3 border">
-                    <i class="bi bi-lightbulb-fill text-warning me-1"></i>
-                    <strong>Durasi magang umumnya 1–3 bulan.</strong> Untuk semester pendek pilih minimal 30 hari, untuk magang penuh minimal 90 hari.
+                <div class="col-12">
+                    <div class="bg-primary-subtle bg-opacity-25 border border-primary-subtle rounded-3 p-3.5 small text-dark d-flex align-items-start gap-2.5">
+                        <i class="bi bi-info-circle-fill text-primary fs-5 mt-0.5"></i>
+                        <div>
+                            <strong>Informasi Durasi:</strong> Durasi magang umumnya disarankan antara 1 hingga 3 bulan (minimal 30 hari untuk semester pendek, atau 90 hari untuk magang penuh).
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

@@ -45,8 +45,6 @@ class GlobalSearchTest extends TestCase
             'deskripsi'     => 'Pengembangan aplikasi pemerintah',
             'kuota'         => 3,
             'status'        => PositionStatus::Aktif,
-            'tanggal_buka'  => now()->subDays(5),
-            'tanggal_tutup' => now()->addDays(20),
         ]);
 
         $registration = Registration::create([
@@ -80,8 +78,6 @@ class GlobalSearchTest extends TestCase
             'deskripsi'     => 'Jaringan Diskominfo',
             'kuota'         => 2,
             'status'        => PositionStatus::Aktif,
-            'tanggal_buka'  => now()->subDays(5),
-            'tanggal_tutup' => now()->addDays(20),
         ]);
 
         Registration::create([
@@ -112,8 +108,6 @@ class GlobalSearchTest extends TestCase
             'deskripsi'     => 'Bidang Persandian',
             'kuota'         => 2,
             'status'        => PositionStatus::Aktif,
-            'tanggal_buka'  => now()->subDays(5),
-            'tanggal_tutup' => now()->addDays(20),
         ]);
 
         Registration::create([
@@ -148,8 +142,6 @@ class GlobalSearchTest extends TestCase
             'deskripsi'     => 'Desain Publikasi',
             'kuota'         => 2,
             'status'        => PositionStatus::Aktif,
-            'tanggal_buka'  => now()->subDays(5),
-            'tanggal_tutup' => now()->addDays(20),
         ]);
 
         // Registration belonging to participant B

@@ -147,6 +147,26 @@ class RegistrationReviewController extends AdminController
             $this->registrationService->processAdminReview($reg, $validated, $admin);
 
             $statusEnum = RegistrationStatus::from($validated['status']);
+
+            $reg->loadMissing(['user', 'position']);
+            if (! empty($reg->user?->email)) {
+                try {
+                    if ($statusEnum === RegistrationStatus::Accepted || $statusEnum === RegistrationStatus::Rejected) {
+                        $reg->user->notify(new \App\Notifications\ApplicationStatusUpdatedNotification($reg, (string) ($validated['catatan_admin'] ?? '')));
+                        AuditLogger::emailSent(true, \App\Notifications\ApplicationStatusUpdatedNotification::class, (string) $reg->user->email, $reg->id);
+                    }
+                } catch (\Throwable $e) {
+                    AuditLogger::emailSent(false, \App\Notifications\ApplicationStatusUpdatedNotification::class, (string) ($reg->user->email ?? 'unknown'), $reg->id, $e);
+                    Log::error('[NOTIFICATION] Gagal dispatch ApplicationStatusUpdatedNotification ke user #'.$reg->user_id, [
+                        'error_message' => $e->getMessage(),
+                        'error_class'   => $e::class,
+                        'registration_id' => $reg->id,
+                        'user_id'       => $reg->user_id,
+                        'status_target' => $statusEnum->value,
+                    ]);
+                }
+            }
+
             if ($statusEnum === RegistrationStatus::Accepted) {
                 return redirect()->route('admin.registrations-review.show', $reg->id)
                     ->with(

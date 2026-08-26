@@ -60,8 +60,6 @@ class RegistrationDocumentTest extends TestCase
             'persyaratan'   => 'PHP, Laravel, MySQL',
             'kuota'         => 5,
             'status'        => PositionStatus::Aktif,
-            'tanggal_buka'  => now()->subDays(5)->toDateString(),
-            'tanggal_tutup' => now()->addDays(30)->toDateString(),
         ]);
     }
 

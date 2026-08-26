@@ -35,8 +35,6 @@ class ApplicationFilterAndSearchTest extends TestCase
             'slug'          => 'backend-developer',
             'deskripsi'     => 'Deskripsi Backend',
             'status'        => PositionStatus::Aktif,
-            'tanggal_buka'  => now()->toDateString(),
-            'tanggal_tutup' => now()->addYear()->toDateString(),
         ]);
 
         $userAccepted = User::factory()->create(['name' => 'Budi Santoso']);
@@ -80,8 +78,6 @@ class ApplicationFilterAndSearchTest extends TestCase
             'slug'          => 'web-developer',
             'deskripsi'     => 'Deskripsi Web',
             'status'        => PositionStatus::Aktif,
-            'tanggal_buka'  => now()->toDateString(),
-            'tanggal_tutup' => now()->addYear()->toDateString(),
         ]);
 
         $posB = Position::create([
@@ -89,8 +85,6 @@ class ApplicationFilterAndSearchTest extends TestCase
             'slug'          => 'network-engineer',
             'deskripsi'     => 'Deskripsi Network',
             'status'        => PositionStatus::Aktif,
-            'tanggal_buka'  => now()->toDateString(),
-            'tanggal_tutup' => now()->addYear()->toDateString(),
         ]);
 
         $userA = User::factory()->create(['name' => 'Peserta A']);
@@ -133,8 +127,6 @@ class ApplicationFilterAndSearchTest extends TestCase
             'slug'          => 'sistem-informasi-spbe',
             'deskripsi'     => 'Deskripsi SPBE',
             'status'        => PositionStatus::Aktif,
-            'tanggal_buka'  => now()->toDateString(),
-            'tanggal_tutup' => now()->addYear()->toDateString(),
         ]);
 
         $posNonaktif = Position::create([
@@ -142,8 +134,6 @@ class ApplicationFilterAndSearchTest extends TestCase
             'slug'          => 'posisi-arsip-lama',
             'deskripsi'     => 'Deskripsi Arsip',
             'status'        => PositionStatus::TidakAktif,
-            'tanggal_buka'  => now()->toDateString(),
-            'tanggal_tutup' => now()->addYear()->toDateString(),
         ]);
 
         $response = $this->actingAs($this->admin)
