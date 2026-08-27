@@ -23,7 +23,7 @@
                         </p>
                     </div>
                     <div class="col-md-4 text-center text-md-end mt-3 mt-md-0">
-                        <a href="{{ route('participant.profile.edit') }}" class="btn btn-light btn-lg fw-semibold shadow-sm">
+                        <a href="{{ route('participant.profile.edit') }}" class="btn bg-white hover:bg-gray-50 text-gray-800 rounded-xl font-semibold shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md px-4 py-2.5">
                             <i class="bi bi-pencil-square me-2"></i>Ubah Profil
                         </a>
                     </div>

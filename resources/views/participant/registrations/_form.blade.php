@@ -134,7 +134,7 @@ $selectedPosId = old('position_id', $isEdit ? $reg?->position_id ?? '' : '');
                 </h5>
             </div>
             <div class="card-body p-4">
-                <div class="mb-4">
+                <div x-data="{ fileName: null }" class="mb-4">
                     <label for="cv" class="form-label fw-semibold">
                         <i class="bi bi-filetype-pdf text-danger me-1"></i>Curriculum Vitae (CV)
                         <span class="text-danger">*</span>
@@ -155,22 +155,38 @@ $selectedPosId = old('position_id', $isEdit ? $reg?->position_id ?? '' : '');
                                 <div class="fw-semibold text-truncate">Lampiran CV saat ini</div>
                                 <div class="text-muted fst-italic">{{ basename($reg->cv_path) }}</div>
                             </div>
-                            <a href="{{ $cvUrl }}" target="_blank" rel="noopener" class="btn btn-sm btn-outline-primary fw-semibold flex-shrink-0">
+                            <a href="{{ $cvUrl }}" target="_blank" rel="noopener" class="btn btn-sm btn-outline-primary fw-semibold rounded-xl transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md flex-shrink-0">
                                 <i class="bi bi-eye-fill me-1"></i>Lihat
                             </a>
                         </div>
                     @endif
-                    <input type="file" name="cv" id="cv"
-                           accept="application/pdf,.pdf"
-                           @if(!$isEdit) required @endif
-                           class="form-control form-control-lg @error('cv') is-invalid @enderror">
-                    <div class="form-text mt-1 small">
-                        <i class="bi bi-info-circle me-1"></i>Format hanya PDF, Maksimal 2 MB (2048 KB).
+                    <div class="relative border-2 border-dashed rounded-xl p-4 transition-all duration-200"
+                         :class="fileName ? 'border-emerald-500 bg-emerald-50/50 shadow-sm' : 'border-gray-300 bg-gray-50/50 hover:border-emerald-400 hover:bg-emerald-50/20'">
+                        <input type="file" name="cv" id="cv"
+                               accept="application/pdf,.pdf"
+                               @if(!$isEdit) required @endif
+                               @change="fileName = $event.target.files[0] ? $event.target.files[0].name : null"
+                               class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10 @error('cv') is-invalid @enderror">
+                        <div x-show="!fileName" class="text-center py-2">
+                            <i class="bi bi-cloud-arrow-up text-emerald-600 text-3xl mb-1 block"></i>
+                            <span class="fw-semibold text-gray-700 block">Klik atau seret file ke sini</span>
+                            <span class="text-muted small">Format hanya PDF, Maksimal 2 MB (2048 KB).</span>
+                        </div>
+                        <div x-show="fileName" class="d-flex align-items-center gap-3" x-cloak>
+                            <div class="rounded-circle bg-emerald-600 text-white p-2 d-flex align-items-center justify-content-center">
+                                <i class="bi bi-check-lg fs-5"></i>
+                            </div>
+                            <div class="flex-grow-1 min-w-0">
+                                <div class="text-xs text-emerald-700 fw-semibold">File Terpilih:</div>
+                                <div class="fw-bold text-gray-900 text-truncate" x-text="fileName"></div>
+                            </div>
+                            <span class="badge bg-emerald-100 text-emerald-800 px-3 py-2 rounded-pill flex-shrink-0">Terganti</span>
+                        </div>
                     </div>
                     @error('cv')<div class="invalid-feedback d-block small mt-1">{{ $message }}</div>@enderror
                 </div>
 
-                <div class="mb-4">
+                <div x-data="{ fileName: null }" class="mb-4">
                     <label for="surat_pengantar" class="form-label fw-semibold">
                         <i class="bi bi-filetype-pdf text-danger me-1"></i>Surat Pengantar Institusi
                         <span class="text-danger">*</span>
@@ -190,22 +206,38 @@ $selectedPosId = old('position_id', $isEdit ? $reg?->position_id ?? '' : '');
                                 <div class="fw-semibold text-truncate">Surat Pengantar Sekarang</div>
                                 <div class="text-muted fst-italic">{{ basename($reg->surat_pengantar_path) }}</div>
                             </div>
-                            <a href="{{ $spUrl }}" target="_blank" rel="noopener" class="btn btn-sm btn-outline-primary fw-semibold flex-shrink-0">
+                            <a href="{{ $spUrl }}" target="_blank" rel="noopener" class="btn btn-sm btn-outline-primary fw-semibold rounded-xl transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md flex-shrink-0">
                                 <i class="bi bi-eye-fill me-1"></i>Lihat
                             </a>
                         </div>
                     @endif
-                    <input type="file" name="surat_pengantar" id="surat_pengantar"
-                           accept="application/pdf,.pdf"
-                           @if(!$isEdit) required @endif
-                           class="form-control form-control-lg @error('surat_pengantar') is-invalid @enderror">
-                    <div class="form-text mt-1 small">
-                        <i class="bi bi-info-circle me-1"></i>Format hanya PDF, Maksimal 3 MB. Surat resmi dari sekolah/universitas.
+                    <div class="relative border-2 border-dashed rounded-xl p-4 transition-all duration-200"
+                         :class="fileName ? 'border-emerald-500 bg-emerald-50/50 shadow-sm' : 'border-gray-300 bg-gray-50/50 hover:border-emerald-400 hover:bg-emerald-50/20'">
+                        <input type="file" name="surat_pengantar" id="surat_pengantar"
+                               accept="application/pdf,.pdf"
+                               @if(!$isEdit) required @endif
+                               @change="fileName = $event.target.files[0] ? $event.target.files[0].name : null"
+                               class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10 @error('surat_pengantar') is-invalid @enderror">
+                        <div x-show="!fileName" class="text-center py-2">
+                            <i class="bi bi-cloud-arrow-up text-emerald-600 text-3xl mb-1 block"></i>
+                            <span class="fw-semibold text-gray-700 block">Klik atau seret file ke sini</span>
+                            <span class="text-muted small">Format hanya PDF, Maksimal 3 MB. Surat resmi dari sekolah/universitas.</span>
+                        </div>
+                        <div x-show="fileName" class="d-flex align-items-center gap-3" x-cloak>
+                            <div class="rounded-circle bg-emerald-600 text-white p-2 d-flex align-items-center justify-content-center">
+                                <i class="bi bi-check-lg fs-5"></i>
+                            </div>
+                            <div class="flex-grow-1 min-w-0">
+                                <div class="text-xs text-emerald-700 fw-semibold">File Terpilih:</div>
+                                <div class="fw-bold text-gray-900 text-truncate" x-text="fileName"></div>
+                            </div>
+                            <span class="badge bg-emerald-100 text-emerald-800 px-3 py-2 rounded-pill flex-shrink-0">Terganti</span>
+                        </div>
                     </div>
                     @error('surat_pengantar')<div class="invalid-feedback d-block small mt-1">{{ $message }}</div>@enderror
                 </div>
 
-                <div class="mb-4">
+                <div x-data="{ fileName: null }" class="mb-4">
                     <label for="proposal_magang" class="form-label fw-semibold">
                         <i class="bi bi-filetype-pdf text-danger me-1"></i>Proposal Magang
                         <span class="text-danger">*</span>
@@ -225,17 +257,33 @@ $selectedPosId = old('position_id', $isEdit ? $reg?->position_id ?? '' : '');
                                 <div class="fw-semibold text-truncate">Proposal Magang Sekarang</div>
                                 <div class="text-muted fst-italic">{{ basename($reg->proposal_magang_path) }}</div>
                             </div>
-                            <a href="{{ $pmUrl }}" target="_blank" rel="noopener" class="btn btn-sm btn-outline-primary fw-semibold flex-shrink-0">
+                            <a href="{{ $pmUrl }}" target="_blank" rel="noopener" class="btn btn-sm btn-outline-primary fw-semibold rounded-xl transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md flex-shrink-0">
                                 <i class="bi bi-eye-fill me-1"></i>Lihat
                             </a>
                         </div>
                     @endif
-                    <input type="file" name="proposal_magang" id="proposal_magang"
-                           accept="application/pdf,.pdf"
-                           @if(!$isEdit) required @endif
-                           class="form-control form-control-lg @error('proposal_magang') is-invalid @enderror">
-                    <div class="form-text mt-1 small">
-                        <i class="bi bi-info-circle me-1"></i>Unggah proposal magang sesuai ketentuan yang berlaku. Format hanya PDF, Maksimal 5 MB.
+                    <div class="relative border-2 border-dashed rounded-xl p-4 transition-all duration-200"
+                         :class="fileName ? 'border-emerald-500 bg-emerald-50/50 shadow-sm' : 'border-gray-300 bg-gray-50/50 hover:border-emerald-400 hover:bg-emerald-50/20'">
+                        <input type="file" name="proposal_magang" id="proposal_magang"
+                               accept="application/pdf,.pdf"
+                               @if(!$isEdit) required @endif
+                               @change="fileName = $event.target.files[0] ? $event.target.files[0].name : null"
+                               class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10 @error('proposal_magang') is-invalid @enderror">
+                        <div x-show="!fileName" class="text-center py-2">
+                            <i class="bi bi-cloud-arrow-up text-emerald-600 text-3xl mb-1 block"></i>
+                            <span class="fw-semibold text-gray-700 block">Klik atau seret file ke sini</span>
+                            <span class="text-muted small">Unggah proposal magang sesuai ketentuan. Format hanya PDF, Maksimal 5 MB.</span>
+                        </div>
+                        <div x-show="fileName" class="d-flex align-items-center gap-3" x-cloak>
+                            <div class="rounded-circle bg-emerald-600 text-white p-2 d-flex align-items-center justify-content-center">
+                                <i class="bi bi-check-lg fs-5"></i>
+                            </div>
+                            <div class="flex-grow-1 min-w-0">
+                                <div class="text-xs text-emerald-700 fw-semibold">File Terpilih:</div>
+                                <div class="fw-bold text-gray-900 text-truncate" x-text="fileName"></div>
+                            </div>
+                            <span class="badge bg-emerald-100 text-emerald-800 px-3 py-2 rounded-pill flex-shrink-0">Terganti</span>
+                        </div>
                     </div>
                     @error('proposal_magang')<div class="invalid-feedback d-block small mt-1">{{ $message }}</div>@enderror
                 </div>

@@ -175,11 +175,29 @@
                     @error('no_telepon') <div class="invalid-feedback">{{ $message }}</div> @enderror
                 </div>
 
-                <div class="col-md-6">
+                <div class="col-md-6" x-data="{ fileName: null }">
                     <label for="foto" class="form-label fw-semibold">Foto Profil (Opsional, max 2MB)</label>
-                    <input type="file" name="foto" id="foto" accept="image/jpeg,image/png,image/jpg"
-                           class="form-control @error('foto') is-invalid @enderror">
-                    @error('foto') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                    <div class="relative border-2 border-dashed rounded-xl p-3 transition-all duration-200"
+                         :class="fileName ? 'border-emerald-500 bg-emerald-50/50 shadow-sm' : 'border-gray-300 bg-gray-50/50 hover:border-emerald-400 hover:bg-emerald-50/20'">
+                        <input type="file" name="foto" id="foto" accept="image/jpeg,image/png,image/jpg"
+                               @change="fileName = $event.target.files[0] ? $event.target.files[0].name : null"
+                               class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10 @error('foto') is-invalid @enderror">
+                        <div x-show="!fileName" class="text-center py-1">
+                            <i class="bi bi-image text-emerald-600 text-2xl mb-1 block"></i>
+                            <span class="fw-semibold text-gray-700 small block">Klik atau seret foto ke sini</span>
+                            <span class="text-muted text-xs">JPEG, PNG, JPG (Maks. 2MB)</span>
+                        </div>
+                        <div x-show="fileName" class="d-flex align-items-center gap-2" x-cloak>
+                            <div class="rounded-circle bg-emerald-600 text-white p-1.5 d-flex align-items-center justify-content-center">
+                                <i class="bi bi-check-lg fs-6"></i>
+                            </div>
+                            <div class="flex-grow-1 min-w-0">
+                                <div class="text-xs text-emerald-700 fw-semibold">Foto Terpilih:</div>
+                                <div class="small fw-bold text-gray-900 text-truncate" x-text="fileName"></div>
+                            </div>
+                        </div>
+                    </div>
+                    @error('foto') <div class="invalid-feedback d-block small mt-1">{{ $message }}</div> @enderror
                 </div>
 
                 <div class="col-12">

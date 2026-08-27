@@ -52,7 +52,7 @@
         <label class="form-check-label" for="remember_me">Ingat saya</label>
     </div>
 
-    <button class="btn btn-primary w-100 py-2" type="submit">
+    <button class="btn btn-primary bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white !text-white rounded-xl font-semibold shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md w-100 py-2.5" type="submit">
         <i class="bi bi-box-arrow-in-right me-1" aria-hidden="true"></i> Masuk Akun
     </button>
 </form>

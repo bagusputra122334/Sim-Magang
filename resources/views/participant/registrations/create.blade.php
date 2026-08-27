@@ -9,7 +9,7 @@
                 <h1 class="h3 fw-bold mb-1">Ajukan Pendaftaran Magang Baru</h1>
                 <p class="text-muted mb-0">Pilih posisi magang dan lengkapi berkas pendaftaran Anda.</p>
             </div>
-            <a href="{{ route('participant.registrations.index') }}" class="btn btn-outline-secondary">
+            <a href="{{ route('participant.registrations.index') }}" class="btn bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 rounded-xl font-semibold shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md px-4 py-2">
                 <i class="bi bi-arrow-left me-1"></i> Kembali ke Riwayat
             </a>
         </div>
@@ -40,10 +40,10 @@
                     ])
                 </div>
                 <div class="card-footer bg-white border-top py-4 px-5 text-end">
-                    <a href="{{ route('participant.registrations.index') }}" class="btn btn-outline-secondary btn-lg fw-semibold me-2">
+                    <a href="{{ route('participant.registrations.index') }}" class="btn bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 rounded-xl font-semibold shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md px-4 py-2.5 me-2">
                         <i class="bi bi-arrow-left-circle me-2"></i>Batal
                     </a>
-                    <button type="submit" id="btnSubmitPendaftaran" class="btn btn-success btn-lg fw-semibold shadow-sm">
+                    <button type="submit" id="btnSubmitPendaftaran" class="btn bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white rounded-xl font-semibold shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md px-5 py-2.5">
                         <i class="bi bi-send-fill me-2"></i>Submit Pendaftaran
                     </button>
                 </div>

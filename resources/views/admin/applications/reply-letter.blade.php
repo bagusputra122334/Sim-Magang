@@ -208,7 +208,7 @@
                         {{ ! $canUpload ? 'aria-disabled=true' : '' }}>
                         @csrf
 
-                        <div class="mb-4">
+                        <div x-data="{ fileName: null }" class="mb-4">
                             <label for="surat_balasan" class="form-label fw-semibold">
                                 <i class="bi bi-filetype-pdf text-danger me-1"></i>
                                 Pilih File Surat Balasan
@@ -216,30 +216,42 @@
                                     <span class="text-danger">*</span>
                                 @endif
                             </label>
-                            <input
-                                type="file"
-                                class="form-control form-control-lg @error('surat_balasan') is-invalid @enderror"
-                                id="surat_balasan"
-                                name="surat_balasan"
-                                accept="application/pdf,.pdf"
-                                {{ ! $canUpload ? 'disabled' : 'required' }}>
-                            <div class="d-flex flex-wrap justify-content-between align-items-center mt-1 gap-2">
-                                <div id="surat_balasan_help" class="form-text small">
-                                    @if ($canUpload)
-                                        <i class="bi bi-check-circle me-1 text-success"></i>
-                                        Format: <b>PDF</b> saja. Maks: <b>2048 KB</b> (2 MB).
-                                    @else
-                                        <i class="bi bi-lock me-1 text-warning"></i>
-                                        Upload dinonaktifkan (status bukan Accepted).
-                                    @endif
+                            
+                            <div class="relative border-2 border-dashed rounded-xl p-4 transition-all duration-200"
+                                 :class="fileName ? 'border-emerald-500 bg-emerald-50/50 shadow-sm' : 'border-gray-300 bg-gray-50/50 hover:border-emerald-400 hover:bg-emerald-50/20'">
+                                <input
+                                    type="file"
+                                    class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10 @error('surat_balasan') is-invalid @enderror"
+                                    id="surat_balasan"
+                                    name="surat_balasan"
+                                    accept="application/pdf,.pdf"
+                                    @change="fileName = $event.target.files[0] ? $event.target.files[0].name : null"
+                                    {{ ! $canUpload ? 'disabled' : 'required' }}>
+                                <div x-show="!fileName" class="text-center py-2">
+                                    <i class="bi bi-cloud-arrow-up text-emerald-600 text-3xl mb-1 block"></i>
+                                    <span class="fw-semibold text-gray-700 block">Klik atau seret file ke sini</span>
+                                    <span class="text-muted small">
+                                        @if ($canUpload)
+                                            Format: PDF saja, Maksimal: 2 MB (2048 KB).
+                                        @else
+                                            Upload dinonaktifkan (status bukan Accepted).
+                                        @endif
+                                    </span>
                                 </div>
-                                <div id="file-info-live" class="small text-muted d-none">
-                                    File dipilih: <span id="file-name" class="font-monospace"></span>
-                                    (<span id="file-size"></span>)
+                                <div x-show="fileName" class="d-flex align-items-center gap-3" x-cloak>
+                                    <div class="rounded-circle bg-emerald-600 text-white p-2 d-flex align-items-center justify-content-center">
+                                        <i class="bi bi-check-lg fs-5"></i>
+                                    </div>
+                                    <div class="flex-grow-1 min-w-0">
+                                        <div class="text-xs text-emerald-700 fw-semibold">File Terpilih:</div>
+                                        <div class="fw-bold text-gray-900 text-truncate" x-text="fileName"></div>
+                                    </div>
+                                    <span class="badge bg-emerald-100 text-emerald-800 px-3 py-2 rounded-pill flex-shrink-0">Siap Diunggah</span>
                                 </div>
                             </div>
+
                             @error('surat_balasan')
-                                <div class="invalid-feedback small">{{ $message }}</div>
+                                <div class="invalid-feedback small d-block mt-1">{{ $message }}</div>
                             @enderror
                         </div>
 
@@ -250,13 +262,13 @@
                                 Server akan validasi: MIME = PDF, ukuran ≤ 2MB, status = Accepted.
                             </div>
                             <div class="d-flex gap-2">
-                                <a href="{{ route('admin.applications.show', $reg->id) }}" class="btn btn-outline-secondary">
-                                    <i class="bi bi-x-lg"></i> Batal
+                                <a href="{{ route('admin.applications.show', $reg->id) }}" class="btn btn-white border border-gray-300 rounded-xl font-semibold shadow-sm hover:bg-gray-50 text-gray-700 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md px-4 py-2">
+                                    <i class="bi bi-x-lg me-1"></i> Batal
                                 </a>
                                 <button
                                     type="submit"
                                     id="btn-upload"
-                                    class="btn {{ $fileInfo['exists'] ? 'btn-warning' : 'btn-primary' }}"
+                                    class="btn {{ $fileInfo['exists'] ? 'bg-amber-600 hover:bg-amber-700 text-white' : 'bg-emerald-600 hover:bg-emerald-700 text-white' }} rounded-xl font-semibold shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md px-4 py-2"
                                     {{ ! $canUpload ? 'disabled' : '' }}>
                                     <i class="bi bi-cloud-upload me-1"></i>
                                     {{ $fileInfo['exists'] ? 'Replace & Simpan Surat Baru' : 'Unggah & Simpan Surat Balasan' }}

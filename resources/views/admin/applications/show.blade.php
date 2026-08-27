@@ -326,11 +326,11 @@
             </h1>
         </div>
         <div class="d-flex align-items-center gap-2 flex-wrap">
-            <a href="{{ route('admin.applications.index') }}" class="btn btn-outline-secondary btn-sm px-3 shadow-xs">
+            <a href="{{ route('admin.applications.index') }}" class="btn bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 rounded-xl font-semibold shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md px-3 py-1.5 text-sm">
                 <i class="bi bi-arrow-left me-1"></i> Kembali ke Daftar
             </a>
             @if (! $reg->isAccepted() && ! $reg->isRejected())
-                <a href="{{ route('admin.applications.review', $reg->id) }}" class="btn btn-primary btn-sm px-3 shadow-sm fw-semibold">
+                <a href="{{ route('admin.applications.review', $reg->id) }}" class="btn bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white rounded-xl font-semibold shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md px-3 py-1.5 text-sm">
                     <i class="bi bi-pencil-square me-1"></i> Berikan Keputusan (Review)
                 </a>
             @endif
@@ -711,7 +711,7 @@
                                 </div>
                                 <div class="col-md-4 text-center text-md-end">
                                     <a href="{{ route('admin.applications.reply-letter', $reg->id) }}"
-                                       class="btn btn-primary btn-lg px-4 py-2.5 fw-bold shadow-sm w-100 w-md-auto">
+                                       class="btn bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white rounded-xl font-semibold shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md px-4 py-2.5 w-100 w-md-auto">
                                         <i class="bi bi-upload me-2"></i> Unggah Surat Balasan
                                     </a>
                                 </div>

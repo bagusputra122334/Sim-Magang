@@ -33,21 +33,6 @@
                 <i class="bi bi-moon-stars" data-theme-icon aria-hidden="true"></i>
             </button>
 
-            {{-- Notification Area --}}
-            <div class="dropdown">
-                <button class="icon-button" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Notifications">
-                    <span class="notification-dot"></span>
-                    <i class="bi bi-bell" aria-hidden="true"></i>
-                </button>
-                <div class="dropdown-menu dropdown-menu-end notification-menu">
-                    <div class="dropdown-header fw-bold text-body">Notifikasi</div>
-                    <a class="dropdown-item" href="{{ $user?->isAdmin() ? route('admin.applications.index') : route('participant.registrations.index') }}">
-                        <span class="notification-title">Status Pendaftaran SIM-MAGANG</span>
-                        <span class="notification-time">Sistem Informasi Magang Diskominfo</span>
-                    </a>
-                </div>
-            </div>
-
             {{-- Profile Dropdown --}}
             <div class="dropdown">
                 <button class="profile-button dropdown-toggle" type="button"

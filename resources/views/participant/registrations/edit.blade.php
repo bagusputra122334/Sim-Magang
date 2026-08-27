@@ -9,7 +9,7 @@
                 <h1 class="h3 fw-bold mb-1">Ubah Data Pendaftaran</h1>
                 <p class="text-muted mb-0">Nomor Pendaftaran: <strong class="font-monospace text-primary">{{ $reg->nomor_pendaftaran }}</strong></p>
             </div>
-            <a href="{{ route('participant.registrations.show', $reg->id) }}" class="btn btn-outline-secondary">
+            <a href="{{ route('participant.registrations.show', $reg->id) }}" class="btn bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 rounded-xl font-semibold shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md px-4 py-2">
                 <i class="bi bi-arrow-left me-1"></i> Kembali ke Detail
             </a>
         </div>
@@ -45,10 +45,10 @@
                     ])
                 </div>
                 <div class="card-footer bg-white border-top py-4 px-5 text-end">
-                    <a href="{{ route('participant.registrations.show', $reg->id) }}" class="btn btn-outline-secondary btn-lg fw-semibold me-2">
+                    <a href="{{ route('participant.registrations.show', $reg->id) }}" class="btn bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 rounded-xl font-semibold shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md px-4 py-2.5 me-2">
                         <i class="bi bi-arrow-left-circle me-2"></i>Kembali ke Detail
                     </a>
-                    <button type="submit" class="btn btn-primary btn-lg fw-semibold shadow-sm">
+                    <button type="submit" class="btn bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white rounded-xl font-semibold shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md px-5 py-2.5">
                         <i class="bi bi-save2-fill me-2"></i>Simpan Perubahan
                     </button>
                 </div>

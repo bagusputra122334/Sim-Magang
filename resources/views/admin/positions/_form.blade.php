@@ -229,7 +229,7 @@
                     <p class="text-white small mb-3">
                         Posisi yang sudah punya pendaftar tidak bisa dihapus (ON DELETE RESTRICT).
                     </p>
-                    <button type="submit" form="delete-position-form" class="btn btn-light text-danger fw-bold btn-sm px-4 py-2 shadow-sm">
+                    <button type="submit" form="delete-position-form" class="btn bg-white hover:bg-rose-50 text-rose-600 font-semibold rounded-xl px-4 py-2 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md">
                         <i class="bi bi-trash3 me-1" aria-hidden="true"></i> Hapus Posisi Ini
                     </button>
                 </div>

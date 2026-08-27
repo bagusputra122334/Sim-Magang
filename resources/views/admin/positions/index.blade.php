@@ -39,7 +39,7 @@
             <h1 class="h3 fw-bold">Kelola Posisi Magang</h1>
             <p class="text-muted mb-0">Tambah, ubah, atau nonaktifkan posisi magang untuk Peserta Magang Diskominfo Tuban.</p>
         </div>
-        <a href="{{ route('admin.positions.create') }}" class="btn btn-primary shadow-sm">
+        <a href="{{ route('admin.positions.create') }}" class="btn bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white rounded-xl font-semibold shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md px-4 py-2.5">
             <i class="bi bi-plus-lg me-1"></i> Tambah Posisi
         </a>
     </div>
