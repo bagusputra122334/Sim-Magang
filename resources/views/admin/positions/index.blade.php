@@ -39,9 +39,10 @@
             <h1 class="h3 fw-bold">Kelola Posisi Magang</h1>
             <p class="text-muted mb-0">Tambah, ubah, atau nonaktifkan posisi magang untuk Peserta Magang Diskominfo Tuban.</p>
         </div>
-        <a href="{{ route('admin.positions.create') }}" class="btn bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white rounded-xl font-semibold shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md px-4 py-2.5">
+        <a href="{{ route('admin.positions.create') }}" class="btn bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white rounded-xl font-semibold shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md px-4 py-2.5">
             <i class="bi bi-plus-lg me-1"></i> Tambah Posisi
         </a>
+
     </div>
 
     {{-- Statistic Cards --}}
@@ -131,12 +132,12 @@
 
     {{-- Data Table --}}
     <div class="card border shadow-sm">
-        <div class="table-responsive">
+        <div class="w-full overflow-x-auto overflow-y-hidden border border-slate-200 rounded-xl table-responsive">
             <table class="table table-striped table-hover align-middle mb-0">
                 <thead class="table-light">
                     <tr>
                         <th scope="col" style="width: 60px;">No.</th>
-                        <th scope="col">
+                        <th scope="col" style="min-width: 350px;" class="min-w-[350px]">
                             <a href="{{ sortUrl('nama_posisi', $currentSort, $nextDir, $filters) }}" class="text-body text-decoration-none">
                                 Nama Posisi {!! sortIcon('nama_posisi', $currentSort, $currentDir) !!}
                             </a>
@@ -161,19 +162,22 @@
                     @forelse ($positions as $position)
                         <tr>
                             <th scope="row" class="fw-medium text-muted">{{ ($positions->firstItem() ?? 1) + $loop->index }}</th>
-                            <td>
-                                <div class="fw-semibold">{{ $position->nama_posisi }}</div>
-                                <small class="text-muted d-block mb-1"><code>{{ $position->slug }}</code></small>
+                            <td style="min-width: 350px;" class="min-w-[350px]">
+                                <div class="text-slate-900 font-semibold text-base mb-1.5">{{ $position->nama_posisi }}</div>
                                 @if(!empty($position->mentor_name))
-                                    <div class="text-primary small d-inline-flex align-items-center gap-1" style="font-size: 0.8rem;">
-                                        <i class="bi bi-person-badge me-1"></i>
-                                        <strong>Pembimbing:</strong> {{ $position->mentor_name }}
-                                        @if(!empty($position->mentor_nip))
-                                            <span class="text-muted">(NIP: {{ $position->mentor_nip }})</span>
-                                        @endif
+                                    <div class="d-flex align-items-start gap-2 p-2.5 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-600">
+                                        <i class="bi bi-person-badge text-indigo-600 fs-6 mt-0.5 flex-shrink-0"></i>
+                                        <div class="flex-grow-1">
+                                            <div class="fw-semibold text-slate-800">{{ $position->mentor_name }}</div>
+                                            @if(!empty($position->mentor_nip))
+                                                <small class="text-slate-500 font-mono d-block mt-0.5">NIP: {{ $position->mentor_nip }}</small>
+                                            @endif
+                                        </div>
                                     </div>
                                 @endif
                             </td>
+
+
                             <td>
                                 <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-1 fs-6">
                                     <i class="bi bi-people me-1"></i>{{ $position->registrations()->count() }} pendaftar

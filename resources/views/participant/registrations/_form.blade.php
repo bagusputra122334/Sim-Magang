@@ -161,7 +161,8 @@ $selectedPosId = old('position_id', $isEdit ? $reg?->position_id ?? '' : '');
                         </div>
                     @endif
                     <div class="relative border-2 border-dashed rounded-xl p-4 transition-all duration-200"
-                         :class="fileName ? 'border-emerald-500 bg-emerald-50/50 shadow-sm' : 'border-gray-300 bg-gray-50/50 hover:border-emerald-400 hover:bg-emerald-50/20'">
+                         :class="fileName ? 'border-emerald-500 bg-emerald-50 shadow-sm' : 'border-gray-300 bg-gray-50/50 hover:border-emerald-400 hover:bg-emerald-50/20'"
+                         :style="fileName ? 'background-color: #ecfdf5 !important; border-color: #10b981 !important;' : ''">
                         <input type="file" name="cv" id="cv"
                                accept="application/pdf,.pdf"
                                @if(!$isEdit) required @endif
@@ -172,17 +173,14 @@ $selectedPosId = old('position_id', $isEdit ? $reg?->position_id ?? '' : '');
                             <span class="fw-semibold text-gray-700 block">Klik atau seret file ke sini</span>
                             <span class="text-muted small">Format hanya PDF, Maksimal 2 MB (2048 KB).</span>
                         </div>
-                        <div x-show="fileName" class="d-flex align-items-center gap-3" x-cloak>
-                            <div class="rounded-circle bg-emerald-600 text-white p-2 d-flex align-items-center justify-content-center">
-                                <i class="bi bi-check-lg fs-5"></i>
-                            </div>
-                            <div class="flex-grow-1 min-w-0">
-                                <div class="text-xs text-emerald-700 fw-semibold">File Terpilih:</div>
-                                <div class="fw-bold text-gray-900 text-truncate" x-text="fileName"></div>
-                            </div>
-                            <span class="badge bg-emerald-100 text-emerald-800 px-3 py-2 rounded-pill flex-shrink-0">Terganti</span>
+                        <div x-show="fileName" :title="fileName" class="flex items-center justify-center w-full p-3 bg-emerald-50 border-2 border-dashed border-emerald-500 rounded-xl cursor-pointer hover:bg-emerald-100 transition-colors" style="background-color: #ecfdf5 !important; border: 2px dashed #10b981 !important;" x-cloak>
+                            <svg class="w-5 h-5 text-emerald-600 mr-2 flex-shrink-0" style="color: #059669 !important; width: 1.25rem; height: 1.25rem; margin-right: 0.5rem;" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span class="text-sm font-bold text-emerald-700" style="color: #047857 !important; font-weight: 700 !important;">Dokumen Terupload</span>
                         </div>
                     </div>
+
                     @error('cv')<div class="invalid-feedback d-block small mt-1">{{ $message }}</div>@enderror
                 </div>
 
@@ -212,7 +210,8 @@ $selectedPosId = old('position_id', $isEdit ? $reg?->position_id ?? '' : '');
                         </div>
                     @endif
                     <div class="relative border-2 border-dashed rounded-xl p-4 transition-all duration-200"
-                         :class="fileName ? 'border-emerald-500 bg-emerald-50/50 shadow-sm' : 'border-gray-300 bg-gray-50/50 hover:border-emerald-400 hover:bg-emerald-50/20'">
+                         :class="fileName ? 'border-emerald-500 bg-emerald-50 shadow-sm' : 'border-gray-300 bg-gray-50/50 hover:border-emerald-400 hover:bg-emerald-50/20'"
+                         :style="fileName ? 'background-color: #ecfdf5 !important; border-color: #10b981 !important;' : ''">
                         <input type="file" name="surat_pengantar" id="surat_pengantar"
                                accept="application/pdf,.pdf"
                                @if(!$isEdit) required @endif
@@ -223,17 +222,14 @@ $selectedPosId = old('position_id', $isEdit ? $reg?->position_id ?? '' : '');
                             <span class="fw-semibold text-gray-700 block">Klik atau seret file ke sini</span>
                             <span class="text-muted small">Format hanya PDF, Maksimal 3 MB. Surat resmi dari sekolah/universitas.</span>
                         </div>
-                        <div x-show="fileName" class="d-flex align-items-center gap-3" x-cloak>
-                            <div class="rounded-circle bg-emerald-600 text-white p-2 d-flex align-items-center justify-content-center">
-                                <i class="bi bi-check-lg fs-5"></i>
-                            </div>
-                            <div class="flex-grow-1 min-w-0">
-                                <div class="text-xs text-emerald-700 fw-semibold">File Terpilih:</div>
-                                <div class="fw-bold text-gray-900 text-truncate" x-text="fileName"></div>
-                            </div>
-                            <span class="badge bg-emerald-100 text-emerald-800 px-3 py-2 rounded-pill flex-shrink-0">Terganti</span>
+                        <div x-show="fileName" :title="fileName" class="flex items-center justify-center w-full p-3 bg-emerald-50 border-2 border-dashed border-emerald-500 rounded-xl cursor-pointer hover:bg-emerald-100 transition-colors" style="background-color: #ecfdf5 !important; border: 2px dashed #10b981 !important;" x-cloak>
+                            <svg class="w-5 h-5 text-emerald-600 mr-2 flex-shrink-0" style="color: #059669 !important; width: 1.25rem; height: 1.25rem; margin-right: 0.5rem;" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span class="text-sm font-bold text-emerald-700" style="color: #047857 !important; font-weight: 700 !important;">Dokumen Terupload</span>
                         </div>
                     </div>
+
                     @error('surat_pengantar')<div class="invalid-feedback d-block small mt-1">{{ $message }}</div>@enderror
                 </div>
 
@@ -263,7 +259,8 @@ $selectedPosId = old('position_id', $isEdit ? $reg?->position_id ?? '' : '');
                         </div>
                     @endif
                     <div class="relative border-2 border-dashed rounded-xl p-4 transition-all duration-200"
-                         :class="fileName ? 'border-emerald-500 bg-emerald-50/50 shadow-sm' : 'border-gray-300 bg-gray-50/50 hover:border-emerald-400 hover:bg-emerald-50/20'">
+                         :class="fileName ? 'border-emerald-500 bg-emerald-50 shadow-sm' : 'border-gray-300 bg-gray-50/50 hover:border-emerald-400 hover:bg-emerald-50/20'"
+                         :style="fileName ? 'background-color: #ecfdf5 !important; border-color: #10b981 !important;' : ''">
                         <input type="file" name="proposal_magang" id="proposal_magang"
                                accept="application/pdf,.pdf"
                                @if(!$isEdit) required @endif
@@ -274,17 +271,14 @@ $selectedPosId = old('position_id', $isEdit ? $reg?->position_id ?? '' : '');
                             <span class="fw-semibold text-gray-700 block">Klik atau seret file ke sini</span>
                             <span class="text-muted small">Unggah proposal magang sesuai ketentuan. Format hanya PDF, Maksimal 5 MB.</span>
                         </div>
-                        <div x-show="fileName" class="d-flex align-items-center gap-3" x-cloak>
-                            <div class="rounded-circle bg-emerald-600 text-white p-2 d-flex align-items-center justify-content-center">
-                                <i class="bi bi-check-lg fs-5"></i>
-                            </div>
-                            <div class="flex-grow-1 min-w-0">
-                                <div class="text-xs text-emerald-700 fw-semibold">File Terpilih:</div>
-                                <div class="fw-bold text-gray-900 text-truncate" x-text="fileName"></div>
-                            </div>
-                            <span class="badge bg-emerald-100 text-emerald-800 px-3 py-2 rounded-pill flex-shrink-0">Terganti</span>
+                        <div x-show="fileName" :title="fileName" class="flex items-center justify-center w-full p-3 bg-emerald-50 border-2 border-dashed border-emerald-500 rounded-xl cursor-pointer hover:bg-emerald-100 transition-colors" style="background-color: #ecfdf5 !important; border: 2px dashed #10b981 !important;" x-cloak>
+                            <svg class="w-5 h-5 text-emerald-600 mr-2 flex-shrink-0" style="color: #059669 !important; width: 1.25rem; height: 1.25rem; margin-right: 0.5rem;" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span class="text-sm font-bold text-emerald-700" style="color: #047857 !important; font-weight: 700 !important;">Dokumen Terupload</span>
                         </div>
                     </div>
+
                     @error('proposal_magang')<div class="invalid-feedback d-block small mt-1">{{ $message }}</div>@enderror
                 </div>
 

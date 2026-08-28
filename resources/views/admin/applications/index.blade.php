@@ -116,17 +116,17 @@
 
     {{-- Tabel List --}}
     <div class="card border shadow-sm">
-        <div class="card-body p-0 table-responsive">
+        <div class="card-body p-0 w-full overflow-x-auto overflow-y-hidden border border-slate-200 rounded-xl table-responsive">
             <table class="table table-sm table-hover align-middle mb-0">
                 <thead class="table-light border-bottom">
                     <tr>
-                        <th class="ps-3 py-2" style="width: 125px;">No. Pendaftaran</th>
-                        <th class="py-2">Nama Peserta</th>
-                        <th class="py-2">Jenis & Instansi</th>
-                        <th class="py-2">Posisi Magang</th>
-                        <th class="py-2" style="width: 110px;">Tgl Submit</th>
-                        <th class="py-2 text-center" style="width: 110px;">Status</th>
-                        <th class="py-2 text-end pe-3" style="width: 140px;">Aksi</th>
+                        <th class="ps-3 py-2" style="width: 140px; min-width: 140px;">No. Pendaftaran</th>
+                        <th class="py-2 min-w-[220px]" style="min-width: 220px;">Nama Peserta</th>
+                        <th class="py-2 min-w-[220px]" style="min-width: 220px;">Jenis & Instansi</th>
+                        <th class="py-2 min-w-[250px]" style="min-width: 250px;">Posisi Magang</th>
+                        <th class="py-2" style="width: 120px; min-width: 120px;">Tgl Submit</th>
+                        <th class="py-2 text-center" style="width: 130px; min-width: 130px;">Status</th>
+                        <th class="py-2 text-end pe-3" style="width: 160px; min-width: 160px;">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -135,32 +135,31 @@
                             $prof = $app->user?->profile;
                         @endphp
                         <tr>
-                            <td class="ps-3 font-monospace small text-primary fw-semibold">
+                            <td class="ps-3 font-monospace small text-primary fw-semibold" style="min-width: 140px;">
                                 {{ $app->nomor_pendaftaran }}
                             </td>
-                            <td>
-                                <div class="fw-semibold">{{ $app->user?->name ?? '—' }}</div>
-                                <div class="text-muted small"><i class="bi bi-envelope me-1"></i>{{ $app->user?->email ?? '' }}</div>
+                            <td class="min-w-[220px]" style="min-width: 220px;">
+                                <div class="fw-semibold text-slate-900">{{ $app->user?->name ?? '—' }}</div>
+                                <div class="text-slate-500 small"><i class="bi bi-envelope me-1"></i>{{ $app->user?->email ?? '' }}</div>
                             </td>
-                            <td>
+                            <td class="min-w-[220px]" style="min-width: 220px;">
                                 @if($prof)
                                     <div class="mb-1">
                                         <span class="badge {{ $prof->isSiswa() ? 'bg-success-subtle text-success border border-success-subtle' : 'bg-primary-subtle text-primary border border-primary-subtle' }}">
                                             {{ $prof->isSiswa() ? '🏫 Siswa / SMK' : '🎓 Mahasiswa' }}
                                         </span>
                                     </div>
-                                    <div class="fw-medium small">{{ $prof->institusi }}</div>
-                                    <div class="text-muted small font-monospace">{{ $prof->numberLabel() }}: {{ $prof->numberValue() }}</div>
+                                    <div class="fw-medium small text-slate-800">{{ $prof->institusi }}</div>
+                                    <div class="text-slate-500 small font-monospace">{{ $prof->numberLabel() }}: {{ $prof->numberValue() }}</div>
                                 @else
-                                    <span class="text-muted small">Profil Belum Terisi</span>
+                                    <span class="text-slate-400 small">Profil Belum Terisi</span>
                                 @endif
                             </td>
-                            <td>
-                                <span class="fw-medium text-body">{{ $app->position?->nama_posisi ?? '—' }}</span>
-                                <div class="text-muted small">{{ $app->position?->slug ?? 'ID Posisi #'.$app->position_id }}</div>
+                            <td class="min-w-[250px]" style="min-width: 250px;">
+                                <div class="text-slate-900 font-semibold text-sm">{{ $app->position?->nama_posisi ?? '—' }}</div>
                             </td>
-                            <td class="small">{{ optional($app->tanggal_submit)->format('d M Y') ?? '-' }}</td>
-                            <td class="text-center">
+                            <td class="small text-slate-600" style="min-width: 120px;">{{ optional($app->tanggal_submit)->format('d M Y') ?? '-' }}</td>
+                            <td class="text-center" style="min-width: 130px;">
                                 @php
                                     $statusMap = [
                                         \App\Enums\RegistrationStatus::Submitted->value   => 'bg-primary-subtle text-primary border border-primary-subtle',
@@ -174,7 +173,7 @@
                                     {{ $app->status->label() }}
                                 </span>
                             </td>
-                            <td class="text-end pe-3">
+                            <td class="text-end pe-3" style="min-width: 160px;">
                                 <div class="btn-group btn-group-sm">
                                     <a href="{{ route('admin.applications.show', $app->id) }}"
                                        class="btn btn-outline-primary" title="Detail">
@@ -182,8 +181,8 @@
                                     </a>
                                     @if (! $app->isAccepted() && ! $app->isRejected())
                                         <a href="{{ route('admin.applications.review', $app->id) }}"
-                                           class="btn btn-primary" title="Review Sekarang">
-                                            <i class="bi bi-pencil-square"></i> Review
+                                           class="btn btn-primary bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white rounded-lg px-2.5 py-1 font-semibold text-xs shadow-sm" title="Review Sekarang">
+                                            <i class="bi bi-pencil-square me-1"></i> Review
                                         </a>
                                     @else
                                         <button type="button" class="btn btn-outline-secondary" disabled title="Sudah diverifikasi final">
@@ -192,6 +191,7 @@
                                     @endif
                                 </div>
                             </td>
+
                         </tr>
                     @empty
                         <tr>

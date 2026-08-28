@@ -35,14 +35,15 @@
         @enderror
     </div>
 
-    <button class="btn btn-primary w-100 py-2 fw-semibold" type="submit">
+    <button class="btn btn-primary bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white !text-white rounded-xl font-semibold shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md hover:opacity-90 w-100 py-2.5 px-4" type="submit">
         <i class="bi bi-envelope-arrow-up me-1" aria-hidden="true"></i> Kirim Tautan Reset Password Admin
     </button>
 </form>
 
 <div class="mt-4 pt-3 border-top text-center">
-    <a href="{{ route('login') }}" class="text-decoration-none small text-muted">
+    <a href="{{ route('login') }}" class="font-semibold text-indigo-600 hover:text-indigo-800 hover:underline transition-colors text-xs">
         <i class="bi bi-arrow-left me-1"></i> Kembali ke Halaman Login
     </a>
 </div>
+
 @endsection

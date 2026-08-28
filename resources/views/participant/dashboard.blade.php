@@ -37,9 +37,10 @@
                         <strong>Catatan Admin:</strong> {{ $reg->catatan_penonaktifan }}
                     </div>
                 @endif
-                <a href="{{ route('participant.registrations.create') }}" class="btn btn-primary fw-semibold btn-sm shadow-sm">
+                <a href="{{ route('participant.registrations.create') }}" class="btn btn-primary bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white rounded-xl px-4 py-2 font-semibold text-sm shadow-sm hover:shadow-md hover:opacity-90 transition-all duration-200">
                     <i class="bi bi-send-fill me-1"></i> Ajukan Pendaftaran Magang Baru
                 </a>
+
             </div>
         </div>
     @endif
@@ -139,7 +140,7 @@
                         <p class="text-muted mb-0">Data akun & biodata peserta.</p>
                     </div>
                     @if ($hasProfile)
-                        <a href="{{ route('participant.profile.edit') }}" class="btn btn-outline-secondary btn-sm">
+                        <a href="{{ route('participant.profile.edit') }}" class="btn btn-outline-secondary bg-white hover:bg-slate-50 text-slate-700 border border-slate-300 rounded-lg px-3 py-1.5 font-medium text-xs shadow-sm hover:shadow-md transition-all duration-200">
                             <i class="bi bi-pencil-square" aria-hidden="true"></i>
                         </a>
                     @endif
@@ -149,7 +150,7 @@
                     <div class="alert alert-warning mb-0" role="alert">
                         <h6 class="alert-heading fw-bold mb-1"><i class="bi bi-exclamation-triangle-fill me-1"></i> Profil Belum Lengkap</h6>
                         <p class="small mb-3">Lengkapi profil Anda agar dapat mengajukan pendaftaran magang.</p>
-                        <a href="{{ route('participant.profile.create') }}" class="btn btn-warning btn-sm w-100 fw-bold">
+                        <a href="{{ route('participant.profile.create') }}" class="btn btn-warning bg-amber-500 hover:bg-amber-600 active:bg-amber-700 text-white rounded-xl py-2 px-3 font-semibold text-sm shadow-sm hover:shadow-md hover:opacity-90 transition-all duration-200 w-100">
                             <i class="bi bi-person-plus-fill me-1"></i> Isi Profil Sekarang
                         </a>
                     </div>
@@ -232,15 +233,16 @@
                         Anda belum mengajukan pendaftaran magang. Silakan lengkapi profil Anda terlebih dahulu, kemudian pilih posisi magang yang tersedia.
                     </p>
                     @if (!$hasProfile)
-                        <a href="{{ route('participant.profile.create') }}" class="btn btn-success fw-bold">
+                        <a href="{{ route('participant.profile.create') }}" class="btn btn-primary bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white rounded-xl px-4 py-2.5 font-semibold text-sm shadow-sm hover:shadow-md hover:opacity-90 transition-all duration-200">
                             <i class="bi bi-person-plus me-1" aria-hidden="true"></i> Lengkapi Profil Dulu
                         </a>
                     @else
-                        <a href="{{ route('participant.registrations.create') }}" class="btn btn-primary fw-bold px-4">
+                        <a href="{{ route('participant.registrations.create') }}" class="btn btn-primary bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white rounded-xl px-4 py-2.5 font-semibold text-sm shadow-sm hover:shadow-md hover:opacity-90 transition-all duration-200">
                             <i class="bi bi-send me-1" aria-hidden="true"></i> Ajukan Pendaftaran Magang
                         </a>
                     @endif
                 </div>
+
             @else
                 {{-- APPLICATION DETAILS CARD --}}
                 <div class="panel mb-4">

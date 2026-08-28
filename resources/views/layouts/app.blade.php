@@ -43,11 +43,12 @@
 
         @include('layouts.partials.sidebar')
 
-        <div class="admin-main">
+        <div class="admin-main d-flex flex-column min-vh-100 flex-grow-1">
             @include('layouts.partials.navbar')
 
-            <main class="dashboard-content">
+            <main class="dashboard-content flex-grow-1">
                 <div class="container-fluid px-3 px-lg-4 py-4">
+
                     @if(isset($errors) && $errors->any())
                         <div class="alert alert-danger alert-dismissible fade show mb-4" role="alert">
                             <div class="d-flex align-items-start">

@@ -50,8 +50,9 @@
         @enderror
     </div>
 
-    <button class="btn btn-primary w-100 py-2 fw-semibold" type="submit">
+    <button class="btn btn-primary bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white !text-white rounded-xl font-semibold shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md hover:opacity-90 w-100 py-2.5 px-4" type="submit">
         <i class="bi bi-shield-check me-1" aria-hidden="true"></i> Simpan Password Admin Baru
     </button>
+
 </form>
 @endsection

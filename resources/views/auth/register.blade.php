@@ -61,8 +61,9 @@
         <div class="invalid-feedback">Anda harus menyetujui sebelum melanjutkan.</div>
     </div>
 
-    <button class="btn btn-primary bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white !text-white rounded-xl font-semibold shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md w-100 py-2.5" type="submit">
+    <button class="btn btn-primary bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white !text-white rounded-xl font-semibold shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md hover:opacity-90 w-100 py-2.5 px-4" type="submit">
         <i class="bi bi-person-plus me-1" aria-hidden="true"></i> Create Account
     </button>
+
 </form>
 @endsection

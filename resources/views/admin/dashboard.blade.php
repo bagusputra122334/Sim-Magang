@@ -114,29 +114,30 @@
 
     {{-- Table Panel: Recent Applications --}}
     <section class="panel mt-4">
-        <div class="panel-header">
+        <div class="panel-header d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center gap-2 mb-3">
             <div>
-                <h2 class="h5 mb-1 section-title">
-                    <i class="bi bi-journal-text" aria-hidden="true"></i>
+                <h2 class="h5 mb-1 section-title text-lg md:text-xl font-bold">
+                    <i class="bi bi-journal-text me-1" aria-hidden="true"></i>
                     <span>Pendaftaran Magang Terbaru</span>
                 </h2>
-                <p class="text-muted mb-0">10 pendaftaran magang paling akhir diajukan oleh peserta.</p>
+                <p class="text-muted mb-0 small">10 pendaftaran magang paling akhir diajukan oleh peserta.</p>
             </div>
-            <a class="btn btn-outline-secondary btn-sm" href="{{ route('admin.applications.index') }}">
+            <a class="btn btn-outline-secondary bg-white hover:bg-slate-50 text-slate-700 border border-slate-300 rounded-lg px-3 py-1.5 font-medium text-xs shadow-sm hover:shadow-md transition-all duration-200 w-100 sm:w-auto text-center" href="{{ route('admin.applications.index') }}">
                 <i class="bi bi-eye me-1" aria-hidden="true"></i> Lihat Semua Pendaftaran
             </a>
         </div>
 
-        <div class="table-responsive">
-            <table class="table align-middle mb-0">
-                <thead>
+        <div class="w-full overflow-x-auto overflow-y-hidden border border-slate-200 rounded-xl table-responsive">
+            <table class="table align-middle mb-0 w-full">
+
+                <thead class="table-light border-bottom">
                     <tr>
-                        <th scope="col">Kode Pendaftaran</th>
-                        <th scope="col">Nama Pemohon</th>
-                        <th scope="col">Posisi Magang</th>
-                        <th scope="col">Tanggal Daftar</th>
-                        <th scope="col">Status</th>
-                        <th scope="col" class="text-end">Aksi</th>
+                        <th scope="col" class="whitespace-nowrap w-[1%] ps-3 py-2.5">Kode Pendaftaran</th>
+                        <th scope="col" class="w-1/3 py-2.5">Nama Pemohon</th>
+                        <th scope="col" class="w-1/3 py-2.5">Posisi Magang</th>
+                        <th scope="col" class="whitespace-nowrap w-[1%] py-2.5">Tanggal Daftar</th>
+                        <th scope="col" class="whitespace-nowrap w-[1%] text-center py-2.5">Status</th>
+                        <th scope="col" class="whitespace-nowrap w-[1%] text-end pe-3 py-2.5">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -146,46 +147,45 @@
                             $badgeClass = $statusBadgeMap[$sv] ?? 'bg-secondary';
                         @endphp
                         <tr>
-                            <td>
-                                <span class="fw-bold font-monospace text-primary">
-                                    {{ $reg->nomor_pendaftaran }}
-                                </span>
+                            <td class="whitespace-nowrap ps-3 font-monospace small text-primary fw-semibold">
+                                {{ $reg->nomor_pendaftaran }}
                             </td>
-                            <td>
+                            <td class="whitespace-normal break-words">
                                 <div class="d-flex align-items-center gap-2">
-                                    <div class="avatar-sm bg-primary bg-opacity-10 text-primary d-flex align-items-center justify-content-center fw-bold rounded-2">
+                                    <div class="avatar-sm bg-primary bg-opacity-10 text-primary d-flex align-items-center justify-content-center fw-bold rounded-2 flex-shrink-0">
                                         {{ mb_substr($reg->user?->name ?? '?', 0, 1) }}
                                     </div>
                                     <div>
-                                        <p class="fw-semibold mb-0">{{ $reg->user?->name ?? 'N/A' }}</p>
-                                        <p class="text-muted small mb-0">{{ $reg->user?->email ?? '-' }}</p>
+                                        <p class="fw-semibold text-slate-900 mb-0">{{ $reg->user?->name ?? 'N/A' }}</p>
+                                        <p class="text-slate-500 small mb-0"><i class="bi bi-envelope me-1"></i>{{ $reg->user?->email ?? '-' }}</p>
                                     </div>
                                 </div>
                             </td>
-                            <td>
-                                <span class="fw-semibold">{{ $reg->position?->nama_posisi ?? '-' }}</span>
+                            <td class="whitespace-normal break-words">
+                                <span class="fw-semibold text-slate-900">{{ $reg->position?->nama_posisi ?? '-' }}</span>
                             </td>
-                            <td>
-                                <div>{{ $reg->tanggal_submit?->translatedFormat('d M Y') ?? '-' }}</div>
-                                <small class="text-muted">{{ $reg->tanggal_submit?->translatedFormat('H:i') ?? '' }} WIB</small>
+                            <td class="whitespace-nowrap">
+                                <div class="fw-medium text-slate-800 small">{{ $reg->tanggal_submit?->translatedFormat('d M Y') ?? '-' }}</div>
+                                <small class="text-slate-500">{{ $reg->tanggal_submit?->translatedFormat('H:i') ?? '' }} WIB</small>
                             </td>
-                            <td>
-                                <span class="badge {{ $badgeClass }} rounded-pill px-3 py-2">
+                            <td class="text-center whitespace-nowrap">
+                                <span class="badge {{ $badgeClass }} rounded-pill px-3 py-1.5">
                                     {{ $reg->status->label() }}
                                 </span>
                             </td>
-                            <td class="text-end">
-                                <a href="{{ route('admin.applications.show', $reg->id) }}" class="btn btn-light btn-sm me-1">
+                            <td class="text-end pe-3 whitespace-nowrap">
+                                <a href="{{ route('admin.applications.show', $reg->id) }}" class="btn btn-light bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg px-2.5 py-1 font-medium text-xs shadow-sm transition-all duration-200 me-1">
                                     <i class="bi bi-eye me-1" aria-hidden="true"></i> Detail
                                 </a>
                                 @if ($reg->isAccepted())
-                                    <a href="{{ route('admin.applications.reply-letter', $reg->id) }}" class="btn btn-outline-danger btn-sm">
+                                    <a href="{{ route('admin.applications.reply-letter', $reg->id) }}" class="btn btn-outline-danger bg-white hover:bg-rose-50 text-rose-600 border border-rose-200 rounded-lg px-2.5 py-1 font-medium text-xs shadow-sm transition-all duration-200">
                                         <i class="bi bi-file-earmark-pdf me-1" aria-hidden="true"></i> Surat
                                     </a>
                                 @endif
                             </td>
                         </tr>
                     @empty
+
                         <tr>
                             <td colspan="6" class="text-center py-5">
                                 <div class="text-muted opacity-50 mb-2">

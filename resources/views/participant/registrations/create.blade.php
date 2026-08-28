@@ -43,10 +43,11 @@
                     <a href="{{ route('participant.registrations.index') }}" class="btn bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 rounded-xl font-semibold shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md px-4 py-2.5 me-2">
                         <i class="bi bi-arrow-left-circle me-2"></i>Batal
                     </a>
-                    <button type="submit" id="btnSubmitPendaftaran" class="btn bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white rounded-xl font-semibold shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md px-5 py-2.5">
-                        <i class="bi bi-send-fill me-2"></i>Submit Pendaftaran
+                    <button type="submit" id="btnSubmitPendaftaran" class="btn btn-primary bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white rounded-xl font-semibold text-sm shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md px-5 py-2.5 d-inline-flex align-items-center justify-content-center" style="background-color: #4f46e5 !important; color: #ffffff !important; border-color: #4f46e5 !important;">
+                        <i class="bi bi-send-fill me-2" style="color: #ffffff !important;"></i>Submit Pendaftaran
                     </button>
                 </div>
+
             </form>
         </div>
     </div>

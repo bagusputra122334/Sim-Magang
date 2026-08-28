@@ -36,7 +36,7 @@
         <div class="d-flex justify-content-between align-items-center mb-1">
             <label class="form-label mb-0" for="password">Kata Sandi</label>
             @if (Route::has('password.request'))
-                <a class="small fw-semibold text-decoration-none" href="{{ route('password.request') }}">Lupa Kata Sandi?</a>
+                <a class="text-xs font-semibold text-indigo-600 hover:text-indigo-800 hover:underline transition-colors" href="{{ route('password.request') }}">Lupa Kata Sandi?</a>
             @endif
         </div>
         <input class="form-control @error('password') is-invalid @enderror" id="password" type="password" name="password" required autocomplete="current-password" placeholder="••••••••">
@@ -52,8 +52,9 @@
         <label class="form-check-label" for="remember_me">Ingat saya</label>
     </div>
 
-    <button class="btn btn-primary bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white !text-white rounded-xl font-semibold shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md w-100 py-2.5" type="submit">
+    <button class="btn btn-primary bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white !text-white rounded-xl font-semibold shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md hover:opacity-90 w-100 py-2.5 px-4" type="submit">
         <i class="bi bi-box-arrow-in-right me-1" aria-hidden="true"></i> Masuk Akun
     </button>
+
 </form>
 @endsection

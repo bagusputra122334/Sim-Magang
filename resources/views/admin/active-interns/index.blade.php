@@ -126,16 +126,16 @@
 
     {{-- Tabel Data Magang Aktif --}}
     <div class="card border shadow-sm">
-        <div class="table-responsive">
-            <table class="table table-hover align-middle mb-0">
+        <div class="w-full overflow-x-auto overflow-y-hidden border border-slate-200 rounded-xl table-responsive">
+            <table class="table table-hover align-middle mb-0 w-full">
                 <thead class="table-light border-bottom">
                     <tr>
-                        <th class="ps-3 py-3" style="width: 50px;">No.</th>
-                        <th class="py-3">Nama Peserta & Instansi</th>
-                        <th class="py-3">Posisi & Pembimbing</th>
-                        <th class="py-3">Periode Magang</th>
-                        <th class="py-3 text-center" style="width: 170px;">Status Operasional</th>
-                        <th class="py-3 text-end pe-3" style="width: 150px;">Aksi</th>
+                        <th class="ps-3 py-2.5 whitespace-nowrap w-[1%]">No.</th>
+                        <th class="py-2.5 w-1/3">Nama Peserta & Instansi</th>
+                        <th class="py-2.5 w-1/3">Posisi & Pembimbing</th>
+                        <th class="py-2.5 w-1/4">Periode Magang</th>
+                        <th class="py-2.5 text-center whitespace-nowrap w-[1%]">Status Operasional</th>
+                        <th class="py-2.5 text-end pe-3 whitespace-nowrap w-[1%]">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -144,52 +144,64 @@
                             $prof = $intern->user?->profile;
                         @endphp
                         <tr>
-                            <td class="ps-3 fw-medium text-muted">{{ ($interns->firstItem() ?? 1) + $loop->index }}</td>
-                            <td>
-                                <div class="fw-bold text-dark">{{ $intern->user?->name ?? '—' }}</div>
-                                <div class="text-muted small">
-                                    <i class="bi bi-building me-1"></i>{{ $prof?->instansi ?? '—' }}
+                            <td class="ps-3 font-medium text-slate-500 whitespace-nowrap">{{ ($interns->firstItem() ?? 1) + $loop->index }}</td>
+                            <td class="whitespace-normal break-words">
+                                <div class="d-flex flex-column gap-1 py-1">
+                                    <div class="fw-semibold text-slate-900 text-sm">{{ $intern->user?->name ?? '—' }}</div>
+                                    <div class="text-sm text-slate-600">
+                                        <i class="bi bi-building me-1 text-slate-400"></i>{{ $prof?->instansi ?? '—' }}
+                                    </div>
                                     @if($prof?->jurusan)
-                                        • {{ $prof->jurusan }}
+                                        <div class="text-xs text-slate-500">
+                                            <i class="bi bi-mortarboard me-1 text-slate-400"></i>{{ $prof->jurusan }}
+                                        </div>
+                                    @endif
+                                    <div class="text-xs text-slate-500 font-monospace">
+                                        <i class="bi bi-envelope me-1 text-slate-400"></i>{{ $intern->user?->email }}
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="whitespace-normal break-words">
+                                <div class="d-flex flex-column gap-1 py-1">
+                                    <div class="fw-semibold text-slate-900 text-sm">
+                                        {{ $intern->position?->nama_posisi ?? '—' }}
+                                    </div>
+                                    @if($intern->position?->mentor_name)
+                                        <div class="text-xs text-slate-500 d-flex align-items-center gap-1">
+                                            <i class="bi bi-person-badge text-indigo-600"></i>
+                                            <span>Pembimbing: {{ $intern->position->mentor_name }}</span>
+                                        </div>
                                     @endif
                                 </div>
-                                <div class="text-muted small font-monospace">{{ $intern->user?->email }}</div>
                             </td>
-                            <td>
-                                <div class="fw-semibold text-primary mb-0.5">
-                                    {{ $intern->position?->nama_posisi ?? '—' }}
-                                </div>
-                                @if($intern->position?->mentor_name)
-                                    <div class="text-muted small d-flex align-items-center gap-1">
-                                        <i class="bi bi-person-badge text-secondary"></i>
-                                        <span>{{ $intern->position->mentor_name }}</span>
+                            <td class="whitespace-normal break-words">
+                                <div class="d-flex flex-column gap-1 py-1">
+                                    <div class="fw-medium text-slate-800 text-sm whitespace-nowrap">
+                                        {{ $intern->periode_mulai?->translatedFormat('d M Y') ?? '-' }}
+                                        <span class="text-slate-400 mx-1">s/d</span>
+                                        {{ $intern->periode_selesai?->translatedFormat('d M Y') ?? '-' }}
                                     </div>
-                                @endif
-                            </td>
-                            <td>
-                                <div class="fw-medium text-body small">
-                                    {{ $intern->periode_mulai?->translatedFormat('d M Y') ?? '-' }}
-                                    <span class="text-muted mx-1">s/d</span>
-                                    {{ $intern->periode_selesai?->translatedFormat('d M Y') ?? '-' }}
-                                </div>
-                                <div class="text-muted small mt-0.5">
-                                    <i class="bi bi-ticket-perforated me-1"></i><code>{{ $intern->nomor_pendaftaran }}</code>
+                                    <div class="text-xs text-slate-500 font-monospace">
+                                        <i class="bi bi-ticket-perforated me-1 text-slate-400"></i>{{ $intern->nomor_pendaftaran }}
+                                    </div>
                                 </div>
                             </td>
-                            <td class="text-center">
+
+                            <td class="text-center whitespace-nowrap">
                                 <span class="badge {{ $intern->operational_status_badge_class }} rounded-pill px-3 py-1.5 small">
                                     {{ $intern->operational_status_label }}
                                 </span>
                             </td>
-                            <td class="text-end pe-3">
+                            <td class="text-end pe-3 whitespace-nowrap">
                                 <a href="{{ route('admin.active-interns.show', $intern->id) }}"
-                                   class="btn btn-sm btn-primary-subtle text-primary border border-primary-subtle rounded-3 px-3 py-1.5 fw-semibold d-inline-flex align-items-center gap-1.5 shadow-sm"
+                                   class="btn btn-sm btn-primary-subtle bg-indigo-50 text-indigo-600 hover:bg-indigo-100 border border-indigo-200 rounded-lg px-3 py-1.5 fw-semibold d-inline-flex align-items-center gap-1.5 shadow-sm"
                                    title="Lihat Detail Peserta Magang">
                                     <i class="bi bi-person-lines-fill"></i>
                                     <span>Detail</span>
                                 </a>
                             </td>
                         </tr>
+
                     @empty
                         <tr>
                             <td colspan="6" class="text-center py-5 text-muted">

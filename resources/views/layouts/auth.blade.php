@@ -161,20 +161,21 @@
 
                 <div class="auth-split-footer">
                     @if($currentRoute === 'login' && Route::has('register'))
-                        Belum punya akun? <a href="{{ route('register') }}">Daftar Sekarang</a>
+                        Belum punya akun? <a href="{{ route('register') }}" class="font-semibold text-indigo-600 hover:text-indigo-800 hover:underline transition-colors">Daftar Sekarang</a>
                     @elseif($currentRoute === 'register' && Route::has('login'))
-                        Sudah terdaftar? <a href="{{ route('login') }}">Sign In</a>
+                        Sudah terdaftar? <a href="{{ route('login') }}" class="font-semibold text-indigo-600 hover:text-indigo-800 hover:underline transition-colors">Sign In</a>
                     @elseif(in_array($currentRoute, ['password.request', 'password.email']) && Route::has('login'))
-                        Ingat kredensial? <a href="{{ route('login') }}">Kembali ke Login</a>
+                        Ingat kredensial? <a href="{{ route('login') }}" class="font-semibold text-indigo-600 hover:text-indigo-800 hover:underline transition-colors">Kembali ke Login</a>
                     @elseif(str_starts_with($currentRoute, 'password.') && Route::has('login'))
-                        <a href="{{ route('login') }}">&larr; Kembali ke halaman Login</a>
+                        <a href="{{ route('login') }}" class="font-semibold text-indigo-600 hover:text-indigo-800 hover:underline transition-colors">&larr; Kembali ke halaman Login</a>
                     @elseif(str_starts_with($currentRoute, 'verification.'))
                         <form method="POST" action="{{ route('logout') }}" class="d-inline" id="auth-logout-form">@csrf</form>
-                        <a href="#" onclick="event.preventDefault(); document.getElementById('auth-logout-form').submit();">
+                        <a href="#" onclick="event.preventDefault(); document.getElementById('auth-logout-form').submit();" class="font-semibold text-indigo-600 hover:text-indigo-800 hover:underline transition-colors">
                             <i class="bi bi-box-arrow-right me-1"></i> Logout
                         </a>
                     @endif
                 </div>
+
             </div>
         </main>
     </div>

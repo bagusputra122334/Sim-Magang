@@ -29,15 +29,16 @@
 
 <form method="POST" action="{{ route('verification.send') }}" class="mb-3">
     @csrf
-    <button class="btn btn-primary w-100" type="submit">
+    <button class="btn btn-primary bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white !text-white rounded-xl font-semibold shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md hover:opacity-90 w-100 py-2.5 px-4" type="submit">
         <i class="bi bi-envelope-check me-1" aria-hidden="true"></i> Resend Verification Email
     </button>
 </form>
 
 <form method="POST" action="{{ route('logout') }}" class="d-inline">
     @csrf
-    <button type="submit" class="btn btn-outline-secondary w-100">
+    <button type="submit" class="btn btn-outline-secondary bg-white hover:bg-slate-50 active:bg-slate-100 text-slate-700 border border-slate-300 rounded-xl font-semibold shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md w-100 py-2.5 px-4">
         <i class="bi bi-box-arrow-right me-1"></i> Log Out
     </button>
 </form>
+
 @endsection

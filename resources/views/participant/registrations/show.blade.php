@@ -629,9 +629,9 @@
 
                         @if($reg->dapatDiubah())
                             <a href="{{ route('participant.registrations.edit', $reg->id) }}"
-                               class="btn btn-primary fw-semibold d-inline-flex align-items-center justify-content-center shadow-sm"
-                               style="min-height: 44px;">
-                                <i class="bi bi-pencil-square me-2"></i>Ubah Pendaftaran
+                               class="btn btn-primary bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white rounded-xl font-semibold text-sm shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md px-4 py-2.5 w-100 d-inline-flex align-items-center justify-content-center gap-2"
+                               style="min-height: 44px; background-color: #4f46e5 !important; color: #ffffff !important; border-color: #4f46e5 !important;">
+                                <i class="bi bi-pencil-square me-2" style="color: #ffffff !important;"></i>Ubah Pendaftaran
                             </a>
                         @endif
 
@@ -643,18 +643,19 @@
                                 <button type="submit"
                                         id="btnDeleteShow"
                                         data-nomor="{{ $reg->nomor_pendaftaran }}"
-                                        class="btn btn-outline-danger fw-semibold d-inline-flex align-items-center justify-content-center"
-                                        style="min-height: 44px;">
-                                    <i class="bi bi-trash3-fill me-2"></i>Hapus Pendaftaran
+                                        class="btn btn-danger bg-rose-600 hover:bg-rose-700 active:bg-rose-800 text-white rounded-xl font-semibold text-sm shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md px-4 py-2.5 w-100 d-inline-flex align-items-center justify-content-center gap-2"
+                                        style="min-height: 44px; background-color: #e11d48 !important; color: #ffffff !important; border-color: #e11d48 !important;">
+                                    <i class="bi bi-trash3-fill me-2" style="color: #ffffff !important;"></i>Hapus Pendaftaran
                                 </button>
                             </form>
                         @endif
 
                         <a href="{{ route('participant.registrations.index') }}"
-                           class="btn btn-outline-secondary fw-semibold d-inline-flex align-items-center justify-content-center"
-                           style="min-height: 44px;">
-                            <i class="bi bi-arrow-left me-2"></i>Kembali ke Riwayat
+                           class="btn btn-secondary bg-slate-800 hover:bg-slate-700 active:bg-slate-900 text-white rounded-xl font-semibold text-sm shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md px-4 py-2.5 w-100 d-inline-flex align-items-center justify-content-center gap-2"
+                           style="min-height: 44px; background-color: #1e293b !important; color: #ffffff !important; border-color: #1e293b !important;">
+                            <i class="bi bi-arrow-left me-2" style="color: #ffffff !important;"></i>Kembali ke Riwayat
                         </a>
+
 
                         <hr class="my-2 border-secondary-subtle">
 

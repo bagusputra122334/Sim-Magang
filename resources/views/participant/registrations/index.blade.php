@@ -95,20 +95,20 @@ if (!function_exists('statusBadgeIcon')) {
         {{-- Tabel Riwayat Pendaftaran --}}
         <div class="card shadow-sm border-0 rounded-4 overflow-hidden">
             <div class="card-body p-0">
-                <div class="table-responsive">
+                <div class="w-full overflow-x-auto overflow-y-hidden border border-slate-200 rounded-xl table-responsive">
                     <table class="table table-hover align-middle mb-0" id="registrationsTable">
                         <thead class="table-success border-0">
                             <tr>
                                 @if($registrations->count() > 1)
-                                <th class="px-3 py-3 fw-semibold text-center" style="width: 54px;" title="Pilih pendaftaran">Pilih</th>
+                                <th class="px-3 py-3 fw-semibold text-center whitespace-nowrap w-[1%]" title="Pilih pendaftaran">Pilih</th>
                                 @endif
-                                <th class="text-start px-4 py-3 fw-semibold">Nomor Pendaftaran</th>
-                                <th class="px-4 py-3 fw-semibold">Posisi Magang</th>
-                                <th class="px-4 py-3 fw-semibold">Periode Magang</th>
-                                <th class="px-4 py-3 fw-semibold">Tanggal Submit</th>
-                                <th class="px-4 py-3 fw-semibold text-center">Status</th>
-                                <th class="px-4 py-3 fw-semibold text-center">Surat Balasan</th>
-                                <th class="px-4 py-3 fw-semibold text-end" style="width: 130px;">Aksi</th>
+                                <th class="text-start px-4 py-3 fw-semibold whitespace-nowrap w-[1%]">Nomor Pendaftaran</th>
+                                <th class="px-4 py-3 fw-semibold w-1/3">Posisi Magang</th>
+                                <th class="px-4 py-3 fw-semibold w-1/3">Periode Magang</th>
+                                <th class="px-4 py-3 fw-semibold whitespace-nowrap w-[1%]">Tanggal Submit</th>
+                                <th class="px-4 py-3 fw-semibold text-center whitespace-nowrap w-[1%]">Status</th>
+                                <th class="px-4 py-3 fw-semibold text-center whitespace-nowrap w-[1%]">Surat Balasan</th>
+                                <th class="px-4 py-3 fw-semibold text-end whitespace-nowrap w-[1%]">Aksi</th>
                             </tr>
                         </thead>
                         <tbody class="border-0">
@@ -147,7 +147,7 @@ if (!function_exists('statusBadgeIcon')) {
                                     data-surat-url="{{ route('participant.applications.reply-letter.download', $reg->id) }}"
                                 >
                                     @if($registrations->count() > 1)
-                                    <td class="px-3 py-3 text-center">
+                                    <td class="px-3 py-3 text-center whitespace-nowrap">
                                         <input class="form-check-input registration-radio cursor-pointer" 
                                                type="radio" 
                                                name="selected_registration" 
@@ -157,23 +157,17 @@ if (!function_exists('statusBadgeIcon')) {
                                                aria-label="Pilih pendaftaran {{ $reg->nomor_pendaftaran }}">
                                     </td>
                                     @endif
-                                    <td class="px-4 py-3">
-                                        <div class="fw-bold fs-6 text-success font-monospace">
+                                    <td class="px-4 py-3 whitespace-nowrap">
+                                        <div class="fw-bold fs-6 text-emerald-600 font-monospace">
                                             <i class="bi bi-ticket-perforated-fill me-1 opacity-75"></i>{{ $reg->nomor_pendaftaran }}
                                         </div>
-                                        <div class="small text-muted mt-1">
-                                            ID #{{ $reg->id }}
-                                        </div>
                                     </td>
-                                    <td class="px-4 py-3">
-                                        <div class="fw-semibold text-body">{{ $reg->position?->nama_posisi ?? '-' }}</div>
-                                        <div class="small text-muted">
-                                            <i class="bi bi-briefcase me-1"></i>{{ $reg->position?->slug ?? 'Diskominfo SP' }}
-                                        </div>
+                                    <td class="px-4 py-3 whitespace-normal break-words">
+                                        <div class="fw-semibold text-slate-900">{{ $reg->position?->nama_posisi ?? '-' }}</div>
                                     </td>
-                                    <td class="px-4 py-3">
-                                        <div class="fw-medium text-body">{!! $reg->periode_label ?? '<span class="text-muted">-</span>' !!}</div>
-                                        <div class="small text-muted">
+                                    <td class="px-4 py-3 whitespace-normal break-words">
+                                        <div class="fw-medium text-slate-800">{!! $reg->periode_label ?? '<span class="text-slate-400">-</span>' !!}</div>
+                                        <div class="small text-slate-500 mt-0.5">
                                             <i class="bi bi-calendar-range me-1"></i>{{ $reg->periode_mulai?->diffInDays($reg->periode_selesai) + 1 ?? 0 }} Hari
                                         </div>
                                         @if($isAccepted)
@@ -194,11 +188,12 @@ if (!function_exists('statusBadgeIcon')) {
                                         </div>
                                         @endif
                                     </td>
-                                    <td class="px-4 py-3">
-                                        <div class="fw-medium text-body">{{ $reg->tanggal_submit?->translatedFormat('d M Y') }}</div>
-                                        <div class="small text-muted">{{ $reg->tanggal_submit?->translatedFormat('H:i') }} WIB</div>
+                                    <td class="px-4 py-3 whitespace-nowrap">
+                                        <div class="fw-medium text-slate-800">{{ $reg->tanggal_submit?->translatedFormat('d M Y') }}</div>
+                                        <div class="small text-slate-500">{{ $reg->tanggal_submit?->translatedFormat('H:i') }} WIB</div>
                                     </td>
-                                    <td class="px-4 py-3 text-center">
+                                    <td class="px-4 py-3 text-center whitespace-nowrap">
+
                                         @if($isTerminated)
                                             <span class="badge border rounded-pill px-3 py-2 fs-6 bg-danger-subtle text-danger-emphasis border-danger-subtle status-badge-cell" data-reg-id="{{ $reg->id }}">
                                                 <i class="bi bi-x-circle-fill me-1"></i>Dinonaktifkan
@@ -214,23 +209,33 @@ if (!function_exists('statusBadgeIcon')) {
                                             </span>
                                         @endif
                                     </td>
-                                    <td class="px-4 py-3 text-center">
-                                        @if($isAccepted)
+                                    <td class="px-4 py-3 text-center whitespace-nowrap">
+                                        @if($isTerminated || $reg->isRejected())
+                                            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-md bg-rose-100 text-sm font-semibold text-rose-700"
+                                                  style="background-color: #ffe4e6 !important; color: #be123c !important; border: 1px solid #fecdd3 !important;"
+                                                  data-bs-toggle="tooltip"
+                                                  title="Pendaftaran {{ $isTerminated ? 'dinonaktifkan' : 'ditolak' }}, Surat Balasan tidak tersedia.">
+                                                <i class="bi bi-x-circle me-1 text-rose-600" style="color: #e11d48 !important;"></i> Tidak Tersedia
+                                            </span>
+                                        @elseif($isAccepted)
+
                                             @if($hasSurat)
-                                                <span class="badge bg-success rounded-pill px-3 py-2"
+                                                <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill px-3 py-1.5"
                                                       data-bs-toggle="tooltip"
                                                       title="Surat Balasan sudah diunggah Admin dan siap diunduh.">
                                                     <i class="bi bi-file-earmark-check-fill me-1"></i> Tersedia
                                                 </span>
                                             @else
-                                                <span class="badge bg-secondary rounded-pill px-3 py-2"
+                                                <span class="badge bg-secondary-subtle text-secondary border border-secondary-subtle rounded-pill px-3 py-1.5"
                                                       data-bs-toggle="tooltip"
                                                       title="Status diterima, tapi Admin belum mengunggah Surat Balasan.">
                                                     <i class="bi bi-clock-history me-1"></i> Menunggu Upload
                                                 </span>
                                             @endif
                                         @else
-                                            <span class="text-muted small fst-italic">-</span>
+                                            <span class="badge bg-slate-100 text-slate-500 border border-slate-200 rounded-pill px-3 py-1.5">
+                                                -
+                                            </span>
                                         @endif
                                     </td>
                                     <td class="px-4 py-3 text-end">
