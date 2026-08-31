@@ -266,10 +266,12 @@
 
         @if($reg->isAccepted())
             @php
-                $suratAda = !$isDeactivated && !empty($reg->surat_balasan_path) && \Illuminate\Support\Facades\Storage::disk('public')->exists($reg->surat_balasan_path);
+                $suratAda = !$isDeactivated && !empty($reg->surat_balasan_path) && (\Illuminate\Support\Facades\Storage::disk('local')->exists($reg->surat_balasan_path) || \Illuminate\Support\Facades\Storage::disk('public')->exists($reg->surat_balasan_path));
                 $suratFileInfo = null;
                 if ($suratAda) {
-                    $disk = \Illuminate\Support\Facades\Storage::disk('public');
+                    $disk = \Illuminate\Support\Facades\Storage::disk('local')->exists($reg->surat_balasan_path)
+                        ? \Illuminate\Support\Facades\Storage::disk('local')
+                        : \Illuminate\Support\Facades\Storage::disk('public');
                     $bytes = $disk->size($reg->surat_balasan_path);
                     $sizeKb = (int) round($bytes / 1024);
                     $suratFileInfo = [
@@ -459,9 +461,9 @@
                     </div>
                     <div class="card-body p-4">
                         @php
-                            $cvUrl = $dokumenUrl['cv'] ?? (!empty($reg->cv_path) ? \Illuminate\Support\Facades\Storage::disk('public')->url($reg->cv_path) : null);
-                            $suratPengantarUrl = $dokumenUrl['surat_pengantar'] ?? (!empty($reg->surat_pengantar_path) ? \Illuminate\Support\Facades\Storage::disk('public')->url($reg->surat_pengantar_path) : null);
-                            $proposalMagangUrl = $dokumenUrl['proposal_magang'] ?? (!empty($reg->proposal_magang_path) ? \Illuminate\Support\Facades\Storage::disk('public')->url($reg->proposal_magang_path) : null);
+                            $cvUrl = $dokumenUrl['cv'] ?? (!empty($reg->cv_path) ? route('documents.downloadByPath', ['path' => $reg->cv_path]) : null);
+                            $suratPengantarUrl = $dokumenUrl['surat_pengantar'] ?? (!empty($reg->surat_pengantar_path) ? route('documents.downloadByPath', ['path' => $reg->surat_pengantar_path]) : null);
+                            $proposalMagangUrl = $dokumenUrl['proposal_magang'] ?? (!empty($reg->proposal_magang_path) ? route('documents.downloadByPath', ['path' => $reg->proposal_magang_path]) : null);
                         @endphp
 
                         <div class="doc-attachment-grid">

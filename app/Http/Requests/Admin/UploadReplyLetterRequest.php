@@ -15,7 +15,7 @@ class UploadReplyLetterRequest extends FormRequest
 
     public function rules(): array
     {
-        $registration = $this->route('registration');
+        $registration = $this->route('registration') ?? $this->route('application');
 
         return [
             'surat_balasan' => [

@@ -26,6 +26,7 @@ class RegistrationDocumentTest extends TestCase
     {
         parent::setUp();
 
+        Storage::fake('local');
         Storage::fake('public');
 
         $this->participant = User::factory()->create([
@@ -93,9 +94,9 @@ class RegistrationDocumentTest extends TestCase
         $this->assertNotNull($registration->surat_pengantar_path);
         $this->assertNotNull($registration->proposal_magang_path);
 
-        Storage::disk('public')->assertExists($registration->cv_path);
-        Storage::disk('public')->assertExists($registration->surat_pengantar_path);
-        Storage::disk('public')->assertExists($registration->proposal_magang_path);
+        Storage::disk('local')->assertExists($registration->cv_path);
+        Storage::disk('local')->assertExists($registration->surat_pengantar_path);
+        Storage::disk('local')->assertExists($registration->proposal_magang_path);
     }
 
     public function test_proposal_magang_is_required_for_new_registration(): void
@@ -183,8 +184,8 @@ class RegistrationDocumentTest extends TestCase
         $registration->refresh();
 
         $this->assertNotEquals($oldProposalPath, $registration->proposal_magang_path);
-        Storage::disk('public')->assertMissing($oldProposalPath);
-        Storage::disk('public')->assertExists($registration->proposal_magang_path);
+        Storage::disk('local')->assertMissing($oldProposalPath);
+        Storage::disk('local')->assertExists($registration->proposal_magang_path);
     }
 
     public function test_admin_can_view_application_with_proposal_magang(): void
@@ -239,5 +240,39 @@ class RegistrationDocumentTest extends TestCase
         $adminShowResponse = $this->actingAs($this->admin)->get(route('admin.applications.show', $registration->id));
         $adminShowResponse->assertStatus(200);
         $adminShowResponse->assertSee('Proposal magang belum di-upload peserta.');
+    }
+
+    public function test_secure_document_download_authorizes_owner_and_admin_and_denies_other_participants(): void
+    {
+        $cv = UploadedFile::fake()->create('cv_owner.pdf', 500, 'application/pdf');
+        $surat = UploadedFile::fake()->create('surat_owner.pdf', 1000, 'application/pdf');
+        $proposal = UploadedFile::fake()->create('proposal_owner.pdf', 1500, 'application/pdf');
+
+        $this->actingAs($this->participant)->post(route('participant.registrations.store'), [
+            'position_id'     => $this->position->id,
+            'periode_mulai'   => now()->addDays(2)->toDateString(),
+            'periode_selesai' => now()->addMonths(3)->toDateString(),
+            'cv'              => $cv,
+            'surat_pengantar' => $surat,
+            'proposal_magang' => $proposal,
+        ]);
+
+        $registration = Registration::where('user_id', $this->participant->id)->first();
+
+        // 1. Owner can access via secure route
+        $ownerResponse = $this->actingAs($this->participant)
+            ->get(route('documents.download', ['registration' => $registration->id, 'type' => 'cv']));
+        $ownerResponse->assertOk();
+
+        // 2. Admin can access via secure route
+        $adminResponse = $this->actingAs($this->admin)
+            ->get(route('documents.download', ['registration' => $registration->id, 'type' => 'cv']));
+        $adminResponse->assertOk();
+
+        // 3. Other participant is DENIED (403)
+        $otherParticipant = User::factory()->create(['role' => UserRole::Peserta]);
+        $otherResponse = $this->actingAs($otherParticipant)
+            ->get(route('documents.download', ['registration' => $registration->id, 'type' => 'cv']));
+        $otherResponse->assertStatus(403);
     }
 }

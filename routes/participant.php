@@ -65,6 +65,10 @@ Route::resource('registrations', RegistrationController::class)->names([
     'update'  => 'registrations.update',
     'destroy' => 'registrations.destroy',
 ])
+    ->middleware([
+        'store'  => 'throttle:registration-submission',
+        'update' => 'throttle:registration-submission',
+    ])
     ->missing(function () {
         return redirect()->route('participant.registrations.index')
             ->with('error', 'Data pendaftaran magang yang Anda minta tidak ditemukan.');

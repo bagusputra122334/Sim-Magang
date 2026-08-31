@@ -12,12 +12,21 @@ use App\Services\RegistrationService;
 use App\Support\AuditLogger;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\View\View;
 
-class RegistrationController extends ParticipantController
+class RegistrationController extends ParticipantController implements HasMiddleware
 {
+    public static function middleware(): array
+    {
+        return [
+            new Middleware('throttle:registration-submission', only: ['store', 'update']),
+        ];
+    }
+
     public function __construct(protected RegistrationService $registrationService) {}
 
     public function index(Request $request): View

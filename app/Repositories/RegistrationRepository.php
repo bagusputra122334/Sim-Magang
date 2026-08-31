@@ -157,15 +157,19 @@ class RegistrationRepository
 
     public function hapusFileLampiran(Registration $registration): void
     {
-        $disk = \Illuminate\Support\Facades\Storage::disk('public');
+        $diskLocal = \Illuminate\Support\Facades\Storage::disk('local');
+        $diskPublic = \Illuminate\Support\Facades\Storage::disk('public');
 
         foreach (['cv_path', 'surat_pengantar_path', 'proposal_magang_path'] as $field) {
             $path = $registration->{$field};
             if ($path === null || trim($path) === '' || str_starts_with($path, 'http://') || str_starts_with($path, 'https://')) {
                 continue;
             }
-            if ($disk->exists($path)) {
-                $disk->delete($path);
+            if ($diskLocal->exists($path)) {
+                $diskLocal->delete($path);
+            }
+            if ($diskPublic->exists($path)) {
+                $diskPublic->delete($path);
             }
         }
     }

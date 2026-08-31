@@ -13,9 +13,11 @@
 
     // Surat Balasan Info
     $sbPath = $reg->surat_balasan_path;
-    $sbDisk = \Illuminate\Support\Facades\Storage::disk('public');
+    $sbDisk = !empty($sbPath) && \Illuminate\Support\Facades\Storage::disk('local')->exists($sbPath)
+        ? \Illuminate\Support\Facades\Storage::disk('local')
+        : \Illuminate\Support\Facades\Storage::disk('public');
     $sbExists = !empty($sbPath) && is_string($sbPath) && $sbDisk->exists($sbPath);
-    $sbUrl = $sbExists ? $sbDisk->url($sbPath) : null;
+    $sbUrl = $sbExists ? route('documents.downloadByPath', ['path' => $sbPath]) : null;
     $sbBasename = $sbExists ? basename($sbPath) : null;
     $sbSize = $sbExists ? number_format((int) round($sbDisk->size($sbPath) / 1024), 0, ',', '.') . ' KB' : null;
     $sbLastModified = $sbExists ? date('d M Y H:i', $sbDisk->lastModified($sbPath)) : null;

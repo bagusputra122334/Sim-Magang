@@ -23,6 +23,7 @@ class AdminWorkflowAndSecurityTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+        Storage::fake('local');
         Storage::fake('public');
     }
 
@@ -157,14 +158,17 @@ class AdminWorkflowAndSecurityTest extends TestCase
 
         $pdfFile = UploadedFile::fake()->create('surat_balasan_01.pdf', 500, 'application/pdf');
 
-        $uploadResp = $this->actingAs($admin)->post(route('admin.applications.reply-letter.store', $reg->id), [
-            'surat_balasan' => $pdfFile,
-        ]);
+        $uploadResp = $this->actingAs($admin)
+            ->from(route('admin.applications.reply-letter', $reg->id))
+            ->post(route('admin.applications.reply-letter.store', $reg->id), [
+                'surat_balasan' => $pdfFile,
+            ]);
 
+        $uploadResp->assertSessionHasNoErrors();
         $uploadResp->assertRedirect(route('admin.applications.reply-letter', $reg->id));
         $reg->refresh();
         $this->assertNotEmpty($reg->surat_balasan_path);
-        Storage::disk('public')->assertExists($reg->surat_balasan_path);
+        Storage::disk('local')->assertExists($reg->surat_balasan_path);
 
         // Download as admin
         $dlResp = $this->actingAs($admin)->get(route('admin.applications.reply-letter.download', $reg->id));

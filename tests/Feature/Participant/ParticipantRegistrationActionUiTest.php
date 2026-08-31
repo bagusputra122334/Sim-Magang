@@ -87,7 +87,7 @@ class ParticipantRegistrationActionUiTest extends TestCase
         $response->assertOk();
 
         // 1. Table header MUST contain "Aksi" column header for quick access
-        $response->assertSee('<th class="px-4 py-3 fw-semibold text-end" style="width: 130px;">Aksi</th>', false);
+        $response->assertSee('<th class="px-4 py-3 fw-semibold text-end whitespace-nowrap w-[1%]">Aksi</th>', false);
 
         // 2. Dedicated floating action section MUST exist below table
         $response->assertSee('id="actionSectionCard"', false);

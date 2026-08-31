@@ -53,6 +53,19 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [App\Http\Controllers\ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    /*
+    |--------------------------------------------------------------------------
+    | Secure Private Document Access Routes
+    |--------------------------------------------------------------------------
+    */
+    Route::get('/documents/{registration}/{type}/download', [App\Http\Controllers\DocumentDownloadController::class, 'download'])
+        ->name('documents.download');
+    Route::get('/documents/{registration}/{type}/view', [App\Http\Controllers\DocumentDownloadController::class, 'view'])
+        ->name('documents.view');
+    Route::get('/download-document/{path}', [App\Http\Controllers\DocumentDownloadController::class, 'downloadByPath'])
+        ->where('path', '.*')
+        ->name('documents.downloadByPath');
 });
 
 /*
@@ -67,12 +80,14 @@ Route::prefix('admin')->name('admin.')->middleware('guest')->group(function () {
         ->name('password.request');
 
     Route::post('forgot-password', [App\Http\Controllers\Admin\Auth\AdminPasswordResetLinkController::class, 'store'])
+        ->middleware('throttle:5,1')
         ->name('password.email');
 
     Route::get('reset-password/{token}', [App\Http\Controllers\Admin\Auth\AdminNewPasswordController::class, 'create'])
         ->name('password.reset');
 
     Route::post('reset-password', [App\Http\Controllers\Admin\Auth\AdminNewPasswordController::class, 'store'])
+        ->middleware('throttle:5,1')
         ->name('password.store');
 });
 

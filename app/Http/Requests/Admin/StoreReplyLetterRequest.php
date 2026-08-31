@@ -24,7 +24,7 @@ class StoreReplyLetterRequest extends FormRequest
                 'required',
                 'file',
                 'mimes:pdf',
-                'max:2048',
+                'max:5120',
             ],
         ];
     }
@@ -44,7 +44,7 @@ class StoreReplyLetterRequest extends FormRequest
             'surat_balasan.required' => 'File Surat Balasan WAJIB dipilih.',
             'surat_balasan.file'     => 'Surat Balasan harus berupa file upload yang valid.',
             'surat_balasan.mimes'    => 'Format Surat Balasan HANYA BOLEH berupa file PDF (.pdf).',
-            'surat_balasan.max'      => 'Ukuran Surat Balasan MAKSIMAL 2048 KB (2 MB).',
+            'surat_balasan.max'      => 'Ukuran Surat Balasan MAKSIMAL 5120 KB (5 MB).',
         ];
     }
 }
