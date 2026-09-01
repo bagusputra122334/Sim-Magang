@@ -9,10 +9,25 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    $search = request('search');
+    $positions = \App\Models\Position::query()
+        ->where('status', \App\Enums\PositionStatus::Aktif)
+        ->when($search, function ($query, $search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('nama_posisi', 'like', "%{$search}%")
+                  ->orWhere('deskripsi', 'like', "%{$search}%")
+                  ->orWhere('kualifikasi', 'like', "%{$search}%");
+            });
+        })
+        ->latest('created_at')
+        ->take(6)
+        ->get();
+
+    return view('welcome', compact('positions'));
 });
 
 Route::post('/contact', [App\Http\Controllers\ContactController::class, 'send'])->name('contact.send');
+Route::post('/surveys', [\App\Http\Controllers\FrontendSurveyController::class, 'store'])->name('surveys.store');
 Route::get('/panduan', [App\Http\Controllers\GuideController::class, 'index'])->name('guides.index');
 Route::get('/panduan/{slug}', [App\Http\Controllers\GuideController::class, 'show'])->name('guides.show');
 

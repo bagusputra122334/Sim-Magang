@@ -26,6 +26,7 @@
                 ['icon' => 'bi-briefcase', 'label' => 'Posisi Magang', 'route' => 'admin.positions.index', 'params' => []],
                 ['icon' => 'bi-journal-check', 'label' => 'Verifikasi Pendaftaran', 'route' => 'admin.applications.index', 'params' => []],
                 ['icon' => 'bi-people-fill', 'label' => 'Magang Aktif', 'route' => 'admin.active-interns.index', 'params' => []],
+                ['icon' => 'bi-star-fill', 'label' => 'Survei Kepuasan', 'route' => 'admin.surveys.index', 'params' => []],
                 ['icon' => 'bi-person-gear', 'label' => 'Akun Saya', 'route' => 'profile.edit', 'params' => []],
             ];
         } elseif ($user?->isParticipant()) {

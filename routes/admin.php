@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\ApplicationReviewController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\PositionController;
 use App\Http\Controllers\Admin\ReplyLetterController;
+use App\Http\Controllers\Admin\SurveyController;
 use App\Models\Position;
 use App\Models\Registration;
 use Illuminate\Support\Facades\Route;
@@ -114,4 +115,13 @@ Route::prefix('active-interns')
         Route::patch('{id}/toggle-status', [\App\Http\Controllers\Admin\ActiveInternController::class, 'toggleStatus'])
             ->name('toggle-status');
     });
+
+/*
+|--------------------------------------------------------------------------
+| ADMIN SURVEI KEPUASAN (SurveyController)
+|--------------------------------------------------------------------------
+*/
+Route::get('surveys', [SurveyController::class, 'index'])
+    ->name('surveys.index');
+
 

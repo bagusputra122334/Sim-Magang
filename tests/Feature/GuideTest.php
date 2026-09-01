@@ -27,20 +27,16 @@ class GuideTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertSee('https://tubankab.go.id/');
-        $response->assertSee('target="_blank"', false);
-        $response->assertSee('rel="noopener noreferrer"', false);
         $response->assertSee('Pemerintah Kabupaten Tuban');
     }
 
-    public function test_landing_page_navbar_has_portal_button(): void
+    public function test_landing_page_navbar_has_search_bar_form(): void
     {
         $response = $this->get('/');
 
         $response->assertStatus(200);
-        $response->assertSee('Portal Pemerintah Kabupaten Tuban');
-        $response->assertSee('https://tubankab.go.id/');
-        $response->assertSee('target="_blank"', false);
-        $response->assertSee('rel="noopener noreferrer"', false);
+        $response->assertSee('Cari formasi, panduan...');
+        $response->assertSee('name="search"', false);
 
         // Extract header_area content to verify no login/register buttons in navbar
         $content = $response->getContent();
@@ -48,8 +44,8 @@ class GuideTest extends TestCase
         $headerEnd = strpos($content, '<div id="home"', $headerStart);
         $headerHtml = substr($content, $headerStart, $headerEnd - $headerStart);
 
-        $this->assertStringContainsString('Portal Pemerintah Kabupaten Tuban', $headerHtml);
-        $this->assertStringContainsString('https://tubankab.go.id/', $headerHtml);
+        $this->assertStringContainsString('Cari formasi, panduan...', $headerHtml);
+        $this->assertStringContainsString('name="search"', $headerHtml);
         $this->assertStringNotContainsString('route(\'login\')', $headerHtml);
         $this->assertStringNotContainsString('login', $headerHtml);
         $this->assertStringNotContainsString('register', $headerHtml);
