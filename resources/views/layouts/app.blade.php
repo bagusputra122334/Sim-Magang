@@ -9,9 +9,9 @@
     <title>@yield('title', 'Dashboard') — SIM-MAGANG Diskominfo SP Tuban</title>
 
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="{{ asset('images/logo.png') }}">
-    <link rel="shortcut icon" type="image/png" href="{{ asset('images/logo.png') }}">
-    <link rel="apple-touch-icon" href="{{ asset('images/logo.png') }}">
+    <link rel="icon" type="image/png" href="{{ asset('traveland/images/logo.png') }}">
+    <link rel="shortcut icon" type="image/png" href="{{ asset('traveland/images/logo.png') }}">
+    <link rel="apple-touch-icon" href="{{ asset('traveland/images/logo.png') }}">
 
     <script>
         (function() {

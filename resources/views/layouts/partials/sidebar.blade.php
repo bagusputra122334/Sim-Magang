@@ -45,7 +45,7 @@
 <aside class="admin-sidebar" id="adminSidebar" aria-label="Main navigation">
     <div class="sidebar-header">
         <a class="brand-mark d-flex align-items-center gap-3 text-decoration-none" href="{{ $dashboardUrl }}" aria-label="SIM-MAGANG Dashboard">
-            <img src="{{ asset('storage/image/logo.png') }}" alt="Logo Tuban" class="h-10 w-auto object-contain flex-shrink-0 sidebar-brand-logo">
+            <img src="{{ asset('traveland/images/logo.png') }}" alt="Logo Tuban" class="h-10 w-auto object-contain flex-shrink-0 sidebar-brand-logo">
             <div>
                 <h1 class="text-white font-bold text-lg leading-tight tracking-wide mb-0" style="font-size: 1.05rem; font-weight: 700; color: #ffffff;">SIM-MAGANG</h1>
                 <p class="text-slate-400 text-xs font-medium mb-0" style="font-size: 0.75rem; color: #94a3b8;">Diskominfo SP Kab. Tuban</p>

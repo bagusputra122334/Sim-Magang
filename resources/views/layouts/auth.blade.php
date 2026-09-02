@@ -9,9 +9,9 @@
     <title>@yield('title', 'Login') — SIM-MAGANG Diskominfo SP Tuban</title>
 
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="{{ asset('images/logo.png') }}">
-    <link rel="shortcut icon" type="image/png" href="{{ asset('images/logo.png') }}">
-    <link rel="apple-touch-icon" href="{{ asset('images/logo.png') }}">
+    <link rel="icon" type="image/png" href="{{ asset('traveland/images/logo.png') }}">
+    <link rel="shortcut icon" type="image/png" href="{{ asset('traveland/images/logo.png') }}">
+    <link rel="apple-touch-icon" href="{{ asset('traveland/images/logo.png') }}">
 
     <script>
         (function() {
@@ -47,7 +47,7 @@
         <section class="auth-split-brand" aria-label="Branding SIM-MAGANG">
             <div class="auth-split-brand-inner">
                 <div class="auth-split-brand-logo">
-                    <img src="{{ asset('storage/image/logo.png') }}" alt="SIM-MAGANG Logo" class="auth-brand-logo-img">
+                    <img src="{{ asset('traveland/images/logo.png') }}" alt="SIM-MAGANG Logo" class="auth-brand-logo-img">
                     <div class="auth-split-brand-logo-text">
                         <strong>Diskominfo SP Tuban</strong>
                         <span>Dinas Komunikasi, Informatika, Statistik dan Persandian</span>
@@ -93,7 +93,7 @@
         <main class="auth-split-main">
             <div class="auth-split-card">
                 <div class="auth-split-mobile-brand">
-                    <img src="{{ asset('storage/image/logo.png') }}" alt="SIM-MAGANG Logo" class="auth-mobile-logo-img">
+                    <img src="{{ asset('traveland/images/logo.png') }}" alt="SIM-MAGANG Logo" class="auth-mobile-logo-img">
                     <div class="auth-split-mobile-brand-text">
                         <strong>SIM-MAGANG</strong>
                         <span>Diskominfo Kabupaten Tuban</span>

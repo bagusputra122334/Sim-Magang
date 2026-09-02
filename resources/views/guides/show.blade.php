@@ -12,9 +12,9 @@
 
     <!--====== Favicon Icon ======-->
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="{{ asset('images/logo.png') }}">
-    <link rel="shortcut icon" type="image/png" href="{{ asset('images/logo.png') }}">
-    <link rel="apple-touch-icon" href="{{ asset('images/logo.png') }}">
+    <link rel="icon" type="image/png" href="{{ asset('traveland/images/logo.png') }}">
+    <link rel="shortcut icon" type="image/png" href="{{ asset('traveland/images/logo.png') }}">
+    <link rel="apple-touch-icon" href="{{ asset('traveland/images/logo.png') }}">
 
     <!--====== Script Theme Initializer ======-->
     <script>
@@ -623,7 +623,7 @@
     <nav class="header_navbar">
             <div class="flex items-center justify-between w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2">
                 <a class="navbar-brand flex-shrink-0 mr-xl-3" href="{{ url('/') }}">
-                    <img src="{{ asset('storage/image/logo.png') }}" alt="SIM-MAGANG Logo" class="brand-logo-img">
+                    <img src="{{ asset('traveland/images/logo.png') }}" alt="SIM-MAGANG Logo" class="brand-logo-img">
                     <div>
                         <span class="brand-text d-block">SIM-MAGANG</span>
                         <span class="brand-sub d-block">Diskominfo SP Kab. Tuban</span>
@@ -648,7 +648,7 @@
 
                     <form action="{{ url('/') }}#search-results" method="GET" class="relative hidden md:flex items-center w-56 lg:w-64" x-data="{ searchQuery: '{{ request('search') }}' }">
                         <!-- Icon: Only shows when input is empty -->
-                        <div class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none" x-show="searchQuery.length === 0" x-transition.opacity>
+                        <div class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none z-10" x-show="searchQuery.length === 0" x-transition.opacity>
                             <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                             </svg>
@@ -660,8 +660,9 @@
                                x-model="searchQuery" 
                                autocomplete="off"
                                placeholder="Cari formasi, panduan..." 
-                               class="w-full pr-4 py-2 bg-slate-50 border border-slate-200 rounded-full text-sm text-slate-700 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all shadow-inner"
-                               :class="searchQuery.length > 0 ? 'pl-4' : 'pl-10'">
+                               class="w-full !pl-12 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-full text-sm text-slate-700 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all shadow-inner"
+                               :class="searchQuery.length > 0 ? '!pl-4' : '!pl-12'"
+                               :style="searchQuery.length > 0 ? 'padding-left: 1rem !important;' : 'padding-left: 3rem !important;'">
                     </form>
                 </div>
 
@@ -678,11 +679,11 @@
     </nav>
 
     <!--====== MAIN GUIDE CONTENT ======-->
-    <main class="py-5" id="main-content">
+    <main class="pt-5 !pb-0 !mb-0" id="main-content">
         <div class="container">
             <div class="row">
                 <!-- Left Column: Article Body -->
-                <div class="col-lg-8 mb-4">
+                <div class="col-lg-8 mb-4 mb-lg-0">
                     <article class="guide-article-card">
                         <div class="guide-tag">
                             <i class="bi {{ $guide['badge_icon'] }}"></i>
@@ -709,9 +710,7 @@
                         @php
                             $guideImage = $guide['image'];
                             if ($slug === 'surat-balasan') {
-                                $guideImage = file_exists(public_path('storage/image/3.png'))
-                                    ? 'storage/image/3.png'
-                                    : (file_exists(public_path('storage/image/gambar 3.png')) ? 'storage/image/gambar 3.png' : 'storage/image/3.png');
+                                $guideImage = 'traveland/images/3.png';
                             }
                         @endphp
                         <img src="{{ asset($guideImage) }}" alt="{{ $guide['title'] }}" class="guide-featured-image">
@@ -941,47 +940,47 @@
     </main>
 
     <!--====== FOOTER ======-->
-    <footer id="footer" class="footer_area bg-[#0f172a] border-t border-slate-800">
+    <footer id="footer" class="footer_area bg-[#0f172a] rounded-t-3xl sm:rounded-t-[2.5rem] overflow-hidden shadow-2xl w-full border-t border-slate-800/40 !pt-0 mt-12 mb-0">
         <div class="container">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-6">
                 <!-- COLUMN 1: HUBUNGI KAMI -->
                 <div class="w-full flex flex-col">
-                    <h3 class="text-white font-bold text-sm mb-4 tracking-wide uppercase">HUBUNGI KAMI</h3>
+                    <h3 class="text-white font-bold text-sm mb-4 tracking-wider uppercase">HUBUNGI KAMI</h3>
                     <p class="text-slate-400 text-sm mb-4 leading-relaxed">Berikut adalah alamat dan kontak yang bisa anda hubungi secara langsung.</p>
                     <ul class="flex flex-col gap-3 text-sm text-slate-300">
-                        <li class="flex items-start gap-2">
-                            <span class="text-blue-500 mt-0.5">📍</span>
-                            <span>Jl. Mastrip No. 5 A, Sidorejo, Kec. Tuban, Jawa Timur 62315</span>
+                        <li class="flex items-start gap-2.5">
+                            <span class="text-indigo-400 mt-0.5 text-base">📍</span>
+                            <span class="leading-snug">Jl. Mastrip No. 5 A, Sidorejo, Kec. Tuban, Jawa Timur 62315</span>
                         </li>
-                        <li class="flex items-center gap-2">
-                            <span class="text-blue-500">✉️</span>
+                        <li class="flex items-center gap-2.5">
+                            <span class="text-indigo-400 text-base">✉️</span>
                             <span>diskominfo@tubankab.go.id</span>
                         </li>
-                        <li class="flex items-center gap-2">
-                            <span class="text-blue-500">📞</span>
+                        <li class="flex items-center gap-2.5">
+                            <span class="text-indigo-400 text-base">📞</span>
                             <span>(0356) 8832697</span>
                         </li>
                     </ul>
 
                     <div class="flex items-center gap-3 mt-6">
                         <!-- Website -->
-                        <a href="https://diskominfo.tubankab.go.id" target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-full bg-slate-800/80 flex items-center justify-center text-slate-400 hover:bg-emerald-600 hover:text-white transition-all shadow-sm">
+                        <a href="https://diskominfo.tubankab.go.id" target="_blank" rel="noopener noreferrer" title="Website Resmi" class="w-9 h-9 rounded-xl bg-slate-800/70 hover:bg-emerald-600 text-slate-300 hover:text-white flex items-center justify-center transition-all duration-200 shadow-sm">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path></svg>
                         </a>
                         <!-- Facebook -->
-                        <a href="https://www.facebook.com/diskominfo.tuban" target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-full bg-slate-800/80 flex items-center justify-center text-slate-400 hover:bg-blue-600 hover:text-white transition-all shadow-sm">
+                        <a href="https://www.facebook.com/diskominfo.tuban" target="_blank" rel="noopener noreferrer" title="Facebook" class="w-9 h-9 rounded-xl bg-slate-800/70 hover:bg-blue-600 text-slate-300 hover:text-white flex items-center justify-center transition-all duration-200 shadow-sm">
                             <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"/></svg>
                         </a>
                         <!-- Instagram -->
-                        <a href="https://www.instagram.com/kominfo.tuban" target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-full bg-slate-800/80 flex items-center justify-center text-slate-400 hover:bg-pink-600 hover:text-white transition-all shadow-sm">
+                        <a href="https://www.instagram.com/kominfo.tuban" target="_blank" rel="noopener noreferrer" title="Instagram" class="w-9 h-9 rounded-xl bg-slate-800/70 hover:bg-pink-600 text-slate-300 hover:text-white flex items-center justify-center transition-all duration-200 shadow-sm">
                             <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
                         </a>
                         <!-- X (Twitter) -->
-                        <a href="https://twitter.com/DiskominfoTuban" target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-full bg-slate-800/80 flex items-center justify-center text-slate-400 hover:bg-slate-900 hover:text-white transition-all shadow-sm">
+                        <a href="https://twitter.com/DiskominfoTuban" target="_blank" rel="noopener noreferrer" title="X (Twitter)" class="w-9 h-9 rounded-xl bg-slate-800/70 hover:bg-slate-900 text-slate-300 hover:text-white flex items-center justify-center transition-all duration-200 shadow-sm">
                             <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
                         </a>
                         <!-- YouTube -->
-                        <a href="https://www.youtube.com/channel/UC7V9cxzD7Gk-K_jxGMbblgA?view_as=subscriber" target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-full bg-slate-800/80 flex items-center justify-center text-slate-400 hover:bg-red-600 hover:text-white transition-all shadow-sm">
+                        <a href="https://www.youtube.com/channel/UC7V9cxzD7Gk-K_jxGMbblgA?view_as=subscriber" target="_blank" rel="noopener noreferrer" title="YouTube Channel" class="w-9 h-9 rounded-xl bg-slate-800/70 hover:bg-red-600 text-slate-300 hover:text-white flex items-center justify-center transition-all duration-200 shadow-sm">
                             <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.5 12 3.5 12 3.5s-7.505 0-9.377.55a3.016 3.016 0 0 0-2.122 2.136C.001 8.07.001 12 .001 12s0 3.93.5 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.55 9.377.55 9.377.55s7.505 0 9.377-.55a3.016 3.016 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
                         </a>
                     </div>
@@ -989,80 +988,83 @@
 
                 <!-- COLUMN 2: LOKASI KANTOR -->
                 <div class="w-full flex flex-col">
-                    <h3 class="text-white font-bold text-sm mb-4 tracking-wide uppercase">LOKASI KANTOR</h3>
-                    <div class="w-full bg-slate-800 p-1.5 rounded-xl mb-4 shadow-inner">
-                        <div class="w-full h-32 bg-slate-700 rounded-lg overflow-hidden flex items-center justify-center text-slate-500 text-xs">
+                    <h3 class="text-white font-bold text-sm mb-4 tracking-wider uppercase">LOKASI KANTOR</h3>
+                    <div class="w-full bg-slate-800/60 p-2 rounded-2xl mb-4 shadow-sm">
+                        <div class="w-full h-32 bg-slate-700/60 rounded-xl overflow-hidden flex items-center justify-center">
                             <iframe 
-                                class="w-full h-full object-cover border-0" 
-                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3962.336495521743!2d112.04618!3d-6.89965!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e77a4561074e62d%3A0x6e2c657dfb7a8585!2sJl.%20Mastrip%20No.5A%2C%20Sidorejo%2C%20Kec.%20Tuban%2C%20Kabupaten%20Tuban%2C%20Jawa%20Timur%2062315!5e0!3m2!1sid!2sid!4v1700000000000!5m2!1sid!2sid" 
+                                src="https://www.google.com/maps/embed?pb=!4v1788316632382!6m8!1m7!1szab-FoOpFkmJVJ79X0G0Pw!2m2!1d-6.901873934235668!2d112.0440727763729!3f117.32336345271811!4f-6.10453670657121!5f0.4000000000000002" 
+                                class="w-full h-full border-0 object-cover" 
                                 allowfullscreen="" 
                                 loading="lazy" 
-                                referrerpolicy="no-referrer-when-downgrade"
-                                title="Lokasi Kantor Diskominfo Tuban">
+                                referrerpolicy="strict-origin-when-cross-origin">
                             </iframe>
                         </div>
                     </div>
-                    <div class="w-full text-sm">
-                        <p class="text-slate-400 font-semibold mb-1">JAM PELAYANAN</p>
-                        <p class="text-slate-300">Senin - Jum'at: 07.30 - 16.00</p>
-                        <p class="text-rose-400 font-medium">Sabtu - Minggu: Libur</p>
+                    <div class="w-full text-xs sm:text-sm flex flex-col gap-1">
+                        <p class="text-slate-400 font-semibold mb-0.5 flex items-center gap-1.5">
+                            <i class="bi bi-clock-fill text-indigo-400 text-xs"></i>
+                            <span>JAM PELAYANAN</span>
+                        </p>
+                        <p class="text-slate-300 mb-0.5">Senin - Jum'at: 07.30 - 16.00 WIB</p>
+                        <p class="text-rose-400/90 font-medium mb-0">Sabtu - Minggu: Libur</p>
                     </div>
                 </div>
 
                 <!-- COLUMN 3: STATISTIK PENGUNJUNG -->
                 <div class="w-full flex flex-col">
-                    <h3 class="text-white font-bold text-sm mb-4 tracking-wide uppercase">STATISTIK PENGUNJUNG</h3>
+                    <h3 class="text-white font-bold text-sm mb-4 tracking-wider uppercase">STATISTIK PENGUNJUNG</h3>
                     <div class="w-full flex flex-col gap-2.5">
-                        <div class="w-full flex justify-between items-center bg-slate-800/80 px-4 py-3 rounded-xl border border-slate-700">
-                            <span class="text-slate-300 text-sm font-medium">Hari Ini</span>
-                            <span class="bg-indigo-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-sm">1</span>
+                        <div class="w-full flex justify-between items-center bg-slate-800/50 px-4 py-2.5 rounded-xl transition-colors hover:bg-slate-800/80">
+                            <span class="text-slate-300 text-xs sm:text-sm font-medium">Hari Ini</span>
+                            <span class="bg-indigo-500/90 text-white text-xs font-bold px-3 py-0.5 rounded-full shadow-sm">1</span>
                         </div>
-                        <div class="w-full flex justify-between items-center bg-slate-800/80 px-4 py-3 rounded-xl border border-slate-700">
-                            <span class="text-slate-300 text-sm font-medium">Minggu Ini</span>
-                            <span class="bg-indigo-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-sm">2</span>
+                        <div class="w-full flex justify-between items-center bg-slate-800/50 px-4 py-2.5 rounded-xl transition-colors hover:bg-slate-800/80">
+                            <span class="text-slate-300 text-xs sm:text-sm font-medium">Minggu Ini</span>
+                            <span class="bg-indigo-500/90 text-white text-xs font-bold px-3 py-0.5 rounded-full shadow-sm">2</span>
                         </div>
-                        <div class="w-full flex justify-between items-center bg-slate-800/80 px-4 py-3 rounded-xl border border-slate-700">
-                            <span class="text-slate-300 text-sm font-medium">Bulan Ini</span>
-                            <span class="bg-indigo-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-sm">1</span>
+                        <div class="w-full flex justify-between items-center bg-slate-800/50 px-4 py-2.5 rounded-xl transition-colors hover:bg-slate-800/80">
+                            <span class="text-slate-300 text-xs sm:text-sm font-medium">Bulan Ini</span>
+                            <span class="bg-indigo-500/90 text-white text-xs font-bold px-3 py-0.5 rounded-full shadow-sm">1</span>
                         </div>
-                        <div class="w-full flex justify-between items-center bg-slate-800/80 px-4 py-3 rounded-xl border border-slate-700">
-                            <span class="text-slate-300 text-sm font-medium">Total</span>
-                            <span class="bg-indigo-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-sm">86</span>
+                        <div class="w-full flex justify-between items-center bg-slate-800/50 px-4 py-2.5 rounded-xl transition-colors hover:bg-slate-800/80">
+                            <span class="text-slate-300 text-xs sm:text-sm font-medium">Total</span>
+                            <span class="bg-indigo-500/90 text-white text-xs font-bold px-3 py-0.5 rounded-full shadow-sm">86</span>
                         </div>
                     </div>
                 </div>
 
                 <!-- COLUMN 4: SURVEI KEPUASAN -->
                 <div class="w-full flex flex-col" x-data="{ rating: 0, hoverRating: 0 }">
-                    <h3 class="text-white font-bold text-sm mb-4 tracking-wide uppercase">SURVEI KEPUASAN</h3>
-                    <form action="{{ route('surveys.store') }}" method="POST" class="w-full bg-white rounded-2xl p-5 flex flex-col items-center text-center shadow-xl">
+                    <h3 class="text-white font-bold text-sm mb-4 tracking-wider uppercase">SURVEI KEPUASAN</h3>
+                    <form action="{{ route('surveys.store') }}" method="POST" class="w-full bg-white rounded-2xl p-5 flex flex-col items-center text-center shadow-lg">
                         @csrf
-                        <h4 class="text-slate-800 font-extrabold text-sm mb-1">Indeks Kepuasan Masyarakat</h4>
+                        <h4 class="text-slate-800 font-extrabold text-xs sm:text-sm mb-1">Indeks Kepuasan Masyarakat</h4>
                         <p class="text-slate-500 text-xs mb-3">Berikan penilaian Anda</p>
                         
                         <!-- Interactive Stars -->
-                        <div class="w-full flex justify-center items-center gap-1 mb-4">
+                        <div class="w-full flex justify-center items-center gap-1.5 mb-3">
                             <input type="hidden" name="rating" x-model="rating" required>
                             @for($i = 1; $i <= 5; $i++)
                             <svg @click="rating = {{ $i }}" 
                                  @mouseenter="hoverRating = {{ $i }}" 
                                  @mouseleave="hoverRating = 0"
-                                 :class="{'text-yellow-400': hoverRating >= {{ $i }} || rating >= {{ $i }}, 'text-slate-200': hoverRating < {{ $i }} && rating < {{ $i }}}"
-                                 class="w-7 h-7 sm:w-8 sm:h-8 cursor-pointer transition-colors duration-150 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                 :class="{'text-amber-400': hoverRating >= {{ $i }} || rating >= {{ $i }}, 'text-slate-200': hoverRating < {{ $i }} && rating < {{ $i }}}"
+                                 class="w-6 h-6 sm:w-7 sm:h-7 cursor-pointer transition-colors duration-150 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                                 <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
                             </svg>
                             @endfor
                         </div>
 
                         <!-- Message & Submit -->
-                        <textarea name="komentar" rows="2" class="w-full text-xs border border-slate-200 rounded-lg p-2 focus:ring-indigo-500 focus:border-indigo-500 mb-3 transition-colors text-slate-800" placeholder="Tulis pesan/saran singkat..."></textarea>
-                        <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold py-2.5 rounded-lg shadow-sm transition-all duration-200">Kirim Survei</button>
+                        <textarea name="komentar" rows="2" class="w-full text-xs border border-slate-200 rounded-xl p-2.5 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 mb-3 transition-colors text-slate-800 placeholder-slate-400" placeholder="Tulis pesan/saran singkat..."></textarea>
+                        <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold py-2.5 rounded-xl shadow-md transition-all duration-200">Kirim Survei</button>
                     </form>
                 </div>
             </div>
 
-            <div class="border-top border-slate-800 py-3 text-center small text-muted">
-                <p class="mb-0">
+            <!-- COPYRIGHT SECTION -->
+            <div class="border-t border-slate-800/40 py-2.5 text-center text-xs text-slate-400/90 my-0">
+                <p class="mb-0 leading-relaxed">
                     &copy; {{ date('Y') }} <strong>SIM-MAGANG</strong> — Dinas Komunikasi, Informatika, Statistik dan Persandian Kabupaten Tuban. Hak Cipta Dilindungi.
                 </p>
             </div>

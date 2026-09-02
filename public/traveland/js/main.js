@@ -29,19 +29,18 @@ $(function() {
     
     
     //===== Section Menu Active
-
-    var scrollLink = $('.page-scroll');
-    // Active link switching
+    var scrollLink = $('#nav .page-scroll');
     $(window).scroll(function () {
         var scrollbarLocation = $(this).scrollTop();
 
         scrollLink.each(function () {
+            if (this.hash && $(this.hash).length) {
+                var sectionOffset = $(this.hash).offset().top - 100;
 
-            var sectionOffset = $(this.hash).offset().top - 73;
-
-            if (sectionOffset <= scrollbarLocation) {
-                $(this).parent().addClass('active');
-                $(this).parent().siblings().removeClass('active');
+                if (sectionOffset <= scrollbarLocation) {
+                    $(this).parent().addClass('active');
+                    $(this).parent().siblings().removeClass('active');
+                }
             }
         });
     });
