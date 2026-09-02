@@ -109,6 +109,12 @@ Route::prefix('active-interns')
         Route::get('/', [\App\Http\Controllers\Admin\ActiveInternController::class, 'index'])
             ->name('index');
 
+        Route::get('export', [\App\Http\Controllers\Admin\ActiveInternController::class, 'exportPdf'])
+            ->name('export');
+
+        Route::get('export_active', [\App\Http\Controllers\Admin\ActiveInternController::class, 'exportPdf'])
+            ->name('export_active');
+
         Route::get('{id}', [\App\Http\Controllers\Admin\ActiveInternController::class, 'show'])
             ->name('show');
 
@@ -123,5 +129,8 @@ Route::prefix('active-interns')
 */
 Route::get('surveys', [SurveyController::class, 'index'])
     ->name('surveys.index');
+
+Route::get('surveys/export', [SurveyController::class, 'exportPdf'])
+    ->name('surveys.export');
 
 

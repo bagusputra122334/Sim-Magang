@@ -3,6 +3,13 @@
 @section('title', 'Survei Kepuasan')
 
 @section('content')
+@php
+    $totalResponden = number_format($statistics['total'] ?? 0);
+    $rataRata = $statistics['average'] ?? 0;
+    $sangatPuas = number_format($statistics['counts'][5] ?? 0);
+    $ulasanPerbaikan = number_format(($statistics['counts'][1] ?? 0) + ($statistics['counts'][2] ?? 0) + ($statistics['counts'][3] ?? 0));
+@endphp
+
 <div class="space-y-6">
     {{-- Page Header --}}
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-slate-200 dark:border-slate-800 pb-5">
@@ -15,74 +22,59 @@
             </p>
         </div>
         <div>
-            <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-semibold bg-indigo-50 text-indigo-700 dark:bg-indigo-950/60 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800/50">
-                <i class="bi bi-shield-check"></i> Admin Access
-            </span>
+            <a href="{{ route('admin.surveys.export') }}" class="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold rounded-lg shadow-md transition-colors">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                Ekspor Laporan IKM (PDF)
+            </a>
         </div>
     </div>
 
     {{-- Statistics Summary Cards --}}
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {{-- Total Responden --}}
-        <div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-5 shadow-sm">
-            <div class="flex items-center justify-between">
-                <div>
-                    <p class="text-xs font-bold text-slate-500 uppercase tracking-wider">Total Responden</p>
-                    <h3 class="text-2xl font-bold text-slate-800 dark:text-white mt-1">
-                        {{ number_format($statistics['total']) }}
-                    </h3>
-                </div>
-                <div class="w-12 h-12 flex items-center justify-center rounded-xl bg-blue-500 text-white shadow-sm text-xl font-bold">
-                    <i class="bi bi-people"></i>
-                </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8 mt-6">
+        <!-- Card 1: Total Responden -->
+        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 flex items-center justify-between hover:shadow-md transition-shadow">
+            <div>
+                <p class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Total Responden</p>
+                <h3 class="text-3xl font-extrabold text-slate-800">{{ $totalResponden }}</h3>
+            </div>
+            <div class="w-12 h-12 flex items-center justify-center rounded-xl bg-blue-500 text-white shadow-sm shrink-0">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
             </div>
         </div>
 
-        {{-- Rata-rata Rating --}}
-        <div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-5 shadow-sm">
-            <div class="flex items-center justify-between">
-                <div>
-                    <p class="text-xs font-bold text-slate-500 uppercase tracking-wider">Rata-rata Rating</p>
-                    <div class="flex items-baseline gap-2 mt-1">
-                        <h3 class="text-2xl font-bold text-slate-800 dark:text-white">
-                            {{ $statistics['average'] }}
-                        </h3>
-                        <span class="text-xs text-slate-500">/ 5.0</span>
-                    </div>
+        <!-- Card 2: Rata-Rata Rating -->
+        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 flex items-center justify-between hover:shadow-md transition-shadow">
+            <div>
+                <p class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Rata-Rata Rating</p>
+                <div class="flex items-baseline gap-1">
+                    <h3 class="text-3xl font-extrabold text-slate-800">{{ number_format((float)$rataRata, 1) }}</h3>
+                    <span class="text-sm font-medium text-slate-500">/ 5.0</span>
                 </div>
-                <div class="w-12 h-12 flex items-center justify-center rounded-xl bg-amber-500 text-white shadow-sm text-xl font-bold">
-                    <i class="bi bi-star-fill"></i>
-                </div>
+            </div>
+            <div class="w-12 h-12 flex items-center justify-center rounded-xl bg-amber-500 text-white shadow-sm shrink-0">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
             </div>
         </div>
 
-        {{-- Rating 5 Bintang --}}
-        <div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-5 shadow-sm">
-            <div class="flex items-center justify-between">
-                <div>
-                    <p class="text-xs font-bold text-slate-500 uppercase tracking-wider">Sangat Puas (5 ★)</p>
-                    <h3 class="text-2xl font-bold text-slate-800 dark:text-white mt-1">
-                        {{ number_format($statistics['counts'][5] ?? 0) }}
-                    </h3>
-                </div>
-                <div class="w-12 h-12 flex items-center justify-center rounded-xl bg-emerald-500 text-white shadow-sm text-xl font-bold">
-                    <i class="bi bi-emoji-smile-fill"></i>
-                </div>
+        <!-- Card 3: Sangat Puas -->
+        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 flex items-center justify-between hover:shadow-md transition-shadow">
+            <div>
+                <p class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Sangat Puas (5★)</p>
+                <h3 class="text-3xl font-extrabold text-slate-800">{{ $sangatPuas }}</h3>
+            </div>
+            <div class="w-12 h-12 flex items-center justify-center rounded-xl bg-emerald-500 text-white shadow-sm shrink-0">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
             </div>
         </div>
 
-        {{-- Rating 1-3 Bintang --}}
-        <div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-5 shadow-sm">
-            <div class="flex items-center justify-between">
-                <div>
-                    <p class="text-xs font-bold text-slate-500 uppercase tracking-wider">Ulasan Perbaikan (1-3 ★)</p>
-                    <h3 class="text-2xl font-bold text-slate-800 dark:text-white mt-1">
-                        {{ number_format(($statistics['counts'][1] ?? 0) + ($statistics['counts'][2] ?? 0) + ($statistics['counts'][3] ?? 0)) }}
-                    </h3>
-                </div>
-                <div class="w-12 h-12 flex items-center justify-center rounded-xl bg-purple-500 text-white shadow-sm text-xl font-bold">
-                    <i class="bi bi-chat-left-text"></i>
-                </div>
+        <!-- Card 4: Ulasan Perbaikan -->
+        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 flex items-center justify-between hover:shadow-md transition-shadow">
+            <div>
+                <p class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Ulasan Perbaikan</p>
+                <h3 class="text-3xl font-extrabold text-slate-800">{{ $ulasanPerbaikan }}</h3>
+            </div>
+            <div class="w-12 h-12 flex items-center justify-center rounded-xl bg-purple-500 text-white shadow-sm shrink-0">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
             </div>
         </div>
     </div>

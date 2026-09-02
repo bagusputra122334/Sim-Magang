@@ -134,4 +134,64 @@ class ActiveInternController extends AdminController
 
         return redirect()->back()->with('success', "Status magang untuk peserta {$intern->user?->name} telah dinonaktifkan.");
     }
+
+    /**
+     * Export active interns monitoring report to downloadable PDF.
+     */
+    public function exportPdf(Request $request)
+    {
+        $search = $request->string('search')->trim()->toString();
+        $opStatus = $request->string('op_status')->trim()->toString();
+
+        $query = Registration::query()
+            ->where('status', RegistrationStatus::Accepted->value)
+            ->with(['user.profile', 'position']);
+
+        if ($search !== '') {
+            $query->where(function ($q) use ($search): void {
+                $q->where('nomor_pendaftaran', 'like', "%{$search}%")
+                    ->orWhereHas('user', function ($uq) use ($search): void {
+                        $uq->where('name', 'like', "%{$search}%")
+                            ->orWhere('email', 'like', "%{$search}%")
+                            ->orWhereHas('profile', function ($pq) use ($search): void {
+                                $pq->where('institusi', 'like', "%{$search}%")
+                                    ->orWhere('jurusan', 'like', "%{$search}%");
+                            });
+                    })
+                    ->orWhereHas('position', function ($pq) use ($search): void {
+                        $pq->where('nama_posisi', 'like', "%{$search}%");
+                    });
+            });
+        }
+
+        if ($opStatus === 'terminated') {
+            $query->where('is_terminated', true);
+        } elseif ($opStatus === 'completed') {
+            $query->where('is_terminated', false)
+                ->whereDate('periode_selesai', '<', now()->toDateString());
+        } elseif ($opStatus === 'active') {
+            $today = now()->toDateString();
+            $query->where('is_terminated', false)
+                ->where(function ($q) use ($today): void {
+                    $q->whereNull('periode_selesai')
+                        ->orWhereDate('periode_selesai', '>=', $today);
+                });
+        }
+
+        $interns = $query->latest('updated_at')->get();
+
+        $allAccepted = Registration::where('status', RegistrationStatus::Accepted->value)->get();
+        $statistics = [
+            'total'      => $allAccepted->count(),
+            'active'     => $allAccepted->filter(fn ($r) => $r->operational_status === 'active' || $r->operational_status === 'upcoming')->count(),
+            'completed'  => $allAccepted->filter(fn ($r) => $r->operational_status === 'completed')->count(),
+            'terminated' => $allAccepted->filter(fn ($r) => $r->operational_status === 'terminated')->count(),
+        ];
+
+        $printedAt = now()->translatedFormat('d F Y H:i').' WIB';
+
+        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('admin.active-interns.pdf', compact('interns', 'statistics', 'search', 'opStatus', 'printedAt'))
+            ->setPaper('a4', 'landscape');
+        return $pdf->download('Laporan_Magang_Aktif_Diskominfo_'.now()->format('Ymd_His').'.pdf');
+    }
 }
