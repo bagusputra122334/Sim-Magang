@@ -396,6 +396,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const positionDisplay = document.getElementById('selectedPositionDisplay');
     const statusDisplay = document.getElementById('selectedStatusDisplay');
     const clockDisplay = document.getElementById('liveJakartaClock');
+    const selectDropdown = document.getElementById('selectRegistrationDropdown');
 
     // Server-Synchronized Asia/Jakarta Date Time Engine
     const serverTracker = document.getElementById('serverTimeTracker');
@@ -550,8 +551,16 @@ document.addEventListener('DOMContentLoaded', function () {
             statusDisplay.textContent = statusLabel;
             if (isTerminated) {
                 statusDisplay.className = 'badge bg-danger-subtle text-danger border border-danger-subtle rounded-pill px-3 py-1 small fw-semibold';
-            } else {
+            } else if (isAccepted && isExpired) {
+                statusDisplay.className = 'badge bg-secondary-subtle text-secondary border border-secondary-subtle rounded-pill px-3 py-1 small fw-semibold';
+            } else if (isAccepted) {
                 statusDisplay.className = 'badge bg-success-subtle text-success border border-success-subtle rounded-pill px-3 py-1 small fw-semibold';
+            } else if (statusVal === 'rejected') {
+                statusDisplay.className = 'badge bg-danger-subtle text-danger border border-danger-subtle rounded-pill px-3 py-1 small fw-semibold';
+            } else if (statusVal === 'under_review') {
+                statusDisplay.className = 'badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-1 small fw-semibold';
+            } else {
+                statusDisplay.className = 'badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-1 small fw-semibold';
             }
         }
 
@@ -628,8 +637,8 @@ document.addEventListener('DOMContentLoaded', function () {
     // Row click and key handlers
     rows.forEach(function (row) {
         row.addEventListener('click', function (e) {
-            if (e.target.tagName === 'INPUT' && e.target.type === 'radio') {
-                // radio change
+            if (e.target.closest('a.btn') || e.target.closest('button.btn')) {
+                return;
             }
             updateActionTarget(this);
         });
@@ -638,6 +647,16 @@ document.addEventListener('DOMContentLoaded', function () {
             if (e.key === 'Enter' || e.key === ' ') {
                 e.preventDefault();
                 updateActionTarget(this);
+            }
+        });
+    });
+
+    const radios = document.querySelectorAll('.registration-radio');
+    radios.forEach(function (radio) {
+        radio.addEventListener('change', function () {
+            const row = this.closest('.registration-row');
+            if (row) {
+                updateActionTarget(row);
             }
         });
     });
@@ -660,6 +679,12 @@ document.addEventListener('DOMContentLoaded', function () {
     [...tooltipTriggerList].map(function (el) {
         return new bootstrap.Tooltip(el);
     });
+
+    // Initialize first active row on load
+    const initialActiveRow = document.querySelector('.registration-row.table-active') || rows[0];
+    if (initialActiveRow) {
+        updateActionTarget(initialActiveRow);
+    }
 
     // Start real-time timers
     updateLiveClock();

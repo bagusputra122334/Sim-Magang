@@ -56,6 +56,11 @@ class Position extends Model
         return $this->hasMany(Registration::class);
     }
 
+    public function getNameAttribute(): string
+    {
+        return $this->nama_posisi;
+    }
+
     public function isAktif(): bool
     {
         return $this->status->isAktif();

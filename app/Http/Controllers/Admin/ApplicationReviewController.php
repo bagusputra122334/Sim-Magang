@@ -18,6 +18,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\View\View;
+use Barryvdh\DomPDF\Facade\Pdf as PDF;
 
 class ApplicationReviewController extends AdminController
 {
@@ -113,6 +114,20 @@ class ApplicationReviewController extends AdminController
 
             return back()->with('error', 'Gagal mengekspor data ke Excel: '.$e->getMessage());
         }
+    }
+
+    /**
+     * Export PDF — Unduh data pendaftaran magang (.pdf) dengan Kop Surat Resmi.
+     *
+     * GET /admin/applications/export-pdf
+     */
+    public function exportPdf()
+    {
+        $applications = \App\Models\Registration::with(['user.profile', 'position'])->latest()->get();
+
+        // FORCE PDF ENGINE AND DOWNLOAD with Landscape orientation
+        $pdf = PDF::loadView('admin.applications.pdf', compact('applications'))->setPaper('a4', 'landscape');
+        return $pdf->download('Laporan_Verifikasi_Pendaftaran_Tuban.pdf');
     }
 
     /**

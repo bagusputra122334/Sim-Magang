@@ -126,6 +126,26 @@ class Registration extends Model
         return sprintf('%s s/d %s', $mulai, $selesai);
     }
 
+    public function getRegistrationNumberAttribute(): ?string
+    {
+        return $this->nomor_pendaftaran;
+    }
+
+    public function getNameAttribute(): ?string
+    {
+        return $this->user?->name;
+    }
+
+    public function getEmailAttribute(): ?string
+    {
+        return $this->user?->email;
+    }
+
+    public function getInstitutionAttribute(): ?string
+    {
+        return $this->user?->profile?->institusi;
+    }
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

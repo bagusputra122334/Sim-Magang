@@ -137,6 +137,14 @@ class ApplicationExportTest extends TestCase
         $response->assertStatus(403);
     }
 
+    public function test_admin_can_download_pdf_export(): void
+    {
+        $response = $this->actingAs($this->admin)->get(route('admin.applications.export_pdf'));
+
+        $response->assertStatus(200);
+        $response->assertHeader('content-type', 'application/pdf');
+    }
+
     public function test_admin_can_download_excel_export(): void
     {
         Excel::fake();

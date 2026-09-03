@@ -75,6 +75,9 @@ Route::prefix('applications')
         Route::get('/export', [ApplicationReviewController::class, 'exportExcel'])
             ->name('export');
 
+        Route::get('/export-pdf', [ApplicationReviewController::class, 'exportPdf'])
+            ->name('export_pdf');
+
         Route::get('{application}', [ApplicationReviewController::class, 'show'])
             ->name('show')
             ->missing(static function (): \Illuminate\Http\RedirectResponse {

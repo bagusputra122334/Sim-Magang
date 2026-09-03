@@ -140,21 +140,23 @@
 <body>
 
     <!-- KOP SURAT INSTANSI -->
-    <div class="header-kop">
-        <table>
-            <tr>
-                <td style="width: 12%; text-align: center; vertical-align: middle;">
-                    <img src="{{ public_path('traveland/images/logo.png') }}" style="height: 55px;" alt="Logo Tuban">
-                </td>
-                <td style="width: 88%; text-align: center; vertical-align: middle;">
-                    <div class="title-gov">PEMERINTAH KABUPATEN TUBAN</div>
-                    <div class="title-dept">DINAS KOMUNIKASI, INFORMATIKA, STATISTIK DAN PERSANDIAN</div>
-                    <div class="subtext">Jl. Mastrip No. 5 A, Sidorejo, Kec. Tuban, Kabupaten Tuban, Jawa Timur 62315</div>
-                    <div class="subtext">Email: diskominfo@tubankab.go.id | Telp: (0356) 8832697 | Website: diskominfo.tubankab.go.id</div>
-                </td>
-            </tr>
-        </table>
-    </div>
+    <table style="width: 100%; border-collapse: collapse; border: none; margin-bottom: 2px;">
+        <tr>
+            <!-- LOGO COLUMN -->
+            <td style="width: 15%; text-align: center; vertical-align: middle; border: none; padding: 0;">
+                <img src="{{ public_path('traveland/images/logo.png') }}" alt="Logo Tuban" style="width: 80px; height: auto;">
+            </td>
+            <!-- TEXT COLUMN -->
+            <td style="width: 85%; text-align: center; vertical-align: middle; border: none; padding: 0; padding-right: 15%;">
+                <h3 style="margin: 0; font-size: 16px; font-weight: normal; line-height: 1.3;">PEMERINTAH KABUPATEN TUBAN</h3>
+                <h2 style="margin: 0; font-size: 18px; font-weight: bold; line-height: 1.3;">DINAS KOMUNIKASI, INFORMATIKA, STATISTIK DAN PERSANDIAN</h2>
+                <p style="margin: 0; font-size: 12px; line-height: 1.3;">Jl. Mastrip No. 5 A, Sidorejo, Kec. Tuban, Kabupaten Tuban, Jawa Timur 62315</p>
+                <p style="margin: 0; font-size: 12px; line-height: 1.3;">Email: diskominfo@tubankab.go.id | Telp: (0356) 8832697 | Website: diskominfo.tubankab.go.id</p>
+            </td>
+        </tr>
+    </table>
+    <div style="border-top: 3px solid black; margin-top: 10px; margin-bottom: 2px;"></div>
+    <div style="border-top: 1px solid black; margin-top: 0; margin-bottom: 20px;"></div>
 
     <!-- JUDUL DOKUMEN -->
     <div class="doc-title">
@@ -209,13 +211,8 @@
                 <tr>
                     <td style="text-align: center; font-weight: bold;">{{ $index + 1 }}</td>
                     <td>
-                        <span class="star-rating">
-                            @for ($i = 1; $i <= 5; $i++)
-                                {{ $i <= $survey->rating ? '★' : '☆' }}
-                            @endfor
-                        </span>
-                        <br>
-                        <span class="badge-star">{{ $survey->rating }} dari 5 Bintang</span>
+                        <div style="font-weight: bold; font-size: 14px; color: #334155;">{{ $survey->rating }} / 5</div>
+                        <div style="font-size: 11px; color: #64748b; margin-top: 2px;">Bintang</div>
                     </td>
                     <td>
                         @if (!empty($survey->komentar))

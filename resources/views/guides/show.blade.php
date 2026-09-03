@@ -1033,10 +1033,9 @@
                     </div>
                 </div>
 
-                <!-- COLUMN 4: SURVEI KEPUASAN -->
-                <div class="w-full flex flex-col" x-data="{ rating: 0, hoverRating: 0 }">
+                <div class="w-full flex flex-col" x-data="{ rating: 0, hoverRating: 0, isSubmitting: false }">
                     <h3 class="text-white font-bold text-sm mb-4 tracking-wider uppercase">SURVEI KEPUASAN</h3>
-                    <form action="{{ route('surveys.store') }}" method="POST" class="w-full bg-white rounded-2xl p-5 flex flex-col items-center text-center shadow-lg">
+                    <form action="{{ route('surveys.store') }}" method="POST" @submit="isSubmitting = true" class="w-full bg-white rounded-2xl p-5 flex flex-col items-center text-center shadow-lg">
                         @csrf
                         <h4 class="text-slate-800 font-extrabold text-xs sm:text-sm mb-1">Indeks Kepuasan Masyarakat</h4>
                         <p class="text-slate-500 text-xs mb-3">Berikan penilaian Anda</p>
@@ -1057,7 +1056,11 @@
 
                         <!-- Message & Submit -->
                         <textarea name="komentar" rows="2" class="w-full text-xs border border-slate-200 rounded-xl p-2.5 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 mb-3 transition-colors text-slate-800 placeholder-slate-400" placeholder="Tulis pesan/saran singkat..."></textarea>
-                        <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold py-2.5 rounded-xl shadow-md transition-all duration-200">Kirim Survei</button>
+                        <button type="submit" x-bind:disabled="isSubmitting" class="w-full bg-indigo-600 hover:bg-indigo-700 disabled:bg-indigo-400 text-white text-xs font-bold py-2.5 rounded-lg shadow-sm transition-all duration-200 flex justify-center items-center gap-2">
+                            <span x-show="!isSubmitting">Kirim Survei</span>
+                            <span x-show="isSubmitting">Mengirim...</span>
+                            <svg x-show="isSubmitting" class="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                        </button>
                     </form>
                 </div>
             </div>

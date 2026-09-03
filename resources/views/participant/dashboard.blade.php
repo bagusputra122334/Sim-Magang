@@ -46,85 +46,80 @@
     @endif
 
     {{-- Overview Metrics Cards --}}
-    <section class="row g-3" aria-label="Ringkasan Status Peserta">
-        {{-- Card 1: Kelengkapan Profil --}}
-        <div class="col-12 col-sm-6 col-xl-3">
-            <article class="metric-card {{ $hasProfile ? 'metric-success' : 'metric-warning' }}">
-                <div class="metric-top">
-                    <span class="metric-label">Status Profil</span>
-                    <span class="metric-icon"><i class="bi bi-person-circle" aria-hidden="true"></i></span>
-                </div>
-                <div class="metric-value fs-4">
-                    {{ $hasProfile ? 'Terisi Lengkap' : 'Belum Terisi' }}
-                </div>
-                <div class="metric-meta">
-                    @if ($hasProfile)
-                        <span class="text-success fw-bold"><i class="bi bi-check-circle-fill me-1"></i> Siap Mendaftar</span>
-                    @else
-                        <span class="text-warning fw-bold"><i class="bi bi-exclamation-triangle-fill me-1"></i> Wajib Dilengkapi</span>
-                    @endif
-                </div>
-            </article>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+        <!-- Card 1: Status Profil -->
+        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 flex items-center justify-between hover:shadow-md transition-shadow">
+            <div>
+                <p class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Status Profil</p>
+                <h3 class="text-xl font-extrabold text-slate-800">{{ $hasProfile ? 'Terisi Lengkap' : 'Belum Terisi' }}</h3>
+                @if ($hasProfile)
+                    <p class="text-xs text-emerald-600 font-medium mt-1 flex items-center gap-1">
+                        <svg class="w-3.5 h-3.5 text-emerald-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                        Siap Mendaftar
+                    </p>
+                @else
+                    <p class="text-xs text-amber-600 font-medium mt-1 flex items-center gap-1">
+                        <svg class="w-3.5 h-3.5 text-amber-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg>
+                        Wajib Dilengkapi
+                    </p>
+                @endif
+            </div>
+            <div class="w-10 h-10 flex items-center justify-center rounded-lg {{ $hasProfile ? 'bg-emerald-500' : 'bg-amber-500' }} text-white shadow-sm shrink-0">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+            </div>
         </div>
 
-        {{-- Card 2: Total Pendaftaran --}}
-        <div class="col-12 col-sm-6 col-xl-3">
-            <article class="metric-card metric-primary">
-                <div class="metric-top">
-                    <span class="metric-label">Total Pendaftaran</span>
-                    <span class="metric-icon"><i class="bi bi-journal-text" aria-hidden="true"></i></span>
-                </div>
-                <div class="metric-value">{{ $totalRegistrations }}</div>
-                <div class="metric-meta">
-                    <span>Permohonan magang diajukan</span>
-                </div>
-            </article>
+        <!-- Card 2: Total Pendaftaran -->
+        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 flex items-center justify-between hover:shadow-md transition-shadow">
+            <div>
+                <p class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Total Pendaftaran</p>
+                <h3 class="text-xl font-extrabold text-slate-800">{{ $totalRegistrations }}</h3>
+                <p class="text-xs text-slate-500 mt-1">Permohonan diajukan</p>
+            </div>
+            <div class="w-10 h-10 flex items-center justify-center rounded-lg bg-blue-600 text-white shadow-sm shrink-0">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+            </div>
         </div>
 
-        {{-- Card 3: Status Pendaftaran Terbaru --}}
-        <div class="col-12 col-sm-6 col-xl-3">
-            <article class="metric-card {{ $sv === 'accepted' ? 'metric-success' : ($sv === 'rejected' ? 'metric-danger' : ($sv === 'under_review' ? 'metric-warning' : 'metric-primary')) }}">
-                <div class="metric-top">
-                    <span class="metric-label">Status Terbaru</span>
-                    <span class="metric-icon"><i class="bi bi-info-circle" aria-hidden="true"></i></span>
-                </div>
-                <div class="metric-value fs-4">
-                    @if ($reg !== null)
-                        <span class="badge {{ $reg->is_terminated ? 'bg-danger-subtle text-danger border border-danger-subtle' : $badgeClass }} fs-6">
-                            {{ $reg->is_terminated ? 'Dinonaktifkan' : $reg->status->label() }}
-                        </span>
-                    @else
-                        <span class="badge bg-secondary fs-6">Belum Ada</span>
-                    @endif
-                </div>
-                <div class="metric-meta">
-                    <span>{{ $reg !== null ? 'Nomor: '.$reg->nomor_pendaftaran : 'Silakan ajukan pendaftaran' }}</span>
-                </div>
-            </article>
+        <!-- Card 3: Status Terbaru -->
+        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 flex items-center justify-between hover:shadow-md transition-shadow">
+            <div>
+                <p class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Status Terbaru</p>
+                @if ($reg !== null)
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold {{ $reg->is_terminated ? 'bg-rose-100 text-rose-800' : ($sv === 'accepted' ? 'bg-emerald-100 text-emerald-800' : ($sv === 'rejected' ? 'bg-rose-100 text-rose-800' : ($sv === 'under_review' ? 'bg-amber-100 text-amber-800' : 'bg-blue-100 text-blue-800'))) }}">
+                        {{ $reg->is_terminated ? 'Dinonaktifkan' : $reg->status->label() }}
+                    </span>
+                @else
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-slate-100 text-slate-700">
+                        Belum Ada
+                    </span>
+                @endif
+                <p class="text-xs text-slate-500 mt-2">{{ $reg !== null ? 'Nomor: '.$reg->nomor_pendaftaran : 'Silakan ajukan pendaftaran' }}</p>
+            </div>
+            <div class="w-10 h-10 flex items-center justify-center rounded-lg bg-sky-500 text-white shadow-sm shrink-0">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            </div>
         </div>
 
-        {{-- Card 4: Surat Balasan Status --}}
-        <div class="col-12 col-sm-6 col-xl-3">
-            <article class="metric-card {{ $documentInfo['surat_balasan_exists'] ? 'metric-success' : 'metric-warning' }}">
-                <div class="metric-top">
-                    <span class="metric-label">Surat Balasan</span>
-                    <span class="metric-icon"><i class="bi bi-file-earmark-pdf" aria-hidden="true"></i></span>
-                </div>
-                <div class="metric-value fs-4">
-                    {{ $documentInfo['surat_balasan_exists'] ? 'Tersedia' : 'Belum Ada' }}
-                </div>
-                <div class="metric-meta">
-                    @if ($documentInfo['surat_balasan_exists'])
-                        <a href="{{ $documentInfo['surat_balasan_download_route'] }}" class="text-success fw-bold text-decoration-none">
-                            <i class="bi bi-download me-1"></i> Unduh Surat PDF
-                        </a>
-                    @else
-                        <span>Diterbitkan jika diterima</span>
-                    @endif
-                </div>
-            </article>
+        <!-- Card 4: Surat Balasan -->
+        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 flex items-center justify-between hover:shadow-md transition-shadow">
+            <div>
+                <p class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Surat Balasan</p>
+                <h3 class="text-xl font-extrabold text-slate-800">{{ $documentInfo['surat_balasan_exists'] ? 'Tersedia' : 'Belum Ada' }}</h3>
+                @if ($documentInfo['surat_balasan_exists'])
+                    <a href="{{ $documentInfo['surat_balasan_download_route'] }}" class="text-xs text-emerald-600 font-bold hover:underline flex items-center gap-1 mt-1">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                        Unduh Surat PDF
+                    </a>
+                @else
+                    <p class="text-xs text-slate-500 mt-1">Diterbitkan jika diterima</p>
+                @endif
+            </div>
+            <div class="w-10 h-10 flex items-center justify-center rounded-lg bg-amber-500 text-white shadow-sm shrink-0">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+            </div>
         </div>
-    </section>
+    </div>
 
     <div class="row g-4 mt-1">
         {{-- Left Column: Personal Information & Admin Notes --}}

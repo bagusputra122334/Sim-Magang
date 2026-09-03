@@ -26,8 +26,13 @@ Route::get('/', function () {
     return view('welcome', compact('positions'));
 });
 
-Route::post('/contact', [App\Http\Controllers\ContactController::class, 'send'])->name('contact.send');
-Route::post('/surveys', [\App\Http\Controllers\FrontendSurveyController::class, 'store'])->name('surveys.store');
+Route::post('/contact', [App\Http\Controllers\ContactController::class, 'send'])
+    ->middleware('throttle:3,1')
+    ->name('contact.send');
+
+Route::post('/surveys', [\App\Http\Controllers\FrontendSurveyController::class, 'store'])
+    ->middleware('throttle:3,1')
+    ->name('surveys.store');
 Route::get('/panduan', [App\Http\Controllers\GuideController::class, 'index'])->name('guides.index');
 Route::get('/panduan/{slug}', [App\Http\Controllers\GuideController::class, 'show'])->name('guides.show');
 
@@ -118,6 +123,14 @@ Route::prefix('admin')
     ->name('admin.')
     ->middleware(['auth', 'admin'])
     ->group(base_path('routes/admin.php'));
+
+Route::get('/admin/applications/export-pdf', [\App\Http\Controllers\Admin\ApplicationReviewController::class, 'exportPdf'])
+    ->middleware(['auth', 'admin'])
+    ->name('admin.applications.export_pdf');
+
+Route::get('/admin/interns/export-pdf-active', [\App\Http\Controllers\Admin\ActiveInternController::class, 'exportPdf'])
+    ->middleware(['auth', 'admin'])
+    ->name('admin.interns.export_pdf_active');
 
 /*
 |--------------------------------------------------------------------------

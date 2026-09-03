@@ -3,50 +3,80 @@
 @section('title', 'Daftar Pendaftaran Magang — Admin')
 
 @section('content')
-    <div class="d-flex flex-wrap align-items-center justify-content-between mb-4 gap-2">
-        <div>
-            <h1 class="h3 mb-1 text-body">
-                <i class="bi bi-clipboard-check me-1 text-primary"></i> Verifikasi Pendaftaran Magang
-            </h1>
-            <p class="mb-0 text-muted small">
-                Administrasi seleksi peserta MAGANG Dinas Komunikasi, Informatika, Statistik dan Persandian Kabupaten Tuban.
-            </p>
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4 w-full w-100">
+        <!-- Page Title & Description (Left Side) -->
+        <div class="flex-1">
+            <h2 class="text-2xl font-bold text-slate-800 flex items-center gap-2">
+                <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                Verifikasi Pendaftaran Magang
+            </h2>
+            <p class="text-slate-500 text-sm mt-1">Administrasi seleksi peserta MAGANG Dinas Komunikasi, Informatika, Statistik dan Persandian Kabupaten Tuban.</p>
         </div>
-        <div class="d-flex gap-2">
-            <a href="{{ route('admin.applications.export', request()->query()) }}" class="btn btn-success btn-sm shadow-sm" title="Export data pendaftaran ke Microsoft Excel (.xlsx)">
-                <i class="bi bi-file-earmark-excel me-1"></i> Export Excel
-            </a>
-            <a href="{{ route('admin.applications.index') }}" class="btn btn-outline-secondary btn-sm">
-                <i class="bi bi-arrow-clockwise"></i> Reset Filter
+        
+        <!-- Export Button (Pushed Strictly to Right Side) -->
+        <div class="shrink-0 ms-auto">
+            <a href="{{ route('admin.applications.export_pdf') }}" class="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold rounded-lg shadow-md transition-colors">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                Ekspor PDF (Resmi)
             </a>
         </div>
     </div>
 
-    {{-- Summary Sederhana --}}
-    <div class="row g-3 mb-4">
-        @foreach ([
-            ['label'=>'Total','count'=>$summary['total'],'color'=>'primary','icon'=>'bi-clipboard-data'],
-            ['label'=>'Submitted','count'=>$summary['submitted'],'color'=>'info','icon'=>'bi-envelope-open'],
-            ['label'=>'Under Review','count'=>$summary['review'],'color'=>'warning','icon'=>'bi-eye'],
-            ['label'=>'Accepted','count'=>$summary['accepted'],'color'=>'success','icon'=>'bi-check-circle'],
-            ['label'=>'Rejected','count'=>$summary['rejected'],'color'=>'danger','icon'=>'bi-x-circle'],
-        ] as $item)
-        <div class="col-6 col-md-4 col-lg-2">
-            <div class="card border bg-{{ $item['color'] }}-subtle h-100 shadow-sm">
-                <div class="card-body p-3">
-                    <div class="d-flex align-items-center justify-content-between">
-                        <div>
-                            <p class="text-uppercase mb-1 text-{{ $item['color'] }} fw-bold" style="font-size: 10px; letter-spacing: .05em;">
-                                {{ $item['label'] }}
-                            </p>
-                            <div class="fs-4 fw-bold text-{{ $item['color'] }}">{{ $item['count'] }}</div>
-                        </div>
-                        <i class="bi {{ $item['icon'] }} fs-3 text-{{ $item['color'] }} opacity-75"></i>
-                    </div>
-                </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6 mb-6 mt-4">
+        <!-- Card 1: Total -->
+        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 flex items-center justify-between hover:shadow-md transition-shadow">
+            <div>
+                <p class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Total</p>
+                <h3 class="text-2xl font-extrabold text-slate-800">{{ $summary['total'] ?? 0 }}</h3> 
+            </div>
+            <div class="w-10 h-10 flex items-center justify-center rounded-lg bg-blue-500 text-white shadow-sm shrink-0">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
             </div>
         </div>
-        @endforeach
+
+        <!-- Card 2: Submitted -->
+        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 flex items-center justify-between hover:shadow-md transition-shadow">
+            <div>
+                <p class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Submitted</p>
+                <h3 class="text-2xl font-extrabold text-slate-800">{{ $summary['submitted'] ?? 0 }}</h3>
+            </div>
+            <div class="w-10 h-10 flex items-center justify-center rounded-lg bg-sky-500 text-white shadow-sm shrink-0">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+            </div>
+        </div>
+
+        <!-- Card 3: Under Review -->
+        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 flex items-center justify-between hover:shadow-md transition-shadow">
+            <div>
+                <p class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Under Review</p>
+                <h3 class="text-2xl font-extrabold text-slate-800">{{ $summary['review'] ?? 0 }}</h3>
+            </div>
+            <div class="w-10 h-10 flex items-center justify-center rounded-lg bg-amber-500 text-white shadow-sm shrink-0">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+            </div>
+        </div>
+
+        <!-- Card 4: Accepted -->
+        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 flex items-center justify-between hover:shadow-md transition-shadow">
+            <div>
+                <p class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Accepted</p>
+                <h3 class="text-2xl font-extrabold text-slate-800">{{ $summary['accepted'] ?? 0 }}</h3>
+            </div>
+            <div class="w-10 h-10 flex items-center justify-center rounded-lg bg-emerald-500 text-white shadow-sm shrink-0">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            </div>
+        </div>
+
+        <!-- Card 5: Rejected -->
+        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 flex items-center justify-between hover:shadow-md transition-shadow">
+            <div>
+                <p class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Rejected</p>
+                <h3 class="text-2xl font-extrabold text-slate-800">{{ $summary['rejected'] ?? 0 }}</h3>
+            </div>
+            <div class="w-10 h-10 flex items-center justify-center rounded-lg bg-rose-500 text-white shadow-sm shrink-0">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            </div>
+        </div>
     </div>
 
     {{-- Filter Bar --}}

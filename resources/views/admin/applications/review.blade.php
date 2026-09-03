@@ -193,18 +193,22 @@
                         </div>
 
                         {{-- Submit Bottom --}}
-                        <div class="d-flex flex-wrap gap-2 justify-content-between border-top pt-3">
-                            <div class="small text-muted d-flex align-items-center gap-1">
-                                <i class="bi bi-shield-lock text-primary"></i>
-                                Decision guard: keputusan final tidak dapat diubah setelah disubmit.
+                        <div class="flex flex-col sm:flex-row items-center justify-between gap-4 mt-8 pt-6 border-t border-slate-200">
+                            <div class="small text-slate-500 flex items-center gap-1.5 text-xs">
+                                <i class="bi bi-shield-lock text-blue-600"></i>
+                                Decision guard: Keputusan final tidak dapat diubah setelah disubmit.
                             </div>
-                            <div class="d-flex gap-2">
-                                <a href="{{ route('admin.applications.show', $reg->id) }}" class="btn bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 rounded-xl font-semibold shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md px-4 py-2">
-                                    <i class="bi bi-x-lg me-1"></i> Batal
+                            <div class="flex items-center justify-end gap-3">
+                                <!-- Tombol Batal -->
+                                <a href="{{ route('admin.applications.show', $reg->id) }}" class="inline-flex items-center justify-center h-10 px-4 bg-white border border-slate-300 text-slate-700 text-sm font-medium rounded-lg hover:bg-slate-50 transition-colors" style="height: 40px !important; padding-left: 1rem !important; padding-right: 1rem !important; font-size: 0.875rem !important;">
+                                    <svg class="w-4 h-4 mr-1.5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                                    Batal
                                 </a>
-                                <button type="submit" id="btn-submit-verif" class="btn bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white rounded-xl font-semibold shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md px-4 py-2">
-                                    <i class="bi bi-check2-circle me-1"></i>
-                                    Submit Keputusan (Final)
+                                
+                                <!-- Tombol Simpan -->
+                                <button type="submit" id="btn-submit-verif" class="inline-flex items-center justify-center h-10 px-4 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors shadow-sm" style="height: 40px !important; padding-left: 1rem !important; padding-right: 1rem !important; font-size: 0.875rem !important;">
+                                    <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                    Simpan Keputusan
                                 </button>
                             </div>
                         </div>

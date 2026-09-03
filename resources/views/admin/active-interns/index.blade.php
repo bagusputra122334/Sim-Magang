@@ -3,81 +3,68 @@
 @section('title', 'Monitoring Magang Aktif')
 
 @section('content')
-    <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
-        <div>
-            <h1 class="h3 fw-bold mb-1">
-                <i class="bi bi-people-fill text-primary me-2"></i>Monitoring Magang Aktif
-            </h1>
-            <p class="text-muted mb-0">Pantau daftar peserta magang yang telah diterima, lacak periode pelaksanaan, dan kelola status operasional.</p>
-        </div>
-        <div>
-            <a href="{{ route('admin.active-interns.export', request()->query()) }}" class="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold rounded-lg shadow-md transition-colors">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-                Ekspor Magang Aktif (PDF)
-            </a>
-        </div>
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+    <!-- Page Title & Description -->
+    <div>
+        <h2 class="text-2xl font-bold text-slate-800 flex items-center gap-2">
+            <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+            Monitoring Magang Aktif
+        </h2>
+        <p class="text-slate-500 text-sm mt-1">Pantau daftar peserta magang yang telah diterima, lacak periode pelaksanaan, dan kelola status operasional.</p>
     </div>
+    
+    <!-- Export Button (Pushed to Right) -->
+    <div class="shrink-0">
+        <a href="{{ route('admin.interns.export_pdf_active') }}" class="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold rounded-lg shadow-md transition-colors">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+            Ekspor PDF (Resmi)
+        </a>
+    </div>
+</div>
 
     {{-- Ringkasan Statistik --}}
-    <div class="row g-3 mb-4">
-        <div class="col-sm-6 col-xl-3">
-            <div class="card border shadow-sm h-100">
-                <div class="card-body p-3">
-                    <div class="d-flex align-items-center justify-content-between">
-                        <div>
-                            <span class="text-muted small fw-semibold text-uppercase">Total Diterima</span>
-                            <h3 class="fw-bold mb-0 mt-1">{{ $statistics['total'] }}</h3>
-                        </div>
-                        <div class="bg-primary-subtle rounded-circle p-3 text-primary">
-                            <i class="bi bi-person-check fs-4"></i>
-                        </div>
-                    </div>
-                </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-6 mt-4">
+        <!-- Card 1: Total Diterima -->
+        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 flex items-center justify-between hover:shadow-md transition-shadow">
+            <div>
+                <p class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Total Diterima</p>
+                <h3 class="text-2xl font-extrabold text-slate-800">{{ $statistics['total'] }}</h3>
+            </div>
+            <div class="w-10 h-10 flex items-center justify-center rounded-lg bg-blue-500 text-white shadow-sm shrink-0">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
             </div>
         </div>
-        <div class="col-sm-6 col-xl-3">
-            <div class="card border shadow-sm h-100">
-                <div class="card-body p-3">
-                    <div class="d-flex align-items-center justify-content-between">
-                        <div>
-                            <span class="text-muted small fw-semibold text-uppercase">Aktif Magang</span>
-                            <h3 class="fw-bold text-success mb-0 mt-1">{{ $statistics['active'] }}</h3>
-                        </div>
-                        <div class="bg-success-subtle rounded-circle p-3 text-success">
-                            <i class="bi bi-play-circle fs-4"></i>
-                        </div>
-                    </div>
-                </div>
+
+        <!-- Card 2: Aktif Magang -->
+        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 flex items-center justify-between hover:shadow-md transition-shadow">
+            <div>
+                <p class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Aktif Magang</p>
+                <h3 class="text-2xl font-extrabold text-emerald-600">{{ $statistics['active'] }}</h3>
+            </div>
+            <div class="w-10 h-10 flex items-center justify-center rounded-lg bg-emerald-500 text-white shadow-sm shrink-0">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
             </div>
         </div>
-        <div class="col-sm-6 col-xl-3">
-            <div class="card border shadow-sm h-100">
-                <div class="card-body p-3">
-                    <div class="d-flex align-items-center justify-content-between">
-                        <div>
-                            <span class="text-muted small fw-semibold text-uppercase">Selesai Magang</span>
-                            <h3 class="fw-bold text-secondary mb-0 mt-1">{{ $statistics['completed'] }}</h3>
-                        </div>
-                        <div class="bg-secondary-subtle rounded-circle p-3 text-secondary">
-                            <i class="bi bi-check2-circle fs-4"></i>
-                        </div>
-                    </div>
-                </div>
+
+        <!-- Card 3: Selesai Magang -->
+        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 flex items-center justify-between hover:shadow-md transition-shadow">
+            <div>
+                <p class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Selesai Magang</p>
+                <h3 class="text-2xl font-extrabold text-slate-700">{{ $statistics['completed'] }}</h3>
+            </div>
+            <div class="w-10 h-10 flex items-center justify-center rounded-lg bg-slate-500 text-white shadow-sm shrink-0">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
             </div>
         </div>
-        <div class="col-sm-6 col-xl-3">
-            <div class="card border shadow-sm h-100">
-                <div class="card-body p-3">
-                    <div class="d-flex align-items-center justify-content-between">
-                        <div>
-                            <span class="text-muted small fw-semibold text-uppercase">Dinonaktifkan</span>
-                            <h3 class="fw-bold text-danger mb-0 mt-1">{{ $statistics['terminated'] }}</h3>
-                        </div>
-                        <div class="bg-danger-subtle rounded-circle p-3 text-danger">
-                            <i class="bi bi-slash-circle fs-4"></i>
-                        </div>
-                    </div>
-                </div>
+
+        <!-- Card 4: Dinonaktifkan -->
+        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 flex items-center justify-between hover:shadow-md transition-shadow">
+            <div>
+                <p class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Dinonaktifkan</p>
+                <h3 class="text-2xl font-extrabold text-rose-600">{{ $statistics['terminated'] }}</h3>
+            </div>
+            <div class="w-10 h-10 flex items-center justify-center rounded-lg bg-rose-500 text-white shadow-sm shrink-0">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"></path></svg>
             </div>
         </div>
     </div>
