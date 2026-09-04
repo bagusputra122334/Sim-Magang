@@ -22,24 +22,6 @@
         </div>
     @endif
 
-    <!-- Local Demo Direct Reset Button (Testing / Presentation) -->
-    @if (session('demo_reset_url') && app()->environment('local'))
-        <div class="alert alert-info alert-dismissible fade show mb-4 border-0 shadow-sm" role="alert">
-            <div class="d-flex align-items-start">
-                <i class="bi bi-laptop fs-5 text-primary me-2 mt-1"></i>
-                <div class="flex-grow-1">
-                    <strong class="d-block text-primary mb-1">Simulasi Email (Mode Pengujian Lokal)</strong>
-                    <p class="small mb-2 text-secondary">
-                        Tautan reset kata sandi berhasil dibuat. Anda dapat langsung mengkliknya di bawah ini tanpa perlu membuka file log:
-                    </p>
-                    <a href="{{ session('demo_reset_url') }}" class="btn btn-sm btn-primary bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg px-3 py-1.5 shadow-sm transition-all">
-                        <i class="bi bi-arrow-right-circle me-1"></i> Buka Halaman Buat Kata Sandi Baru
-                    </a>
-                </div>
-                <button type="button" class="btn-close ms-2" data-bs-dismiss="alert" aria-label="Tutup"></button>
-            </div>
-        </div>
-    @endif
 
     <div class="mb-4">
         <label class="form-label" for="email">Alamat Email</label>

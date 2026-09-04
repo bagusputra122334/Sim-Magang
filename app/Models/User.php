@@ -129,13 +129,6 @@ class User extends Authenticatable
 
     public function sendPasswordResetNotification(#[\SensitiveParameter] $token): void
     {
-        if (app()->environment('local')) {
-            session()->flash('demo_reset_url', route('password.reset', [
-                'token' => $token,
-                'email' => $this->getEmailForPasswordReset(),
-            ]));
-        }
-
         $this->notify(new \App\Notifications\QueuedUserResetPassword($token));
     }
 }
