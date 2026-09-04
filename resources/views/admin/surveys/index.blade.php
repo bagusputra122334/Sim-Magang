@@ -12,12 +12,12 @@
 
 <div class="space-y-6">
     {{-- Page Header --}}
-    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-slate-200 dark:border-slate-800 pb-5">
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-slate-200 pb-5">
         <div>
-            <h1 class="text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
+            <h1 class="text-2xl font-bold text-slate-800 flex items-center gap-2">
                 <i class="bi bi-star-fill text-amber-400"></i> Survei Kepuasan
             </h1>
-            <p class="text-sm text-slate-700 mt-1">
+            <p class="text-sm text-slate-600 mt-1">
                 Daftar umpan balik dan tingkat kepuasan layanan dari pengguna SIM-MAGANG Diskominfo Tuban.
             </p>
         </div>

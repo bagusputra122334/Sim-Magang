@@ -56,6 +56,9 @@ class PositionController extends AdminController
     public function store(StorePositionRequest $request): RedirectResponse
     {
         $validated = $request->validated();
+        $validated['deskripsi'] = $validated['deskripsi'] ?? '';
+        $validated['kualifikasi'] = $validated['kualifikasi'] ?? '';
+
         $position = $this->positionService->createPosition($validated);
 
         return redirect()
@@ -88,6 +91,9 @@ class PositionController extends AdminController
     public function update(UpdatePositionRequest $request, Position $position): RedirectResponse
     {
         $validated = $request->validated();
+        $validated['deskripsi'] = $validated['deskripsi'] ?? '';
+        $validated['kualifikasi'] = $validated['kualifikasi'] ?? '';
+
         $this->positionService->updatePosition($position, $validated);
 
         return redirect()

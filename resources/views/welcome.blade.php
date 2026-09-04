@@ -1832,7 +1832,7 @@
                     <div class="section_title text-center">
                         <span class="section-tag">Formasi & Bidang Kerja</span>
                         <h2 class="title">Pilihan Formasi <br> Kembangkan <span>Potensi Anda</span></h2>
-                        <p>Tersedia berbagai pilihan posisi magang di 5 bidang kerja strategis Dinas Komunikasi, Informatika, Statistik dan Persandian Kabupaten Tuban.</p>
+                        <p>Tersedia berbagai pilihan posisi magang di 5 bidang kerja strategis Dinas Komunikasi, Informatika, Statistik dan Persandian Kabupaten Tuban (Sekretariat, Komunikasi & Informasi Publik, Aplikasi & Informatika, Statistik, dan Persandian).</p>
                     </div>
                 </div>
             </div>
@@ -1920,19 +1920,8 @@
                     @endif
                 @endif
             @else
-                {{-- 5 Bidang Kerja Dinas --}}
-                <div class="row mb-5">
-                    @foreach($divisionsList as $div)
-                        <div class="col-lg-4 col-md-6 mb-3">
-                            <div class="division-pill">
-                                <div class="division-icon"><i class="bi {{ $div['icon'] }}"></i></div>
-                                <div>
-                                    <strong class="d-block font-weight-bold" style="font-size: 14.5px;">{{ $div['name'] }}</strong>
-                                    <small>{{ $div['desc'] }}</small>
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
+                <div class="w-full text-left mb-6 mt-8">
+                    <h3 class="text-xl font-extrabold text-slate-800">Lowongan magang yang tersedia :</h3>
                 </div>
 
                 {{-- Dynamic Positions Cards --}}

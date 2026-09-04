@@ -11,7 +11,7 @@
             <p class="text-muted mb-0">Informasi bio peserta, alokasi posisi, pembimbing lapangan, dan kontrol status magang.</p>
         </div>
         <a href="{{ route('admin.active-interns.index') }}" class="btn btn-outline-secondary">
-            <i class="bi bi-arrow-left me-1"></i> Kembali ke Magang Aktif
+            <i class="bi bi-arrow-left me-1"></i> Kembali ke Status Magang
         </a>
     </div>
 

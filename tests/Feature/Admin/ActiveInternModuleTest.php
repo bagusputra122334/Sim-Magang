@@ -57,7 +57,7 @@ class ActiveInternModuleTest extends TestCase
             ->get(route('admin.active-interns.index'));
 
         $response->assertStatus(200);
-        $response->assertSee('Monitoring Magang Aktif');
+        $response->assertSee('Monitoring Status Magang');
         $response->assertSee($this->participant->name);
     }
 

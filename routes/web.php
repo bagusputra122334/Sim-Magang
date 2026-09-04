@@ -20,7 +20,6 @@ Route::get('/', function () {
             });
         })
         ->latest('created_at')
-        ->take(6)
         ->get();
 
     return view('welcome', compact('positions'));

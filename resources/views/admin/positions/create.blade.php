@@ -31,8 +31,8 @@
                         <button type="reset" class="btn bg-amber-50 hover:bg-amber-100 text-amber-700 border border-amber-200 rounded-xl font-semibold shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md px-4 py-2.5">
                             <i class="bi bi-arrow-counterclockwise me-1" aria-hidden="true"></i> Reset
                         </button>
-                        <button type="submit" class="btn bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white rounded-xl font-semibold shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md px-4 py-2.5">
-                            <i class="bi bi-save2 me-1" aria-hidden="true"></i> Simpan Posisi
+                        <button type="submit" class="inline-flex items-center gap-2 px-6 py-2.5 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white text-sm font-bold rounded-lg shadow-md transition-colors">
+                            Simpan Posisi
                         </button>
                     </div>
                 </div>

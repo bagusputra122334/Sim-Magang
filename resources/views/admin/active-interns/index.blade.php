@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Monitoring Magang Aktif')
+@section('title', 'Monitoring Status Magang')
 
 @section('content')
 <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
@@ -8,14 +8,14 @@
     <div>
         <h2 class="text-2xl font-bold text-slate-800 flex items-center gap-2">
             <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-            Monitoring Magang Aktif
+            Monitoring Status Magang
         </h2>
         <p class="text-slate-500 text-sm mt-1">Pantau daftar peserta magang yang telah diterima, lacak periode pelaksanaan, dan kelola status operasional.</p>
     </div>
     
     <!-- Export Button (Pushed to Right) -->
     <div class="shrink-0">
-        <a href="{{ route('admin.interns.export_pdf_active') }}" class="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold rounded-lg shadow-md transition-colors">
+        <a href="{{ route('admin.interns.export_pdf_active', request()->query()) }}" class="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold rounded-lg shadow-md transition-colors">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
             Ekspor PDF (Resmi)
         </a>
@@ -73,7 +73,7 @@
     <div class="card border shadow-sm mb-4">
         <div class="card-body py-3">
             <form method="GET" action="{{ route('admin.active-interns.index') }}" class="row g-3 align-items-end">
-                <div class="col-md-5">
+                <div class="col-md-4">
                     <label for="search" class="form-label mb-1 small fw-semibold">
                         <i class="bi bi-search me-1"></i> Cari (Nama / Instansi / Posisi)
                     </label>
@@ -90,7 +90,7 @@
                         </button>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <label for="op_status" class="form-label mb-1 small fw-semibold">
                         <i class="bi bi-funnel me-1"></i> Filter Status Operasional
                     </label>
@@ -102,6 +102,18 @@
                     </select>
                 </div>
                 <div class="col-md-3">
+                    <label for="year" class="form-label mb-1 small fw-semibold">
+                        <i class="bi bi-calendar-event me-1"></i> Filter Tahun
+                    </label>
+                    <select name="year" id="year" class="form-select" onchange="this.form.submit()">
+                        <option value="">Semua Tahun</option>
+                        @php $currentYear = (int) date('Y'); @endphp
+                        @for($i = $currentYear + 1; $i >= $currentYear - 3; $i--)
+                            <option value="{{ $i }}" @selected((string)request('year', $year ?? '') === (string)$i)>Tahun {{ $i }}</option>
+                        @endfor
+                    </select>
+                </div>
+                <div class="col-md-2">
                     <label for="per_page" class="form-label mb-1 small fw-semibold">
                         <i class="bi bi-list-ol me-1"></i> Per Halaman
                     </label>
@@ -201,7 +213,7 @@
                                 <i class="bi bi-people fs-1 d-block mb-2 opacity-50"></i>
                                 <p class="mb-1">Tidak ada data peserta magang yang cocok dengan kriteria pencarian.</p>
                                 <a href="{{ route('admin.active-interns.index') }}" class="btn btn-link btn-sm">
-                                    Lihat seluruh magang aktif
+                                    Lihat seluruh status magang
                                 </a>
                             </td>
                         </tr>

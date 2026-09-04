@@ -39,7 +39,7 @@
             <h1 class="h3 fw-bold">Kelola Posisi Magang</h1>
             <p class="text-muted mb-0">Tambah, ubah, atau nonaktifkan posisi magang untuk Peserta Magang Diskominfo Tuban.</p>
         </div>
-        <a href="{{ route('admin.positions.create') }}" class="btn bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white rounded-xl font-semibold shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md px-4 py-2.5">
+        <a href="{{ route('admin.positions.create') }}" class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white text-sm font-medium rounded-lg shadow-sm transition-colors text-decoration-none">
             <i class="bi bi-plus-lg me-1"></i> Tambah Posisi
         </a>
 
@@ -122,7 +122,7 @@
                     </select>
                 </div>
                 <div class="col-md-2 d-grid">
-                    <button type="submit" class="btn btn-outline-primary">
+                    <button type="submit" class="inline-flex items-center justify-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg shadow-sm transition-colors border-0">
                         <i class="bi bi-funnel me-1"></i> Terapkan
                     </button>
                 </div>
@@ -198,31 +198,43 @@
                                 {{ $position->updated_at?->translatedFormat('d F Y') ?? '-' }}
                             </td>
                             <td class="text-end">
-                                <div class="btn-group btn-group-sm" role="group" aria-label="Aksi Posisi">
-                                    <a
-                                        href="{{ route('admin.positions.toggle-status', $position) }}"
-                                        class="btn btn-outline-{{ $position->status->isAktif() ? 'warning' : 'success' }}"
-                                        title="{{ $position->status->isAktif() ? 'Nonaktifkan' : 'Aktifkan' }}"
-                                        onclick="return confirm('Anda yakin ingin {{ $position->status->isAktif() ? 'menonaktifkan' : 'mengaktifkan' }} posisi {{ $position->nama_posisi }}?');"
-                                    >
-                                        <i class="bi bi-power"></i>
-                                    </a>
+                                <div class="d-inline-flex items-center gap-1.5" role="group" aria-label="Aksi Posisi">
+                                    @if ($position->status->isAktif())
+                                        <a
+                                            href="{{ route('admin.positions.toggle-status', $position) }}"
+                                            class="inline-flex items-center justify-center p-2 text-xs font-semibold text-amber-700 bg-amber-50 hover:bg-amber-100 hover:text-amber-900 border border-amber-200 rounded-lg transition-colors text-decoration-none"
+                                            title="Nonaktifkan Posisi"
+                                            onclick="return confirm('Anda yakin ingin menonaktifkan posisi {{ $position->nama_posisi }}?');"
+                                        >
+                                            <i class="bi bi-power"></i>
+                                        </a>
+                                    @else
+                                        <a
+                                            href="{{ route('admin.positions.toggle-status', $position) }}"
+                                            class="inline-flex items-center justify-center p-2 text-xs font-semibold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 hover:text-emerald-900 border border-emerald-200 rounded-lg transition-colors text-decoration-none"
+                                            title="Aktifkan Posisi"
+                                            onclick="return confirm('Anda yakin ingin mengaktifkan posisi {{ $position->nama_posisi }}?');"
+                                        >
+                                            <i class="bi bi-power"></i>
+                                        </a>
+                                    @endif
                                     <a
                                         href="{{ route('admin.positions.edit', $position) }}"
-                                        class="btn btn-outline-primary"
+                                        class="inline-flex items-center justify-center px-3 py-1.5 text-xs font-semibold text-blue-600 bg-blue-50 hover:bg-blue-100 hover:text-blue-800 border border-blue-200 rounded-lg transition-colors text-decoration-none"
                                         title="Edit Posisi"
                                     >
-                                        <i class="bi bi-pencil-square"></i> Edit
+                                        <i class="bi bi-pencil-square me-1"></i> Edit
                                     </a>
                                     <form
                                         method="POST"
                                         action="{{ route('admin.positions.destroy', $position) }}"
                                         onsubmit="return confirm('PERINGATAN: Posisi ini akan dihapus. Jika posisi sudah memiliki pendaftar, hapus akan gagal. Yakin menghapus posisi \'{{ $position->nama_posisi }}\'?');"
                                         style="display: inline-block;"
+                                        class="m-0 p-0"
                                     >
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-outline-danger" title="Hapus Posisi">
+                                        <button type="submit" class="inline-flex items-center justify-center p-2 text-xs font-semibold text-red-600 bg-red-50 hover:bg-red-100 hover:text-red-800 border border-red-200 rounded-lg transition-colors" title="Hapus Posisi">
                                             <i class="bi bi-trash3"></i>
                                         </button>
                                     </form>

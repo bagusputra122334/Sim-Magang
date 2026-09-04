@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Laporan Monitoring Peserta Magang Aktif</title>
+    <title>Laporan Monitoring Status Magang</title>
     <style>
         @page {
             margin: 25pt 30pt;
@@ -165,7 +165,7 @@
 
     <!-- JUDUL DOKUMEN -->
     <div class="doc-title">
-        <h2>LAPORAN MONITORING PESERTA MAGANG AKTIF & ALUMNI</h2>
+        <h2>LAPORAN MONITORING STATUS MAGANG & ALUMNI</h2>
         <p>Portal Pelayanan Pengajuan Magang Terpadu (SIM-MAGANG)</p>
         <p>Kriteria Filter: Status ({{ !empty($opStatus) ? strtoupper($opStatus) : 'SEMUA STATUS' }}) | Kata Kunci: "{{ $search ?: '-' }}" | Dicetak: {{ $printedAt }}</p>
     </div>

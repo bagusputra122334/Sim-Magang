@@ -121,9 +121,40 @@ class ApplicationReviewController extends AdminController
      *
      * GET /admin/applications/export-pdf
      */
-    public function exportPdf()
+    public function exportPdf(Request $request)
     {
-        $applications = \App\Models\Registration::with(['user.profile', 'position'])->latest()->get();
+        $status = $request->string('status')->trim()->toString();
+        $search = $request->string('search')->trim()->toString();
+        $positionId = $request->input('position_id');
+
+        $query = \App\Models\Registration::with(['user.profile', 'position']);
+
+        if ($status !== '') {
+            $query->where('status', $status);
+        }
+
+        if ($positionId) {
+            $query->where('position_id', $positionId);
+        }
+
+        if ($search !== '') {
+            $query->where(function ($q) use ($search): void {
+                $q->where('nomor_pendaftaran', 'like', "%{$search}%")
+                    ->orWhereHas('user', function ($uq) use ($search): void {
+                        $uq->where('name', 'like', "%{$search}%")
+                            ->orWhere('email', 'like', "%{$search}%")
+                            ->orWhereHas('profile', function ($pq) use ($search): void {
+                                $pq->where('institusi', 'like', "%{$search}%")
+                                    ->orWhere('jurusan', 'like', "%{$search}%");
+                            });
+                    })
+                    ->orWhereHas('position', function ($pq) use ($search): void {
+                        $pq->where('nama_posisi', 'like', "%{$search}%");
+                    });
+            });
+        }
+
+        $applications = $query->latest()->get();
 
         // FORCE PDF ENGINE AND DOWNLOAD with Landscape orientation
         $pdf = PDF::loadView('admin.applications.pdf', compact('applications'))->setPaper('a4', 'landscape');

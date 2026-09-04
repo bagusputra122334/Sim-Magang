@@ -17,6 +17,7 @@ class ActiveInternController extends AdminController
     {
         $search = $request->string('search')->trim()->toString();
         $opStatus = $request->string('op_status')->trim()->toString();
+        $year = $request->input('year');
         $perPage = $request->integer('per_page', 10);
         if (! in_array($perPage, [5, 10, 15, 25, 50], true)) {
             $perPage = 10;
@@ -57,6 +58,14 @@ class ActiveInternController extends AdminController
                 });
         }
 
+        if (! empty($year)) {
+            $query->where(function ($q) use ($year): void {
+                $q->whereYear('periode_mulai', $year)
+                    ->orWhereYear('periode_selesai', $year)
+                    ->orWhereYear('created_at', $year);
+            });
+        }
+
         $interns = $query->latest('updated_at')->paginate($perPage)->withQueryString();
 
         $allAccepted = Registration::where('status', RegistrationStatus::Accepted->value)->get();
@@ -71,6 +80,7 @@ class ActiveInternController extends AdminController
             'interns'    => $interns,
             'search'     => $search,
             'opStatus'   => $opStatus,
+            'year'       => $year,
             'perPage'    => $perPage,
             'statistics' => $statistics,
         ]);
@@ -142,6 +152,7 @@ class ActiveInternController extends AdminController
     {
         $search = $request->string('search')->trim()->toString();
         $opStatus = $request->string('op_status')->trim()->toString();
+        $year = $request->input('year');
 
         $query = Registration::query()
             ->where('status', RegistrationStatus::Accepted->value)
@@ -178,6 +189,14 @@ class ActiveInternController extends AdminController
                 });
         }
 
+        if (! empty($year)) {
+            $query->where(function ($q) use ($year): void {
+                $q->whereYear('periode_mulai', $year)
+                    ->orWhereYear('periode_selesai', $year)
+                    ->orWhereYear('created_at', $year);
+            });
+        }
+
         $interns = $query->latest('updated_at')->get();
 
         $allAccepted = Registration::where('status', RegistrationStatus::Accepted->value)->get();
@@ -190,7 +209,7 @@ class ActiveInternController extends AdminController
 
         $printedAt = now()->translatedFormat('d F Y H:i').' WIB';
 
-        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('admin.active-interns.pdf', compact('interns', 'statistics', 'search', 'opStatus', 'printedAt'))
+        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('admin.active-interns.pdf', compact('interns', 'statistics', 'search', 'opStatus', 'year', 'printedAt'))
             ->setPaper('a4', 'landscape');
         return $pdf->download('Laporan_Magang_Aktif_Diskominfo_'.now()->format('Ymd_His').'.pdf');
     }
