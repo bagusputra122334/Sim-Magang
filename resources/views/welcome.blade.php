@@ -7,6 +7,23 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="description" content="SIM-MAGANG - Sistem Informasi Magang Resmi Dinas Komunikasi, Informatika, Statistik dan Persandian Kabupaten Tuban. Layanan pendaftaran magang digital yang transparan, profesional, dan terpadu.">
 
+    <!-- Primary Meta Tags -->
+    <meta name="title" content="SIM-MAGANG - Diskominfo SP Kab. Tuban">
+
+    <!-- Open Graph / Facebook / WhatsApp -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ url('/') }}">
+    <meta property="og:title" content="SIM-MAGANG - Diskominfo SP Kab. Tuban">
+    <meta property="og:description" content="Portal Resmi Pendaftaran Magang Diskominfo SP Kab. Tuban. Daftarkan dirimu secara digital!">
+    <meta property="og:image" content="{{ asset('traveland/images/logo.png') }}">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="{{ url('/') }}">
+    <meta property="twitter:title" content="SIM-MAGANG - Diskominfo SP Kab. Tuban">
+    <meta property="twitter:description" content="Portal Resmi Pendaftaran Magang Diskominfo SP Kab. Tuban. Daftarkan dirimu secara digital!">
+    <meta property="twitter:image" content="{{ asset('traveland/images/logo.png') }}">
+
     <!--====== Title ======-->
     <title>SIM-MAGANG — Dinas Komunikasi, Informatika, Statistik dan Persandian Kabupaten Tuban</title>
 
@@ -1095,16 +1112,16 @@
 
         /* FAQ Accordion */
         .faq-item {
-            background: var(--sim-surface-card);
-            border: 1px solid var(--sim-border);
+            background: #ffffff !important;
+            border: 1px solid #e2e8f0 !important;
             border-radius: 14px;
             margin-bottom: 14px;
             overflow: hidden;
-            transition: all 0.2s ease;
         }
 
-        .faq-item:hover {
-            border-color: var(--sim-primary);
+        html[data-theme="dark"] .faq-item {
+            background: #1e293b !important;
+            border-color: #334155 !important;
         }
 
         .faq-btn {
@@ -1115,12 +1132,15 @@
             text-align: left;
             font-weight: 700;
             font-size: 16px;
-            color: var(--sim-text);
+            color: #0f172a !important;
             display: flex;
             justify-content: space-between;
             align-items: center;
             cursor: pointer;
-            transition: color 0.3s ease;
+        }
+
+        html[data-theme="dark"] .faq-btn {
+            color: #f8fafc !important;
         }
 
         .faq-btn:focus {
@@ -1130,9 +1150,28 @@
         .faq-body {
             padding: 0 22px 20px;
             font-size: 14.5px;
-            color: var(--sim-text-secondary);
+            color: #475569 !important;
+            background: transparent !important;
             line-height: 1.65;
-            transition: color 0.3s ease;
+        }
+
+        .faq-item p {
+            color: #475569 !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+            background: transparent !important;
+        }
+
+        html[data-theme="dark"] .faq-item p {
+            color: #cbd5e1 !important;
+        }
+
+        .faq-item p strong {
+            color: #0f172a !important;
+        }
+
+        html[data-theme="dark"] .faq-item p strong {
+            color: #ffffff !important;
         }
 
         /* Blog & Guides */
@@ -1590,19 +1629,24 @@
     </div>
 
     <!--====== GOV TOPBAR ======-->
-    <div class="gov-topbar py-2 d-none d-md-block">
-        <div class="container d-flex justify-content-between align-items-center">
-            <div class="d-flex align-items-center gap-2">
-                <a href="https://tubankab.go.id/" target="_blank" rel="noopener noreferrer" class="d-inline-flex align-items-center gap-2 font-weight-bold text-white text-decoration-none gov-topbar-link" title="Buka Portal Resmi Pemerintah Kabupaten Tuban">
-                    <i class="bi bi-bank text-primary"></i>
-                    <span>Pemerintah Kabupaten Tuban</span>
-                </a>
-                <span class="text-secondary mx-1">•</span>
-                <span>Dinas Komunikasi, Informatika, Statistik dan Persandian</span>
-            </div>
-            <div class="d-flex align-items-center gap-3">
-                <span><i class="bi bi-geo-alt mr-1 text-primary"></i> Jl. Veteran No. 2, Tuban</span>
-                <span><i class="bi bi-telephone mr-1 text-primary"></i> (0356) 321000</span>
+    <div class="gov-topbar py-1 block">
+        <div class="container">
+            <div class="overflow-hidden flex items-center w-full text-[10px] sm:text-xs md:text-sm text-slate-300 py-1 whitespace-nowrap">
+                <marquee scrollamount="4" onmouseover="this.stop();" onmouseout="this.start();" class="flex items-center space-x-4 whitespace-nowrap text-[10px] sm:text-xs md:text-sm">
+                    <a href="https://tubankab.go.id/" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors">Pemerintah Kabupaten Tuban</a>
+                    <span class="mx-2">•</span>
+                    <a href="https://diskominfo.tubankab.go.id/" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors">Dinas Komunikasi, Informatika, Statistik dan Persandian</a>
+                    <span class="mx-2">•</span>
+                    <a href="https://maps.google.com/?q=Jl.+Mastrip+No.+5+A,+Tuban" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors inline-flex items-center">
+                        <svg class="w-3.5 h-3.5 inline mr-1 text-primary" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+                        Jl. Mastrip No. 5 A, Tuban
+                    </a>
+                    <span class="mx-2">•</span>
+                    <a href="tel:03568832697" class="hover:text-white transition-colors inline-flex items-center">
+                        <svg class="w-3.5 h-3.5 inline mr-1 text-primary" fill="currentColor" viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+                        (0356) 8832697
+                    </a>
+                </marquee>
             </div>
         </div>
     </div>
@@ -2141,50 +2185,58 @@
 
             <div class="row justify-content-center">
                 <div class="col-lg-9">
-                    <div class="faq-item">
-                        <button class="faq-btn" type="button" data-toggle="collapse" data-target="#faq1">
+                    <div class="faq-item bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl mb-3.5 overflow-hidden shadow-sm">
+                        <button class="faq-btn text-slate-900 dark:text-white font-semibold text-base" type="button" data-toggle="collapse" data-target="#faq1">
                             <span>1. Apakah Siswa SMK wajib mengisi NIM pada form profil?</span>
-                            <i class="bi bi-chevron-down"></i>
+                            <i class="bi bi-chevron-down text-slate-500"></i>
                         </button>
-                        <div id="faq1" class="collapse show">
-                            <div class="faq-body">
-                                <strong>Tidak.</strong> Kategori Siswa SMK tidak memerlukan NIM. Sistem SIM-MAGANG secara otomatis menyesuaikan formulir pendaftaran untuk Siswa SMK (menggunakan NIS/NISN dan Nama Sekolah).
+                        <div id="faq1" class="collapse show bg-transparent">
+                            <div class="px-6 pb-6 pt-0">
+                                <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed font-medium">
+                                    <strong class="text-slate-900 dark:text-slate-100 font-bold">Tidak.</strong> Kategori Siswa SMK tidak memerlukan NIM. Sistem SIM-MAGANG secara otomatis menyesuaikan formulir pendaftaran untuk Siswa SMK (menggunakan NIS/NISN dan Nama Sekolah).
+                                </p>
                             </div>
                         </div>
                     </div>
 
-                    <div class="faq-item">
-                        <button class="faq-btn collapsed" type="button" data-toggle="collapse" data-target="#faq2">
+                    <div class="faq-item bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl mb-3.5 overflow-hidden shadow-sm">
+                        <button class="faq-btn collapsed text-slate-900 dark:text-white font-semibold text-base" type="button" data-toggle="collapse" data-target="#faq2">
                             <span>2. Apa saja berkas yang wajib diunggah saat pendaftaran?</span>
-                            <i class="bi bi-chevron-down"></i>
+                            <i class="bi bi-chevron-down text-slate-500"></i>
                         </button>
-                        <div id="faq2" class="collapse">
-                            <div class="faq-body">
-                                Berkas wajib meliputi: (1) <strong>Curriculum Vitae (CV)</strong> terbaru, (2) <strong>Surat Pengantar / Rekomendasi</strong> dari Perguruan Tinggi atau Sekolah, dan (3) <strong>Proposal Magang</strong> (opsional/jika ada rencana program kerja). Semua dokumen diunggah dalam format PDF (maks. 2MB).
+                        <div id="faq2" class="collapse bg-transparent">
+                            <div class="px-6 pb-6 pt-0">
+                                <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed font-medium">
+                                    Berkas wajib meliputi: (1) <strong class="text-slate-900 dark:text-slate-100 font-bold">Curriculum Vitae (CV)</strong> terbaru, (2) <strong class="text-slate-900 dark:text-slate-100 font-bold">Surat Pengantar / Rekomendasi</strong> dari Perguruan Tinggi atau Sekolah, dan (3) <strong class="text-slate-900 dark:text-slate-100 font-bold">Proposal Magang</strong> (opsional/jika ada rencana program kerja). Semua dokumen diunggah dalam format PDF (maks. 2MB).
+                                </p>
                             </div>
                         </div>
                     </div>
 
-                    <div class="faq-item">
-                        <button class="faq-btn collapsed" type="button" data-toggle="collapse" data-target="#faq3">
+                    <div class="faq-item bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl mb-3.5 overflow-hidden shadow-sm">
+                        <button class="faq-btn collapsed text-slate-900 dark:text-white font-semibold text-base" type="button" data-toggle="collapse" data-target="#faq3">
                             <span>3. Bagaimana cara mengetahui status verifikasi berkas saya?</span>
-                            <i class="bi bi-chevron-down"></i>
+                            <i class="bi bi-chevron-down text-slate-500"></i>
                         </button>
-                        <div id="faq3" class="collapse">
-                            <div class="faq-body">
-                                Anda dapat login ke portal SIM-MAGANG dan membuka <strong>Dashboard Saya</strong>. Status pendaftaran (Submitted, Under Review, Accepted, atau Rejected) serta Surat Balasan resmi akan langsung ditampilkan secara real-time.
+                        <div id="faq3" class="collapse bg-transparent">
+                            <div class="px-6 pb-6 pt-0">
+                                <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed font-medium">
+                                    Anda dapat login ke portal SIM-MAGANG dan membuka <strong class="text-slate-900 dark:text-slate-100 font-bold">Dashboard Saya</strong>. Status pendaftaran (Submitted, Under Review, Accepted, atau Rejected) serta Surat Balasan resmi akan langsung ditampilkan secara real-time.
+                                </p>
                             </div>
                         </div>
                     </div>
 
-                    <div class="faq-item">
-                        <button class="faq-btn collapsed" type="button" data-toggle="collapse" data-target="#faq4">
+                    <div class="faq-item bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl mb-3.5 overflow-hidden shadow-sm">
+                        <button class="faq-btn collapsed text-slate-900 dark:text-white font-semibold text-base" type="button" data-toggle="collapse" data-target="#faq4">
                             <span>4. Berapa lama durasi pelaksanaan magang di Diskominfo SP Tuban?</span>
-                            <i class="bi bi-chevron-down"></i>
+                            <i class="bi bi-chevron-down text-slate-500"></i>
                         </button>
-                        <div id="faq4" class="collapse">
-                            <div class="faq-body">
-                                Durasi magang disesuaikan dengan surat permohonan dari kampus atau sekolah, umumnya berkisar antara <strong>1 hingga 6 bulan</strong> (termasuk program magang MBKM).
+                        <div id="faq4" class="collapse bg-transparent">
+                            <div class="px-6 pb-6 pt-0">
+                                <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed font-medium">
+                                    Durasi magang disesuaikan dengan surat permohonan dari kampus atau sekolah, umumnya berkisar antara <strong class="text-slate-900 dark:text-slate-100 font-bold">1 hingga 6 bulan</strong> (termasuk program magang MBKM).
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -2283,7 +2335,7 @@
                             <div class="contact-entry-icon"><i class="bi bi-geo-alt-fill"></i></div>
                             <div>
                                 <strong class="d-block">Alamat Kantor</strong>
-                                <span class="small">Jl. Veteran No. 2, Kutorejo, Kec. Tuban, Kabupaten Tuban, Jawa Timur 62311</span>
+                                <a href="https://diskominfo.tubankab.go.id" target="_blank" rel="noopener noreferrer" class="small text-reset text-decoration-none hover:text-primary transition-colors">Jl. Mastrip No. 5 A, Tuban, Kabupaten Tuban, Jawa Timur</a>
                             </div>
                         </div>
 
@@ -2291,7 +2343,7 @@
                             <div class="contact-entry-icon"><i class="bi bi-telephone-fill"></i></div>
                             <div>
                                 <strong class="d-block">Telepon Layanan</strong>
-                                <span class="small">(0356) 321000 / 321400</span>
+                                <a href="tel:03568832697" class="small text-reset text-decoration-none hover:text-primary transition-colors">(0356) 8832697</a>
                             </div>
                         </div>
 
