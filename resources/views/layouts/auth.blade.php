@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta name="description" content="SIM-MAGANG - Sistem Informasi Magang Dinas Komunikasi, Informatika, Statistik dan Persandian Kabupaten Tuban">
+    <meta name="description" content="SIM-MAGANG - Sistem Informasi Magang Dinas Komunikasi dan Informatika, Statistik dan Persandian Kabupaten Tuban">
 
     <title>@yield('title', 'Login') — SIM-MAGANG Diskominfo SP Tuban</title>
 
@@ -50,7 +50,7 @@
                     <img src="{{ asset('traveland/images/logo.png') }}" alt="SIM-MAGANG Logo" class="auth-brand-logo-img">
                     <div class="auth-split-brand-logo-text">
                         <strong>Diskominfo SP Tuban</strong>
-                        <span>Dinas Komunikasi, Informatika, Statistik dan Persandian</span>
+                        <span>Dinas Komunikasi dan Informatika, Statistik dan Persandian</span>
                     </div>
                 </div>
 
@@ -76,7 +76,7 @@
                     </li>
                     <li>
                         <i class="bi bi-check2" aria-hidden="true"></i>
-                        <span>Didukung oleh Dinas Komunikasi, Informatika, Statistik dan Persandian</span>
+                        <span>Didukung oleh Dinas Komunikasi dan Informatika, Statistik dan Persandian</span>
                     </li>
                 </ul>
             </div>

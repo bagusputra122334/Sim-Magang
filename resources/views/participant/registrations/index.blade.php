@@ -53,11 +53,6 @@ if (!function_exists('statusBadgeIcon')) {
             </div>
             <div class="d-flex align-items-center gap-2 mt-3 mt-md-0">
                 <div id="serverTimeTracker" data-server-timestamp="{{ now()->timestamp }}" class="d-none"></div>
-                @if($bisaDaftarBaru)
-                <a href="{{ route('participant.registrations.create') }}" class="btn btn-success fw-semibold shadow-sm d-inline-flex align-items-center justify-content-center" style="min-height: 44px;">
-                    <i class="bi bi-plus-circle-fill me-2"></i>Ajukan Pendaftaran Baru
-                </a>
-                @endif
             </div>
         </div>
 

@@ -144,3 +144,5 @@ Route::prefix('participant')
     ->middleware(['auth', 'participant'])
     ->group(base_path('routes/participant.php'));
 
+Route::post('/contact-send', [\App\Http\Controllers\ContactController::class, 'send']);
+

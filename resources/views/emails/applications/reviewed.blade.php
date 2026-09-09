@@ -1,5 +1,5 @@
 <x-mail::message>
-# 🏢 Dinas Komunikasi, Informatika, Statistik dan Persandian
+# 🏢 Dinas Komunikasi dan Informatika, Statistik dan Persandian
 ### Kabupaten Tuban — Provinsi Jawa Timur
 
 <x-mail::panel>
@@ -33,7 +33,7 @@ Harap tenang menunggu dan pastikan selalu memantau inbox email (termasuk folder 
 
 Terima kasih atas kesabaran Anda,
 **Tim SIM-MAGANG**
-**Dinas Komunikasi, Informatika, Statistik dan Persandian Kabupaten Tuban**
+**Dinas Komunikasi dan Informatika, Statistik dan Persandian Kabupaten Tuban**
 
 <x-mail::subcopy>
 Email ini dikirim otomatis oleh Sistem Informasi Magang (SIM-MAGANG). Mohon tidak membalas email ini secara langsung.

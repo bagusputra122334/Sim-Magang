@@ -14,16 +14,39 @@ class ContactMessageMail extends Mailable
     use Queueable;
     use SerializesModels;
 
+    public string $name;
+    public string $phone;
+    public string $email;
+    public string $category;
+    public string $messageContent;
+    public ?string $submittedAt;
     public string $categoryLabel;
 
     public function __construct(
-        public readonly string $name,
-        public readonly string $phone,
-        public readonly string $email,
-        public readonly string $category,
-        public readonly string $messageContent,
-        public readonly ?string $submittedAt = null,
+        string|array $name,
+        ?string $phone = null,
+        ?string $email = null,
+        ?string $category = null,
+        ?string $messageContent = null,
+        ?string $submittedAt = null
     ) {
+        if (is_array($name)) {
+            $data = $name;
+            $this->name = (string) ($data['name'] ?? $data['nama'] ?? 'Pengunjung');
+            $this->phone = (string) ($data['phone'] ?? $data['wa_number'] ?? $data['whatsapp'] ?? $data['telepon'] ?? '-');
+            $this->email = (string) ($data['email'] ?? '');
+            $this->category = (string) ($data['category'] ?? $data['kategori'] ?? 'lainnya');
+            $this->messageContent = (string) ($data['message'] ?? $data['pesan'] ?? $data['messageContent'] ?? '');
+            $this->submittedAt = isset($data['submittedAt']) ? (string) $data['submittedAt'] : (now()->translatedFormat('d F Y, H:i') . ' WIB');
+        } else {
+            $this->name = $name;
+            $this->phone = $phone ?? '-';
+            $this->email = $email ?? '';
+            $this->category = $category ?? 'lainnya';
+            $this->messageContent = $messageContent ?? '';
+            $this->submittedAt = $submittedAt ?? (now()->translatedFormat('d F Y, H:i') . ' WIB');
+        }
+
         $categoryMap = [
             'mahasiswa'  => 'Mahasiswa / Perguruan Tinggi',
             'siswa'      => 'Siswa / SMK / SMA',
@@ -61,7 +84,7 @@ class ContactMessageMail extends Mailable
                 'email'          => $this->email,
                 'categoryLabel'  => $this->categoryLabel,
                 'messageContent' => $this->messageContent,
-                'submittedAt'    => $this->submittedAt ?? now()->translatedFormat('d F Y, H:i') . ' WIB',
+                'submittedAt'    => $this->submittedAt,
             ],
         );
     }
@@ -71,3 +94,4 @@ class ContactMessageMail extends Mailable
         return [];
     }
 }
+

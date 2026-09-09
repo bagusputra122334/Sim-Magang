@@ -1,5 +1,5 @@
 <x-mail::message>
-# 🏢 Dinas Komunikasi, Informatika, Statistik dan Persandian
+# 🏢 Dinas Komunikasi dan Informatika, Statistik dan Persandian
 ### Kabupaten Tuban — Provinsi Jawa Timur
 
 <x-mail::panel>
@@ -8,7 +8,7 @@
 
 Halo, **{{ $namaPeserta }}** 🥳
 
-Kami dengan senang hati memberitahukan bahwa **Pendaftaran Magang** Anda **DITERIMA (ACCEPTED)** di Program Magang Dinas Komunikasi, Informatika, Statistik dan Persandian Kabupaten Tuban 🎊!
+Kami dengan senang hati memberitahukan bahwa **Pendaftaran Magang** Anda **DITERIMA (ACCEPTED)** di Program Magang Dinas Komunikasi dan Informatika, Statistik dan Persandian Kabupaten Tuban 🎊!
 
 Berikut detail lengkap pendaftaran yang telah disetujui:
 
@@ -36,7 +36,7 @@ Berikut detail lengkap pendaftaran yang telah disetujui:
 @if(!empty($suratBalasanInfo))
 ---
 ### 📄 Surat Balasan
-Surat Balasan resmi dari Dinas Komunikasi, Informatika, Statistik dan Persandian **telah tersedia** dan dapat Anda unduh melalui link di bawah:
+Surat Balasan resmi dari Dinas Komunikasi dan Informatika, Statistik dan Persandian **telah tersedia** dan dapat Anda unduh melalui link di bawah:
 <x-mail::button :url="$suratBalasanInfo['downloadRoute']" color="primary">
 ⬇️ Download Surat Balasan (PDF)
 </x-mail::button>
@@ -60,7 +60,7 @@ Selamat bergabung dan selamat menjalankan Program Magang! 🌟
 
 Terima kasih,
 **Tim SIM-MAGANG**
-**Dinas Komunikasi, Informatika, Statistik dan Persandian Kabupaten Tuban**
+**Dinas Komunikasi dan Informatika, Statistik dan Persandian Kabupaten Tuban**
 
 <x-mail::subcopy>
 Email ini dikirim otomatis oleh Sistem Informasi Magang (SIM-MAGANG). Mohon tidak membalas email ini secara langsung.

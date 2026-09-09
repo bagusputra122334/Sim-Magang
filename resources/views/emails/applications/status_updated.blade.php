@@ -1,5 +1,5 @@
 <x-mail::message>
-# 🏢 Dinas Komunikasi, Informatika, Statistik dan Persandian
+# 🏢 Dinas Komunikasi dan Informatika, Statistik dan Persandian
 ### Kabupaten Tuban — Provinsi Jawa Timur
 
 @if($statusEnum === \App\Enums\RegistrationStatus::Accepted)
@@ -9,7 +9,7 @@
 
 Halo, **{{ $namaPeserta }}** 🥳
 
-Kami dengan senang hati memberitahukan bahwa **Pendaftaran Magang** Anda **DITERIMA (ACCEPTED)** di Program Magang Dinas Komunikasi, Informatika, Statistik dan Persandian Kabupaten Tuban 🎊!
+Kami dengan senang hati memberitahukan bahwa **Pendaftaran Magang** Anda **DITERIMA (ACCEPTED)** di Program Magang Dinas Komunikasi dan Informatika, Statistik dan Persandian Kabupaten Tuban 🎊!
 @elseif($statusEnum === \App\Enums\RegistrationStatus::Rejected)
 <x-mail::panel>
 ## ❌ Informasi Hasil Seleksi: Ditolak (Rejected)
@@ -17,7 +17,7 @@ Kami dengan senang hati memberitahukan bahwa **Pendaftaran Magang** Anda **DITER
 
 Halo, **{{ $namaPeserta }}**
 
-Kami menghargai minat dan usaha Anda mendaftar Program Magang di **Dinas Komunikasi, Informatika, Statistik dan Persandian Kabupaten Tuban**.
+Kami menghargai minat dan usaha Anda mendaftar Program Magang di **Dinas Komunikasi dan Informatika, Statistik dan Persandian Kabupaten Tuban**.
 Dengan berat hati, kami memberitahukan bahwa pendaftaran magang Anda untuk sementara ini **BELUM DAPAT DITERIMA (REJECTED)**.
 @else
 <x-mail::panel>
@@ -69,7 +69,7 @@ Terima kasih atas perhatian dan kerja sama Anda.
 
 Salam hormat,  
 **Tim SIM-MAGANG**  
-**Dinas Komunikasi, Informatika, Statistik dan Persandian Kabupaten Tuban**
+**Dinas Komunikasi dan Informatika, Statistik dan Persandian Kabupaten Tuban**
 
 <x-mail::subcopy>
 Email ini dikirim otomatis oleh Sistem Informasi Magang (SIM-MAGANG). Mohon tidak membalas email ini secara langsung.

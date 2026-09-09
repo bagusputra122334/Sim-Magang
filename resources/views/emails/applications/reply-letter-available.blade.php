@@ -1,5 +1,5 @@
 <x-mail::message>
-# 🏢 Dinas Komunikasi, Informatika, Statistik dan Persandian
+# 🏢 Dinas Komunikasi dan Informatika, Statistik dan Persandian
 ### Kabupaten Tuban — Provinsi Jawa Timur
 
 <x-mail::panel>
@@ -48,7 +48,7 @@ Selamat dan sukses menjalani program magang! 🏆
 
 Terima kasih,
 **Tim SIM-MAGANG**
-**Dinas Komunikasi, Informatika, Statistik dan Persandian Kabupaten Tuban**
+**Dinas Komunikasi dan Informatika, Statistik dan Persandian Kabupaten Tuban**
 
 <x-mail::subcopy>
 Email ini dikirim otomatis oleh Sistem Informasi Magang (SIM-MAGANG). Mohon tidak membalas email ini secara langsung.

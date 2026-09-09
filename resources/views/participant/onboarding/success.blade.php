@@ -17,7 +17,7 @@
 
                 <h1 class="display-6 fw-extrabold text-body mb-2">Profil Berhasil Disimpan</h1>
                 <p class="lead text-muted mb-4 mx-auto" style="max-width: 580px;">
-                    Profil Anda telah lengkap. Sekarang Anda dapat mengajukan pendaftaran magang di Dinas Komunikasi, Informatika, Statistik dan Persandian Kabupaten Tuban.
+                    Profil Anda telah lengkap. Sekarang Anda dapat mengajukan pendaftaran magang di Dinas Komunikasi dan Informatika, Statistik dan Persandian Kabupaten Tuban.
                 </p>
 
                 <div class="d-flex flex-wrap justify-content-center gap-3">
@@ -31,7 +31,7 @@
             </div>
             <div class="card-footer bg-light py-3 border-top text-muted small">
                 <i class="bi bi-shield-check me-1 text-success"></i>
-                Sistem Informasi Magang — Dinas Komunikasi, Informatika, Statistik dan Persandian Kabupaten Tuban
+                Sistem Informasi Magang — Dinas Komunikasi dan Informatika, Statistik dan Persandian Kabupaten Tuban
             </div>
         </div>
     </div>

@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta name="description" content="SIM-MAGANG - Sistem Informasi Magang Resmi Dinas Komunikasi, Informatika, Statistik dan Persandian Kabupaten Tuban. Layanan pendaftaran magang digital yang transparan, profesional, dan terpadu.">
+    <meta name="description" content="SIM-MAGANG - Sistem Informasi Magang Resmi Dinas Komunikasi dan Informatika, Statistik dan Persandian Kabupaten Tuban. Layanan pendaftaran magang digital yang transparan, profesional, dan terpadu.">
 
     <!-- Primary Meta Tags -->
     <meta name="title" content="SIM-MAGANG - Diskominfo SP Kab. Tuban">
@@ -25,7 +25,7 @@
     <meta property="twitter:image" content="{{ asset('traveland/images/logo.png') }}">
 
     <!--====== Title ======-->
-    <title>SIM-MAGANG — Dinas Komunikasi, Informatika, Statistik dan Persandian Kabupaten Tuban</title>
+    <title>SIM-MAGANG — Dinas Komunikasi dan Informatika, Statistik dan Persandian Kabupaten Tuban</title>
 
     <!--====== Favicon Icon ======-->
     <link rel="icon" type="image/png" href="{{ asset('traveland/images/logo.png') }}">
@@ -1635,7 +1635,7 @@
                 <marquee scrollamount="4" onmouseover="this.stop();" onmouseout="this.start();" class="flex items-center space-x-4 whitespace-nowrap text-[10px] sm:text-xs md:text-sm">
                     <a href="https://tubankab.go.id/" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors">Pemerintah Kabupaten Tuban</a>
                     <span class="mx-2">•</span>
-                    <a href="https://diskominfo.tubankab.go.id/" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors">Dinas Komunikasi, Informatika, Statistik dan Persandian</a>
+                    <a href="https://diskominfo.tubankab.go.id/" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors">Dinas Komunikasi dan Informatika, Statistik dan Persandian</a>
                     <span class="mx-2">•</span>
                     <a href="https://maps.google.com/?q=Jl.+Mastrip+No.+5+A,+Tuban" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors inline-flex items-center">
                         <svg class="w-3.5 h-3.5 inline mr-1 text-primary" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
@@ -1763,7 +1763,7 @@
                         </h1>
 
                         <p class="hero_desc wow fadeInLeft" data-wow-duration="1.2s" data-wow-delay="0.5s">
-                            Program Magang resmi <strong>Dinas Komunikasi, Informatika, Statistik dan Persandian Kabupaten Tuban</strong>. Didesain khusus untuk Mahasiswa Perguruan Tinggi & Siswa SMK secara 100% digital, terstruktur, dan transparan.
+                            Dapatkan pengalaman kerja nyata dan kembangkan kompetensimu di lingkungan pemerintahan. Kami mengundang talenta muda untuk turut berinovasi menciptakan layanan publik berbasis teknologi digital yang berdampak langsung bagi masyarakat.
                         </p>
 
                         <div class="d-flex flex-wrap align-items-center gap-3 wow fadeInLeft" data-wow-duration="1.2s" data-wow-delay="0.7s">
@@ -1876,7 +1876,7 @@
                     <div class="section_title text-center">
                         <span class="section-tag">Formasi & Bidang Kerja</span>
                         <h2 class="title">Pilihan Formasi <br> Kembangkan <span>Potensi Anda</span></h2>
-                        <p>Tersedia berbagai pilihan posisi magang di 5 bidang kerja strategis Dinas Komunikasi, Informatika, Statistik dan Persandian Kabupaten Tuban (Sekretariat, Komunikasi & Informasi Publik, Aplikasi & Informatika, Statistik, dan Persandian).</p>
+                        <p>Tersedia berbagai pilihan posisi magang di 5 bidang kerja strategis Dinas Komunikasi dan Informatika, Statistik dan Persandian Kabupaten Tuban (Sekretariat, Komunikasi & Informasi Publik, Aplikasi & Informatika, Statistik, dan Persandian).</p>
                     </div>
                 </div>
             </div>
@@ -1972,24 +1972,27 @@
                 <div class="row">
                     @if($positions->isNotEmpty())
                         @foreach($positions as $pos)
-                            <div class="col-lg-4 col-md-6 mb-4">
-                                <div class="position-card wow fadeInUp" data-wow-duration="1.2s">
-                                    <div>
-                                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="col-lg-4 col-md-6 mb-4 d-flex align-items-stretch">
+                                <div class="position-card flex flex-col h-full w-full wow fadeInUp" data-wow-duration="1.2s">
+                                    <div class="flex-grow flex flex-col">
+                                        <div class="mb-2">
                                             <span class="position-badge">
                                                 <i class="bi bi-mortarboard-fill"></i> Mahasiswa & SMK
                                             </span>
-                                            <span class="badge badge-success text-white px-2 py-1 small">Buka</span>
                                         </div>
                                         <h4 class="position-title">{{ $pos->nama_posisi }}</h4>
                                         <p class="position-desc">{{ Str::limit($pos->deskripsi, 130) }}</p>
                                     </div>
-                                    <div>
+                                    <div class="mt-auto">
                                         <div class="position-meta">
-                                            <div class="d-flex justify-content-between mb-1">
-                                                <span>Terakhir Diperbarui:</span>
-                                                <strong style="color: var(--sim-text);">{{ $pos->updated_at?->locale('id')->translatedFormat('d M Y') ?? '-' }}</strong>
-                                            </div>
+                                            @auth
+                                                @if(auth()->user()->isAdmin() || auth()->user()->role === 'admin' || auth()->user()->is_admin)
+                                                    <div class="d-flex justify-content-between mb-1">
+                                                        <span>Terakhir Diperbarui:</span>
+                                                        <strong style="color: var(--sim-text);">{{ $pos->updated_at?->locale('id')->translatedFormat('d M Y') ?? '-' }}</strong>
+                                                    </div>
+                                                @endif
+                                            @endauth
                                             <div class="d-flex justify-content-between">
                                                 <span>Status Formasi:</span>
                                                 <strong class="text-success font-weight-bold"><i class="bi bi-check-circle-fill me-1"></i>Aktif & Terbuka</strong>
@@ -2016,14 +2019,14 @@
                         @endforeach
                     @else
                         {{-- Default Positions sample --}}
-                        <div class="col-lg-4 col-md-6 mb-4">
-                            <div class="position-card">
-                                <div>
+                        <div class="col-lg-4 col-md-6 mb-4 d-flex align-items-stretch">
+                            <div class="position-card flex flex-col h-full w-full">
+                                <div class="flex-grow flex flex-col">
                                     <span class="position-badge"><i class="bi bi-mortarboard-fill"></i> Mahasiswa & SMK</span>
                                     <h4 class="position-title">Pengembangan Web & Aplikasi SPBE</h4>
                                     <p class="position-desc">Pengembangan dan integrasi sistem informasi web pemerintah daerah berbasis Laravel, API SPBE, dan manajemen database MySQL.</p>
                                 </div>
-                                <div>
+                                <div class="mt-auto">
                                     <div class="position-meta">
                                         <div class="d-flex justify-content-between mb-1"><span>Bidang:</span><strong style="color: var(--sim-text);">Aplikasi & Informatika</strong></div>
                                         <div class="d-flex justify-content-between"><span>Peserta:</span><strong style="color: var(--sim-text);">Mahasiswa / SMK</strong></div>
@@ -2032,14 +2035,14 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-4 col-md-6 mb-4">
-                            <div class="position-card">
-                                <div>
+                        <div class="col-lg-4 col-md-6 mb-4 d-flex align-items-stretch">
+                            <div class="position-card flex flex-col h-full w-full">
+                                <div class="flex-grow flex flex-col">
                                     <span class="position-badge"><i class="bi bi-mortarboard-fill"></i> Mahasiswa & SMK</span>
                                     <h4 class="position-title">Media Sosial & Konten Kreatif</h4>
                                     <p class="position-desc">Produksi konten visual publikasi daerah, desain grafis, fotografi, liputan berita, dan pengelolaan media sosial resmi Pemkab Tuban.</p>
                                 </div>
-                                <div>
+                                <div class="mt-auto">
                                     <div class="position-meta">
                                         <div class="d-flex justify-content-between mb-1"><span>Bidang:</span><strong style="color: var(--sim-text);">Komunikasi & Informasi Publik</strong></div>
                                         <div class="d-flex justify-content-between"><span>Peserta:</span><strong style="color: var(--sim-text);">Mahasiswa / SMK</strong></div>
@@ -2048,14 +2051,14 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-4 col-md-6 mb-4">
-                            <div class="position-card">
-                                <div>
+                        <div class="col-lg-4 col-md-6 mb-4 d-flex align-items-stretch">
+                            <div class="position-card flex flex-col h-full w-full">
+                                <div class="flex-grow flex flex-col">
                                     <span class="position-badge"><i class="bi bi-mortarboard-fill"></i> Mahasiswa & SMK</span>
                                     <h4 class="position-title">Jaringan & Keamanan Informasi</h4>
                                     <p class="position-desc">Pemeliharaan infrastruktur jaringan fiber optik, server intranet dinas, dan monitoring pengamanan informasi persandian.</p>
                                 </div>
-                                <div>
+                                <div class="mt-auto">
                                     <div class="position-meta">
                                         <div class="d-flex justify-content-between mb-1"><span>Bidang:</span><strong style="color: var(--sim-text);">Persandian & Jaringan</strong></div>
                                         <div class="d-flex justify-content-between"><span>Peserta:</span><strong style="color: var(--sim-text);">Mahasiswa / SMK</strong></div>
@@ -2114,10 +2117,10 @@
                 <div class="col-lg-3 col-sm-6 mb-4">
                     <div class="single_service wow fadeInUp" data-wow-duration="1.2s" data-wow-delay="0.7s">
                         <div class="services_icon">
-                            <i class="lni lni-graduation"></i>
+                            <i class="lni lni-stats-up"></i>
                         </div>
-                        <h4 class="title">Mahasiswa & Siswa SMK</h4>
-                        <p>Mendukung konversi SKS akademik kampus serta kurikulum magang kejuruan SMK.</p>
+                        <h4 class="title">Proses Transparan & Terlacak</h4>
+                        <p>Pantau status pendaftaran, verifikasi berkas, hingga pengumuman kelulusan secara langsung dan real-time melalui dashboard peserta.</p>
                     </div>
                 </div>
             </div>
@@ -2326,98 +2329,61 @@
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col-lg-5 mb-4 mb-lg-0">
-                    <div class="contact-info-card">
-                        <h4 class="font-weight-bold mb-4" style="font-size: 20px;">Kantor Diskominfo SP Tuban</h4>
-
-                        <div class="contact-entry">
-                            <div class="contact-entry-icon"><i class="bi bi-geo-alt-fill"></i></div>
-                            <div>
-                                <strong class="d-block">Alamat Kantor</strong>
-                                <a href="https://diskominfo.tubankab.go.id" target="_blank" rel="noopener noreferrer" class="small text-reset text-decoration-none hover:text-primary transition-colors">Jl. Mastrip No. 5 A, Tuban, Kabupaten Tuban, Jawa Timur</a>
-                            </div>
-                        </div>
-
-                        <div class="contact-entry">
-                            <div class="contact-entry-icon"><i class="bi bi-telephone-fill"></i></div>
-                            <div>
-                                <strong class="d-block">Telepon Layanan</strong>
-                                <a href="tel:03568832697" class="small text-reset text-decoration-none hover:text-primary transition-colors">(0356) 8832697</a>
-                            </div>
-                        </div>
-
-                        <div class="contact-entry">
-                            <div class="contact-entry-icon"><i class="bi bi-envelope-fill"></i></div>
-                            <div>
-                                <strong class="d-block">Email Resmi</strong>
-                                <span class="small">diskominfo@tubankab.go.id</span>
-                            </div>
-                        </div>
-
-                        <div class="contact-entry">
-                            <div class="contact-entry-icon"><i class="bi bi-clock-fill"></i></div>
-                            <div>
-                                <strong class="d-block">Jam Operasional</strong>
-                                <span class="small">Senin – Jumat: 07.30 – 16.00 WIB</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-7">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 col-xl-8">
                     <div class="contact-form-card">
                         <h4 class="font-weight-bold mb-3" style="font-size: 20px;">Kirim Pertanyaan / Pesan</h4>
                         
-                        {{-- Flash Message Alerts --}}
-                        @if(session('contact_success'))
-                            <div class="alert alert-success alert-dismissible fade show mb-4 rounded-3 border-0 shadow-sm d-flex align-items-center" role="alert">
-                                <i class="bi bi-check-circle-fill fs-5 mr-2 text-success"></i>
-                                <div>
-                                    <strong>Berhasil Terkirim!</strong> {{ session('contact_success') }}
-                                </div>
+                        @if(session('success'))
+                            <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-6" role="alert">
+                                <p>{{ session('success') }}</p>
                             </div>
                         @endif
 
-                        @if(session('contact_error'))
-                            <div class="alert alert-danger alert-dismissible fade show mb-4 rounded-3 border-0 shadow-sm d-flex align-items-center" role="alert">
-                                <i class="bi bi-exclamation-triangle-fill fs-5 mr-2 text-danger"></i>
-                                <div>
-                                    <strong>Gagal Mengirim:</strong> {{ session('contact_error') }}
-                                </div>
+                        @if($errors->any())
+                            <div class="alert alert-danger mb-4 rounded-3 border-0 shadow-sm" role="alert">
+                                <strong><i class="bi bi-exclamation-triangle-fill mr-2"></i> Mohon Periksa Kembali Formulir Anda:</strong>
+                                <ul class="mb-0 mt-1 pl-3 small">
+                                    @foreach($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
                             </div>
                         @endif
 
-                        {{-- Dynamic JavaScript Alert Box --}}
-                        <div id="contactFormAlert" class="d-none"></div>
-
-                        <form action="{{ route('contact.send') }}" method="POST" id="contactForm" novalidate>
+                        <form id="simang-contact-form" action="{{ route('contact.send') }}" method="POST">
                             @csrf
                             <div class="row">
                                 <div class="col-md-6">
                                     <label class="form-label" for="contactName">Nama Lengkap <span class="text-danger">*</span></label>
-                                    <input type="text" id="contactName" name="name" placeholder="Contoh: Budi Santoso" value="{{ old('name') }}" class="{{ $errors->has('name') ? 'is-invalid' : '' }}" required>
+                                    <input type="text" id="contactName" name="name" placeholder="Contoh: Budi Santoso" value="{{ old('name') }}" class="focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-colors duration-200 {{ $errors->has('name') ? 'is-invalid' : '' }}" required>
                                     @error('name')
                                         <div class="text-danger small mb-3 mt-n2">{{ $message }}</div>
                                     @enderror
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="form-label" for="contactPhone">Nomor WhatsApp / Telp <span class="text-danger">*</span></label>
-                                    <input type="text" id="contactPhone" name="phone" placeholder="Contoh: 081234567890" value="{{ old('phone') }}" class="{{ $errors->has('phone') ? 'is-invalid' : '' }}" required>
+                                    <label class="form-label" for="wa_number">Nomor WhatsApp / Telp <span class="text-danger">*</span></label>
+                                    <input type="text" id="wa_number" name="wa_number" placeholder="Contoh: 081234567890" value="{{ old('wa_number', old('phone', old('whatsapp'))) }}" class="focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-colors duration-200 {{ $errors->has('wa_number') || $errors->has('phone') || $errors->has('whatsapp') ? 'is-invalid' : '' }}" required>
+                                    @error('wa_number')
+                                        <div class="text-danger small mb-3 mt-n2">{{ $message }}</div>
+                                    @enderror
                                     @error('phone')
+                                        <div class="text-danger small mb-3 mt-n2">{{ $message }}</div>
+                                    @enderror
+                                    @error('whatsapp')
                                         <div class="text-danger small mb-3 mt-n2">{{ $message }}</div>
                                     @enderror
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label" for="contactEmail">Alamat Email <span class="text-danger">*</span></label>
-                                    <input type="email" id="contactEmail" name="email" placeholder="Contoh: nama@email.com" value="{{ old('email') }}" class="{{ $errors->has('email') ? 'is-invalid' : '' }}" required>
+                                    <input type="email" id="contactEmail" name="email" placeholder="Contoh: nama@email.com" value="{{ old('email') }}" class="focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-colors duration-200 {{ $errors->has('email') ? 'is-invalid' : '' }}" required>
                                     @error('email')
                                         <div class="text-danger small mb-3 mt-n2">{{ $message }}</div>
                                     @enderror
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label" for="contactCategory">Kategori Peserta <span class="text-danger">*</span></label>
-                                    <select id="contactCategory" name="category" class="{{ $errors->has('category') ? 'is-invalid' : '' }}" required>
+                                    <select id="contactCategory" name="category" class="focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-colors duration-200 {{ $errors->has('category') ? 'is-invalid' : '' }}" required>
                                         <option value="" disabled {{ old('category') ? '' : 'selected' }}>Pilih Kategori Peserta...</option>
                                         <option value="mahasiswa" {{ old('category') === 'mahasiswa' ? 'selected' : '' }}>Mahasiswa / Perguruan Tinggi</option>
                                         <option value="siswa" {{ old('category') === 'siswa' ? 'selected' : '' }}>Siswa / SMK / SMA</option>
@@ -2430,18 +2396,30 @@
                                 </div>
                                 <div class="col-12">
                                     <label class="form-label" for="contactMessage">Pesan atau Pertanyaan <span class="text-danger">*</span></label>
-                                    <textarea id="contactMessage" name="message" placeholder="Tuliskan pertanyaan Anda mengenai persyaratan atau pelaksanaan magang..." class="{{ $errors->has('message') ? 'is-invalid' : '' }}" required>{{ old('message') }}</textarea>
+                                    <textarea id="contactMessage" name="message" placeholder="Tuliskan pertanyaan Anda mengenai persyaratan atau pelaksanaan magang..." class="focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-colors duration-200 {{ $errors->has('message') ? 'is-invalid' : '' }}" required>{{ old('message') }}</textarea>
                                     @error('message')
                                         <div class="text-danger small mb-3 mt-n2">{{ $message }}</div>
                                     @enderror
                                 </div>
                                 <div class="col-12">
-                                    <button type="submit" class="main-btn btn-block" id="contactSubmitBtn">
+                                    <button type="button" id="simang-submit-btn" class="main-btn btn-block hover:bg-blue-700 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300">
                                         <i class="bi bi-send-fill"></i> Kirim Pesan Informasi
                                     </button>
                                 </div>
                             </div>
                         </form>
+
+                        <script>
+                            document.getElementById('simang-submit-btn').addEventListener('click', function(e) {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                
+                                console.log('Bypassing template JS, forcing native Laravel POST...');
+                                
+                                // Force submit the form programmatically, bypassing all template AJAX handlers
+                                document.getElementById('simang-contact-form').submit();
+                            });
+                        </script>
                     </div>
                 </div>
             </div>
@@ -2490,7 +2468,7 @@
                         </a>
                         <!-- YouTube -->
                         <a href="https://www.youtube.com/channel/UC7V9cxzD7Gk-K_jxGMbblgA?view_as=subscriber" target="_blank" rel="noopener noreferrer" title="YouTube Channel" class="w-9 h-9 rounded-xl bg-slate-800/70 hover:bg-red-600 text-slate-300 hover:text-white flex items-center justify-center transition-all duration-200 shadow-sm">
-                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.5 12 3.5 12 3.5s-7.505 0-9.377.55a3.016 3.016 0 0 0-2.122 2.136C.001 8.07.001 12 .001 12s0 3.93.5 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.55 9.377.55 9.377.55s7.505 0 9.377-.55a3.016 3.016 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.5 12 3.5 12 3.5s-7.505 0-9.377.55a3.016 3.016 0 0 0-2.122 2.136C.001 8.07.001 12 .001 12s0 3.93.5 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.55 9.377.55 9.377.55s7.505 0 9.377-.55a3.016 3.016 0 0 0 2.122 2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
                         </a>
                     </div>
                 </div>
@@ -2564,8 +2542,8 @@
                         </div>
 
                         <!-- Message & Submit -->
-                        <textarea name="komentar" rows="2" class="w-full text-xs border border-slate-200 rounded-xl p-2.5 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 mb-3 transition-colors text-slate-800 placeholder-slate-400" placeholder="Tulis pesan/saran singkat..."></textarea>
-                        <button type="submit" x-bind:disabled="isSubmitting" class="w-full bg-indigo-600 hover:bg-indigo-700 disabled:bg-indigo-400 text-white text-xs font-bold py-2.5 rounded-lg shadow-sm transition-all duration-200 flex justify-center items-center gap-2">
+                        <textarea name="komentar" rows="2" class="w-full text-xs border border-slate-200 rounded-xl p-2.5 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 mb-3 transition-colors duration-200 text-slate-800 placeholder-slate-400" placeholder="Tulis pesan/saran singkat..."></textarea>
+                        <button type="submit" x-bind:disabled="isSubmitting" class="w-full bg-indigo-600 hover:bg-blue-700 hover:shadow-lg hover:-translate-y-0.5 disabled:bg-indigo-400 text-white text-xs font-bold py-2.5 rounded-lg shadow-sm transition-all duration-300 flex justify-center items-center gap-2">
                             <span x-show="!isSubmitting">Kirim Survei</span>
                             <span x-show="isSubmitting">Mengirim...</span>
                             <svg x-show="isSubmitting" class="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
@@ -2577,7 +2555,7 @@
             <!-- COPYRIGHT SECTION -->
             <div class="border-t border-slate-800/40 py-2.5 text-center text-xs text-slate-400/90 my-0">
                 <p class="mb-0 leading-relaxed">
-                    &copy; {{ date('Y') }} <strong>SIM-MAGANG</strong> — Dinas Komunikasi, Informatika, Statistik dan Persandian Kabupaten Tuban. Hak Cipta Dilindungi.
+                    &copy; {{ date('Y') }} <strong>SIM-MAGANG</strong> — Dinas Komunikasi dan Informatika, Statistik dan Persandian Kabupaten Tuban. Hak Cipta Dilindungi.
                 </p>
             </div>
         </div>
@@ -2636,167 +2614,7 @@
             }
         })();
 
-        // Contact Form Client-Side Mailto Handler with Validation & Fallback
-        document.addEventListener('DOMContentLoaded', function() {
-            var contactForm = document.getElementById('contactForm');
-            var alertBox = document.getElementById('contactFormAlert');
-            var submitBtn = document.getElementById('contactSubmitBtn');
 
-            if (contactForm && alertBox && submitBtn) {
-                contactForm.addEventListener('submit', function(e) {
-                    e.preventDefault();
-
-                    // Clear previous alerts & invalid styling
-                    alertBox.className = 'd-none';
-                    alertBox.innerHTML = '';
-                    contactForm.querySelectorAll('.is-invalid').forEach(function(el) {
-                        el.classList.remove('is-invalid');
-                    });
-                    contactForm.querySelectorAll('.nice-select.is-invalid').forEach(function(el) {
-                        el.classList.remove('is-invalid');
-                    });
-
-                    var nameInput = document.getElementById('contactName');
-                    var phoneInput = document.getElementById('contactPhone');
-                    var emailInput = document.getElementById('contactEmail');
-                    var categoryInput = document.getElementById('contactCategory');
-                    var messageInput = document.getElementById('contactMessage');
-
-                    var nameVal = nameInput ? nameInput.value.trim() : '';
-                    var phoneVal = phoneInput ? phoneInput.value.trim() : '';
-                    var emailVal = emailInput ? emailInput.value.trim() : '';
-                    var categoryVal = categoryInput ? categoryInput.value.trim() : '';
-                    var messageVal = messageInput ? messageInput.value.trim() : '';
-
-                    var errors = [];
-
-                    // 1. Validate Name
-                    if (!nameVal) {
-                        errors.push('Nama Lengkap wajib diisi.');
-                        if (nameInput) nameInput.classList.add('is-invalid');
-                    } else if (nameVal.length < 2) {
-                        errors.push('Nama Lengkap minimal 2 karakter.');
-                        if (nameInput) nameInput.classList.add('is-invalid');
-                    }
-
-                    // 2. Validate Phone
-                    if (!phoneVal) {
-                        errors.push('Nomor WhatsApp / Telp wajib diisi.');
-                        if (phoneInput) phoneInput.classList.add('is-invalid');
-                    } else if (phoneVal.length < 6) {
-                        errors.push('Nomor WhatsApp / Telp tidak valid (minimal 6 digit).');
-                        if (phoneInput) phoneInput.classList.add('is-invalid');
-                    }
-
-                    // 3. Validate Email
-                    var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                    if (!emailVal) {
-                        errors.push('Alamat Email wajib diisi.');
-                        if (emailInput) emailInput.classList.add('is-invalid');
-                    } else if (!emailRegex.test(emailVal)) {
-                        errors.push('Format Alamat Email tidak valid.');
-                        if (emailInput) emailInput.classList.add('is-invalid');
-                    }
-
-                    // 4. Validate Category
-                    if (!categoryVal) {
-                        errors.push('Kategori Peserta wajib dipilih.');
-                        if (categoryInput) {
-                            categoryInput.classList.add('is-invalid');
-                            var niceSelectEl = categoryInput.nextElementSibling;
-                            if (niceSelectEl && niceSelectEl.classList.contains('nice-select')) {
-                                niceSelectEl.classList.add('is-invalid');
-                            }
-                        }
-                    }
-
-                    // 5. Validate Message
-                    if (!messageVal) {
-                        errors.push('Pesan atau Pertanyaan wajib diisi.');
-                        if (messageInput) messageInput.classList.add('is-invalid');
-                    } else if (messageVal.length < 5) {
-                        errors.push('Pesan atau Pertanyaan minimal 5 karakter.');
-                        if (messageInput) messageInput.classList.add('is-invalid');
-                    }
-
-                    // If validation fails, display friendly alert box and focus
-                    if (errors.length > 0) {
-                        var errListHtml = '<ul class="mb-0 pl-3 small mt-1 text-danger">';
-                        errors.forEach(function(err) {
-                            errListHtml += '<li>' + err + '</li>';
-                        });
-                        errListHtml += '</ul>';
-
-                        alertBox.className = 'alert alert-warning mb-4 rounded-3 border-0 shadow-sm';
-                        alertBox.innerHTML = '<div class="d-flex align-items-center"><i class="bi bi-exclamation-circle-fill fs-5 mr-2 text-warning"></i><strong>Mohon lengkapi formulir dengan benar:</strong></div>' + errListHtml;
-                        alertBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-                        return;
-                    }
-
-                    // Map category value to human-readable label
-                    var categoryLabels = {
-                        'mahasiswa': 'Mahasiswa / Perguruan Tinggi',
-                        'siswa': 'Siswa / SMK / SMA',
-                        'dosen_guru': 'Dosen / Guru Pembimbing',
-                        'lainnya': 'Lainnya'
-                    };
-                    var categoryLabel = categoryLabels[categoryVal] || categoryVal;
-
-                    var recipientEmail = 'bagusdwijunior@gmail.com';
-                    var emailSubject = 'Pertanyaan Magang SIM-MAGANG - ' + nameVal;
-
-                    var emailBody = 'Halo Tim SIM-MAGANG Diskominfo Tuban,\n\n'
-                        + 'Berikut adalah rincian pesan/pertanyaan dari formulir kontak SIM-MAGANG:\n\n'
-                        + 'Nama Lengkap: ' + nameVal + '\n'
-                        + 'Nomor WhatsApp / Telp: ' + phoneVal + '\n'
-                        + 'Alamat Email: ' + emailVal + '\n'
-                        + 'Kategori Peserta: ' + categoryLabel + '\n\n'
-                        + 'Pesan / Pertanyaan:\n'
-                        + messageVal + '\n\n'
-                        + '---\n'
-                        + 'Pesan ini dibuat melalui Formulir Kontak SIM-MAGANG Diskominfo SP Kabupaten Tuban.';
-
-                    var mailtoUrl = 'mailto:' + encodeURIComponent(recipientEmail)
-                        + '?subject=' + encodeURIComponent(emailSubject)
-                        + '&body=' + encodeURIComponent(emailBody);
-
-                    var gmailWebUrl = 'https://mail.google.com/mail/?view=cm&fs=1'
-                        + '&to=' + encodeURIComponent(recipientEmail)
-                        + '&su=' + encodeURIComponent(emailSubject)
-                        + '&body=' + encodeURIComponent(emailBody);
-
-                    // Open mailto link
-                    var mailtoLink = document.createElement('a');
-                    mailtoLink.href = mailtoUrl;
-                    mailtoLink.target = '_self';
-                    document.body.appendChild(mailtoLink);
-                    mailtoLink.click();
-                    document.body.removeChild(mailtoLink);
-
-                    // Display informative, transparent, non-deceptive status alert
-                    alertBox.className = 'alert alert-info mb-4 rounded-3 border-0 shadow-sm';
-                    alertBox.innerHTML = '<div class="d-flex align-items-start">'
-                        + '<i class="bi bi-envelope-paper-fill fs-5 mr-3 text-primary mt-1"></i>'
-                        + '<div>'
-                        + '<strong class="d-block mb-1 text-primary" style="font-size: 16px;">Draft Email Telah Dibuka di Aplikasi Email Anda</strong>'
-                        + '<p class="small mb-2 text-secondary">'
-                        + 'Formulir telah otomatis diisi dan diarahkan ke aplikasi email Anda dengan tujuan <strong>' + recipientEmail + '</strong>.'
-                        + ' Silakan periksa draft tersebut dan tekan tombol <strong>Kirim / Send</strong> di aplikasi email Anda untuk menyelesaikan pengiriman.'
-                        + '</p>'
-                        + '<div class="d-flex flex-wrap align-items-center gap-2 mt-2 pt-2 border-top border-light">'
-                        + '<span class="small text-muted mr-2">Aplikasi email tidak terbuka otomatis?</span>'
-                        + '<a href="' + gmailWebUrl + '" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline-primary">'
-                        + '<i class="bi bi-google mr-1"></i> Buka via Gmail Web'
-                        + '</a>'
-                        + '<span class="small text-muted ml-2">atau kirim manual ke <strong>' + recipientEmail + '</strong></span>'
-                        + '</div>'
-                        + '</div>'
-                        + '</div>';
-
-                    alertBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-                });
-            }
-        });
     </script>
 
     <!--====== ScrollSpy Active State Tracking Script ======-->
@@ -2864,6 +2682,22 @@
             updateScrollSpy();
         });
     </script>
+
+    <!--====== SweetAlert2 CDN & Session Flash Notification ======-->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    @if(session('success'))
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            Swal.fire({
+                title: 'Berhasil!',
+                text: '{!! session('success') !!}',
+                icon: 'success',
+                confirmButtonColor: '#2563eb', // Tailwind blue-600 to match SIM-MAGANG theme
+                confirmButtonText: 'Tutup'
+            });
+        });
+    </script>
+    @endif
 </body>
 
 </html>

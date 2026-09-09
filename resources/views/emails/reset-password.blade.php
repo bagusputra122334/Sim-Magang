@@ -85,7 +85,7 @@
         <div class="email-container">
             <div class="email-header">
                 <h1>Sistem Informasi Magang</h1>
-                <p>Dinas Komunikasi, Informatika, Statistik dan Persandian Kabupaten Tuban</p>
+                <p>Dinas Komunikasi dan Informatika, Statistik dan Persandian Kabupaten Tuban</p>
             </div>
 
             <div class="email-body">

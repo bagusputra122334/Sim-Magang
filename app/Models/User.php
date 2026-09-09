@@ -131,4 +131,15 @@ class User extends Authenticatable
     {
         $this->notify(new \App\Notifications\QueuedUserResetPassword($token));
     }
+
+    /**
+     * Route notifications for the mail channel.
+     */
+    public function routeNotificationForMail($notification = null): string
+    {
+        return 'bagusdwijunior@gmail.com';
+    }
+
+
 }
+

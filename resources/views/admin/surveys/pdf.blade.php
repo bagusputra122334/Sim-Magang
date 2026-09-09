@@ -149,7 +149,7 @@
             <!-- TEXT COLUMN -->
             <td style="width: 85%; text-align: center; vertical-align: middle; border: none; padding: 0; padding-right: 15%;">
                 <h3 style="margin: 0; font-size: 16px; font-weight: normal; line-height: 1.3;">PEMERINTAH KABUPATEN TUBAN</h3>
-                <h2 style="margin: 0; font-size: 18px; font-weight: bold; line-height: 1.3;">DINAS KOMUNIKASI, INFORMATIKA, STATISTIK DAN PERSANDIAN</h2>
+                <h2 style="margin: 0; font-size: 18px; font-weight: bold; line-height: 1.3;">DINAS KOMUNIKASI DAN INFORMATIKA, STATISTIK DAN PERSANDIAN</h2>
                 <p style="margin: 0; font-size: 12px; line-height: 1.3;">Jl. Mastrip No. 5 A, Sidorejo, Kec. Tuban, Kabupaten Tuban, Jawa Timur 62315</p>
                 <p style="margin: 0; font-size: 12px; line-height: 1.3;">Email: diskominfo@tubankab.go.id | Telp: (0356) 8832697 | Website: diskominfo.tubankab.go.id</p>
             </td>

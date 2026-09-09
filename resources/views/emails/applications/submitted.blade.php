@@ -1,5 +1,5 @@
 <x-mail::message>
-# 🏢 Dinas Komunikasi, Informatika, Statistik dan Persandian
+# 🏢 Dinas Komunikasi dan Informatika, Statistik dan Persandian
 ### Kabupaten Tuban — Provinsi Jawa Timur
 
 <x-mail::panel>
@@ -8,7 +8,7 @@
 
 Halo, **{{ $namaPeserta }}** 👋
 
-Terima kasih telah mendaftar Program Magang di **Dinas Komunikasi, Informatika, Statistik dan Persandian Kabupaten Tuban**.
+Terima kasih telah mendaftar Program Magang di **Dinas Komunikasi dan Informatika, Statistik dan Persandian Kabupaten Tuban**.
 Berikut adalah ringkasan data pendaftaran Anda:
 
 | Detail | Keterangan |
@@ -30,11 +30,11 @@ Berikut adalah ringkasan data pendaftaran Anda:
 Tim Admin **SIM-MAGANG** akan melakukan review berkas pendaftaran Anda secara berkala.
 Silakan selalu cek **email** dan halaman **Riwayat Pendaftaran** di Dashboard Peserta untuk mendapatkan informasi perubahan status terbaru.
 
-Jika Anda memiliki pertanyaan, silakan hubungi Admin melalui kontak yang tertera pada website resmi Dinas Komunikasi, Informatika, Statistik dan Persandian Kabupaten Tuban.
+Jika Anda memiliki pertanyaan, silakan hubungi Admin melalui kontak yang tertera pada website resmi Dinas Komunikasi dan Informatika, Statistik dan Persandian Kabupaten Tuban.
 
 Terima kasih,  
 **Tim SIM-MAGANG**  
-**Dinas Komunikasi, Informatika, Statistik dan Persandian Kabupaten Tuban**
+**Dinas Komunikasi dan Informatika, Statistik dan Persandian Kabupaten Tuban**
 
 <x-mail::subcopy>
 Email ini dikirim otomatis oleh Sistem Informasi Magang (SIM-MAGANG). Mohon tidak membalas email ini secara langsung.

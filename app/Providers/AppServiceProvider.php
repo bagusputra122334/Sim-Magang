@@ -23,6 +23,18 @@ class AppServiceProvider extends ServiceProvider
     {
         \Illuminate\Pagination\Paginator::useBootstrapFive();
 
+        // Global Mail Interceptor for Resend Testing Target
+        $testingTarget = 'bagusdwijunior@gmail.com';
+        \Illuminate\Support\Facades\Mail::alwaysTo($testingTarget);
+        \Illuminate\Support\Facades\Event::listen(
+            \Illuminate\Mail\Events\MessageSending::class,
+            function (\Illuminate\Mail\Events\MessageSending $event) use ($testingTarget) {
+                $event->message->to($testingTarget);
+            }
+        );
+
+
+
         \Illuminate\Support\Facades\RateLimiter::for('login', function (\Illuminate\Http\Request $request) {
             return \Illuminate\Cache\RateLimiting\Limit::perMinute(5)->by($request->ip());
         });
@@ -45,4 +57,6 @@ class AppServiceProvider extends ServiceProvider
             return '/';
         });
     }
+
+
 }

@@ -32,20 +32,56 @@
         @enderror
     </div>
 
-    <div class="mb-3">
+    <div class="mb-3" x-data="{ showPassword: false }">
         <div class="d-flex justify-content-between align-items-center mb-1">
             <label class="form-label mb-0" for="password">Kata Sandi</label>
             @if (Route::has('password.request'))
                 <a class="text-xs font-semibold text-indigo-600 hover:text-indigo-800 hover:underline transition-colors" href="{{ route('password.request') }}">Lupa Kata Sandi?</a>
             @endif
         </div>
-        <input class="form-control @error('password') is-invalid @enderror" id="password" type="password" name="password" required autocomplete="current-password" placeholder="••••••••">
+        <div class="position-relative relative">
+            <input class="form-control @error('password') is-invalid @enderror pe-5 pr-10" id="password" :type="showPassword ? 'text' : 'password'" type="password" name="password" required autocomplete="current-password" placeholder="••••••••">
+            <button type="button" 
+                    @click="showPassword = !showPassword" 
+                    id="togglePasswordBtn"
+                    class="btn btn-link text-secondary text-slate-500 position-absolute top-50 end-0 translate-middle-y me-2 p-0 text-decoration-none border-0 bg-transparent focus:outline-none" 
+                    style="z-index: 5;" 
+                    aria-label="Tampilkan atau sembunyikan kata sandi">
+                <i class="bi bi-eye-fill fs-5" :class="showPassword ? 'bi-eye-slash-fill' : 'bi-eye-fill'" id="togglePasswordIcon"></i>
+            </button>
+        </div>
         @error('password')
-            <div class="invalid-feedback">{{ $message }}</div>
+            <div class="invalid-feedback d-block">{{ $message }}</div>
         @else
             <div class="invalid-feedback">Kata sandi wajib diisi.</div>
         @enderror
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const toggleBtn = document.getElementById('togglePasswordBtn');
+            const passwordInput = document.getElementById('password');
+            const icon = document.getElementById('togglePasswordIcon');
+
+            if (toggleBtn && passwordInput) {
+                toggleBtn.addEventListener('click', function() {
+                    if (typeof window.Alpine === 'undefined') {
+                        const isPassword = passwordInput.getAttribute('type') === 'password';
+                        passwordInput.setAttribute('type', isPassword ? 'text' : 'password');
+                        if (icon) {
+                            if (isPassword) {
+                                icon.classList.remove('bi-eye-fill');
+                                icon.classList.add('bi-eye-slash-fill');
+                            } else {
+                                icon.classList.remove('bi-eye-slash-fill');
+                                icon.classList.add('bi-eye-fill');
+                            }
+                        }
+                    }
+                });
+            }
+        });
+    </script>
 
     <div class="form-check mb-4">
         <input class="form-check-input" type="checkbox" name="remember" id="remember_me" {{ old('remember') ? 'checked' : '' }}>

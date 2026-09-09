@@ -11,6 +11,15 @@ class ContactMessageRequest extends FormRequest
         return true;
     }
 
+    protected function prepareForValidation(): void
+    {
+        if (!$this->has('phone') || empty($this->input('phone'))) {
+            $this->merge([
+                'phone' => $this->input('wa_number') ?? $this->input('whatsapp'),
+            ]);
+        }
+    }
+
     /**
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */

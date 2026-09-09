@@ -213,7 +213,7 @@
                             {{ $reg->position?->nama_posisi ?? 'Detail Pendaftaran Magang' }}
                         </h1>
                         <p class="text-muted mb-0 small">
-                            <i class="bi bi-geo-alt me-1"></i>Dinas Komunikasi, Informatika, Statistik dan Persandian Kab. Tuban
+                            <i class="bi bi-geo-alt me-1"></i>Dinas Komunikasi dan Informatika, Statistik dan Persandian Kab. Tuban
                         </p>
                     </div>
                     <div class="col-md-4 text-md-end">
@@ -287,7 +287,7 @@
                     <div>
                         <h5 class="mb-0 fw-bold text-{{ $isDeactivated ? 'danger' : ($suratAda ? 'success' : 'warning') }}-emphasis">
                             <i class="bi bi-envelope-paper-fill me-2"></i>
-                            Surat Balasan Resmi — Dinas Komunikasi, Informatika, Statistik dan Persandian
+                            Surat Balasan Resmi — Dinas Komunikasi dan Informatika, Statistik dan Persandian
                         </h5>
                         <p class="mb-0 mt-1 small text-{{ $isDeactivated ? 'danger' : ($suratAda ? 'success' : 'warning') }}-emphasis opacity-75">
                             @if($isDeactivated)
@@ -358,7 +358,7 @@
                             <div class="flex-grow-1">
                                 <p class="mb-0 small lh-lg text-body">
                                     <i class="bi bi-info-circle me-1 text-warning"></i>
-                                    Pendaftaran Anda sudah dinyatakan <b>DITERIMA</b>, namun Surat Balasan resmi dari Dinas Komunikasi, Informatika, Statistik dan Persandian
+                                    Pendaftaran Anda sudah dinyatakan <b>DITERIMA</b>, namun Surat Balasan resmi dari Dinas Komunikasi dan Informatika, Statistik dan Persandian
                                     Kabupaten Tuban <b>belum diunggah</b> oleh tim Admin. Silakan periksa kembali secara berkala atau hubungi Admin jika
                                     membutuhkan informasi lebih lanjut.
                                 </p>

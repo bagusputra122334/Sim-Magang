@@ -15,7 +15,7 @@
                 </div>
                 <h1 class="display-6 fw-extrabold mb-3">Selamat Datang di Sistem Informasi Magang</h1>
                 <p class="lead text-white-75 mb-0 mx-auto" style="max-width: 620px;">
-                    Terima kasih telah membuat akun. Sebelum melanjutkan, silakan lengkapi data diri Anda agar dapat mengajukan pendaftaran magang di Dinas Komunikasi, Informatika, Statistik dan Persandian Kabupaten Tuban.
+                    Terima kasih telah membuat akun. Sebelum melanjutkan, silakan lengkapi data diri Anda agar dapat mengajukan pendaftaran magang di Dinas Komunikasi dan Informatika, Statistik dan Persandian Kabupaten Tuban.
                 </p>
             </div>
 
@@ -50,7 +50,7 @@
                             <div class="display-1 text-primary mb-3">
                                 🎓
                             </div>
-                            <h3 class="h6 fw-bold text-body mb-1">Dinas Komunikasi, Informatika, Statistik dan Persandian</h3>
+                            <h3 class="h6 fw-bold text-body mb-1">Dinas Komunikasi dan Informatika, Statistik dan Persandian</h3>
                             <p class="text-muted small mb-0">Kabupaten Tuban, Jawa Timur</p>
                         </div>
                     </div>

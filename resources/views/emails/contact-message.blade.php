@@ -1,5 +1,5 @@
 <x-mail::message>
-# 🏢 Dinas Komunikasi, Informatika, Statistik dan Persandian
+# 🏢 Dinas Komunikasi dan Informatika, Statistik dan Persandian
 ### Kabupaten Tuban — Provinsi Jawa Timur
 
 <x-mail::panel>
@@ -33,7 +33,7 @@ Terdapat pesan pertanyaan / informasi baru yang dikirimkan oleh pengunjung melal
 
 Terima kasih,<br>
 **Sistem Informasi Magang (SIM-MAGANG)**<br>
-**Dinas Komunikasi, Informatika, Statistik dan Persandian Kabupaten Tuban**
+**Dinas Komunikasi dan Informatika, Statistik dan Persandian Kabupaten Tuban**
 
 <x-mail::subcopy>
 Pesan ini dikirimkan melalui Formulir Kontak Landing Page SIM-MAGANG. Anda dapat membalas email ini secara langsung ke alamat pengirim: {{ $email }}.

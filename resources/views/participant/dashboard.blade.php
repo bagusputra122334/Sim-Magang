@@ -8,9 +8,17 @@
         \App\Enums\RegistrationStatus::Rejected->value    => 'bg-danger-subtle text-danger border border-danger-subtle',
     ];
 
-    $reg = $latestRegistration;
+    $reg = $latestRegistration ?? ($user->registrations->first() ?? null);
     $sv = $reg?->status?->value;
     $badgeClass = $sv !== null ? ($statusBadgeMap[$sv] ?? 'bg-secondary-subtle text-secondary border') : 'bg-secondary-subtle text-secondary border';
+
+    $latestStatus = $latestStatus ?? ($reg?->is_terminated ? 'Dinonaktifkan' : ($reg?->status?->value ?? ($reg?->status ?? '')));
+    if (is_object($latestStatus) && enum_exists($latestStatus::class)) {
+        $latestStatus = $latestStatus->value;
+    }
+    $latestStatus = is_string($latestStatus) ? ucfirst(strtolower($latestStatus)) : '';
+
+    $canApplyNew = $canApplyNew ?? ($reg === null || in_array(strtolower((string)$latestStatus), ['rejected', 'completed', 'inactive', 'dinonaktifkan']));
 @endphp
 
 @section('title', 'Dashboard')
@@ -21,7 +29,7 @@
         <div class="page-heading-copy">
             <h1 class="h3 mb-1">Selamat Datang, {{ $user->name }}!</h1>
             <p class="text-muted mb-0">
-                Pantau status pendaftaran magang Anda di Dinas Komunikasi, Informatika, Statistik dan Persandian Kabupaten Tuban.
+                Pantau status pendaftaran magang Anda di Dinas Komunikasi dan Informatika, Statistik dan Persandian Kabupaten Tuban.
             </p>
         </div>
     </div>
@@ -42,6 +50,22 @@
                 </a>
 
             </div>
+        </div>
+    @endif
+
+    {{-- NEW REGISTRATION PROMPT (If eligible) --}}
+    @if(in_array($latestStatus, ['Rejected', 'Completed', 'Inactive', 'Dinonaktifkan', 'rejected', 'completed', 'inactive', 'dinonaktifkan']) || $canApplyNew)
+        <div class="alert alert-success border-2 rounded-4 mb-4 d-flex align-items-center justify-content-between flex-wrap gap-3 shadow-sm" role="alert">
+            <div class="d-flex align-items-center gap-3">
+                <i class="bi bi-plus-circle-fill fs-2 text-success flex-shrink-0"></i>
+                <div>
+                    <h5 class="alert-heading fw-bold mb-1">Pengajuan Pendaftaran Magang Baru</h5>
+                    <p class="mb-0 small text-muted">Status pendaftaran Anda saat ini mengizinkan pengajuan permohonan magang baru.</p>
+                </div>
+            </div>
+            <a href="{{ route('participant.registrations.create') }}" class="btn btn-success fw-bold px-4 py-2.5 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 flex-shrink-0">
+                <i class="bi bi-plus-circle-fill me-1"></i> + Ajukan Pendaftaran Baru
+            </a>
         </div>
     @endif
 

@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta name="description" content="{{ $guide['summary'] }} — SIM-MAGANG Dinas Komunikasi, Informatika, Statistik dan Persandian Kabupaten Tuban.">
+    <meta name="description" content="{{ $guide['summary'] }} — SIM-MAGANG Dinas Komunikasi dan Informatika, Statistik dan Persandian Kabupaten Tuban.">
 
     <!--====== Title ======-->
     <title>{{ $guide['title'] }} — SIM-MAGANG Diskominfo SP Tuban</title>
@@ -610,7 +610,7 @@
                     <span>Pemerintah Kabupaten Tuban</span>
                 </a>
                 <span class="text-secondary mx-1">•</span>
-                <span>Dinas Komunikasi, Informatika, Statistik dan Persandian</span>
+                <span>Dinas Komunikasi dan Informatika, Statistik dan Persandian</span>
             </div>
             <div class="d-flex align-items-center gap-3">
                 <span><i class="bi bi-geo-alt mr-1 text-primary"></i> Jl. Veteran No. 2, Tuban</span>
@@ -718,7 +718,7 @@
                         <div class="guide-content">
                             @if($slug === 'pendaftaran')
                                 <p class="lead font-weight-normal mb-4" style="font-size: 16px; color: var(--sim-text);">
-                                    Pendaftaran Program Magang di Dinas Komunikasi, Informatika, Statistik dan Persandian Kabupaten Tuban dilakukan secara daring melalui portal SIM-MAGANG. Calon peserta perlu menyiapkan dokumen persyaratan sebelum mengajukan pendaftaran pada formasi yang tersedia.
+                                    Pendaftaran Program Magang di Dinas Komunikasi dan Informatika, Statistik dan Persandian Kabupaten Tuban dilakukan secara daring melalui portal SIM-MAGANG. Calon peserta perlu menyiapkan dokumen persyaratan sebelum mengajukan pendaftaran pada formasi yang tersedia.
                                 </p>
 
                                 <h3><i class="bi bi-card-checklist text-primary"></i> 1. Dokumen Persyaratan Pendaftaran</h3>
@@ -812,7 +812,7 @@
 
                             @elseif($slug === 'surat-balasan')
                                 <p class="lead font-weight-normal mb-4" style="font-size: 16px; color: var(--sim-text);">
-                                    Setiap berkas pendaftaran diverifikasi oleh tim Dinas Komunikasi, Informatika, Statistik dan Persandian Kabupaten Tuban. Peserta yang dinyatakan diterima dapat mengunduh Surat Balasan resmi secara mandiri melalui portal SIM-MAGANG.
+                                    Setiap berkas pendaftaran diverifikasi oleh tim Dinas Komunikasi dan Informatika, Statistik dan Persandian Kabupaten Tuban. Peserta yang dinyatakan diterima dapat mengunduh Surat Balasan resmi secara mandiri melalui portal SIM-MAGANG.
                                 </p>
 
                                 <h3><i class="bi bi-clock-history text-primary"></i> 1. Status Verifikasi Pendaftaran</h3>
@@ -1068,7 +1068,7 @@
             <!-- COPYRIGHT SECTION -->
             <div class="border-t border-slate-800/40 py-2.5 text-center text-xs text-slate-400/90 my-0">
                 <p class="mb-0 leading-relaxed">
-                    &copy; {{ date('Y') }} <strong>SIM-MAGANG</strong> — Dinas Komunikasi, Informatika, Statistik dan Persandian Kabupaten Tuban. Hak Cipta Dilindungi.
+                    &copy; {{ date('Y') }} <strong>SIM-MAGANG</strong> — Dinas Komunikasi dan Informatika, Statistik dan Persandian Kabupaten Tuban. Hak Cipta Dilindungi.
                 </p>
             </div>
         </div>
