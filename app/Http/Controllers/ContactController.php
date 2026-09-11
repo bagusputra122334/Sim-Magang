@@ -32,6 +32,18 @@ class ContactController extends Controller
                 'category' => $request->input('kategori'),
             ]);
         }
+        if ($request->has('category') && !empty($request->input('category'))) {
+            $catMap = [
+                'Mahasiswa / Perguruan Tinggi' => 'mahasiswa',
+                'Siswa / SMK / SMA'            => 'siswa',
+                'Dosen / Guru Pembimbing'      => 'dosen_guru',
+                'Lainnya'                      => 'lainnya',
+            ];
+            $currentCat = $request->input('category');
+            if (isset($catMap[$currentCat])) {
+                $request->merge(['category' => $catMap[$currentCat]]);
+            }
+        }
         if (!$request->has('message') || empty($request->input('message'))) {
             $request->merge([
                 'message' => $request->input('pesan'),
@@ -42,7 +54,7 @@ class ContactController extends Controller
             'name'     => ['required', 'string', 'min:3', 'max:100'],
             'phone'    => ['required', 'string', 'min:8', 'max:25'],
             'email'    => ['required', 'email', 'max:150'],
-            'category' => ['required', 'string'],
+            'category' => ['required', 'string', 'in:mahasiswa,siswa,dosen_guru,lainnya,Mahasiswa / Perguruan Tinggi,Siswa / SMK / SMA,Dosen / Guru Pembimbing,Lainnya'],
             'message'  => ['required', 'string', 'min:10', 'max:2000'],
         ], [
             'name.required'     => 'Nama lengkap wajib diisi.',
@@ -52,6 +64,7 @@ class ContactController extends Controller
             'email.required'    => 'Alamat email wajib diisi.',
             'email.email'       => 'Format alamat email tidak valid.',
             'category.required' => 'Silakan pilih kategori peserta.',
+            'category.in'       => 'Kategori peserta yang dipilih tidak valid.',
             'message.required'  => 'Pesan atau pertanyaan wajib diisi.',
             'message.min'       => 'Pesan minimal berisi 10 karakter.',
         ]);

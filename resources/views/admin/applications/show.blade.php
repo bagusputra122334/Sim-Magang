@@ -355,25 +355,6 @@
         </div>
     @endif
 
-    {{-- Flash Notifications --}}
-    @if (session('success'))
-        <div class="alert alert-success alert-dismissible fade show border shadow-sm mb-4">
-            <i class="bi bi-check-circle-fill me-2"></i> {!! session('success') !!}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    @endif
-    @if (session('warning'))
-        <div class="alert alert-warning alert-dismissible fade show border shadow-sm mb-4">
-            <i class="bi bi-exclamation-triangle-fill me-2"></i> {!! session('warning') !!}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    @endif
-    @if (session('error'))
-        <div class="alert alert-danger alert-dismissible fade show border shadow-sm mb-4">
-            <i class="bi bi-x-octagon-fill me-2"></i> {!! session('error') !!}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    @endif
 
     <div class="row g-4">
         {{-- KOLOM KIRI: Informasi Utama & Alur Dokumen --}}
@@ -620,19 +601,12 @@
                         <h2 class="h5 mb-0 fw-bold text-body">
                             <i class="bi bi-file-earmark-check text-success me-2"></i>Surat Balasan
                         </h2>
-                        <p class="text-muted small mb-0 mt-1">
-                            Unggah surat balasan resmi untuk peserta setelah proses verifikasi selesai.
-                        </p>
                     </div>
                     @if ($sbExists)
                         <span class="badge bg-success bg-opacity-10 text-success border border-success-subtle px-3 py-1.5 rounded-pill fw-semibold small">
                             <i class="bi bi-check-circle-fill me-1"></i> Surat Telah Terbit
                         </span>
-                    @elseif ($reg->isAccepted())
-                        <span class="badge bg-warning bg-opacity-10 text-warning border border-warning-subtle px-3 py-1.5 rounded-pill fw-semibold small">
-                            <i class="bi bi-clock-history me-1"></i> Belum Diunggah
-                        </span>
-                    @else
+                    @elseif (! $reg->isAccepted())
                         <span class="badge bg-secondary bg-opacity-10 text-secondary border border-secondary-subtle px-3 py-1.5 rounded-pill fw-semibold small">
                             <i class="bi bi-lock-fill me-1"></i> Belum Tersedia
                         </span>
@@ -693,31 +667,59 @@
 
                     {{-- STATE B: BELUM DIUNGGAH TAPI STATUS ACCEPTED --}}
                     @elseif ($reg->isAccepted())
-                        <div class="reply-letter-card state-pending p-4 text-center text-md-start">
-                            <div class="row align-items-center g-3">
-                                <div class="col-md-8">
-                                    <div class="d-flex align-items-start gap-3 flex-wrap flex-md-nowrap">
-                                        <div class="p-3 rounded-3 bg-primary bg-opacity-10 text-primary border border-primary-subtle d-inline-flex align-items-center justify-content-center flex-shrink-0 mx-auto mx-md-0">
-                                            <i class="bi bi-cloud-arrow-up-fill fs-2"></i>
+                        <div class="reply-letter-card state-pending p-4 rounded-xl border border-slate-200 bg-white" x-data="{ fileName: '' }">
+                            <form method="POST" action="{{ route('admin.applications.reply-letter.store', $reg->id) }}" enctype="multipart/form-data" class="space-y-4">
+                                @csrf
+                                <div>
+                                    <div class="d-flex align-items-center justify-content-between mb-2">
+                                        <label for="surat_balasan" class="text-xs font-bold text-slate-700 uppercase tracking-wider mb-0 flex items-center gap-1.5">
+                                            <i class="bi bi-filetype-pdf text-rose-500"></i> Unggah Surat Balasan (PDF) <span class="text-rose-500">*</span>
+                                        </label>
+                                        <span class="text-xs text-slate-400">Maks. 2 MB</span>
+                                    </div>
+                                    
+                                    <div class="relative border border-dashed rounded-lg p-3.5 text-center transition-all duration-150"
+                                         :class="fileName ? 'border-blue-500 bg-blue-50/30' : 'border-slate-300 bg-slate-50/60 hover:border-blue-400 hover:bg-blue-50/10'">
+                                        <input
+                                            type="file"
+                                            class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10 @error('surat_balasan') is-invalid @enderror"
+                                            id="surat_balasan"
+                                            name="surat_balasan"
+                                            accept="application/pdf,.pdf"
+                                            @change="fileName = $event.target.files[0] ? $event.target.files[0].name : ''"
+                                            required>
+                                        
+                                        <!-- Default Dropzone Prompt (Hides when file is selected) -->
+                                        <div x-show="!fileName" class="flex items-center justify-center gap-2 py-1">
+                                            <i class="bi bi-cloud-arrow-up text-blue-600 text-lg"></i>
+                                            <span class="font-semibold text-slate-700 text-xs">Pilih atau seret file PDF ke sini</span>
                                         </div>
-                                        <div>
-                                            <h4 class="h5 fw-bold mb-1 text-body">Surat Balasan</h4>
-                                            <p class="text-muted small mb-2">
-                                                Belum ada surat balasan yang diunggah untuk pendaftaran ini.
-                                            </p>
-                                            <div class="text-muted small">
-                                                <i class="bi bi-info-circle me-1 text-primary"></i> Format PDF, maksimal sesuai ketentuan sistem.
-                                            </div>
+                                        
+                                        <!-- Active Selected File State -->
+                                        <div x-show="fileName" x-cloak class="flex items-center justify-center gap-2 py-0.5">
+                                            <i class="bi bi-file-earmark-pdf text-blue-600 text-lg"></i>
+                                            <span class="font-semibold text-slate-800 text-xs truncate max-w-xs" x-text="fileName"></span>
+                                            <button type="button" @click.stop.prevent="fileName = ''; document.getElementById('surat_balasan').value = ''" class="text-slate-400 hover:text-rose-600 transition-colors ms-1 relative z-20" title="Batal pilih file">
+                                                <i class="bi bi-x-circle-fill text-sm"></i>
+                                            </button>
                                         </div>
                                     </div>
+                                    @error('surat_balasan')
+                                        <div class="text-rose-500 text-xs font-medium mt-1">{{ $message }}</div>
+                                    @enderror
                                 </div>
-                                <div class="col-md-4 text-center text-md-end">
-                                    <a href="{{ route('admin.applications.reply-letter', $reg->id) }}"
-                                       class="btn bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white rounded-xl font-semibold shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md px-4 py-2.5 w-100 w-md-auto">
-                                        <i class="bi bi-upload me-2"></i> Unggah Surat Balasan
-                                    </a>
+
+                                <!-- Action Footer: Primary Submit Button -->
+                                <div class="flex justify-end pt-1">
+                                    <button type="submit"
+                                            class="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-medium text-sm rounded-xl transition-all shadow-sm flex items-center gap-2"
+                                            :class="!fileName ? 'opacity-60 cursor-not-allowed' : 'hover:shadow-md'"
+                                            :disabled="!fileName">
+                                        <i class="bi bi-upload"></i>
+                                        <span>Kirim Surat Balasan</span>
+                                    </button>
                                 </div>
-                            </div>
+                            </form>
                         </div>
 
                     {{-- STATE C: BELUM TERSEDIA KARENA STATUS BELUM ACCEPTED --}}

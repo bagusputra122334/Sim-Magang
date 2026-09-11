@@ -8,7 +8,7 @@
 
 Halo, **{{ $namaPeserta }}** 👋
 
-Kami ingin memberitahukan bahwa pendaftaran magang Anda dengan detail berikut **sedang dalam tahap review / verifikasi** oleh Tim Admin SIM-MAGANG:
+Kami ingin memberitahukan bahwa pendaftaran magang Anda dengan detail berikut **sedang dalam tahap review / verifikasi** oleh Tim Admin SIMAGANG:
 
 | Detail | Keterangan |
 |---|---|
@@ -32,10 +32,10 @@ Anda akan menerima **email notifikasi otomatis** segera setelah Tim Admin mengam
 Harap tenang menunggu dan pastikan selalu memantau inbox email (termasuk folder **Promosi / Spam**) secara berkala.
 
 Terima kasih atas kesabaran Anda,
-**Tim SIM-MAGANG**
+**Tim SIMAGANG**
 **Dinas Komunikasi dan Informatika, Statistik dan Persandian Kabupaten Tuban**
 
 <x-mail::subcopy>
-Email ini dikirim otomatis oleh Sistem Informasi Magang (SIM-MAGANG). Mohon tidak membalas email ini secara langsung.
+Email ini dikirim otomatis oleh Sistem Informasi Magang (SIMAGANG). Mohon tidak membalas email ini secara langsung.
 </x-mail::subcopy>
 </x-mail::message>

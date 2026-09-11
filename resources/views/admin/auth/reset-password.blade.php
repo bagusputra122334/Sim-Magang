@@ -14,7 +14,7 @@
             <i class="bi bi-key-fill fs-4"></i>
         </div>
         <h1 class="h3 mb-1 fw-bold">Reset Password Admin</h1>
-        <p class="text-muted mb-0 small">Buat kata sandi baru untuk akun Administrator SIM-MAGANG.</p>
+        <p class="text-muted mb-0 small">Buat kata sandi baru untuk akun Administrator SIMAGANG.</p>
     </div>
 
     <!-- Alamat Email -->

@@ -8,7 +8,7 @@
 
     <div class="mb-4">
         <h1 class="h3 mb-1">Daftar Akun Baru</h1>
-        <p class="text-muted mb-0">Buat akun baru SIM-MAGANG Diskominfo Tuban.</p>
+        <p class="text-muted mb-0">Buat akun baru SIMAGANG Diskominfo Tuban.</p>
     </div>
 
     <!-- Nama Lengkap -->

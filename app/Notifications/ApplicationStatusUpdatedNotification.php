@@ -36,9 +36,9 @@ class ApplicationStatusUpdatedNotification extends Notification implements Shoul
         $statusLabel = $statusEnum?->label() ?? '-';
 
         $subject = match ($statusEnum) {
-            RegistrationStatus::Accepted => '[SIM-MAGANG] Selamat! Pendaftaran Magang #' . $kodePendaftaran . ' DITERIMA',
-            RegistrationStatus::Rejected => '[SIM-MAGANG] Informasi Hasil Seleksi Pendaftaran Magang #' . $kodePendaftaran,
-            default                      => '[SIM-MAGANG] Perubahan Status Pendaftaran Magang #' . $kodePendaftaran,
+            RegistrationStatus::Accepted => '[SIMAGANG] Selamat! Pendaftaran Magang #' . $kodePendaftaran . ' DITERIMA',
+            RegistrationStatus::Rejected => '[SIMAGANG] Informasi Hasil Seleksi Pendaftaran Magang #' . $kodePendaftaran,
+            default                      => '[SIMAGANG] Perubahan Status Pendaftaran Magang #' . $kodePendaftaran,
         };
 
         return (new MailMessage)

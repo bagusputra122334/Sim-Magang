@@ -8,7 +8,7 @@ use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 
 /**
- * Model Admin — Data autentikasi Administrator SIM-MAGANG
+ * Model Admin — Data autentikasi Administrator SIMAGANG
  */
 class Admin extends User implements CanResetPasswordContract
 {

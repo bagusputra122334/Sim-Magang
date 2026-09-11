@@ -53,8 +53,8 @@
         </div>
     @endif
 
-    {{-- NEW REGISTRATION PROMPT (If eligible) --}}
-    @if(in_array($latestStatus, ['Rejected', 'Completed', 'Inactive', 'Dinonaktifkan', 'rejected', 'completed', 'inactive', 'dinonaktifkan']) || $canApplyNew)
+    {{-- NEW REGISTRATION PROMPT (If eligible and no active deactivation notice is displayed) --}}
+    @if(!($reg !== null && $reg->is_terminated) && (in_array($latestStatus, ['Rejected', 'Completed', 'Inactive', 'Dinonaktifkan', 'rejected', 'completed', 'inactive', 'dinonaktifkan']) || $canApplyNew))
         <div class="alert alert-success border-2 rounded-4 mb-4 d-flex align-items-center justify-content-between flex-wrap gap-3 shadow-sm" role="alert">
             <div class="d-flex align-items-center gap-3">
                 <i class="bi bi-plus-circle-fill fs-2 text-success flex-shrink-0"></i>

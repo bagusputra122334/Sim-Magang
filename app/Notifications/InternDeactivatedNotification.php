@@ -32,10 +32,10 @@ class InternDeactivatedNotification extends Notification implements ShouldQueue
         $namaPosisi = $this->registration->position?->nama_posisi ?? '-';
 
         return (new MailMessage)
-            ->subject('[SIM-MAGANG] Pemberitahuan Penonaktifan Status Magang #' . $kodePendaftaran)
+            ->subject('[SIMAGANG] Pemberitahuan Penonaktifan Status Magang #' . $kodePendaftaran)
             ->greeting('Halo, ' . $namaPeserta . '!')
             ->line('Kami menginformasikan bahwa status kepesertaan magang Anda untuk posisi ' . $namaPosisi . ' (' . $kodePendaftaran . ') telah DINONAKTIFKAN oleh Administrator.')
-            ->line('Catatan Penonaktifan: ' . ($this->catatanPenonaktifan ?: 'Penonaktifan oleh Administrator SIM-MAGANG.'))
+            ->line('Catatan Penonaktifan: ' . ($this->catatanPenonaktifan ?: 'Penonaktifan oleh Administrator SIMAGANG.'))
             ->line('Jika Anda memiliki pertanyaan mengenai keputusan penonaktifan ini, silakan hubungi pihak Diskominfo SP Kabupaten Tuban.');
     }
 }

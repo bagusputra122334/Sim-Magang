@@ -91,19 +91,22 @@ class DashboardController extends ParticipantController
         $pmBasename = $pmExists ? basename($pmPath) : null;
 
         $sbPath = $latestRegistration->surat_balasan_path;
+        $sbDisk = (! empty($sbPath) && \Illuminate\Support\Facades\Storage::disk('local')->exists($sbPath))
+            ? \Illuminate\Support\Facades\Storage::disk('local')
+            : \Illuminate\Support\Facades\Storage::disk('public');
         $sbExists = $sbPath !== null
             && trim($sbPath) !== ''
-            && $disk->exists($sbPath)
+            && $sbDisk->exists($sbPath)
             && $latestRegistration->isAccepted();
         $sbRoute = $sbExists ? route('participant.applications.reply-letter.download', $latestRegistration->id) : null;
         $sbInfo = null;
         if ($sbExists) {
-            $bytes = $disk->size($sbPath);
+            $bytes = $sbDisk->size($sbPath);
             $sbInfo = [
                 'basename'      => basename($sbPath),
                 'size_kb'       => (int) round($bytes / 1024),
                 'human_size'    => number_format((int) round($bytes / 1024), 0, ',', '.').' KB',
-                'last_modified' => date('d M Y H:i', $disk->lastModified($sbPath)),
+                'last_modified' => date('d M Y H:i', $sbDisk->lastModified($sbPath)),
             ];
         }
 

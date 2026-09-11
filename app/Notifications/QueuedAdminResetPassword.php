@@ -30,9 +30,9 @@ class QueuedAdminResetPassword extends Notification implements ShouldQueue
         ]);
 
         return (new MailMessage)
-            ->subject('[SIM-MAGANG Admin] Permintaan Atur Ulang Kata Sandi Administrator')
+            ->subject('[SIMAGANG Admin] Permintaan Atur Ulang Kata Sandi Administrator')
             ->greeting('Halo Administrator, ' . ($notifiable->name ?? 'Admin') . '!')
-            ->line('Anda menerima email ini karena kami menerima permintaan atur ulang kata sandi (reset password) untuk akun Administrator SIM-MAGANG Diskominfo SP Kabupaten Tuban.')
+            ->line('Anda menerima email ini karena kami menerima permintaan atur ulang kata sandi (reset password) untuk akun Administrator SIMAGANG Diskominfo SP Kabupaten Tuban.')
             ->action('Atur Ulang Kata Sandi Admin', $url)
             ->line('Tautan atur ulang kata sandi admin ini akan kedaluwarsa dalam waktu 60 menit.')
             ->line('Jika Anda tidak merasa melakukan permintaan ini, abaikan email ini.');

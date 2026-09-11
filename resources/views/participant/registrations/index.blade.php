@@ -111,7 +111,10 @@ if (!function_exists('statusBadgeIcon')) {
                                 @php 
                                     $sv = $reg->status->value; 
                                     $isSelected = $index === 0;
-                                    $hasSurat = $reg->isAccepted() && !empty($reg->surat_balasan_path) && \Illuminate\Support\Facades\Storage::disk('public')->exists($reg->surat_balasan_path);
+                                    $sbDisk = (!empty($reg->surat_balasan_path) && \Illuminate\Support\Facades\Storage::disk('local')->exists($reg->surat_balasan_path))
+                                        ? \Illuminate\Support\Facades\Storage::disk('local')
+                                        : \Illuminate\Support\Facades\Storage::disk('public');
+                                    $hasSurat = $reg->isAccepted() && !empty($reg->surat_balasan_path) && $sbDisk->exists($reg->surat_balasan_path);
                                     $isAccepted = $reg->isAccepted();
                                     $isTerminated = (bool) ($reg->is_terminated || $reg->operational_status === 'terminated');
                                     $isExpired = false;

@@ -8,7 +8,7 @@
 
     <div class="mb-4">
         <h1 class="h3 mb-1">Masuk Akun</h1>
-        <p class="text-muted mb-0">Masuk ke portal SIM-MAGANG Diskominfo Tuban.</p>
+        <p class="text-muted mb-0">Masuk ke portal SIMAGANG Diskominfo Tuban.</p>
     </div>
 
     <!-- Session Status -->

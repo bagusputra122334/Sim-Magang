@@ -15,7 +15,7 @@ class SmtpTestCommand extends Command
     public function handle(): int
     {
         $this->info('====================================================');
-        $this->info('          SIM-MAGANG MAIL DIAGNOSTIC SUITE          ');
+        $this->info('          SIMAGANG MAIL DIAGNOSTIC SUITE          ');
         $this->info('====================================================');
 
         $host = config('mail.mailers.smtp.host', env('MAIL_HOST', '127.0.0.1'));
@@ -79,9 +79,9 @@ class SmtpTestCommand extends Command
         try {
             $this->info("Attempting to dispatch test email to: {$destEmail}");
 
-            Mail::raw('Test email from SIM-MAGANG Diagnostic Command.', function ($message) use ($destEmail): void {
+            Mail::raw('Test email from SIMAGANG Diagnostic Command.', function ($message) use ($destEmail): void {
                 $message->to($destEmail)
-                    ->subject('SIM-MAGANG Email Delivery Test');
+                    ->subject('SIMAGANG Email Delivery Test');
             });
 
             $this->info('SUCCESS: Email dispatched successfully via Symfony Mailer!');

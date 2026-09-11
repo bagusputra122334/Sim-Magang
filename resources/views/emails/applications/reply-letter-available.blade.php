@@ -8,7 +8,7 @@
 
 Halo, **{{ $namaPeserta }}** 👋
 
-Kabar baik! **Surat Balasan resmi** untuk pendaftaran magang Anda **telah diunggah** oleh Tim Admin SIM-MAGANG dan **siap diunduh** melalui Dashboard Peserta.
+Kabar baik! **Surat Balasan resmi** untuk pendaftaran magang Anda **telah diunggah** oleh Tim Admin SIMAGANG dan **siap diunduh** melalui Dashboard Peserta.
 
 ### 📑 Ringkasan Pendaftaran
 | Detail | Keterangan |
@@ -47,10 +47,10 @@ Jika tombol di atas tidak berfungsi, silakan akses secara manual melalui:
 Selamat dan sukses menjalani program magang! 🏆
 
 Terima kasih,
-**Tim SIM-MAGANG**
+**Tim SIMAGANG**
 **Dinas Komunikasi dan Informatika, Statistik dan Persandian Kabupaten Tuban**
 
 <x-mail::subcopy>
-Email ini dikirim otomatis oleh Sistem Informasi Magang (SIM-MAGANG). Mohon tidak membalas email ini secara langsung.
+Email ini dikirim otomatis oleh Sistem Informasi Magang (SIMAGANG). Mohon tidak membalas email ini secara langsung.
 </x-mail::subcopy>
 </x-mail::message>

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>404 — Halaman Tidak Ditemukan | SIM-MAGANG Diskominfo SP Tuban</title>
+    <title>404 — Halaman Tidak Ditemukan | SIMAGANG Diskominfo SP Tuban</title>
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="{{ asset('traveland/images/logo.png') }}">
@@ -34,9 +34,9 @@
     <header class="w-full py-4 px-6 sm:px-12 border-b border-slate-200/80 dark:border-slate-800/80 bg-white/70 dark:bg-slate-900/70 backdrop-blur-md sticky top-0 z-50">
         <div class="max-w-7xl mx-auto flex items-center justify-between">
             <a href="{{ url('/') }}" class="flex items-center gap-3 group">
-                <img src="{{ asset('traveland/images/logo.png') }}" alt="SIM-MAGANG Logo" class="h-10 w-auto group-hover:scale-105 transition-transform duration-200">
+                <img src="{{ asset('traveland/images/logo.png') }}" alt="SIMAGANG Logo" class="h-10 w-auto group-hover:scale-105 transition-transform duration-200">
                 <div class="flex flex-col">
-                    <span class="font-bold text-lg text-slate-900 dark:text-white leading-tight tracking-tight">SIM-MAGANG</span>
+                    <span class="font-bold text-lg text-slate-900 dark:text-white leading-tight tracking-tight">SIMAGANG</span>
                     <span class="text-xs text-slate-500 dark:text-slate-400 font-medium">Diskominfo SP Kab. Tuban</span>
                 </div>
             </a>
@@ -90,7 +90,7 @@
 
     <!-- Footer -->
     <footer class="w-full py-4 text-center border-t border-slate-200/80 dark:border-slate-800/80 bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm text-xs text-slate-500 dark:text-slate-400">
-        <p>&copy; {{ date('Y') }} SIM-MAGANG — Diskominfo SP Kabupaten Tuban. All rights reserved.</p>
+        <p>&copy; {{ date('Y') }} SIMAGANG — Diskominfo SP Kabupaten Tuban. All rights reserved.</p>
     </footer>
 
 </body>

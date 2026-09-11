@@ -5,27 +5,27 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta name="description" content="SIM-MAGANG - Sistem Informasi Magang Resmi Dinas Komunikasi dan Informatika, Statistik dan Persandian Kabupaten Tuban. Layanan pendaftaran magang digital yang transparan, profesional, dan terpadu.">
+    <meta name="description" content="SIMAGANG - Sistem Informasi Magang Resmi Dinas Komunikasi dan Informatika, Statistik dan Persandian Kabupaten Tuban. Layanan pendaftaran magang digital yang transparan, profesional, dan terpadu.">
 
     <!-- Primary Meta Tags -->
-    <meta name="title" content="SIM-MAGANG - Diskominfo SP Kab. Tuban">
+    <meta name="title" content="SIMAGANG - Diskominfo SP Kab. Tuban">
 
     <!-- Open Graph / Facebook / WhatsApp -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ url('/') }}">
-    <meta property="og:title" content="SIM-MAGANG - Diskominfo SP Kab. Tuban">
+    <meta property="og:title" content="SIMAGANG - Diskominfo SP Kab. Tuban">
     <meta property="og:description" content="Portal Resmi Pendaftaran Magang Diskominfo SP Kab. Tuban. Daftarkan dirimu secara digital!">
     <meta property="og:image" content="{{ asset('traveland/images/logo.png') }}">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="{{ url('/') }}">
-    <meta property="twitter:title" content="SIM-MAGANG - Diskominfo SP Kab. Tuban">
+    <meta property="twitter:title" content="SIMAGANG - Diskominfo SP Kab. Tuban">
     <meta property="twitter:description" content="Portal Resmi Pendaftaran Magang Diskominfo SP Kab. Tuban. Daftarkan dirimu secara digital!">
     <meta property="twitter:image" content="{{ asset('traveland/images/logo.png') }}">
 
     <!--====== Title ======-->
-    <title>SIM-MAGANG — Dinas Komunikasi dan Informatika, Statistik dan Persandian Kabupaten Tuban</title>
+    <title>SIMAGANG — Dinas Komunikasi dan Informatika, Statistik dan Persandian Kabupaten Tuban</title>
 
     <!--====== Favicon Icon ======-->
     <link rel="icon" type="image/png" href="{{ asset('traveland/images/logo.png') }}">
@@ -70,8 +70,16 @@
     <link rel="stylesheet" href="{{ asset('traveland/css/style.css') }}">
 
     <style>
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
         /* ==========================================================================
-           SIM-MAGANG INSTITUTIONAL BLUE DESIGN SYSTEM (TRAVELAND FOUNDATION)
+           SIMAGANG INSTITUTIONAL BLUE DESIGN SYSTEM (TRAVELAND FOUNDATION)
            ========================================================================== */
         :root, html[data-theme="light"] {
             /* Brand Identity Colors */
@@ -81,8 +89,8 @@
             --sim-primary-subtle: rgba(13, 110, 253, 0.08);
 
             /* LIGHT THEME TOKENS */
-            --sim-surface: #ffffff;
-            --sim-surface-soft: #f8fafc;
+            --sim-surface: #f8fafc;
+            --sim-surface-soft: #f1f5f9;
             --sim-surface-card: #ffffff;
             --sim-border: #e2e8f0;
             --sim-border-subtle: #f1f5f9;
@@ -1590,11 +1598,11 @@
             $search = request('search');
             $searchLower = strtolower(trim($search ?? ''));
             $staticSections = [
-                ['title' => 'Tentang', 'url' => url('/') . '#about', 'desc' => 'Informasi umum program SIM-MAGANG Diskominfo SP Tuban.'],
+                ['title' => 'Tentang', 'url' => url('/') . '#about', 'desc' => 'Informasi umum program SIMAGANG Diskominfo SP Tuban.'],
                 ['title' => 'Keunggulan', 'url' => url('/') . '#services', 'desc' => 'Keunggulan dan manfaat program magang.'],
                 ['title' => 'Alur', 'url' => url('/') . '#alur', 'desc' => 'Alur dan tata cara pendaftaran magang.'],
                 ['title' => 'FAQ', 'url' => url('/') . '#faq', 'desc' => 'Pertanyaan yang sering diajukan seputar magang.'],
-                ['title' => 'Kontak', 'url' => url('/') . '#contact', 'desc' => 'Informasi kontak dan lokasi kantor dinas.']
+                ['title' => 'Kontak', 'url' => url('/') . '#footer', 'desc' => 'Informasi kontak dan lokasi kantor dinas.']
             ];
             $matchedSections = collect();
             if ($search) {
@@ -1617,13 +1625,10 @@
     <!--====== PRELOADER ======-->
     <div class="preloader">
         <div class="loader">
-            <div class="ytp-spinner">
-                <div class="ytp-spinner-container">
-                    <div class="ytp-spinner-rotator">
-                        <div class="ytp-spinner-left"><div class="ytp-spinner-circle" style="border-color: #0d6efd #0d6efd #f8fafc;"></div></div>
-                        <div class="ytp-spinner-right"><div class="ytp-spinner-circle" style="border-color: #0d6efd #0d6efd #f8fafc;"></div></div>
-                    </div>
-                </div>
+            <div class="flex items-center justify-center space-x-2">
+                <div class="w-4 h-4 bg-blue-600 rounded-full animate-bounce" style="animation-delay: -0.3s;"></div>
+                <div class="w-4 h-4 bg-blue-600 rounded-full animate-bounce" style="animation-delay: -0.15s;"></div>
+                <div class="w-4 h-4 bg-blue-600 rounded-full animate-bounce"></div>
             </div>
         </div>
     </div>
@@ -1659,9 +1664,9 @@
                     <div class="col-lg-12">
                         <nav class="navbar navbar-expand-xl w-100 flex items-center justify-between max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                             <a class="navbar-brand flex-shrink-0 mr-xl-3" href="{{ url('/') }}">
-                                <img src="{{ asset('traveland/images/logo.png') }}" alt="SIM-MAGANG Logo" class="brand-logo-img">
+                                <img src="{{ asset('traveland/images/logo.png') }}" alt="SIMAGANG Logo" class="brand-logo-img">
                                 <div>
-                                    <span class="brand-text d-block">SIM-MAGANG</span>
+                                    <span class="brand-text d-block">SIMAGANG</span>
                                     <span class="brand-sub d-block">Diskominfo SP Kab. Tuban</span>
                                 </div>
                             </a>
@@ -1680,8 +1685,7 @@
                                     <li class="nav-item"><a class="page-scroll nav-link-item" href="#services">Keunggulan</a></li>
                                     <li class="nav-item"><a class="page-scroll nav-link-item" href="#alur">Alur</a></li>
                                     <li class="nav-item"><a class="page-scroll nav-link-item" href="#faq">FAQ</a></li>
-                                    <li class="nav-item"><a class="page-scroll nav-link-item" href="#blog">Panduan</a></li>
-                                    <li class="nav-item"><a class="page-scroll nav-link-item" href="#contact">Kontak</a></li>
+                                    <li class="nav-item"><a class="page-scroll nav-link-item" href="#footer">Kontak</a></li>
                                 </ul>
 
                                 <div class="hidden md:flex xl:flex align-items-center gap-2 flex-shrink-0">
@@ -1763,7 +1767,7 @@
                         </h1>
 
                         <p class="hero_desc wow fadeInLeft" data-wow-duration="1.2s" data-wow-delay="0.5s">
-                            Dapatkan pengalaman kerja nyata dan kembangkan kompetensimu di lingkungan pemerintahan. Kami mengundang talenta muda untuk turut berinovasi menciptakan layanan publik berbasis teknologi digital yang berdampak langsung bagi masyarakat.
+                            SIMAGANG (Sistem Informasi Magang) merupakan portal resmi Diskominfo SP Kabupaten Tuban untuk memfasilitasi pendaftaran dan pengelolaan magang secara digital. Dapatkan pengalaman kerja nyata dan kembangkan kompetensimu melalui proses rekrutmen yang transparan, terintegrasi, dan 100% paperless.
                         </p>
 
                         <div class="d-flex flex-wrap align-items-center gap-3 wow fadeInLeft" data-wow-duration="1.2s" data-wow-delay="0.7s">
@@ -1790,7 +1794,7 @@
 
                     <div class="col-lg-5 text-center wow fadeInRight" data-wow-duration="1.2s" data-wow-delay="0.4s">
                         <div class="hero-preview-frame">
-                            <img src="{{ asset('traveland/images/1.png') }}" alt="SIM-MAGANG Diskominfo Tuban Command Center" class="img-fluid w-100" style="height: auto; object-fit: contain;">
+                            <img src="{{ asset('traveland/images/1.png') }}" alt="SIMAGANG Diskominfo Tuban Command Center" class="img-fluid w-100" style="height: auto; object-fit: contain;">
                         </div>
                     </div>
                 </div>
@@ -1810,10 +1814,9 @@
 
                 <div class="col-lg-6 wow fadeInRight" data-wow-duration="1.2s">
                     <div class="section_title mb-4">
-                        <span class="section-tag text-blue-600 font-bold text-sm tracking-wider uppercase mb-2 inline-block">Tentang Program</span>
-                        <h2 class="title text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">SIM-MAGANG <br> Diskominfo SP <span>Kabupaten Tuban</span></h2>
+                        <h2 class="title text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">SIMAGANG <br> <span>Diskominfo SP</span></h2>
                         <p class="text-left mx-0 leading-relaxed">
-                            Platform digital resmi terpadu yang memfasilitasi penerimaan peserta magang Mahasiswa Perguruan Tinggi dan Siswa SMK. Seluruh proses pendaftaran, verifikasi berkas oleh administrator, hingga penerbitan surat balasan resmi dilakukan secara transparan dan terintegrasi.
+                            Platform pendaftaran magang resmi untuk Mahasiswa dan Siswa SMK. Seluruh proses dilakukan 100% secara digital, terstruktur, dan transparan.
                         </p>
                     </div>
 
@@ -1873,10 +1876,8 @@
         <div class="container" id="search-results">
             <div class="row justify-content-center">
                 <div class="col-lg-8">
-                    <div class="section_title text-center">
-                        <span class="section-tag">Formasi & Bidang Kerja</span>
+                    <div class="section_title text-center mb-12">
                         <h2 class="title">Pilihan Formasi <br> Kembangkan <span>Potensi Anda</span></h2>
-                        <p>Tersedia berbagai pilihan posisi magang di 5 bidang kerja strategis Dinas Komunikasi dan Informatika, Statistik dan Persandian Kabupaten Tuban (Sekretariat, Komunikasi & Informasi Publik, Aplikasi & Informatika, Statistik, dan Persandian).</p>
                     </div>
                 </div>
             </div>
@@ -1964,124 +1965,194 @@
                     @endif
                 @endif
             @else
-                <div class="w-full text-left mb-6 mt-8">
-                    <h3 class="text-xl font-extrabold text-slate-800">Lowongan magang yang tersedia :</h3>
+                <div id="formasi-subtitle-trigger" class="w-full flex items-center justify-between mb-6 mt-4">
+                    <h3 class="text-lg sm:text-xl font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2" style="color: #1e293b;">
+                        <i class="bi bi-briefcase-fill text-indigo-600"></i> Formasi magang yang tersedia
+                    </h3>
+                    <!-- Carousel Navigation Controls -->
+                    <div class="flex items-center gap-2.5">
+                        <button id="pos-carousel-prev" type="button" aria-label="Sebelumnya" title="Geser ke kiri" class="w-11 h-11 rounded-full bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 hover:bg-blue-600 hover:text-white dark:hover:bg-blue-600 hover:border-blue-600 hover:scale-105 active:scale-95 flex items-center justify-center transition-all duration-200 shadow-md disabled:opacity-30 disabled:pointer-events-none disabled:scale-100 cursor-pointer">
+                            <i class="bi bi-chevron-left text-lg"></i>
+                        </button>
+                        <button id="pos-carousel-next" type="button" aria-label="Selanjutnya" title="Geser ke kanan" class="w-11 h-11 rounded-full bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 hover:bg-blue-600 hover:text-white dark:hover:bg-blue-600 hover:border-blue-600 hover:scale-105 active:scale-95 flex items-center justify-center transition-all duration-200 shadow-md disabled:opacity-30 disabled:pointer-events-none disabled:scale-100 cursor-pointer">
+                            <i class="bi bi-chevron-right text-lg"></i>
+                        </button>
+                    </div>
                 </div>
 
-                {{-- Dynamic Positions Cards --}}
-                <div class="row">
-                    @if($positions->isNotEmpty())
-                        @foreach($positions as $pos)
-                            <div class="col-lg-4 col-md-6 mb-4 d-flex align-items-stretch">
-                                <div class="position-card flex flex-col h-full w-full wow fadeInUp" data-wow-duration="1.2s">
-                                    <div class="flex-grow flex flex-col">
-                                        <div class="mb-2">
-                                            <span class="position-badge">
-                                                <i class="bi bi-mortarboard-fill"></i> Mahasiswa & SMK
-                                            </span>
+                {{-- Dynamic Positions Horizontal Carousel --}}
+                <div class="relative w-full overflow-hidden p-1">
+                    <div id="positions-carousel" class="flex overflow-x-auto no-scrollbar gap-5 sm:gap-6 pb-4 pt-1 w-full cursor-grab active:cursor-grabbing select-none" style="scrollbar-width: none; -ms-overflow-style: none;">
+                        @if($positions->isNotEmpty())
+                            @foreach($positions as $pos)
+                                <div class="snap-start flex-shrink-0 w-[84%] sm:w-[47%] lg:w-[30.5%] flex flex-col">
+                                    <div class="position-card flex flex-col h-full w-full rounded-2xl shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6">
+                                        <div class="flex-grow flex flex-col">
+                                            <div class="mb-2">
+                                                <span class="position-badge">
+                                                    <i class="bi bi-mortarboard-fill"></i> Mahasiswa & SMK
+                                                </span>
+                                            </div>
+                                            <h4 class="position-title">{{ $pos->nama_posisi }}</h4>
+                                            <p class="position-desc">{{ Str::limit($pos->deskripsi, 130) }}</p>
                                         </div>
-                                        <h4 class="position-title">{{ $pos->nama_posisi }}</h4>
-                                        <p class="position-desc">{{ Str::limit($pos->deskripsi, 130) }}</p>
-                                    </div>
-                                    <div class="mt-auto">
-                                        <div class="position-meta">
+                                        <div class="mt-auto">
                                             @auth
                                                 @if(auth()->user()->isAdmin() || auth()->user()->role === 'admin' || auth()->user()->is_admin)
-                                                    <div class="d-flex justify-content-between mb-1">
-                                                        <span>Terakhir Diperbarui:</span>
-                                                        <strong style="color: var(--sim-text);">{{ $pos->updated_at?->locale('id')->translatedFormat('d M Y') ?? '-' }}</strong>
+                                                    <div class="position-meta">
+                                                        <div class="d-flex justify-content-between">
+                                                            <span>Terakhir Diperbarui:</span>
+                                                            <strong style="color: var(--sim-text);">{{ $pos->updated_at?->locale('id')->translatedFormat('d M Y') ?? '-' }}</strong>
+                                                        </div>
                                                     </div>
                                                 @endif
                                             @endauth
-                                            <div class="d-flex justify-content-between">
-                                                <span>Status Formasi:</span>
-                                                <strong class="text-success font-weight-bold"><i class="bi bi-check-circle-fill me-1"></i>Aktif & Terbuka</strong>
-                                            </div>
-                                        </div>
-                                        @auth
-                                            @if(auth()->user()->isPeserta())
-                                                <a href="{{ route('participant.registrations.create', ['position_id' => $pos->id]) }}" class="main-btn btn-block text-center">
-                                                    Daftar Formasi Ini
-                                                </a>
+                                            @auth
+                                                @if(auth()->user()->isPeserta())
+                                                    <a href="{{ route('participant.registrations.create', ['position_id' => $pos->id]) }}" class="main-btn btn-block text-center">
+                                                        Daftar Formasi Ini
+                                                    </a>
+                                                @else
+                                                    <a href="{{ route('admin.positions.show', $pos->id) }}" class="main-btn btn-block text-center">
+                                                        Kelola Formasi
+                                                    </a>
+                                                @endif
                                             @else
-                                                <a href="{{ route('admin.positions.show', $pos->id) }}" class="main-btn btn-block text-center">
-                                                    Kelola Formasi
+                                                <a href="{{ route('register') }}" class="main-btn btn-block text-center">
+                                                    Daftar Sekarang
                                                 </a>
-                                            @endif
-                                        @else
-                                            <a href="{{ route('register') }}" class="main-btn btn-block text-center">
-                                                Daftar Sekarang
-                                            </a>
-                                        @endauth
+                                            @endauth
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        @else
+                            {{-- Default Positions sample --}}
+                            <div class="snap-start flex-shrink-0 w-[84%] sm:w-[47%] lg:w-[30.5%] flex flex-col">
+                                <div class="position-card flex flex-col h-full w-full rounded-2xl shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+                                    <div class="flex-grow flex flex-col">
+                                        <span class="position-badge"><i class="bi bi-mortarboard-fill"></i> Mahasiswa & SMK</span>
+                                        <h4 class="position-title">Pengembangan Web & Aplikasi SPBE</h4>
+                                        <p class="position-desc">Pengembangan dan integrasi sistem informasi web pemerintah daerah berbasis Laravel, API SPBE, dan manajemen database MySQL.</p>
+                                    </div>
+                                    <div class="mt-auto">
+                                        <div class="position-meta">
+                                            <div class="d-flex justify-content-between mb-1"><span>Bidang:</span><strong style="color: var(--sim-text);">Aplikasi & Informatika</strong></div>
+                                            <div class="d-flex justify-content-between"><span>Peserta:</span><strong style="color: var(--sim-text);">Mahasiswa / SMK</strong></div>
+                                        </div>
+                                        <a href="{{ route('register') }}" class="main-btn btn-block text-center">Daftar Sekarang</a>
                                     </div>
                                 </div>
                             </div>
-                        @endforeach
-                    @else
-                        {{-- Default Positions sample --}}
-                        <div class="col-lg-4 col-md-6 mb-4 d-flex align-items-stretch">
-                            <div class="position-card flex flex-col h-full w-full">
-                                <div class="flex-grow flex flex-col">
-                                    <span class="position-badge"><i class="bi bi-mortarboard-fill"></i> Mahasiswa & SMK</span>
-                                    <h4 class="position-title">Pengembangan Web & Aplikasi SPBE</h4>
-                                    <p class="position-desc">Pengembangan dan integrasi sistem informasi web pemerintah daerah berbasis Laravel, API SPBE, dan manajemen database MySQL.</p>
-                                </div>
-                                <div class="mt-auto">
-                                    <div class="position-meta">
-                                        <div class="d-flex justify-content-between mb-1"><span>Bidang:</span><strong style="color: var(--sim-text);">Aplikasi & Informatika</strong></div>
-                                        <div class="d-flex justify-content-between"><span>Peserta:</span><strong style="color: var(--sim-text);">Mahasiswa / SMK</strong></div>
+                            <div class="snap-start flex-shrink-0 w-[84%] sm:w-[47%] lg:w-[30.5%] flex flex-col">
+                                <div class="position-card flex flex-col h-full w-full rounded-2xl shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+                                    <div class="flex-grow flex flex-col">
+                                        <span class="position-badge"><i class="bi bi-mortarboard-fill"></i> Mahasiswa & SMK</span>
+                                        <h4 class="position-title">Media Sosial & Konten Kreatif</h4>
+                                        <p class="position-desc">Produksi konten visual publikasi daerah, desain grafis, fotografi, liputan berita, dan pengelolaan media sosial resmi Pemkab Tuban.</p>
                                     </div>
-                                    <a href="{{ route('register') }}" class="main-btn btn-block text-center">Daftar Sekarang</a>
+                                    <div class="mt-auto">
+                                        <div class="position-meta">
+                                            <div class="d-flex justify-content-between mb-1"><span>Bidang:</span><strong style="color: var(--sim-text);">Komunikasi & Informasi Publik</strong></div>
+                                            <div class="d-flex justify-content-between"><span>Peserta:</span><strong style="color: var(--sim-text);">Mahasiswa / SMK</strong></div>
+                                        </div>
+                                        <a href="{{ route('register') }}" class="main-btn btn-block text-center">Daftar Sekarang</a>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-lg-4 col-md-6 mb-4 d-flex align-items-stretch">
-                            <div class="position-card flex flex-col h-full w-full">
-                                <div class="flex-grow flex flex-col">
-                                    <span class="position-badge"><i class="bi bi-mortarboard-fill"></i> Mahasiswa & SMK</span>
-                                    <h4 class="position-title">Media Sosial & Konten Kreatif</h4>
-                                    <p class="position-desc">Produksi konten visual publikasi daerah, desain grafis, fotografi, liputan berita, dan pengelolaan media sosial resmi Pemkab Tuban.</p>
-                                </div>
-                                <div class="mt-auto">
-                                    <div class="position-meta">
-                                        <div class="d-flex justify-content-between mb-1"><span>Bidang:</span><strong style="color: var(--sim-text);">Komunikasi & Informasi Publik</strong></div>
-                                        <div class="d-flex justify-content-between"><span>Peserta:</span><strong style="color: var(--sim-text);">Mahasiswa / SMK</strong></div>
+                            <div class="snap-start flex-shrink-0 w-[84%] sm:w-[47%] lg:w-[30.5%] flex flex-col">
+                                <div class="position-card flex flex-col h-full w-full rounded-2xl shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+                                    <div class="flex-grow flex flex-col">
+                                        <span class="position-badge"><i class="bi bi-mortarboard-fill"></i> Mahasiswa & SMK</span>
+                                        <h4 class="position-title">Jaringan & Keamanan Informasi</h4>
+                                        <p class="position-desc">Pemeliharaan infrastruktur jaringan fiber optik, server intranet dinas, dan monitoring pengamanan informasi persandian.</p>
                                     </div>
-                                    <a href="{{ route('register') }}" class="main-btn btn-block text-center">Daftar Sekarang</a>
+                                    <div class="mt-auto">
+                                        <div class="position-meta">
+                                            <div class="d-flex justify-content-between mb-1"><span>Bidang:</span><strong style="color: var(--sim-text);">Persandian & Jaringan</strong></div>
+                                            <div class="d-flex justify-content-between"><span>Peserta:</span><strong style="color: var(--sim-text);">Mahasiswa / SMK</strong></div>
+                                        </div>
+                                        <a href="{{ route('register') }}" class="main-btn btn-block text-center">Daftar Sekarang</a>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-lg-4 col-md-6 mb-4 d-flex align-items-stretch">
-                            <div class="position-card flex flex-col h-full w-full">
-                                <div class="flex-grow flex flex-col">
-                                    <span class="position-badge"><i class="bi bi-mortarboard-fill"></i> Mahasiswa & SMK</span>
-                                    <h4 class="position-title">Jaringan & Keamanan Informasi</h4>
-                                    <p class="position-desc">Pemeliharaan infrastruktur jaringan fiber optik, server intranet dinas, dan monitoring pengamanan informasi persandian.</p>
-                                </div>
-                                <div class="mt-auto">
-                                    <div class="position-meta">
-                                        <div class="d-flex justify-content-between mb-1"><span>Bidang:</span><strong style="color: var(--sim-text);">Persandian & Jaringan</strong></div>
-                                        <div class="d-flex justify-content-between"><span>Peserta:</span><strong style="color: var(--sim-text);">Mahasiswa / SMK</strong></div>
-                                    </div>
-                                    <a href="{{ route('register') }}" class="main-btn btn-block text-center">Daftar Sekarang</a>
-                                </div>
-                            </div>
-                        </div>
-                    @endif
-                </div>
+                        @endif
+                    </div>
+            </div>
             @endif
         </div>
     </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const carousel = document.getElementById('positions-carousel');
+            if (!carousel) return;
+
+            let direction = 1; // 1 = moving right, -1 = moving left
+            let speed = 1.0; // Adjust for scroll speed (pixels per frame)
+            let isPaused = false;
+
+            // Pause on hover or touch so users can click the buttons
+            carousel.addEventListener('mouseenter', () => isPaused = true);
+            carousel.addEventListener('mouseleave', () => isPaused = false);
+            carousel.addEventListener('touchstart', () => isPaused = true);
+            carousel.addEventListener('touchend', () => {
+                // Add a slight delay before resuming after touch
+                setTimeout(() => isPaused = false, 1000);
+            });
+
+            // Prev and Next navigation buttons
+            const posPrevBtn = document.getElementById('pos-carousel-prev');
+            const posNextBtn = document.getElementById('pos-carousel-next');
+
+            if (posPrevBtn) {
+                posPrevBtn.addEventListener('click', () => {
+                    isPaused = true;
+                    direction = -1;
+                    carousel.scrollBy({ left: -320, behavior: 'smooth' });
+                    setTimeout(() => isPaused = false, 1500);
+                });
+            }
+            if (posNextBtn) {
+                posNextBtn.addEventListener('click', () => {
+                    isPaused = true;
+                    direction = 1;
+                    carousel.scrollBy({ left: 320, behavior: 'smooth' });
+                    setTimeout(() => isPaused = false, 1500);
+                });
+            }
+
+            function pingPongScroll() {
+                if (!isPaused) {
+                    const maxScroll = carousel.scrollWidth - carousel.clientWidth;
+                    
+                    // Only animate if there is actually overflow to scroll
+                    if (maxScroll > 0) {
+                        carousel.scrollLeft += speed * direction;
+
+                        // Reverse direction if hitting the boundaries (with a 2px threshold)
+                        if (carousel.scrollLeft >= maxScroll - 2) {
+                            direction = -1;
+                        } else if (carousel.scrollLeft <= 0) {
+                            direction = 1;
+                        }
+                    }
+                }
+                requestAnimationFrame(pingPongScroll);
+            }
+
+            // Start loop
+            requestAnimationFrame(pingPongScroll);
+        });
+    </script>
 
     <!--====== KEUNGGULAN & FASILITAS ======-->
     <section id="services" class="services_area !pt-16 !pb-16 lg:!pt-20 lg:!pb-20 scroll-mt-24">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-8">
-                    <div class="section_title text-center">
-                        <span class="section-tag">Keunggulan Program</span>
+                    <div class="section_title text-center mb-12">
                         <h2 class="title">Mengapa Memilih Magang di <br><span>Diskominfo SP Tuban?</span></h2>
-                        <p>Dapatkan pengalaman kerja nyata dan kompetensi profesional yang relevan dengan transformasi digital sektor publik.</p>
                     </div>
                 </div>
             </div>
@@ -2132,10 +2203,8 @@
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-8">
-                    <div class="section_title text-center">
-                        <span class="section-tag">Tahapan Seleksi</span>
+                    <div class="section_title text-center mb-12">
                         <h2 class="title">Alur Pendaftaran <br> 4 Langkah Mudah <span>Menjadi Peserta</span></h2>
-                        <p>Proses pendaftaran dirancang 100% digital tanpa perlu datang membawa berkas fisik ke kantor dinas.</p>
                     </div>
                 </div>
             </div>
@@ -2178,10 +2247,8 @@
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-8">
-                    <div class="section_title text-center">
-                        <span class="section-tag">FAQ & Bantuan</span>
+                    <div class="section_title text-center mb-12">
                         <h2 class="title">Pertanyaan yang Sering <span>Diajukan</span></h2>
-                        <p>Informasi seputar syarat pendaftaran, format berkas, dan ketentuan program magang.</p>
                     </div>
                 </div>
             </div>
@@ -2196,7 +2263,7 @@
                         <div id="faq1" class="collapse show bg-transparent">
                             <div class="px-6 pb-6 pt-0">
                                 <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed font-medium">
-                                    <strong class="text-slate-900 dark:text-slate-100 font-bold">Tidak.</strong> Kategori Siswa SMK tidak memerlukan NIM. Sistem SIM-MAGANG secara otomatis menyesuaikan formulir pendaftaran untuk Siswa SMK (menggunakan NIS/NISN dan Nama Sekolah).
+                                    <strong class="text-slate-900 dark:text-slate-100 font-bold">Tidak.</strong> Kategori Siswa SMK tidak memerlukan NIM. Sistem SIMAGANG secara otomatis menyesuaikan formulir pendaftaran untuk Siswa SMK (menggunakan NIS/NISN dan Nama Sekolah).
                                 </p>
                             </div>
                         </div>
@@ -2224,7 +2291,7 @@
                         <div id="faq3" class="collapse bg-transparent">
                             <div class="px-6 pb-6 pt-0">
                                 <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed font-medium">
-                                    Anda dapat login ke portal SIM-MAGANG dan membuka <strong class="text-slate-900 dark:text-slate-100 font-bold">Dashboard Saya</strong>. Status pendaftaran (Submitted, Under Review, Accepted, atau Rejected) serta Surat Balasan resmi akan langsung ditampilkan secara real-time.
+                                    Anda dapat login ke portal SIMAGANG dan membuka <strong class="text-slate-900 dark:text-slate-100 font-bold">Dashboard Saya</strong>. Status pendaftaran (Submitted, Under Review, Accepted, atau Rejected) serta Surat Balasan resmi akan langsung ditampilkan secara real-time.
                                 </p>
                             </div>
                         </div>
@@ -2248,186 +2315,10 @@
         </div>
     </section>
 
-    <!--====== PANDUAN & BERITA ======-->
-    <section id="blog" class="destination_area !pt-16 !pb-16 lg:!pt-20 lg:!pb-20 scroll-mt-24">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-8">
-                    <div class="section_title text-center">
-                        <span class="section-tag">Informasi & Artikel</span>
-                        <h2 class="title">Panduan Magang <span>SIM-MAGANG</span></h2>
-                        <p>Panduan praktis dan tips mempersiapkan dokumen agar proses verifikasi Anda berjalan lancar.</p>
-                    </div>
-                </div>
-            </div>
 
-            <div class="row">
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <a href="{{ route('guides.show', 'pendaftaran') }}" class="single_blog wow fadeInUp" data-wow-duration="1.2s" data-wow-delay="0.1s" aria-label="Baca Panduan Lengkap Pendaftaran & Upload Berkas Magang">
-                        <div class="blog_image">
-                            <img src="{{ asset('traveland/images/blog-guide.png') }}" alt="Panduan Pendaftaran">
-                        </div>
-                        <div class="blog_content">
-                            <div class="blog_meta">
-                                <span><i class="bi bi-person mr-1"></i> Admin Diskominfo</span>
-                                <span><i class="bi bi-bookmark-check mr-1"></i> Panduan Resmi</span>
-                            </div>
-                            <h4 class="blog_title">Panduan Lengkap Pendaftaran & Upload Berkas Magang</h4>
-                            <p class="text-muted small mb-3">Persyaratan dokumen (CV, Surat Pengantar, Proposal Magang) dan tata cara pendaftaran daring melalui portal SIM-MAGANG.</p>
-                            <span class="blog_read_more">Baca Panduan <i class="bi bi-arrow-right"></i></span>
-                        </div>
-                    </a>
-                </div>
-
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <a href="{{ route('guides.show', 'kategori-peserta') }}" class="single_blog wow fadeInUp" data-wow-duration="1.2s" data-wow-delay="0.3s" aria-label="Baca Ketentuan Kategori Mahasiswa dan Siswa SMK">
-                        <div class="blog_image">
-                            <img src="{{ asset('traveland/images/blog-category.png') }}" alt="Kategori Peserta">
-                        </div>
-                        <div class="blog_content">
-                            <div class="blog_meta">
-                                <span><i class="bi bi-mortarboard mr-1"></i> Akademik</span>
-                                <span><i class="bi bi-bookmark-check mr-1"></i> Informasi Resmi</span>
-                            </div>
-                            <h4 class="blog_title">Ketentuan Kategori Mahasiswa dan Siswa SMK</h4>
-                            <p class="text-muted small mb-3">Ketentuan pengisian profil dan persyaratan pendaftaran bagi kategori Mahasiswa Perguruan Tinggi serta Siswa SMK.</p>
-                            <span class="blog_read_more">Baca Panduan <i class="bi bi-arrow-right"></i></span>
-                        </div>
-                    </a>
-                </div>
-
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <a href="{{ route('guides.show', 'surat-balasan') }}" class="single_blog wow fadeInUp" data-wow-duration="1.2s" data-wow-delay="0.5s" aria-label="Baca Penerbitan Surat Balasan Resmi Berformat Digital PDF">
-                        <div class="blog_image">
-                            <img src="{{ asset('traveland/images/3.png') }}" alt="Surat Balasan">
-                        </div>
-                        <div class="blog_content">
-                            <div class="blog_meta">
-                                <span><i class="bi bi-file-earmark-check mr-1"></i> Verifikasi</span>
-                                <span><i class="bi bi-bookmark-check mr-1"></i> Layanan Digital</span>
-                            </div>
-                            <h4 class="blog_title">Penerbitan Surat Balasan Resmi Berformat Digital PDF</h4>
-                            <p class="text-muted small mb-3">Tahapan verifikasi pendaftaran dan tata cara mengunduh Surat Balasan resmi instansi berformat digital PDF.</p>
-                            <span class="blog_read_more">Baca Panduan <i class="bi bi-arrow-right"></i></span>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!--====== KONTAK & INFORMASI ======-->
-    <section id="contact" class="services_area !pt-16 !pb-0 !mb-0 scroll-mt-24">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-8">
-                    <div class="section_title text-center">
-                        <span class="section-tag">Pusat Layanan</span>
-                        <h2 class="title">Hubungi Kami <br> Layanan <span>Informasi Magang</span></h2>
-                        <p>Memiliki pertanyaan seputar persyaratan dan jadwal magang? Tim Diskominfo SP Tuban siap membantu Anda.</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row justify-content-center">
-                <div class="col-lg-8 col-xl-8">
-                    <div class="contact-form-card">
-                        <h4 class="font-weight-bold mb-3" style="font-size: 20px;">Kirim Pertanyaan / Pesan</h4>
-                        
-                        @if(session('success'))
-                            <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-6" role="alert">
-                                <p>{{ session('success') }}</p>
-                            </div>
-                        @endif
-
-                        @if($errors->any())
-                            <div class="alert alert-danger mb-4 rounded-3 border-0 shadow-sm" role="alert">
-                                <strong><i class="bi bi-exclamation-triangle-fill mr-2"></i> Mohon Periksa Kembali Formulir Anda:</strong>
-                                <ul class="mb-0 mt-1 pl-3 small">
-                                    @foreach($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        @endif
-
-                        <form id="simang-contact-form" action="{{ route('contact.send') }}" method="POST">
-                            @csrf
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label class="form-label" for="contactName">Nama Lengkap <span class="text-danger">*</span></label>
-                                    <input type="text" id="contactName" name="name" placeholder="Contoh: Budi Santoso" value="{{ old('name') }}" class="focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-colors duration-200 {{ $errors->has('name') ? 'is-invalid' : '' }}" required>
-                                    @error('name')
-                                        <div class="text-danger small mb-3 mt-n2">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label" for="wa_number">Nomor WhatsApp / Telp <span class="text-danger">*</span></label>
-                                    <input type="text" id="wa_number" name="wa_number" placeholder="Contoh: 081234567890" value="{{ old('wa_number', old('phone', old('whatsapp'))) }}" class="focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-colors duration-200 {{ $errors->has('wa_number') || $errors->has('phone') || $errors->has('whatsapp') ? 'is-invalid' : '' }}" required>
-                                    @error('wa_number')
-                                        <div class="text-danger small mb-3 mt-n2">{{ $message }}</div>
-                                    @enderror
-                                    @error('phone')
-                                        <div class="text-danger small mb-3 mt-n2">{{ $message }}</div>
-                                    @enderror
-                                    @error('whatsapp')
-                                        <div class="text-danger small mb-3 mt-n2">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label" for="contactEmail">Alamat Email <span class="text-danger">*</span></label>
-                                    <input type="email" id="contactEmail" name="email" placeholder="Contoh: nama@email.com" value="{{ old('email') }}" class="focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-colors duration-200 {{ $errors->has('email') ? 'is-invalid' : '' }}" required>
-                                    @error('email')
-                                        <div class="text-danger small mb-3 mt-n2">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label" for="contactCategory">Kategori Peserta <span class="text-danger">*</span></label>
-                                    <select id="contactCategory" name="category" class="focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-colors duration-200 {{ $errors->has('category') ? 'is-invalid' : '' }}" required>
-                                        <option value="" disabled {{ old('category') ? '' : 'selected' }}>Pilih Kategori Peserta...</option>
-                                        <option value="mahasiswa" {{ old('category') === 'mahasiswa' ? 'selected' : '' }}>Mahasiswa / Perguruan Tinggi</option>
-                                        <option value="siswa" {{ old('category') === 'siswa' ? 'selected' : '' }}>Siswa / SMK / SMA</option>
-                                        <option value="dosen_guru" {{ old('category') === 'dosen_guru' ? 'selected' : '' }}>Dosen / Guru Pembimbing</option>
-                                        <option value="lainnya" {{ old('category') === 'lainnya' ? 'selected' : '' }}>Lainnya</option>
-                                    </select>
-                                    @error('category')
-                                        <div class="text-danger small mb-3 mt-n2">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                                <div class="col-12">
-                                    <label class="form-label" for="contactMessage">Pesan atau Pertanyaan <span class="text-danger">*</span></label>
-                                    <textarea id="contactMessage" name="message" placeholder="Tuliskan pertanyaan Anda mengenai persyaratan atau pelaksanaan magang..." class="focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-colors duration-200 {{ $errors->has('message') ? 'is-invalid' : '' }}" required>{{ old('message') }}</textarea>
-                                    @error('message')
-                                        <div class="text-danger small mb-3 mt-n2">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                                <div class="col-12">
-                                    <button type="button" id="simang-submit-btn" class="main-btn btn-block hover:bg-blue-700 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300">
-                                        <i class="bi bi-send-fill"></i> Kirim Pesan Informasi
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
-
-                        <script>
-                            document.getElementById('simang-submit-btn').addEventListener('click', function(e) {
-                                e.preventDefault();
-                                e.stopPropagation();
-                                
-                                console.log('Bypassing template JS, forcing native Laravel POST...');
-                                
-                                // Force submit the form programmatically, bypassing all template AJAX handlers
-                                document.getElementById('simang-contact-form').submit();
-                            });
-                        </script>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
 
     <!--====== FOOTER ======-->
-    <footer id="footer" class="footer_area bg-[#0f172a] rounded-t-3xl sm:rounded-t-[2.5rem] overflow-hidden shadow-2xl w-full border-t border-slate-800/40 !pt-0 mt-12 mb-0">
+    <footer id="footer" class="footer_area bg-[#0f172a] rounded-t-3xl sm:rounded-t-[2.5rem] overflow-hidden shadow-2xl w-full border-t border-slate-800/40 !pt-0 mt-12 mb-0 scroll-mt-24">
         <div class="container">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-6">
                 <!-- COLUMN 1: HUBUNGI KAMI -->
@@ -2555,14 +2446,141 @@
             <!-- COPYRIGHT SECTION -->
             <div class="border-t border-slate-800/40 py-2.5 text-center text-xs text-slate-400/90 my-0">
                 <p class="mb-0 leading-relaxed">
-                    &copy; {{ date('Y') }} <strong>SIM-MAGANG</strong> — Dinas Komunikasi dan Informatika, Statistik dan Persandian Kabupaten Tuban. Hak Cipta Dilindungi.
+                    &copy; {{ date('Y') }} <strong>SIMAGANG</strong> — Dinas Komunikasi dan Informatika, Statistik dan Persandian Kabupaten Tuban. Hak Cipta Dilindungi.
                 </p>
             </div>
         </div>
     </footer>
 
-    <!--====== BACK TO TOP ======-->
-    <a href="#" class="back-to-top"><i class="lni lni-chevron-up"></i></a>
+
+
+    <!-- Contact Modal Floating Action Button (FAB) -->
+    <button id="open-contact-modal" class="fixed bottom-20 right-6 z-50 opacity-100 pointer-events-auto shadow-xl rounded-full bg-blue-600 text-white w-12 h-12 hover:bg-blue-700 hover:scale-105 active:scale-95 transition-all duration-300 flex items-center justify-center cursor-pointer group" aria-label="Hubungi Kami" title="Hubungi Kami">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-white group-hover:scale-110 transition-transform duration-300">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+        </svg>
+    </button>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="fixed bottom-6 right-6 z-50 opacity-0 transition-all duration-300 pointer-events-none bg-blue-600 text-white rounded-full w-12 h-12 shadow-xl hover:bg-blue-700 hover:scale-105 active:scale-95 translate-y-4 flex items-center justify-center" aria-label="Kembali ke atas">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
+        </svg>
+    </button>
+
+    <!--====== HUBUNGI KAMI FLOATING MODAL ======-->
+    <div id="contact-modal" class="fixed inset-0 z-[9999] hidden items-center justify-center bg-gray-900/60 backdrop-blur-md p-4 sm:p-6 transition-opacity duration-300 opacity-0 pointer-events-none">
+        <div class="relative w-full max-w-lg max-h-[90vh] overflow-y-auto bg-white rounded-2xl shadow-2xl border border-gray-100 p-6 sm:p-8 transform transition-all duration-300 scale-95 opacity-0" id="contact-modal-box">
+            <!-- Close Button -->
+            <button type="button" id="close-contact-modal" class="absolute top-4 right-4 text-gray-400 hover:text-red-500 transition-colors focus:outline-none p-2 rounded-full hover:bg-gray-100" aria-label="Tutup modal">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+
+            <div class="flex items-center gap-3 mb-5">
+                <div class="w-10 h-10 rounded-2xl bg-blue-100 text-blue-600 flex items-center justify-center flex-shrink-0">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold text-gray-900 leading-tight">Hubungi Kami</h3>
+                    <p class="text-xs text-gray-500">Tim Diskominfo SP Tuban siap menjawab pertanyaan Anda.</p>
+                </div>
+            </div>
+
+            <!-- Alert / Session Flash Message Box -->
+            <div id="modal-contact-alert" class="hidden mb-4 p-3 rounded-xl text-xs font-medium"></div>
+
+            @if(session('success') || session('contact_success'))
+                <div class="mb-4 p-3.5 rounded-xl text-xs font-semibold bg-emerald-100 text-emerald-800 border border-emerald-300 flex items-center gap-2">
+                    <svg class="w-4 h-4 flex-shrink-0 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                    <span>{{ session('success') ?? session('contact_success') }}</span>
+                </div>
+            @endif
+
+            @if(session('error') || session('contact_error'))
+                <div class="mb-4 p-3.5 rounded-xl text-xs font-semibold bg-rose-100 text-rose-800 border border-rose-300 flex items-center gap-2">
+                    <svg class="w-4 h-4 flex-shrink-0 text-rose-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <span>{{ session('error') ?? session('contact_error') }}</span>
+                </div>
+            @endif
+
+            @if($errors->any())
+                <div class="mb-4 p-3.5 rounded-xl text-xs font-medium bg-rose-50 text-rose-800 border border-rose-200">
+                    <strong class="font-bold block mb-1">Mohon Periksa Kembali Isian Anda:</strong>
+                    <ul class="list-disc pl-4 space-y-0.5">
+                        @foreach($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
+            <form id="modal-contact-form" action="{{ route('contact.send') }}" method="POST" class="w-full flex flex-col gap-4">
+                @csrf
+                <!-- 1. Nama Lengkap -->
+                <div class="w-full flex flex-col">
+                    <label class="block text-sm font-semibold text-gray-700 mb-1.5" for="modalContactName">Nama Lengkap <span class="text-red-500">*</span></label>
+                    <input type="text" id="modalContactName" name="name" value="{{ old('name') }}" placeholder="Contoh: Budi Santoso" class="w-full bg-gray-50 border border-gray-200 text-gray-800 text-sm rounded-xl px-4 py-3 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all placeholder-gray-400 {{ $errors->has('name') ? 'border-red-500' : '' }}" required>
+                    @error('name')
+                        <span class="text-red-500 text-[11px] font-medium mt-1">{{ $message }}</span>
+                    @enderror
+                </div>
+
+                <!-- 2. WhatsApp / Telp -->
+                <div class="w-full flex flex-col">
+                    <label class="block text-sm font-semibold text-gray-700 mb-1.5" for="modalWaNumber">Nomor WhatsApp / Telp <span class="text-red-500">*</span></label>
+                    <input type="text" id="modalWaNumber" name="wa_number" value="{{ old('wa_number', old('phone')) }}" placeholder="Contoh: 081234567890" class="w-full bg-gray-50 border border-gray-200 text-gray-800 text-sm rounded-xl px-4 py-3 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all placeholder-gray-400 {{ $errors->has('wa_number') || $errors->has('phone') ? 'border-red-500' : '' }}" required>
+                    @error('wa_number')
+                        <span class="text-red-500 text-[11px] font-medium mt-1">{{ $message }}</span>
+                    @enderror
+                    @error('phone')
+                        <span class="text-red-500 text-[11px] font-medium mt-1">{{ $message }}</span>
+                    @enderror
+                </div>
+
+                <!-- 3. Alamat Email -->
+                <div class="w-full flex flex-col">
+                    <label class="block text-sm font-semibold text-gray-700 mb-1.5" for="modalContactEmail">Alamat Email <span class="text-red-500">*</span></label>
+                    <input type="email" id="modalContactEmail" name="email" value="{{ old('email') }}" placeholder="Contoh: nama@email.com" class="w-full bg-gray-50 border border-gray-200 text-gray-800 text-sm rounded-xl px-4 py-3 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all placeholder-gray-400 {{ $errors->has('email') ? 'border-red-500' : '' }}" required>
+                    @error('email')
+                        <span class="text-red-500 text-[11px] font-medium mt-1">{{ $message }}</span>
+                    @enderror
+                </div>
+
+                <!-- 4. Kategori Peserta -->
+                <div class="w-full flex flex-col clear-both">
+                    <label class="block text-sm font-semibold text-gray-700 mb-1.5" for="modalContactCategory">Kategori Peserta <span class="text-red-500">*</span></label>
+                    <select id="modalContactCategory" name="category" class="w-full bg-gray-50 border border-gray-200 text-gray-800 text-sm rounded-xl px-4 py-3 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all cursor-pointer {{ $errors->has('category') ? 'border-red-500' : '' }}" required>
+                        <option value="" disabled {{ old('category') ? '' : 'selected' }}>Pilih Kategori Peserta...</option>
+                        <option value="mahasiswa" {{ old('category') === 'mahasiswa' || old('category') === 'Mahasiswa / Perguruan Tinggi' ? 'selected' : '' }}>Mahasiswa / Perguruan Tinggi</option>
+                        <option value="siswa" {{ old('category') === 'siswa' || old('category') === 'Siswa / SMK / SMA' ? 'selected' : '' }}>Siswa / SMK / SMA</option>
+                        <option value="dosen_guru" {{ old('category') === 'dosen_guru' || old('category') === 'Dosen / Guru Pembimbing' ? 'selected' : '' }}>Dosen / Guru Pembimbing</option>
+                        <option value="lainnya" {{ old('category') === 'lainnya' || old('category') === 'Lainnya' ? 'selected' : '' }}>Lainnya</option>
+                    </select>
+                    @error('category')
+                        <span class="text-red-500 text-[11px] font-medium mt-1">{{ $message }}</span>
+                    @enderror
+                </div>
+
+                <!-- 5. Pesan atau Pertanyaan -->
+                <div class="w-full flex flex-col clear-both">
+                    <label class="block text-sm font-semibold text-gray-700 mb-1.5" for="modalContactMessage">Pesan atau Pertanyaan <span class="text-red-500">*</span></label>
+                    <textarea id="modalContactMessage" name="message" rows="3" placeholder="Tuliskan pertanyaan Anda mengenai magang..." class="w-full bg-gray-50 border border-gray-200 text-gray-800 text-sm rounded-xl px-4 py-3 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all placeholder-gray-400 resize-none {{ $errors->has('message') ? 'border-red-500' : '' }}" required>{{ old('message') }}</textarea>
+                    @error('message')
+                        <span class="text-red-500 text-[11px] font-medium mt-1">{{ $message }}</span>
+                    @enderror
+                </div>
+
+                <!-- 6. Submit Button -->
+                <div class="w-full pt-1">
+                    <button type="submit" id="modal-contact-submit-btn" class="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white font-bold py-3.5 px-4 rounded-xl shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50 hover:from-blue-700 hover:to-blue-800 transition-all active:scale-[0.98] flex items-center justify-center gap-2 cursor-pointer">
+                        <span id="modal-submit-text">Kirim Pesan</span>
+                        <svg id="modal-submit-spinner" class="animate-spin h-4 w-4 text-white hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
 
     <!--====== JavaScript Dependencies ======-->
     <script src="{{ asset('traveland/js/vendor/jquery-1.12.4.min.js') }}"></script>
@@ -2621,7 +2639,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const navLinks = document.querySelectorAll('#nav .nav-link-item');
-            const sectionIds = ['home', 'about', 'positions', 'services', 'alur', 'faq', 'blog', 'contact'];
+            const sectionIds = ['home', 'about', 'positions', 'services', 'alur', 'faq', 'footer'];
 
             function updateScrollSpy() {
                 const scrollPos = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
@@ -2636,7 +2654,7 @@
                 }
                 // 2. Check bottom of page (near footer)
                 else if (scrollPos + windowHeight >= docHeight - 150) {
-                    currentId = 'contact';
+                    currentId = 'footer';
                 }
                 // 3. Check intermediate sections
                 else {
@@ -2692,12 +2710,185 @@
                 title: 'Berhasil!',
                 text: '{!! session('success') !!}',
                 icon: 'success',
-                confirmButtonColor: '#2563eb', // Tailwind blue-600 to match SIM-MAGANG theme
+                confirmButtonColor: '#2563eb', // Tailwind blue-600 to match SIMAGANG theme
                 confirmButtonText: 'Tutup'
             });
         });
     </script>
     @endif
+    <!--====== Scroll-Triggered Floating Elements & Modal Script ======-->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const backToTopBtn = document.getElementById('back-to-top');
+            const openContactBtn = document.getElementById('open-contact-modal');
+            const closeContactBtn = document.getElementById('close-contact-modal');
+            const contactModal = document.getElementById('contact-modal');
+            const modalBox = document.getElementById('contact-modal-box');
+            const modalForm = document.getElementById('modal-contact-form');
+            const alertBox = document.getElementById('modal-contact-alert');
+
+            // 1. Scroll-triggered floating controls appearance
+            function toggleFloatingElements() {
+                const scrollY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
+                const threshold = window.innerHeight || 500;
+                const isPastHero = scrollY > threshold || scrollY > 500;
+
+                [backToTopBtn].forEach(function(el) {
+                    if (!el) return;
+                    if (isPastHero) {
+                        el.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-4');
+                        el.classList.add('opacity-100', 'pointer-events-auto', 'translate-y-0');
+                    } else {
+                        el.classList.remove('opacity-100', 'pointer-events-auto', 'translate-y-0');
+                        el.classList.add('opacity-0', 'pointer-events-none', 'translate-y-4');
+                    }
+                });
+            }
+
+            let isTicking = false;
+            window.addEventListener('scroll', function() {
+                if (!isTicking) {
+                    window.requestAnimationFrame(function() {
+                        toggleFloatingElements();
+                        isTicking = false;
+                    });
+                    isTicking = true;
+                }
+            });
+
+            toggleFloatingElements();
+
+            if (backToTopBtn) {
+                backToTopBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                });
+            }
+
+            // 2. Contact Modal Toggle Logic
+            function fixModalSelect() {
+                if (window.jQuery && $.fn.niceSelect) {
+                    try {
+                        $('#modalContactCategory').niceSelect('destroy');
+                    } catch(e) {}
+                }
+            }
+
+            function openModal() {
+                if (!contactModal) return;
+                fixModalSelect();
+                contactModal.classList.remove('hidden', 'pointer-events-none');
+                contactModal.classList.add('flex');
+                setTimeout(function() {
+                    contactModal.classList.remove('opacity-0');
+                    contactModal.classList.add('opacity-100');
+                    if (modalBox) {
+                        modalBox.classList.remove('scale-95', 'opacity-0');
+                        modalBox.classList.add('scale-100', 'opacity-100');
+                    }
+                }, 10);
+            }
+
+            function closeModal() {
+                if (!contactModal) return;
+                contactModal.classList.remove('opacity-100');
+                contactModal.classList.add('opacity-0');
+                if (modalBox) {
+                    modalBox.classList.remove('scale-100', 'opacity-100');
+                    modalBox.classList.add('scale-95', 'opacity-0');
+                }
+                setTimeout(function() {
+                    contactModal.classList.remove('flex');
+                    contactModal.classList.add('hidden', 'pointer-events-none');
+                }, 300);
+            }
+
+            if (openContactBtn) openContactBtn.addEventListener('click', openModal);
+            if (closeContactBtn) closeContactBtn.addEventListener('click', closeModal);
+
+            if (contactModal) {
+                contactModal.addEventListener('click', function(e) {
+                    if (e.target === contactModal) closeModal();
+                });
+            }
+
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && contactModal && !contactModal.classList.contains('hidden')) {
+                    closeModal();
+                }
+            });
+
+            // 3. Contact Form Submission Handling
+            if (modalForm) {
+                modalForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const submitBtn = document.getElementById('modal-contact-submit-btn');
+                    const submitText = document.getElementById('modal-submit-text');
+                    const submitSpinner = document.getElementById('modal-submit-spinner');
+
+                    if (submitBtn) submitBtn.disabled = true;
+                    if (submitText) submitText.textContent = 'Mengirim...';
+                    if (submitSpinner) submitSpinner.classList.remove('hidden');
+                    if (alertBox) alertBox.classList.add('hidden');
+
+                    const formData = new FormData(modalForm);
+                    const csrfToken = document.querySelector('meta[name="csrf-token"]') ? document.querySelector('meta[name="csrf-token"]').getAttribute('content') : '';
+
+                    fetch(modalForm.action, {
+                        method: 'POST',
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest',
+                            'Accept': 'application/json',
+                            'X-CSRF-TOKEN': csrfToken
+                        },
+                        body: formData
+                    })
+                    .then(function(res) {
+                        return res.json().then(function(data) {
+                            return { status: res.status, data: data };
+                        });
+                    })
+                    .then(function(result) {
+                        if (result.data && result.data.success) {
+                            if (alertBox) {
+                                alertBox.className = 'mb-4 p-3 rounded-xl text-xs font-medium bg-emerald-100 dark:bg-emerald-900/40 text-emerald-800 dark:text-emerald-200 border border-emerald-300 dark:border-emerald-700';
+                                alertBox.textContent = result.data.message || 'Pesan Anda telah berhasil dikirim!';
+                                alertBox.classList.remove('hidden');
+                            }
+                            modalForm.reset();
+                            setTimeout(closeModal, 2500);
+                        } else {
+                            if (alertBox) {
+                                alertBox.className = 'mb-4 p-3 rounded-xl text-xs font-medium bg-rose-100 dark:bg-rose-900/40 text-rose-800 dark:text-rose-200 border border-rose-300 dark:border-rose-700';
+                                alertBox.textContent = (result.data && result.data.message) ? result.data.message : 'Gagal mengirim pesan. Silakan periksa kembali isian Anda.';
+                                alertBox.classList.remove('hidden');
+                            }
+                        }
+                    })
+                    .catch(function(err) {
+                        console.error('Fetch error:', err);
+                        modalForm.submit();
+                    })
+                    .finally(function() {
+                        if (submitBtn) submitBtn.disabled = false;
+                        if (submitText) submitText.textContent = 'Kirim Pesan';
+                        if (submitSpinner) submitSpinner.classList.add('hidden');
+                    });
+                });
+            }
+
+
+            @if($errors->any() || session('success') || session('contact_success') || session('error') || session('contact_error'))
+                setTimeout(function() {
+                    openModal();
+                }, 150);
+            @endif
+        });
+    </script>
+
 </body>
 
 </html>

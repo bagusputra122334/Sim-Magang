@@ -82,7 +82,7 @@ Route::prefix('applications')
             ->name('show')
             ->missing(static function (): \Illuminate\Http\RedirectResponse {
                 return redirect()->route('admin.applications.index')
-                    ->with('error', 'Pendaftaran (Application) yang Anda minta tidak ditemukan di Database SIM-MAGANG.');
+                    ->with('error', 'Pendaftaran (Application) yang Anda minta tidak ditemukan di Database SIMAGANG.');
             });
 
         Route::get('{application}/review', [ApplicationReviewController::class, 'review'])

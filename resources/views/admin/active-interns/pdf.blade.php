@@ -166,7 +166,7 @@
     <!-- JUDUL DOKUMEN -->
     <div class="doc-title">
         <h2>LAPORAN MONITORING STATUS MAGANG & ALUMNI</h2>
-        <p>Portal Pelayanan Pengajuan Magang Terpadu (SIM-MAGANG)</p>
+        <p>Portal Pelayanan Pengajuan Magang Terpadu (SIMAGANG)</p>
         <p>Kriteria Filter: Status ({{ !empty($opStatus) ? strtoupper($opStatus) : 'SEMUA STATUS' }}) | Kata Kunci: "{{ $search ?: '-' }}" | Dicetak: {{ $printedAt }}</p>
     </div>
 
@@ -271,7 +271,7 @@
                     <p>Diskominfo SP Kabupaten Tuban</p>
                     <br><br><br>
                     <p><strong><u>Tim Administrator SPBE</u></strong></p>
-                    <p style="font-size: 8px; color: #64748b;">Laporan Resmi SIM-MAGANG</p>
+                    <p style="font-size: 8px; color: #64748b;">Laporan Resmi SIMAGANG</p>
                 </td>
             </tr>
         </table>

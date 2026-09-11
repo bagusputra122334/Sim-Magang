@@ -5,7 +5,7 @@
 @section('content')
 <div class="mb-4">
     <h1 class="h3 mb-1">Verifikasi Email</h1>
-    <p class="text-muted mb-0">Verifikasi alamat email Anda untuk mengakses layanan penuh SIM-MAGANG.</p>
+    <p class="text-muted mb-0">Verifikasi alamat email Anda untuk mengakses layanan penuh SIMAGANG.</p>
 </div>
 
 <div class="alert alert-info mb-4" role="alert">

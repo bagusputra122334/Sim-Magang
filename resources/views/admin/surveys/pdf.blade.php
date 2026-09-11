@@ -161,7 +161,7 @@
     <!-- JUDUL DOKUMEN -->
     <div class="doc-title">
         <h2>LAPORAN REKAPITULASI SURVEI KEPUASAN MASYARAKAT (IKM)</h2>
-        <p>Portal Pelayanan Pengajuan Magang Terpadu (SIM-MAGANG)</p>
+        <p>Portal Pelayanan Pengajuan Magang Terpadu (SIMAGANG)</p>
         <p>Dicetak Pada: {{ $printedAt }}</p>
     </div>
 
@@ -241,11 +241,11 @@
                 <td style="width: 60%;"></td>
                 <td style="width: 40%; text-align: center;">
                     <p>Tuban, {{ date('d F Y') }}</p>
-                    <p><strong>Pengelola Sistem SIM-MAGANG</strong></p>
+                    <p><strong>Pengelola Sistem SIMAGANG</strong></p>
                     <p>Diskominfo SP Kabupaten Tuban</p>
                     <br><br><br><br>
                     <p><strong><u>Tim Administrator SPBE</u></strong></p>
-                    <p style="font-size: 8px; color: #64748b;">Dokumen Otomatis Sistem SIM-MAGANG</p>
+                    <p style="font-size: 8px; color: #64748b;">Dokumen Otomatis Sistem SIMAGANG</p>
                 </td>
             </tr>
         </table>

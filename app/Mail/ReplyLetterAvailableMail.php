@@ -27,10 +27,10 @@ class ReplyLetterAvailableMail extends Mailable implements ShouldQueue
         return new Envelope(
             from: new Address(
                 (string) config('mail.from.address', 'simagang@diskominfo-tuban.go.id'),
-                (string) config('mail.from.name', 'SIM-MAGANG Diskominfo Kabupaten Tuban')
+                (string) config('mail.from.name', 'SIMAGANG Diskominfo Kabupaten Tuban')
             ),
             subject: sprintf(
-                '[SIM-MAGANG] 📄 Surat Balasan Tersedia — %s',
+                '[SIMAGANG] 📄 Surat Balasan Tersedia — %s',
                 $this->registration->nomor_pendaftaran
             ),
         );

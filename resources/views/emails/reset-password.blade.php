@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Atur Ulang Kata Sandi — SIM-MAGANG Diskominfo Tuban</title>
+    <title>Atur Ulang Kata Sandi — SIMAGANG Diskominfo Tuban</title>
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
@@ -91,7 +91,7 @@
             <div class="email-body">
                 <p>Halo<strong>{{ isset($notifiable->name) ? ' ' . $notifiable->name : '' }}</strong>,</p>
 
-                <p>Kami menerima permintaan untuk mengatur ulang kata sandi akun Anda pada Sistem Informasi Magang (SIM-MAGANG) Diskominfo Kabupaten Tuban.</p>
+                <p>Kami menerima permintaan untuk mengatur ulang kata sandi akun Anda pada Sistem Informasi Magang (SIMAGANG) Diskominfo Kabupaten Tuban.</p>
 
                 <p>Silakan klik tombol di bawah ini untuk membuat kata sandi baru akun Anda:</p>
 

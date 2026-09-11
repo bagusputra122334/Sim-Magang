@@ -61,13 +61,13 @@ class ContactMessageMail extends Mailable
         return new Envelope(
             from: new Address(
                 (string) config('mail.from.address', 'simagang@diskominfo-tuban.go.id'),
-                (string) config('mail.from.name', 'SIM-MAGANG Diskominfo Kabupaten Tuban')
+                (string) config('mail.from.name', 'SIMAGANG Diskominfo Kabupaten Tuban')
             ),
             replyTo: [
                 new Address($this->email, $this->name),
             ],
             subject: sprintf(
-                '[SIM-MAGANG] Pesan Pertanyaan dari %s (%s)',
+                '[SIMAGANG] Pesan Pertanyaan dari %s (%s)',
                 $this->name,
                 $this->categoryLabel
             ),

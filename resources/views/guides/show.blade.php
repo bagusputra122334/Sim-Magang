@@ -5,10 +5,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta name="description" content="{{ $guide['summary'] }} — SIM-MAGANG Dinas Komunikasi dan Informatika, Statistik dan Persandian Kabupaten Tuban.">
+    <meta name="description" content="{{ $guide['summary'] }} — SIMAGANG Dinas Komunikasi dan Informatika, Statistik dan Persandian Kabupaten Tuban.">
 
     <!--====== Title ======-->
-    <title>{{ $guide['title'] }} — SIM-MAGANG Diskominfo SP Tuban</title>
+    <title>{{ $guide['title'] }} — SIMAGANG Diskominfo SP Tuban</title>
 
     <!--====== Favicon Icon ======-->
     <!-- Favicon -->
@@ -623,9 +623,9 @@
     <nav class="header_navbar">
             <div class="flex items-center justify-between w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2">
                 <a class="navbar-brand flex-shrink-0 mr-xl-3" href="{{ url('/') }}">
-                    <img src="{{ asset('traveland/images/logo.png') }}" alt="SIM-MAGANG Logo" class="brand-logo-img">
+                    <img src="{{ asset('traveland/images/logo.png') }}" alt="SIMAGANG Logo" class="brand-logo-img">
                     <div>
-                        <span class="brand-text d-block">SIM-MAGANG</span>
+                        <span class="brand-text d-block">SIMAGANG</span>
                         <span class="brand-sub d-block">Diskominfo SP Kab. Tuban</span>
                     </div>
                 </a>
@@ -638,7 +638,6 @@
                         <li class="nav-item"><a href="{{ url('/#services') }}">Keunggulan</a></li>
                         <li class="nav-item"><a href="{{ url('/#alur') }}">Alur</a></li>
                         <li class="nav-item"><a href="{{ url('/#faq') }}">FAQ</a></li>
-                        <li class="nav-item active"><a href="{{ url('/#blog') }}">Panduan</a></li>
                         <li class="nav-item"><a href="{{ url('/#contact') }}">Kontak</a></li>
                     </ul>
 
@@ -718,7 +717,7 @@
                         <div class="guide-content">
                             @if($slug === 'pendaftaran')
                                 <p class="lead font-weight-normal mb-4" style="font-size: 16px; color: var(--sim-text);">
-                                    Pendaftaran Program Magang di Dinas Komunikasi dan Informatika, Statistik dan Persandian Kabupaten Tuban dilakukan secara daring melalui portal SIM-MAGANG. Calon peserta perlu menyiapkan dokumen persyaratan sebelum mengajukan pendaftaran pada formasi yang tersedia.
+                                    Pendaftaran Program Magang di Dinas Komunikasi dan Informatika, Statistik dan Persandian Kabupaten Tuban dilakukan secara daring melalui portal SIMAGANG. Calon peserta perlu menyiapkan dokumen persyaratan sebelum mengajukan pendaftaran pada formasi yang tersedia.
                                 </p>
 
                                 <h3><i class="bi bi-card-checklist text-primary"></i> 1. Dokumen Persyaratan Pendaftaran</h3>
@@ -812,7 +811,7 @@
 
                             @elseif($slug === 'surat-balasan')
                                 <p class="lead font-weight-normal mb-4" style="font-size: 16px; color: var(--sim-text);">
-                                    Setiap berkas pendaftaran diverifikasi oleh tim Dinas Komunikasi dan Informatika, Statistik dan Persandian Kabupaten Tuban. Peserta yang dinyatakan diterima dapat mengunduh Surat Balasan resmi secara mandiri melalui portal SIM-MAGANG.
+                                    Setiap berkas pendaftaran diverifikasi oleh tim Dinas Komunikasi dan Informatika, Statistik dan Persandian Kabupaten Tuban. Peserta yang dinyatakan diterima dapat mengunduh Surat Balasan resmi secara mandiri melalui portal SIMAGANG.
                                 </p>
 
                                 <h3><i class="bi bi-clock-history text-primary"></i> 1. Status Verifikasi Pendaftaran</h3>
@@ -853,7 +852,7 @@
                                 <h3><i class="bi bi-file-earmark-pdf-fill text-primary"></i> 2. Tata Cara Mengunduh Surat Balasan</h3>
                                 <p>Peserta yang berstatus <strong>Accepted</strong> dapat mengunduh Surat Balasan resmi dengan langkah berikut:</p>
                                 <ol class="pl-3 mb-4" style="line-height: 1.8;">
-                                    <li>Masuk ke akun SIM-MAGANG menggunakan email dan kata sandi terdaftar.</li>
+                                    <li>Masuk ke akun SIMAGANG menggunakan email dan kata sandi terdaftar.</li>
                                     <li>Buka menu <strong>Dashboard</strong> atau <strong>Riwayat Pendaftaran</strong>.</li>
                                     <li>Pada riwayat pendaftaran yang berstatus <em>Accepted</em>, klik tombol <strong>"Unduh Surat Balasan (PDF)"</strong>.</li>
                                     <li>Simpan dan gunakan dokumen resmi untuk keperluan administrasi institusi pendidikan.</li>
@@ -861,7 +860,7 @@
 
                                 <div class="guide-callout">
                                     <div class="guide-callout-title"><i class="bi bi-patch-check-fill"></i> Keabsahan Dokumen:</div>
-                                    <p class="mb-0 small">Surat Balasan berformat PDF yang diterbitkan melalui portal SIM-MAGANG adalah dokumen resmi Pemerintah Kabupaten Tuban yang memuat data peserta, formasi yang disetujui, dan periode pelaksanaan magang.</p>
+                                    <p class="mb-0 small">Surat Balasan berformat PDF yang diterbitkan melalui portal SIMAGANG adalah dokumen resmi Pemerintah Kabupaten Tuban yang memuat data peserta, formasi yang disetujui, dan periode pelaksanaan magang.</p>
                                 </div>
                             @endif
 
@@ -1068,7 +1067,7 @@
             <!-- COPYRIGHT SECTION -->
             <div class="border-t border-slate-800/40 py-2.5 text-center text-xs text-slate-400/90 my-0">
                 <p class="mb-0 leading-relaxed">
-                    &copy; {{ date('Y') }} <strong>SIM-MAGANG</strong> — Dinas Komunikasi dan Informatika, Statistik dan Persandian Kabupaten Tuban. Hak Cipta Dilindungi.
+                    &copy; {{ date('Y') }} <strong>SIMAGANG</strong> — Dinas Komunikasi dan Informatika, Statistik dan Persandian Kabupaten Tuban. Hak Cipta Dilindungi.
                 </p>
             </div>
         </div>

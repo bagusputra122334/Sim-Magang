@@ -27,16 +27,16 @@ Berikut adalah ringkasan data pendaftaran Anda:
 ---
 
 ### 📌 Selanjutnya
-Tim Admin **SIM-MAGANG** akan melakukan review berkas pendaftaran Anda secara berkala.
+Tim Admin **SIMAGANG** akan melakukan review berkas pendaftaran Anda secara berkala.
 Silakan selalu cek **email** dan halaman **Riwayat Pendaftaran** di Dashboard Peserta untuk mendapatkan informasi perubahan status terbaru.
 
 Jika Anda memiliki pertanyaan, silakan hubungi Admin melalui kontak yang tertera pada website resmi Dinas Komunikasi dan Informatika, Statistik dan Persandian Kabupaten Tuban.
 
 Terima kasih,  
-**Tim SIM-MAGANG**  
+**Tim SIMAGANG**  
 **Dinas Komunikasi dan Informatika, Statistik dan Persandian Kabupaten Tuban**
 
 <x-mail::subcopy>
-Email ini dikirim otomatis oleh Sistem Informasi Magang (SIM-MAGANG). Mohon tidak membalas email ini secara langsung.
+Email ini dikirim otomatis oleh Sistem Informasi Magang (SIMAGANG). Mohon tidak membalas email ini secara langsung.
 </x-mail::subcopy>
 </x-mail::message>

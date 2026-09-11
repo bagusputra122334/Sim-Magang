@@ -30,9 +30,9 @@ class QueuedUserResetPassword extends Notification implements ShouldQueue
         ]);
 
         return (new MailMessage)
-            ->subject('[SIM-MAGANG] Permintaan Atur Ulang Kata Sandi')
+            ->subject('[SIMAGANG] Permintaan Atur Ulang Kata Sandi')
             ->greeting('Halo, ' . ($notifiable->name ?? 'Peserta Magang') . '!')
-            ->line('Anda menerima email ini karena kami menerima permintaan atur ulang kata sandi (reset password) untuk akun peserta SIM-MAGANG Anda.')
+            ->line('Anda menerima email ini karena kami menerima permintaan atur ulang kata sandi (reset password) untuk akun peserta SIMAGANG Anda.')
             ->action('Atur Ulang Kata Sandi', $url)
             ->line('Tautan atur ulang kata sandi ini akan kedaluwarsa dalam waktu 60 menit.')
             ->line('Jika Anda tidak merasa melakukan permintaan ini, abaikan email ini dan kata sandi Anda akan tetap aman.');

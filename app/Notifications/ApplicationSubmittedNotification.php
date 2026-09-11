@@ -32,7 +32,7 @@ class ApplicationSubmittedNotification extends Notification implements ShouldQue
         $statusLabel = $this->registration->status?->label() ?? 'Submitted';
 
         return (new MailMessage)
-            ->subject('[SIM-MAGANG] Konfirmasi Pendaftaran Magang #' . $kodePendaftaran)
+            ->subject('[SIMAGANG] Konfirmasi Pendaftaran Magang #' . $kodePendaftaran)
             ->markdown('emails.applications.submitted', [
                 'registration'    => $this->registration,
                 'namaPeserta'     => $namaPeserta,

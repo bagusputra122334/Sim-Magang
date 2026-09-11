@@ -4,20 +4,19 @@
 
 @section('content')
 <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
-    <!-- Page Title & Description -->
+    <!-- Page Title -->
     <div>
         <h2 class="text-2xl font-bold text-slate-800 flex items-center gap-2">
             <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
             Monitoring Status Magang
         </h2>
-        <p class="text-slate-500 text-sm mt-1">Pantau daftar peserta magang yang telah diterima, lacak periode pelaksanaan, dan kelola status operasional.</p>
     </div>
     
     <!-- Export Button (Pushed to Right) -->
     <div class="shrink-0">
         <a href="{{ route('admin.interns.export_pdf_active', request()->query()) }}" class="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold rounded-lg shadow-md transition-colors">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-            Ekspor PDF (Resmi)
+            Ekspor PDF
         </a>
     </div>
 </div>

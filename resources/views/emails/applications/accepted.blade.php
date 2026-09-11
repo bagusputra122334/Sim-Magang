@@ -59,10 +59,10 @@ Anda akan mendapatkan **email notifikasi terpisah** segera setelah file Surat Ba
 Selamat bergabung dan selamat menjalankan Program Magang! 🌟
 
 Terima kasih,
-**Tim SIM-MAGANG**
+**Tim SIMAGANG**
 **Dinas Komunikasi dan Informatika, Statistik dan Persandian Kabupaten Tuban**
 
 <x-mail::subcopy>
-Email ini dikirim otomatis oleh Sistem Informasi Magang (SIM-MAGANG). Mohon tidak membalas email ini secara langsung.
+Email ini dikirim otomatis oleh Sistem Informasi Magang (SIMAGANG). Mohon tidak membalas email ini secara langsung.
 </x-mail::subcopy>
 </x-mail::message>

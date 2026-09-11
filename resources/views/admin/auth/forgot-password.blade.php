@@ -11,7 +11,7 @@
             <i class="bi bi-shield-lock-fill fs-4"></i>
         </div>
         <h1 class="h3 mb-1 fw-bold">Lupa Password Admin</h1>
-        <p class="text-muted mb-0 small">Masukkan email Administrator SIM-MAGANG untuk menerima tautan atur ulang kata sandi.</p>
+        <p class="text-muted mb-0 small">Masukkan email Administrator SIMAGANG untuk menerima tautan atur ulang kata sandi.</p>
     </div>
 
     <!-- Session Status -->

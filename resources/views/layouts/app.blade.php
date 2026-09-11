@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta name="description" content="SIM-MAGANG - Sistem Informasi Magang Dinas Komunikasi dan Informatika, Statistik dan Persandian Kabupaten Tuban">
+    <meta name="description" content="SIMAGANG - Sistem Informasi Magang Dinas Komunikasi dan Informatika, Statistik dan Persandian Kabupaten Tuban">
 
-    <title>@yield('title', 'Dashboard') — SIM-MAGANG Diskominfo SP Tuban</title>
+    <title>@yield('title', 'Dashboard') — SIMAGANG Diskominfo SP Tuban</title>
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="{{ asset('traveland/images/logo.png') }}">
@@ -37,7 +37,7 @@
     @stack('styles')
 </head>
 
-<body>
+<body class="bg-slate-50">
     <div class="admin-shell">
         <div class="sidebar-backdrop" data-sidebar-close></div>
 

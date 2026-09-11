@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta name="description" content="SIM-MAGANG - Sistem Informasi Magang Dinas Komunikasi dan Informatika, Statistik dan Persandian Kabupaten Tuban">
+    <meta name="description" content="SIMAGANG - Sistem Informasi Magang Dinas Komunikasi dan Informatika, Statistik dan Persandian Kabupaten Tuban">
 
-    <title>@yield('title', 'Login') — SIM-MAGANG Diskominfo SP Tuban</title>
+    <title>@yield('title', 'Login') — SIMAGANG Diskominfo SP Tuban</title>
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="{{ asset('traveland/images/logo.png') }}">
@@ -44,10 +44,10 @@
     </button>
 
     <div class="auth-split-wrapper">
-        <section class="auth-split-brand" aria-label="Branding SIM-MAGANG">
+        <section class="auth-split-brand" aria-label="Branding SIMAGANG">
             <div class="auth-split-brand-inner">
                 <div class="auth-split-brand-logo">
-                    <img src="{{ asset('traveland/images/logo.png') }}" alt="SIM-MAGANG Logo" class="auth-brand-logo-img">
+                    <img src="{{ asset('traveland/images/logo.png') }}" alt="SIMAGANG Logo" class="auth-brand-logo-img">
                     <div class="auth-split-brand-logo-text">
                         <strong>Diskominfo SP Tuban</strong>
                         <span>Dinas Komunikasi dan Informatika, Statistik dan Persandian</span>
@@ -93,9 +93,9 @@
         <main class="auth-split-main">
             <div class="auth-split-card">
                 <div class="auth-split-mobile-brand">
-                    <img src="{{ asset('traveland/images/logo.png') }}" alt="SIM-MAGANG Logo" class="auth-mobile-logo-img">
+                    <img src="{{ asset('traveland/images/logo.png') }}" alt="SIMAGANG Logo" class="auth-mobile-logo-img">
                     <div class="auth-split-mobile-brand-text">
-                        <strong>SIM-MAGANG</strong>
+                        <strong>SIMAGANG</strong>
                         <span>Diskominfo Kabupaten Tuban</span>
                     </div>
                 </div>

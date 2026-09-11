@@ -8,7 +8,7 @@ use Illuminate\View\View;
 class GuideController extends Controller
 {
     /**
-     * Master data panduan resmi SIM-MAGANG Diskominfo SP Kabupaten Tuban.
+     * Master data panduan resmi SIMAGANG Diskominfo SP Kabupaten Tuban.
      *
      * @return array<string, array<string, mixed>>
      */
@@ -23,7 +23,7 @@ class GuideController extends Controller
                 'meta_author' => 'Tim Administrator Diskominfo SP',
                 'meta_category' => 'Panduan Pendaftaran',
                 'image' => 'traveland/images/blog-guide.png',
-                'summary' => 'Persyaratan dokumen (CV, Surat Pengantar, Proposal Magang) dan tata cara pendaftaran daring melalui portal SIM-MAGANG.',
+                'summary' => 'Persyaratan dokumen (CV, Surat Pengantar, Proposal Magang) dan tata cara pendaftaran daring melalui portal SIMAGANG.',
             ],
             'kategori-peserta' => [
                 'slug' => 'kategori-peserta',

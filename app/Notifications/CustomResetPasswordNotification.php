@@ -25,7 +25,7 @@ class CustomResetPasswordNotification extends Notification
         ]);
 
         return (new MailMessage)
-            ->subject('Atur Ulang Kata Sandi — SIM-MAGANG Diskominfo Tuban')
+            ->subject('Atur Ulang Kata Sandi — SIMAGANG Diskominfo Tuban')
             ->view('emails.reset-password', [
                 'resetUrl'   => $resetUrl,
                 'notifiable' => $notifiable,
