@@ -27,6 +27,8 @@
                 ['icon' => 'bi-journal-check', 'label' => 'Verifikasi Pendaftaran', 'route' => 'admin.applications.index', 'params' => []],
                 ['icon' => 'bi-people-fill', 'label' => 'Status Magang', 'route' => 'admin.active-interns.index', 'params' => []],
                 ['icon' => 'bi-star-fill', 'label' => 'Survei Kepuasan', 'route' => 'admin.surveys.index', 'params' => []],
+                ['icon' => 'bi-gear-fill', 'label' => 'Pengaturan System', 'route' => 'admin.settings.index', 'params' => []],
+                ['icon' => 'bi-layout-text-window-reverse', 'label' => 'Konten Landing', 'route' => 'admin.landing-contents.index', 'params' => []],
                 ['icon' => 'bi-person-gear', 'label' => 'Akun Saya', 'route' => 'profile.edit', 'params' => []],
             ];
         } elseif ($user?->isParticipant()) {

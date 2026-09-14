@@ -8,29 +8,29 @@
     <meta name="description" content="SIMAGANG - Sistem Informasi Magang Resmi Dinas Komunikasi dan Informatika, Statistik dan Persandian Kabupaten Tuban. Layanan pendaftaran magang digital yang transparan, profesional, dan terpadu.">
 
     <!-- Primary Meta Tags -->
-    <meta name="title" content="SIMAGANG - Diskominfo SP Kab. Tuban">
+    <meta name="title" content="{{ get_setting('site_title', 'SIMAGANG - Diskominfo SP Kab. Tuban') }}">
 
     <!-- Open Graph / Facebook / WhatsApp -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ url('/') }}">
-    <meta property="og:title" content="SIMAGANG - Diskominfo SP Kab. Tuban">
-    <meta property="og:description" content="Portal Resmi Pendaftaran Magang Diskominfo SP Kab. Tuban. Daftarkan dirimu secara digital!">
-    <meta property="og:image" content="{{ asset('traveland/images/logo.png') }}">
+    <meta property="og:title" content="{{ get_setting('site_title', 'SIMAGANG - Diskominfo SP Kab. Tuban') }}">
+    <meta property="og:description" content="{{ get_setting('meta_description', 'Portal Resmi Pendaftaran Magang Diskominfo SP Kab. Tuban. Daftarkan dirimu secara digital!') }}">
+    <meta property="og:image" content="{{ asset(get_setting('site_logo', 'traveland/images/logo.png')) }}">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="{{ url('/') }}">
-    <meta property="twitter:title" content="SIMAGANG - Diskominfo SP Kab. Tuban">
-    <meta property="twitter:description" content="Portal Resmi Pendaftaran Magang Diskominfo SP Kab. Tuban. Daftarkan dirimu secara digital!">
-    <meta property="twitter:image" content="{{ asset('traveland/images/logo.png') }}">
+    <meta property="twitter:title" content="{{ get_setting('site_title', 'SIMAGANG - Diskominfo SP Kab. Tuban') }}">
+    <meta property="twitter:description" content="{{ get_setting('meta_description', 'Portal Resmi Pendaftaran Magang Diskominfo SP Kab. Tuban. Daftarkan dirimu secara digital!') }}">
+    <meta property="twitter:image" content="{{ asset(get_setting('site_logo', 'traveland/images/logo.png')) }}">
 
     <!--====== Title ======-->
-    <title>SIMAGANG — Dinas Komunikasi dan Informatika, Statistik dan Persandian Kabupaten Tuban</title>
+    <title>{{ get_setting('site_title', 'SIMAGANG — Dinas Komunikasi dan Informatika, Statistik dan Persandian Kabupaten Tuban') }}</title>
 
     <!--====== Favicon Icon ======-->
-    <link rel="icon" type="image/png" href="{{ asset('traveland/images/logo.png') }}">
-    <link rel="shortcut icon" type="image/png" href="{{ asset('traveland/images/logo.png') }}">
-    <link rel="apple-touch-icon" href="{{ asset('traveland/images/logo.png') }}">
+    <link rel="icon" type="image/png" href="{{ asset(get_setting('site_logo', 'traveland/images/logo.png')) }}">
+    <link rel="shortcut icon" type="image/png" href="{{ asset(get_setting('site_logo', 'traveland/images/logo.png')) }}">
+    <link rel="apple-touch-icon" href="{{ asset(get_setting('site_logo', 'traveland/images/logo.png')) }}">
 
     <!--====== Script Theme Initializer ======-->
     <script>
@@ -1664,10 +1664,10 @@
                     <div class="col-lg-12">
                         <nav class="navbar navbar-expand-xl w-100 flex items-center justify-between max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                             <a class="navbar-brand flex-shrink-0 mr-xl-3" href="{{ url('/') }}">
-                                <img src="{{ asset('traveland/images/logo.png') }}" alt="SIMAGANG Logo" class="brand-logo-img">
+                                <img src="{{ asset(get_setting('site_logo', 'traveland/images/logo.png')) }}" alt="SIMAGANG Logo" class="brand-logo-img">
                                 <div>
-                                    <span class="brand-text d-block">SIMAGANG</span>
-                                    <span class="brand-sub d-block">Diskominfo SP Kab. Tuban</span>
+                                    <span class="brand-text d-block">{{ get_setting('app_name', 'SIMAGANG') }}</span>
+                                    <span class="brand-sub d-block">{{ get_setting('institution_name', 'Diskominfo SP Kab. Tuban') }}</span>
                                 </div>
                             </a>
 
@@ -1759,15 +1759,15 @@
                     <div class="col-lg-7 mb-4 mb-lg-0">
                         <div class="hero-badge-pill wow fadeInLeft" data-wow-duration="1.2s" data-wow-delay="0.1s">
                             <i class="bi bi-patch-check-fill text-primary"></i>
-                            <span>Portal Resmi Pendaftaran Magang</span>
+                            <span>{{ get_setting('hero_badge', 'Portal Resmi Pendaftaran Magang') }}</span>
                         </div>
 
                         <h1 class="hero_title wow fadeInLeft" data-wow-duration="1.2s" data-wow-delay="0.3s">
-                            Membangun Talenta Digital untuk <span>Pelayanan Publik</span>
+                            {!! get_setting('hero_title', 'Membangun Talenta Digital untuk <span>Pelayanan Publik</span>') !!}
                         </h1>
 
                         <p class="hero_desc wow fadeInLeft" data-wow-duration="1.2s" data-wow-delay="0.5s">
-                            SIMAGANG (Sistem Informasi Magang) merupakan portal resmi Diskominfo SP Kabupaten Tuban untuk memfasilitasi pendaftaran dan pengelolaan magang secara digital. Dapatkan pengalaman kerja nyata dan kembangkan kompetensimu melalui proses rekrutmen yang transparan, terintegrasi, dan 100% paperless.
+                            {{ get_setting('hero_description', 'SIMAGANG (Sistem Informasi Magang) merupakan portal resmi Diskominfo SP Kabupaten Tuban untuk memfasilitasi pendaftaran dan pengelolaan magang secara digital. Dapatkan pengalaman kerja nyata dan kembangkan kompetensimu melalui proses rekrutmen yang transparan, terintegrasi, dan 100% paperless.') }}
                         </p>
 
                         <div class="d-flex flex-wrap align-items-center gap-3 wow fadeInLeft" data-wow-duration="1.2s" data-wow-delay="0.7s">
@@ -1794,7 +1794,7 @@
 
                     <div class="col-lg-5 text-center wow fadeInRight" data-wow-duration="1.2s" data-wow-delay="0.4s">
                         <div class="hero-preview-frame">
-                            <img src="{{ asset('traveland/images/1.png') }}" alt="SIMAGANG Diskominfo Tuban Command Center" class="img-fluid w-100" style="height: auto; object-fit: contain;">
+                            <img src="{{ asset(get_setting('hero_image', 'traveland/images/1.png')) }}" alt="SIMAGANG Diskominfo Tuban Command Center" class="img-fluid w-100" style="height: auto; object-fit: contain;">
                         </div>
                     </div>
                 </div>
@@ -1808,63 +1808,40 @@
             <div class="row align-items-center">
                 <div class="col-lg-6 mb-4 mb-lg-0 wow fadeInLeft" data-wow-duration="1.2s">
                     <div class="about_image_box">
-                        <img src="{{ asset('traveland/images/2.png') }}" alt="Mentoring Magang Diskominfo Tuban" class="img-fluid w-100" style="height: 440px; object-fit: cover;">
+                        <img src="{{ asset(get_setting('about_image', 'traveland/images/2.png')) }}" alt="Mentoring Magang Diskominfo Tuban" class="img-fluid w-100" style="height: 440px; object-fit: cover;">
                     </div>
                 </div>
 
                 <div class="col-lg-6 wow fadeInRight" data-wow-duration="1.2s">
                     <div class="section_title mb-4">
-                        <h2 class="title text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">SIMAGANG <br> <span>Diskominfo SP</span></h2>
+                        <h2 class="title text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">{!! get_setting('about_title', 'SIMAGANG <br> <span>Diskominfo SP</span>') !!}</h2>
                         <p class="text-left mx-0 leading-relaxed">
-                            Platform pendaftaran magang resmi untuk Mahasiswa dan Siswa SMK. Seluruh proses dilakukan 100% secara digital, terstruktur, dan transparan.
+                            {{ get_setting('about_description', 'Platform pendaftaran magang resmi untuk Mahasiswa dan Siswa SMK. Seluruh proses dilakukan 100% secara digital, terstruktur, dan transparan.') }}
                         </p>
                     </div>
 
                     <div class="row">
-                        <div class="col-sm-6 mb-3">
-                            <div class="about-value-card">
-                                <div class="about-value-icon">
-                                    <i class="bi bi-laptop"></i>
-                                </div>
-                                <div>
-                                    <h5 class="about-value-title">Layanan Digital Terpadu</h5>
-                                    <p class="about-value-desc">Pendaftaran dan verifikasi berkas daring tanpa membawa berkas fisik.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-6 mb-3">
-                            <div class="about-value-card">
-                                <div class="about-value-icon">
-                                    <i class="bi bi-person-workspace"></i>
-                                </div>
-                                <div>
-                                    <h5 class="about-value-title">Bimbingan Praktisi ASN</h5>
-                                    <p class="about-value-desc">Mentoring profesional di 5 bidang kerja strategis Diskominfo SP Tuban.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-6 mb-3">
-                            <div class="about-value-card">
-                                <div class="about-value-icon">
-                                    <i class="bi bi-file-earmark-check-fill"></i>
-                                </div>
-                                <div>
-                                    <h5 class="about-value-title">Surat Balasan Resmi</h5>
-                                    <p class="about-value-desc">Penerbitan dokumen digital resmi berformat PDF langsung dari portal.</p>
+                        @foreach(\App\Models\LandingContent::getBySection('about') as $item)
+                            <div class="col-sm-6 mb-3">
+                                <div class="about-value-card">
+                                    @if($item->icon)
+                                        <div class="about-value-icon">
+                                            @if(str_starts_with($item->icon, 'bi-'))
+                                                <i class="bi {{ $item->icon }}"></i>
+                                            @elseif(str_starts_with($item->icon, 'lni-'))
+                                                <i class="lni {{ $item->icon }}"></i>
+                                            @else
+                                                <i class="bi bi-check-circle"></i>
+                                            @endif
+                                        </div>
+                                    @endif
+                                    <div>
+                                        <h5 class="about-value-title">{{ $item->title }}</h5>
+                                        <p class="about-value-desc">{{ $item->description }}</p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-sm-6 mb-3">
-                            <div class="about-value-card">
-                                <div class="about-value-icon">
-                                    <i class="bi bi-mortarboard-fill"></i>
-                                </div>
-                                <div>
-                                    <h5 class="about-value-title">Standar Kurikulum Magang</h5>
-                                    <p class="about-value-desc">Mendukung konversi SKS akademik kampus dan kurikulum kejuruan SMK.</p>
-                                </div>
-                            </div>
-                        </div>
+                        @endforeach
                     </div>
                 </div>
             </div>
@@ -2158,42 +2135,25 @@
             </div>
 
             <div class="row">
-                <div class="col-lg-3 col-sm-6 mb-4">
-                    <div class="single_service wow fadeInUp" data-wow-duration="1.2s" data-wow-delay="0.1s">
-                        <div class="services_icon">
-                            <i class="lni lni-user"></i>
+                @foreach(\App\Models\LandingContent::getBySection('advantage') as $item)
+                    <div class="col-lg-3 col-sm-6 mb-4">
+                        <div class="single_service wow fadeInUp" data-wow-duration="1.2s">
+                            @if($item->icon)
+                                <div class="services_icon">
+                                    @if(str_starts_with($item->icon, 'bi-'))
+                                        <i class="bi {{ $item->icon }}"></i>
+                                    @elseif(str_starts_with($item->icon, 'lni-'))
+                                        <i class="lni {{ $item->icon }}"></i>
+                                    @else
+                                        <i class="bi bi-star"></i>
+                                    @endif
+                                </div>
+                            @endif
+                            <h4 class="title">{{ $item->title }}</h4>
+                            <p>{{ $item->description }}</p>
                         </div>
-                        <h4 class="title">Bimbingan Mentor Ahli</h4>
-                        <p>Dibimbing langsung oleh praktisi ASN dan profesional IT berkompeten di bidangnya.</p>
                     </div>
-                </div>
-                <div class="col-lg-3 col-sm-6 mb-4">
-                    <div class="single_service wow fadeInUp" data-wow-duration="1.2s" data-wow-delay="0.3s">
-                        <div class="services_icon">
-                            <i class="lni lni-laptop"></i>
-                        </div>
-                        <h4 class="title">Proyek Riil SPBE</h4>
-                        <p>Terlibat langsung dalam sistem e-Government, digitalisasi data, dan infrastruktur Pemkab.</p>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6 mb-4">
-                    <div class="single_service wow fadeInUp" data-wow-duration="1.2s" data-wow-delay="0.5s">
-                        <div class="services_icon">
-                            <i class="lni lni-certificate"></i>
-                        </div>
-                        <h4 class="title">Surat & Sertifikat Resmi</h4>
-                        <p>Penerbitan Surat Balasan resmi berformat digital PDF dan Sertifikat Magang instansi.</p>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6 mb-4">
-                    <div class="single_service wow fadeInUp" data-wow-duration="1.2s" data-wow-delay="0.7s">
-                        <div class="services_icon">
-                            <i class="lni lni-stats-up"></i>
-                        </div>
-                        <h4 class="title">Proses Transparan & Terlacak</h4>
-                        <p>Pantau status pendaftaran, verifikasi berkas, hingga pengumuman kelulusan secara langsung dan real-time melalui dashboard peserta.</p>
-                    </div>
-                </div>
+                @endforeach
             </div>
         </div>
     </section>
@@ -2210,34 +2170,25 @@
             </div>
 
             <div class="row">
-                <div class="col-lg-3 col-sm-6 mb-4">
-                    <div class="step-box wow fadeInUp" data-wow-duration="1.2s" data-wow-delay="0.1s">
-                        <div class="step-badge">1</div>
-                        <h4 class="title mb-2" style="font-size: 17px; font-weight: 700;">Buat Akun Peserta</h4>
-                        <p class="text-muted small">Registrasi dengan email aktif dan pilih kategori Mahasiswa atau Siswa SMK.</p>
+                @foreach(\App\Models\LandingContent::getBySection('workflow') as $item)
+                    <div class="col-lg-3 col-sm-6 mb-4">
+                        <div class="step-box wow fadeInUp" data-wow-duration="1.2s">
+                            <div class="step-badge">
+                                @if($item->icon && str_starts_with($item->icon, 'bi-'))
+                                    <i class="bi {{ $item->icon }}"></i>
+                                @elseif($item->icon && str_starts_with($item->icon, 'lni-'))
+                                    <i class="lni {{ $item->icon }}"></i>
+                                @elseif($item->icon && is_numeric($item->icon))
+                                    {{ $item->icon }}
+                                @else
+                                    {{ $loop->iteration }}
+                                @endif
+                            </div>
+                            <h4 class="title mb-2" style="font-size: 17px; font-weight: 700;">{{ $item->title }}</h4>
+                            <p class="text-muted small">{{ $item->description }}</p>
+                        </div>
                     </div>
-                </div>
-                <div class="col-lg-3 col-sm-6 mb-4">
-                    <div class="step-box wow fadeInUp" data-wow-duration="1.2s" data-wow-delay="0.3s">
-                        <div class="step-badge">2</div>
-                        <h4 class="title mb-2" style="font-size: 17px; font-weight: 700;">Lengkapi Profil & Berkas</h4>
-                        <p class="text-muted small">Isi biodata, data kampus/sekolah, dan unggah CV serta Surat Pengantar.</p>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6 mb-4">
-                    <div class="step-box wow fadeInUp" data-wow-duration="1.2s" data-wow-delay="0.5s">
-                        <div class="step-badge">3</div>
-                        <h4 class="title mb-2" style="font-size: 17px; font-weight: 700;">Verifikasi Berkas</h4>
-                        <p class="text-muted small">Tim administrator Diskominfo SP meninjau kelayakan dan verifikasi berkas pendaftaran.</p>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6 mb-4">
-                    <div class="step-box wow fadeInUp" data-wow-duration="1.2s" data-wow-delay="0.7s">
-                        <div class="step-badge">4</div>
-                        <h4 class="title mb-2" style="font-size: 17px; font-weight: 700;">Unduh Surat Balasan</h4>
-                        <p class="text-muted small">Peserta yang diterima mengunduh Surat Balasan resmi PDF dari dashboard.</p>
-                    </div>
-                </div>
+                @endforeach
             </div>
         </div>
     </section>
@@ -2255,61 +2206,21 @@
 
             <div class="row justify-content-center">
                 <div class="col-lg-9">
-                    <div class="faq-item bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl mb-3.5 overflow-hidden shadow-sm">
-                        <button class="faq-btn text-slate-900 dark:text-white font-semibold text-base" type="button" data-toggle="collapse" data-target="#faq1">
-                            <span>1. Apakah Siswa SMK wajib mengisi NIM pada form profil?</span>
-                            <i class="bi bi-chevron-down text-slate-500"></i>
-                        </button>
-                        <div id="faq1" class="collapse show bg-transparent">
-                            <div class="px-6 pb-6 pt-0">
-                                <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed font-medium">
-                                    <strong class="text-slate-900 dark:text-slate-100 font-bold">Tidak.</strong> Kategori Siswa SMK tidak memerlukan NIM. Sistem SIMAGANG secara otomatis menyesuaikan formulir pendaftaran untuk Siswa SMK (menggunakan NIS/NISN dan Nama Sekolah).
-                                </p>
+                    @foreach(\App\Models\LandingContent::getBySection('faq') as $item)
+                        <div class="faq-item bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl mb-3.5 overflow-hidden shadow-sm">
+                            <button class="faq-btn {{ $loop->first ? '' : 'collapsed' }} text-slate-900 dark:text-white font-semibold text-base" type="button" data-toggle="collapse" data-target="#faq-collapse-{{ $item->id }}">
+                                <span>{{ $loop->iteration }}. {{ $item->title }}</span>
+                                <i class="bi bi-chevron-down text-slate-500"></i>
+                            </button>
+                            <div id="faq-collapse-{{ $item->id }}" class="collapse {{ $loop->first ? 'show' : '' }} bg-transparent">
+                                <div class="px-6 pb-6 pt-0">
+                                    <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed font-medium">
+                                        {{ $item->description }}
+                                    </p>
+                                </div>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="faq-item bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl mb-3.5 overflow-hidden shadow-sm">
-                        <button class="faq-btn collapsed text-slate-900 dark:text-white font-semibold text-base" type="button" data-toggle="collapse" data-target="#faq2">
-                            <span>2. Apa saja berkas yang wajib diunggah saat pendaftaran?</span>
-                            <i class="bi bi-chevron-down text-slate-500"></i>
-                        </button>
-                        <div id="faq2" class="collapse bg-transparent">
-                            <div class="px-6 pb-6 pt-0">
-                                <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed font-medium">
-                                    Berkas wajib meliputi: (1) <strong class="text-slate-900 dark:text-slate-100 font-bold">Curriculum Vitae (CV)</strong> terbaru, (2) <strong class="text-slate-900 dark:text-slate-100 font-bold">Surat Pengantar / Rekomendasi</strong> dari Perguruan Tinggi atau Sekolah, dan (3) <strong class="text-slate-900 dark:text-slate-100 font-bold">Proposal Magang</strong> (opsional/jika ada rencana program kerja). Semua dokumen diunggah dalam format PDF (maks. 2MB).
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="faq-item bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl mb-3.5 overflow-hidden shadow-sm">
-                        <button class="faq-btn collapsed text-slate-900 dark:text-white font-semibold text-base" type="button" data-toggle="collapse" data-target="#faq3">
-                            <span>3. Bagaimana cara mengetahui status verifikasi berkas saya?</span>
-                            <i class="bi bi-chevron-down text-slate-500"></i>
-                        </button>
-                        <div id="faq3" class="collapse bg-transparent">
-                            <div class="px-6 pb-6 pt-0">
-                                <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed font-medium">
-                                    Anda dapat login ke portal SIMAGANG dan membuka <strong class="text-slate-900 dark:text-slate-100 font-bold">Dashboard Saya</strong>. Status pendaftaran (Submitted, Under Review, Accepted, atau Rejected) serta Surat Balasan resmi akan langsung ditampilkan secara real-time.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="faq-item bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl mb-3.5 overflow-hidden shadow-sm">
-                        <button class="faq-btn collapsed text-slate-900 dark:text-white font-semibold text-base" type="button" data-toggle="collapse" data-target="#faq4">
-                            <span>4. Berapa lama durasi pelaksanaan magang di Diskominfo SP Tuban?</span>
-                            <i class="bi bi-chevron-down text-slate-500"></i>
-                        </button>
-                        <div id="faq4" class="collapse bg-transparent">
-                            <div class="px-6 pb-6 pt-0">
-                                <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed font-medium">
-                                    Durasi magang disesuaikan dengan surat permohonan dari kampus atau sekolah, umumnya berkisar antara <strong class="text-slate-900 dark:text-slate-100 font-bold">1 hingga 6 bulan</strong> (termasuk program magang MBKM).
-                                </p>
-                            </div>
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
             </div>
         </div>
@@ -2328,37 +2239,37 @@
                     <ul class="flex flex-col gap-3 text-sm text-slate-300">
                         <li class="flex items-start gap-2.5">
                             <span class="text-indigo-400 mt-0.5 text-base">📍</span>
-                            <span class="leading-snug">Jl. Mastrip No. 5 A, Sidorejo, Kec. Tuban, Jawa Timur 62315</span>
+                            <span class="leading-snug">{{ get_setting('contact_address', 'Jl. Mastrip No. 5 A, Sidorejo, Kec. Tuban, Jawa Timur 62315') }}</span>
                         </li>
                         <li class="flex items-center gap-2.5">
                             <span class="text-indigo-400 text-base">✉️</span>
-                            <span>diskominfo@tubankab.go.id</span>
+                            <span>{{ get_setting('contact_email', 'diskominfo@tubankab.go.id') }}</span>
                         </li>
                         <li class="flex items-center gap-2.5">
                             <span class="text-indigo-400 text-base">📞</span>
-                            <span>(0356) 8832697</span>
+                            <span>{{ get_setting('contact_phone', '(0356) 8832697') }}</span>
                         </li>
                     </ul>
 
                     <div class="flex items-center gap-3 mt-6">
                         <!-- Website -->
-                        <a href="https://diskominfo.tubankab.go.id" target="_blank" rel="noopener noreferrer" title="Website Resmi" class="w-9 h-9 rounded-xl bg-slate-800/70 hover:bg-emerald-600 text-slate-300 hover:text-white flex items-center justify-center transition-all duration-200 shadow-sm">
+                        <a href="{{ get_setting('social_website', 'https://diskominfo.tubankab.go.id') }}" target="_blank" rel="noopener noreferrer" title="Website Resmi" class="w-9 h-9 rounded-xl bg-slate-800/70 hover:bg-emerald-600 text-slate-300 hover:text-white flex items-center justify-center transition-all duration-200 shadow-sm">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path></svg>
                         </a>
                         <!-- Facebook -->
-                        <a href="https://www.facebook.com/diskominfo.tuban" target="_blank" rel="noopener noreferrer" title="Facebook" class="w-9 h-9 rounded-xl bg-slate-800/70 hover:bg-blue-600 text-slate-300 hover:text-white flex items-center justify-center transition-all duration-200 shadow-sm">
+                        <a href="{{ get_setting('social_facebook', 'https://www.facebook.com/diskominfo.tuban') }}" target="_blank" rel="noopener noreferrer" title="Facebook" class="w-9 h-9 rounded-xl bg-slate-800/70 hover:bg-blue-600 text-slate-300 hover:text-white flex items-center justify-center transition-all duration-200 shadow-sm">
                             <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"/></svg>
                         </a>
                         <!-- Instagram -->
-                        <a href="https://www.instagram.com/kominfo.tuban" target="_blank" rel="noopener noreferrer" title="Instagram" class="w-9 h-9 rounded-xl bg-slate-800/70 hover:bg-pink-600 text-slate-300 hover:text-white flex items-center justify-center transition-all duration-200 shadow-sm">
+                        <a href="{{ get_setting('social_instagram', 'https://www.instagram.com/kominfo.tuban') }}" target="_blank" rel="noopener noreferrer" title="Instagram" class="w-9 h-9 rounded-xl bg-slate-800/70 hover:bg-pink-600 text-slate-300 hover:text-white flex items-center justify-center transition-all duration-200 shadow-sm">
                             <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
                         </a>
                         <!-- X (Twitter) -->
-                        <a href="https://twitter.com/DiskominfoTuban" target="_blank" rel="noopener noreferrer" title="X (Twitter)" class="w-9 h-9 rounded-xl bg-slate-800/70 hover:bg-slate-900 text-slate-300 hover:text-white flex items-center justify-center transition-all duration-200 shadow-sm">
+                        <a href="{{ get_setting('social_twitter', 'https://twitter.com/DiskominfoTuban') }}" target="_blank" rel="noopener noreferrer" title="X (Twitter)" class="w-9 h-9 rounded-xl bg-slate-800/70 hover:bg-slate-900 text-slate-300 hover:text-white flex items-center justify-center transition-all duration-200 shadow-sm">
                             <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
                         </a>
                         <!-- YouTube -->
-                        <a href="https://www.youtube.com/channel/UC7V9cxzD7Gk-K_jxGMbblgA?view_as=subscriber" target="_blank" rel="noopener noreferrer" title="YouTube Channel" class="w-9 h-9 rounded-xl bg-slate-800/70 hover:bg-red-600 text-slate-300 hover:text-white flex items-center justify-center transition-all duration-200 shadow-sm">
+                        <a href="{{ get_setting('social_youtube', 'https://www.youtube.com/channel/UC7V9cxzD7Gk-K_jxGMbblgA?view_as=subscriber') }}" target="_blank" rel="noopener noreferrer" title="YouTube Channel" class="w-9 h-9 rounded-xl bg-slate-800/70 hover:bg-red-600 text-slate-300 hover:text-white flex items-center justify-center transition-all duration-200 shadow-sm">
                             <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.5 12 3.5 12 3.5s-7.505 0-9.377.55a3.016 3.016 0 0 0-2.122 2.136C.001 8.07.001 12 .001 12s0 3.93.5 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.55 9.377.55 9.377.55s7.505 0 9.377-.55a3.016 3.016 0 0 0 2.122 2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
                         </a>
                     </div>
@@ -2370,7 +2281,7 @@
                     <div class="w-full bg-slate-800/60 p-2 rounded-2xl mb-4 shadow-sm">
                         <div class="w-full h-32 bg-slate-700/60 rounded-xl overflow-hidden flex items-center justify-center">
                             <iframe 
-                                src="https://www.google.com/maps/embed?pb=!4v1788316632382!6m8!1m7!1szab-FoOpFkmJVJ79X0G0Pw!2m2!1d-6.901873934235668!2d112.0440727763729!3f117.32336345271811!4f-6.10453670657121!5f0.4000000000000002" 
+                                src="{{ get_setting('maps_embed_url', 'https://www.google.com/maps/embed?pb=!4v1788316632382!6m8!1m7!1szab-FoOpFkmJVJ79X0G0Pw!2m2!1d-6.901873934235668!2d112.0440727763729!3f117.32336345271811!4f-6.10453670657121!5f0.4000000000000002') }}" 
                                 class="w-full h-full border-0 object-cover" 
                                 allowfullscreen="" 
                                 loading="lazy" 
@@ -2383,7 +2294,7 @@
                             <i class="bi bi-clock-fill text-indigo-400 text-xs"></i>
                             <span>JAM PELAYANAN</span>
                         </p>
-                        <p class="text-slate-300 mb-0.5">Senin - Jum'at: 07.30 - 16.00 WIB</p>
+                        <p class="text-slate-300 mb-0.5">{{ get_setting('contact_working_hours', "Senin - Jum'at: 07.30 - 16.00 WIB") }}</p>
                         <p class="text-rose-400/90 font-medium mb-0">Sabtu - Minggu: Libur</p>
                     </div>
                 </div>
@@ -2446,7 +2357,7 @@
             <!-- COPYRIGHT SECTION -->
             <div class="border-t border-slate-800/40 py-2.5 text-center text-xs text-slate-400/90 my-0">
                 <p class="mb-0 leading-relaxed">
-                    &copy; {{ date('Y') }} <strong>SIMAGANG</strong> — Dinas Komunikasi dan Informatika, Statistik dan Persandian Kabupaten Tuban. Hak Cipta Dilindungi.
+                    &copy; {{ date('Y') }} {{ get_setting('footer_copyright', '2026 © SIMAGANG Diskominfo SP Kabupaten Tuban') }}
                 </p>
             </div>
         </div>
@@ -2455,10 +2366,8 @@
 
 
     <!-- Contact Modal Floating Action Button (FAB) -->
-    <button id="open-contact-modal" class="fixed bottom-20 right-6 z-50 opacity-100 pointer-events-auto shadow-xl rounded-full bg-blue-600 text-white w-12 h-12 hover:bg-blue-700 hover:scale-105 active:scale-95 transition-all duration-300 flex items-center justify-center cursor-pointer group" aria-label="Hubungi Kami" title="Hubungi Kami">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-white group-hover:scale-110 transition-transform duration-300">
-            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-        </svg>
+    <button id="open-contact-modal" class="fixed bottom-20 right-6 z-50 opacity-100 pointer-events-auto shadow-xl rounded-full bg-blue-600 text-white w-12 h-12 hover:bg-blue-700 active:scale-95 transition-all duration-300 flex items-center justify-center cursor-pointer group fab-creative-pulse" aria-label="Bantuan & FAQ" title="Bantuan & FAQ">
+        <i class="bi bi-question-circle-fill" style="font-size: 1.5rem;"></i>
     </button>
 
     <!-- Back to Top Button -->
@@ -2888,6 +2797,23 @@
             @endif
         });
     </script>
+
+    <style>
+        @keyframes interactivePulse {
+            0% { box-shadow: 0 0 0 0 rgba(13, 110, 253, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(13, 110, 253, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(13, 110, 253, 0); }
+        }
+        .fab-creative-pulse {
+            animation: interactivePulse 2s infinite;
+            transition: transform 0.3s ease;
+        }
+        .fab-creative-pulse:hover {
+            transform: scale(1.15) rotate(-5deg);
+            animation: none; /* stop pulse on hover */
+            box-shadow: 0 8px 25px rgba(13, 110, 253, 0.5);
+        }
+    </style>
 
 </body>
 

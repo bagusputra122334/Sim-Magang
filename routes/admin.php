@@ -136,4 +136,25 @@ Route::get('surveys', [SurveyController::class, 'index'])
 Route::get('surveys/export', [SurveyController::class, 'exportPdf'])
     ->name('surveys.export');
 
+/*
+|--------------------------------------------------------------------------
+| ADMIN GLOBAL CONFIGURATION (SettingController)
+|--------------------------------------------------------------------------
+*/
+Route::get('settings', [\App\Http\Controllers\Admin\SettingController::class, 'index'])
+    ->name('settings.index');
+
+Route::post('settings', [\App\Http\Controllers\Admin\SettingController::class, 'update'])
+    ->name('settings.update');
+
+/*
+|--------------------------------------------------------------------------
+| ADMIN LANDING CONTENTS MANAGEMENT (LandingContentController)
+|--------------------------------------------------------------------------
+*/
+Route::resource('landing-contents', \App\Http\Controllers\Admin\LandingContentController::class)
+    ->names('landing-contents');
+
+
+
 
