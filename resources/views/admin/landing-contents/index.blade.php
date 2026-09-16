@@ -3,7 +3,7 @@
 @section('title', 'Kelola Konten Landing Page')
 
 @section('content')
-    <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4 gap-3">
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-3 gap-3">
         <div>
             <h1 class="h3 fw-bold text-slate-800 mb-1">Kelola Konten Landing Page</h1>
             <p class="text-muted mb-0">Kelola daftar item dinamis untuk bagian Tentang, Keunggulan, Alur Pendaftaran, dan FAQ.</p>
@@ -21,55 +21,62 @@
         </div>
     @endif
 
-    {{-- Statistics Cards --}}
+    <!-- Top Statistics Row (Ultra-Compact, 4 Columns) -->
     <div class="row g-3 mb-4">
-        <div class="col-6 col-md-3">
-            <div class="card border-0 shadow-sm rounded-xl h-100">
-                <div class="card-body py-2.5 px-3 d-flex align-items-center justify-content-between">
+        <!-- Card 1: Total Konten -->
+        <div class="col-md-6 col-lg-3">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body p-2 px-3 d-flex align-items-center justify-content-between">
                     <div>
-                        <span class="text-muted text-xs font-semibold text-uppercase tracking-wider">TOTAL KONTEN</span>
-                        <h4 class="fw-bold mb-0 text-slate-800">{{ $statistics['total'] ?? 0 }}</h4>
+                        <p class="text-muted text-uppercase fw-bold mb-1" style="font-size: 0.65rem; letter-spacing: 0.5px;">Total Konten</p>
+                        <h5 class="fw-bold mb-0 text-dark">{{ $statistics['total'] ?? $totalKonten ?? 0 }}</h5>
                     </div>
-                    <div class="rounded-circle bg-primary-subtle p-2.5 text-primary d-flex align-items-center justify-content-center">
+                    <div class="text-primary">
                         <i class="bi bi-collection-fill fs-5"></i>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-6 col-md-3">
-            <div class="card border-0 shadow-sm rounded-xl h-100">
-                <div class="card-body py-2.5 px-3 d-flex align-items-center justify-content-between">
+
+        <!-- Card 2: Status Aktif -->
+        <div class="col-md-6 col-lg-3">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body p-2 px-3 d-flex align-items-center justify-content-between">
                     <div>
-                        <span class="text-muted text-xs font-semibold text-uppercase tracking-wider">STATUS AKTIF</span>
-                        <h4 class="fw-bold mb-0 text-success">{{ $statistics['active'] ?? 0 }}</h4>
+                        <p class="text-muted text-uppercase fw-bold mb-1" style="font-size: 0.65rem; letter-spacing: 0.5px;">Status Aktif</p>
+                        <h5 class="fw-bold mb-0 text-dark">{{ $statistics['active'] ?? $statusAktif ?? 0 }}</h5>
                     </div>
-                    <div class="rounded-circle bg-success-subtle p-2.5 text-success d-flex align-items-center justify-content-center">
+                    <div class="text-success">
                         <i class="bi bi-check-circle-fill fs-5"></i>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-6 col-md-3">
-            <div class="card border-0 shadow-sm rounded-xl h-100">
-                <div class="card-body py-2.5 px-3 d-flex align-items-center justify-content-between">
+
+        <!-- Card 3: Alur -->
+        <div class="col-md-6 col-lg-3">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body p-2 px-3 d-flex align-items-center justify-content-between">
                     <div>
-                        <span class="text-muted text-xs font-semibold text-uppercase tracking-wider">ALUR</span>
-                        <h4 class="fw-bold mb-0 text-info">{{ $statistics['workflow'] ?? 0 }}</h4>
+                        <p class="text-muted text-uppercase fw-bold mb-1" style="font-size: 0.65rem; letter-spacing: 0.5px;">Alur</p>
+                        <h5 class="fw-bold mb-0 text-dark">{{ $statistics['workflow'] ?? $alur ?? 0 }}</h5>
                     </div>
-                    <div class="rounded-circle bg-info-subtle p-2.5 text-info d-flex align-items-center justify-content-center">
+                    <div class="text-info">
                         <i class="bi bi-diagram-3-fill fs-5"></i>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-6 col-md-3">
-            <div class="card border-0 shadow-sm rounded-xl h-100">
-                <div class="card-body py-2.5 px-3 d-flex align-items-center justify-content-between">
+
+        <!-- Card 4: FAQ -->
+        <div class="col-md-6 col-lg-3">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body p-2 px-3 d-flex align-items-center justify-content-between">
                     <div>
-                        <span class="text-muted text-xs font-semibold text-uppercase tracking-wider">FAQ</span>
-                        <h4 class="fw-bold mb-0" style="color: #4f46e5;">{{ $statistics['faq'] ?? 0 }}</h4>
+                        <p class="text-muted text-uppercase fw-bold mb-1" style="font-size: 0.65rem; letter-spacing: 0.5px;">FAQ</p>
+                        <h5 class="fw-bold mb-0 text-dark">{{ $statistics['faq'] ?? $faq ?? 0 }}</h5>
                     </div>
-                    <div class="rounded-circle p-2.5 d-flex align-items-center justify-content-center" style="background-color: rgba(79, 70, 229, 0.1); color: #4f46e5;">
+                    <div style="color: #6f42c1;">
                         <i class="bi bi-question-circle-fill fs-5"></i>
                     </div>
                 </div>
@@ -81,14 +88,17 @@
     <div class="card border-0 shadow-sm rounded-xl mb-4">
         <div class="card-body p-3">
             <form method="GET" action="{{ route('admin.landing-contents.index') }}" class="row g-2 align-items-center">
-                <div class="col-md-4">
-                    <div class="input-group input-group-sm">
-                        <span class="input-group-text bg-white border-end-0"><i class="bi bi-search text-muted"></i></span>
-                        <input type="text" name="search" class="form-control form-control-sm border-start-0" placeholder="Cari judul atau deskripsi..." value="{{ request('search') }}">
+                <!-- 1. Search Input (Wider) -->
+                <div class="col-12 col-md-5">
+                    <div class="input-group">
+                        <span class="input-group-text bg-white text-muted border-end-0"><i class="bi bi-search"></i></span>
+                        <input type="text" name="search" class="form-control border-start-0 ps-0" placeholder="Cari judul atau deskripsi... (Tekan Enter)" value="{{ request('search') }}">
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <select name="section" class="form-select form-select-sm" onchange="this.form.submit()">
+
+                <!-- 2. Category Dropdown (Auto-submit) -->
+                <div class="col-12 col-md-4">
+                    <select name="section" class="form-select text-muted" onchange="this.form.submit()">
                         <option value="">-- Semua Kategori --</option>
                         @foreach ($sections as $key => $label)
                             <option value="{{ $key }}" {{ request('section') === $key ? 'selected' : '' }}>
@@ -97,15 +107,16 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="col-md-4 d-flex gap-2 justify-content-md-end">
-                    <button type="submit" class="btn btn-sm btn-secondary d-inline-flex align-items-center gap-1">
-                        <i class="bi bi-filter"></i> Filter
-                    </button>
-                    @if (request()->hasAny(['search', 'section']))
-                        <a href="{{ route('admin.landing-contents.index') }}" class="btn btn-sm btn-outline-secondary d-inline-flex align-items-center gap-1">
-                            <i class="bi bi-x-circle"></i> Reset
-                        </a>
-                    @endif
+
+                <!-- 3. Per Page Dropdown (Auto-submit) -->
+                <div class="col-12 col-md-3">
+                    <select name="per_page" class="form-select text-muted" onchange="this.form.submit()">
+                        <option value="5" {{ request('per_page') == '5' ? 'selected' : '' }}>5 data per halaman</option>
+                        <option value="10" {{ request('per_page', 10) == '10' ? 'selected' : '' }}>10 data per halaman</option>
+                        <option value="15" {{ request('per_page') == '15' ? 'selected' : '' }}>15 data per halaman</option>
+                        <option value="20" {{ request('per_page') == '20' ? 'selected' : '' }}>20 data per halaman</option>
+                        <option value="50" {{ request('per_page') == '50' ? 'selected' : '' }}>50 data per halaman</option>
+                    </select>
                 </div>
             </form>
         </div>

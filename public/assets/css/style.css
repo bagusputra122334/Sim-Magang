@@ -834,9 +834,7 @@ body.sidebar-mini .admin-main {
   width: var(--sidebar-width);
   display: flex;
   flex-direction: column;
-  overflow-x: hidden;
-  overflow-y: auto;
-  scrollbar-gutter: stable;
+  overflow: hidden;
   background: var(--app-sidebar);
   color: var(--app-sidebar-text);
   box-shadow: var(--app-shadow);
@@ -845,6 +843,7 @@ body.sidebar-mini .admin-main {
 }
 
 .sidebar-header {
+  flex-shrink: 0;
   padding: 0.85rem 1rem;
   border-bottom: 1px solid var(--app-sidebar-border);
   overflow: hidden;
@@ -922,10 +921,15 @@ body.sidebar-mini .admin-main {
 }
 
 .sidebar-nav {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  overflow-x: hidden;
   display: flex;
   flex-direction: column;
   gap: 0.35rem;
   padding: 1rem 0.85rem;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
 }
 
 .sidebar-nav .nav-link {
@@ -973,6 +977,7 @@ body.sidebar-mini .admin-main {
 }
 
 .sidebar-user {
+  flex-shrink: 0;
   margin: auto 0.85rem 0.85rem;
   padding: 0.75rem;
   display: grid;

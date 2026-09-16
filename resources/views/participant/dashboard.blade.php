@@ -45,7 +45,7 @@
                         <strong>Catatan Admin:</strong> {{ $reg->catatan_penonaktifan }}
                     </div>
                 @endif
-                <a href="{{ route('participant.registrations.create') }}" class="btn btn-primary bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white rounded-xl px-4 py-2 font-semibold text-sm shadow-sm hover:shadow-md hover:opacity-90 transition-all duration-200">
+                <a href="{{ route('participant.registrations.create') }}" class="btn btn-primary rounded-3 px-4 py-2 font-semibold text-sm shadow-sm transition-all duration-200">
                     <i class="bi bi-send-fill me-1"></i> Ajukan Pendaftaran Magang Baru
                 </a>
 
@@ -69,83 +69,78 @@
         </div>
     @endif
 
-    {{-- Overview Metrics Cards --}}
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+    <!-- Top Statistics Row (Ultra-Compact, 4 Columns) -->
+    <div class="row g-3 mb-2">
         <!-- Card 1: Status Profil -->
-        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 flex items-center justify-between hover:shadow-md transition-shadow">
-            <div>
-                <p class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Status Profil</p>
-                <h3 class="text-xl font-extrabold text-slate-800">{{ $hasProfile ? 'Terisi Lengkap' : 'Belum Terisi' }}</h3>
-                @if ($hasProfile)
-                    <p class="text-xs text-emerald-600 font-medium mt-1 flex items-center gap-1">
-                        <svg class="w-3.5 h-3.5 text-emerald-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
-                        Siap Mendaftar
-                    </p>
-                @else
-                    <p class="text-xs text-amber-600 font-medium mt-1 flex items-center gap-1">
-                        <svg class="w-3.5 h-3.5 text-amber-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg>
-                        Wajib Dilengkapi
-                    </p>
-                @endif
-            </div>
-            <div class="w-10 h-10 flex items-center justify-center rounded-lg {{ $hasProfile ? 'bg-emerald-500' : 'bg-amber-500' }} text-white shadow-sm shrink-0">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+        <div class="col-md-6 col-lg-3">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body p-2 px-3 d-flex align-items-center justify-content-between">
+                    <div>
+                        <p class="text-muted text-uppercase fw-bold mb-1 small">Status Profil</p>
+                        <h5 class="fw-bold mb-0 {{ $hasProfile ? 'text-success' : 'text-danger' }}">{{ $hasProfile ? 'Terisi Lengkap' : 'Belum Terisi' }}</h5>
+                    </div>
+                    <div class="{{ $hasProfile ? 'text-success' : 'text-danger' }}">
+                        <i class="bi {{ $hasProfile ? 'bi-person-check-fill' : 'bi-person-exclamation' }} fs-5"></i>
+                    </div>
+                </div>
             </div>
         </div>
 
         <!-- Card 2: Total Pendaftaran -->
-        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 flex items-center justify-between hover:shadow-md transition-shadow">
-            <div>
-                <p class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Total Pendaftaran</p>
-                <h3 class="text-xl font-extrabold text-slate-800">{{ $totalRegistrations }}</h3>
-                <p class="text-xs text-slate-500 mt-1">Permohonan diajukan</p>
-            </div>
-            <div class="w-10 h-10 flex items-center justify-center rounded-lg bg-blue-600 text-white shadow-sm shrink-0">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+        <div class="col-md-6 col-lg-3">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body p-2 px-3 d-flex align-items-center justify-content-between">
+                    <div>
+                        <p class="text-muted text-uppercase fw-bold mb-1 small">Total Pendaftaran</p>
+                        <h5 class="fw-bold mb-0 text-slate-900 dark:text-slate-100">{{ $totalRegistrations }}</h5>
+                    </div>
+                    <div class="text-primary">
+                        <i class="bi bi-file-earmark-text-fill fs-5"></i>
+                    </div>
+                </div>
             </div>
         </div>
 
         <!-- Card 3: Status Terbaru -->
-        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 flex items-center justify-between hover:shadow-md transition-shadow">
-            <div>
-                <p class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Status Terbaru</p>
-                @if ($reg !== null)
-                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold {{ $reg->is_terminated ? 'bg-rose-100 text-rose-800' : ($sv === 'accepted' ? 'bg-emerald-100 text-emerald-800' : ($sv === 'rejected' ? 'bg-rose-100 text-rose-800' : ($sv === 'under_review' ? 'bg-amber-100 text-amber-800' : 'bg-blue-100 text-blue-800'))) }}">
-                        {{ $reg->is_terminated ? 'Dinonaktifkan' : $reg->status->label() }}
-                    </span>
-                @else
-                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-slate-100 text-slate-700">
-                        Belum Ada
-                    </span>
-                @endif
-                <p class="text-xs text-slate-500 mt-2">{{ $reg !== null ? 'Nomor: '.$reg->nomor_pendaftaran : 'Silakan ajukan pendaftaran' }}</p>
-            </div>
-            <div class="w-10 h-10 flex items-center justify-center rounded-lg bg-sky-500 text-white shadow-sm shrink-0">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        <div class="col-md-6 col-lg-3">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body p-2 px-3 d-flex align-items-center justify-content-between">
+                    <div>
+                        <p class="text-muted text-uppercase fw-bold mb-1 small">Status Terbaru</p>
+                        @if ($reg !== null)
+                            <h5 class="fw-bold mb-0 {{ $reg->is_terminated ? 'text-danger' : ($sv === 'accepted' ? 'text-success' : ($sv === 'rejected' ? 'text-danger' : ($sv === 'under_review' ? 'text-warning' : 'text-primary'))) }}">
+                                {{ $reg->is_terminated ? 'Dinonaktifkan' : $reg->status->label() }}
+                            </h5>
+                        @else
+                            <h5 class="fw-bold mb-0 text-secondary">Belum Ada</h5>
+                        @endif
+                    </div>
+                    <div class="{{ $reg !== null ? ($reg->is_terminated ? 'text-danger' : ($sv === 'accepted' ? 'text-success' : ($sv === 'rejected' ? 'text-danger' : ($sv === 'under_review' ? 'text-warning' : 'text-primary')))) : 'text-secondary' }}">
+                        <i class="bi {{ $reg !== null ? ($reg->is_terminated || $sv === 'rejected' ? 'bi-x-circle-fill' : ($sv === 'accepted' ? 'bi-check-circle-fill' : ($sv === 'under_review' ? 'bi-clock-fill' : 'bi-info-circle-fill'))) : 'bi-info-circle-fill' }} fs-5"></i>
+                    </div>
+                </div>
             </div>
         </div>
 
         <!-- Card 4: Surat Balasan -->
-        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 flex items-center justify-between hover:shadow-md transition-shadow">
-            <div>
-                <p class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Surat Balasan</p>
-                <h3 class="text-xl font-extrabold text-slate-800">{{ $documentInfo['surat_balasan_exists'] ? 'Tersedia' : 'Belum Ada' }}</h3>
-                @if ($documentInfo['surat_balasan_exists'])
-                    <a href="{{ $documentInfo['surat_balasan_download_route'] }}" class="text-xs text-emerald-600 font-bold hover:underline flex items-center gap-1 mt-1">
-                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
-                        Unduh Surat PDF
-                    </a>
-                @else
-                    <p class="text-xs text-slate-500 mt-1">Diterbitkan jika diterima</p>
-                @endif
-            </div>
-            <div class="w-10 h-10 flex items-center justify-center rounded-lg bg-amber-500 text-white shadow-sm shrink-0">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+        <div class="col-md-6 col-lg-3">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body p-2 px-3 d-flex align-items-center justify-content-between">
+                    <div>
+                        <p class="text-muted text-uppercase fw-bold mb-1 small">Surat Balasan</p>
+                        <h5 class="fw-bold mb-0 {{ $documentInfo['surat_balasan_exists'] ? 'text-success' : 'text-secondary' }}">
+                            {{ $documentInfo['surat_balasan_exists'] ? 'Tersedia' : 'Belum Ada' }}
+                        </h5>
+                    </div>
+                    <div class="{{ $documentInfo['surat_balasan_exists'] ? 'text-success' : 'text-secondary' }}">
+                        <i class="bi {{ $documentInfo['surat_balasan_exists'] ? 'bi-file-earmark-check-fill' : 'bi-envelope-fill' }} fs-5"></i>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
-    <div class="row g-4 mt-1">
+    <div class="row g-3 mt-0">
         {{-- Left Column: Personal Information & Admin Notes --}}
         <div class="col-12 col-lg-4">
             {{-- Personal Information Panel --}}
@@ -169,7 +164,7 @@
                     <div class="alert alert-warning mb-0" role="alert">
                         <h6 class="alert-heading fw-bold mb-1"><i class="bi bi-exclamation-triangle-fill me-1"></i> Profil Belum Lengkap</h6>
                         <p class="small mb-3">Lengkapi profil Anda agar dapat mengajukan pendaftaran magang.</p>
-                        <a href="{{ route('participant.profile.create') }}" class="btn btn-warning bg-amber-500 hover:bg-amber-600 active:bg-amber-700 text-white rounded-xl py-2 px-3 font-semibold text-sm shadow-sm hover:shadow-md hover:opacity-90 transition-all duration-200 w-100">
+                        <a href="{{ route('participant.profile.create') }}" class="btn btn-warning text-dark fw-bold rounded-3 py-2 px-3 text-sm shadow-sm transition-all duration-200 w-100">
                             <i class="bi bi-person-plus-fill me-1"></i> Isi Profil Sekarang
                         </a>
                     </div>
@@ -178,13 +173,12 @@
                         @if(!empty($profile->foto_url))
                             <img src="{{ $profile->foto_url }}" alt="{{ $profile->nama_lengkap ?? $user->name }}"
                                  class="avatar-xl rounded-circle border border-2 border-primary object-fit-cover shadow-sm"
-                                 style="width: 64px; height: 64px; object-fit: cover;"
                                  onerror="this.style.display='none'; this.nextElementSibling.classList.remove('d-none');">
-                            <div class="avatar-xl bg-primary bg-opacity-10 text-primary d-none align-items-center justify-content-center fw-bold fs-2 rounded-circle border border-2 border-primary shadow-sm" style="width: 64px; height: 64px;">
+                            <div class="avatar-xl bg-primary bg-opacity-10 text-primary d-none align-items-center justify-content-center fw-bold fs-2 rounded-circle border border-2 border-primary shadow-sm">
                                 {{ mb_substr($profile->nama_lengkap ?? $user->name, 0, 1) }}
                             </div>
                         @else
-                            <div class="avatar-xl bg-primary bg-opacity-10 text-primary d-flex align-items-center justify-content-center fw-bold fs-2 rounded-circle border border-2 border-primary shadow-sm" style="width: 64px; height: 64px;">
+                            <div class="avatar-xl bg-primary bg-opacity-10 text-primary d-flex align-items-center justify-content-center fw-bold fs-2 rounded-circle border border-2 border-primary shadow-sm">
                                 {{ mb_substr($profile->nama_lengkap ?? $user->name, 0, 1) }}
                             </div>
                         @endif
@@ -252,11 +246,11 @@
                         Anda belum mengajukan pendaftaran magang. Silakan lengkapi profil Anda terlebih dahulu, kemudian pilih posisi magang yang tersedia.
                     </p>
                     @if (!$hasProfile)
-                        <a href="{{ route('participant.profile.create') }}" class="btn btn-primary bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white rounded-xl px-4 py-2.5 font-semibold text-sm shadow-sm hover:shadow-md hover:opacity-90 transition-all duration-200">
+                        <a href="{{ route('participant.profile.create') }}" class="btn btn-primary rounded-3 px-4 py-2.5 font-semibold text-sm shadow-sm transition-all duration-200">
                             <i class="bi bi-person-plus me-1" aria-hidden="true"></i> Lengkapi Profil Dulu
                         </a>
                     @else
-                        <a href="{{ route('participant.registrations.create') }}" class="btn btn-primary bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white rounded-xl px-4 py-2.5 font-semibold text-sm shadow-sm hover:shadow-md hover:opacity-90 transition-all duration-200">
+                        <a href="{{ route('participant.registrations.create') }}" class="btn btn-primary rounded-3 px-4 py-2.5 font-semibold text-sm shadow-sm transition-all duration-200">
                             <i class="bi bi-send me-1" aria-hidden="true"></i> Ajukan Pendaftaran Magang
                         </a>
                     @endif

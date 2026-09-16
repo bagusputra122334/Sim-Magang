@@ -36,3 +36,19 @@ Artisan::command('db:audit-schema', function (): void {
         $this->newLine();
     }
 })->purpose('Audit seluruh tabel & kolom database aktif');
+
+Artisan::command('mail:test {email?}', function (?string $email = null): void {
+    $recipient = $email ?? (string) config('mail.from.address', 'test@example.com');
+    $this->info("Mengirimkan email uji coba ke: {$recipient}");
+
+    try {
+        \Illuminate\Support\Facades\Mail::raw("Halo! Ini adalah email uji coba dari SIM-MAGANG Diskominfo SP Tuban.\n\nJika Anda menerima pesan ini, konfigurasi pengiriman email pada aplikasi SIM-MAGANG telah BERHASIL dan SIAP DIGUNAKAN.", function ($message) use ($recipient): void {
+            $message->to($recipient)
+                    ->subject('[SIMAGANG] Uji Coba Pengiriman Email System');
+        });
+        $this->info("SUCCESS: Email uji coba berhasil dikirim ke {$recipient}!");
+    } catch (\Throwable $e) {
+        $this->error("ERROR: Gagal mengirimkan email. Detail kesalahan: " . $e->getMessage());
+    }
+})->purpose('Kirim email uji coba untuk memverifikasi konfigurasi mailer');
+

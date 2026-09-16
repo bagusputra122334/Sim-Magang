@@ -21,49 +21,65 @@
     </div>
 </div>
 
-    {{-- Ringkasan Statistik --}}
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-6 mt-4">
+    <!-- Top Statistics Row (Ultra-Compact, 4 Columns) -->
+    <div class="row g-3 mb-4">
         <!-- Card 1: Total Diterima -->
-        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 flex items-center justify-between hover:shadow-md transition-shadow">
-            <div>
-                <p class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Total Diterima</p>
-                <h3 class="text-2xl font-extrabold text-slate-800">{{ $statistics['total'] }}</h3>
-            </div>
-            <div class="w-10 h-10 flex items-center justify-center rounded-lg bg-blue-500 text-white shadow-sm shrink-0">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+        <div class="col-md-6 col-lg-3">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body p-2 px-3 d-flex align-items-center justify-content-between">
+                    <div>
+                        <p class="text-muted text-uppercase fw-bold mb-1" style="font-size: 0.65rem; letter-spacing: 0.5px;">Total Diterima</p>
+                        <h5 class="fw-bold mb-0 text-dark">{{ $statistics['total'] ?? $totalDiterima ?? 0 }}</h5>
+                    </div>
+                    <div class="text-primary">
+                        <i class="bi bi-person-check-fill fs-5"></i>
+                    </div>
+                </div>
             </div>
         </div>
 
         <!-- Card 2: Aktif Magang -->
-        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 flex items-center justify-between hover:shadow-md transition-shadow">
-            <div>
-                <p class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Aktif Magang</p>
-                <h3 class="text-2xl font-extrabold text-emerald-600">{{ $statistics['active'] }}</h3>
-            </div>
-            <div class="w-10 h-10 flex items-center justify-center rounded-lg bg-emerald-500 text-white shadow-sm shrink-0">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        <div class="col-md-6 col-lg-3">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body p-2 px-3 d-flex align-items-center justify-content-between">
+                    <div>
+                        <p class="text-muted text-uppercase fw-bold mb-1" style="font-size: 0.65rem; letter-spacing: 0.5px;">Aktif Magang</p>
+                        <h5 class="fw-bold mb-0 text-dark">{{ $statistics['active'] ?? $aktifMagang ?? 0 }}</h5>
+                    </div>
+                    <div class="text-success">
+                        <i class="bi bi-play-circle-fill fs-5"></i>
+                    </div>
+                </div>
             </div>
         </div>
 
         <!-- Card 3: Selesai Magang -->
-        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 flex items-center justify-between hover:shadow-md transition-shadow">
-            <div>
-                <p class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Selesai Magang</p>
-                <h3 class="text-2xl font-extrabold text-slate-700">{{ $statistics['completed'] }}</h3>
-            </div>
-            <div class="w-10 h-10 flex items-center justify-center rounded-lg bg-slate-500 text-white shadow-sm shrink-0">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        <div class="col-md-6 col-lg-3">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body p-2 px-3 d-flex align-items-center justify-content-between">
+                    <div>
+                        <p class="text-muted text-uppercase fw-bold mb-1" style="font-size: 0.65rem; letter-spacing: 0.5px;">Selesai Magang</p>
+                        <h5 class="fw-bold mb-0 text-dark">{{ $statistics['completed'] ?? $selesaiMagang ?? 0 }}</h5>
+                    </div>
+                    <div class="text-secondary">
+                        <i class="bi bi-check-circle-fill fs-5"></i>
+                    </div>
+                </div>
             </div>
         </div>
 
         <!-- Card 4: Dinonaktifkan -->
-        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 flex items-center justify-between hover:shadow-md transition-shadow">
-            <div>
-                <p class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Dinonaktifkan</p>
-                <h3 class="text-2xl font-extrabold text-rose-600">{{ $statistics['terminated'] }}</h3>
-            </div>
-            <div class="w-10 h-10 flex items-center justify-center rounded-lg bg-rose-500 text-white shadow-sm shrink-0">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"></path></svg>
+        <div class="col-md-6 col-lg-3">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body p-2 px-3 d-flex align-items-center justify-content-between">
+                    <div>
+                        <p class="text-muted text-uppercase fw-bold mb-1" style="font-size: 0.65rem; letter-spacing: 0.5px;">Dinonaktifkan</p>
+                        <h5 class="fw-bold mb-0 text-dark">{{ $statistics['terminated'] ?? $dinonaktifkan ?? 0 }}</h5>
+                    </div>
+                    <div class="text-danger">
+                        <i class="bi bi-x-circle-fill fs-5"></i>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

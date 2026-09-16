@@ -27,7 +27,7 @@
                 ['icon' => 'bi-journal-check', 'label' => 'Verifikasi Pendaftaran', 'route' => 'admin.applications.index', 'params' => []],
                 ['icon' => 'bi-people-fill', 'label' => 'Status Magang', 'route' => 'admin.active-interns.index', 'params' => []],
                 ['icon' => 'bi-star-fill', 'label' => 'Survei Kepuasan', 'route' => 'admin.surveys.index', 'params' => []],
-                ['icon' => 'bi-gear-fill', 'label' => 'Pengaturan System', 'route' => 'admin.settings.index', 'params' => []],
+                ['icon' => 'bi-gear-fill', 'label' => 'Pengaturan', 'route' => 'admin.settings.index', 'params' => []],
                 ['icon' => 'bi-layout-text-window-reverse', 'label' => 'Konten Landing', 'route' => 'admin.landing-contents.index', 'params' => []],
                 ['icon' => 'bi-person-gear', 'label' => 'Akun Saya', 'route' => 'profile.edit', 'params' => []],
             ];
@@ -55,38 +55,112 @@
         </a>
     </div>
 
+    @php
+        $currentRoute = request()->route()?->getName() ?? '';
+        $currentPath = request()->path();
+        $isPengaturanActive = str_starts_with($currentRoute, 'admin.settings') 
+            || str_starts_with($currentRoute, 'admin.landing-contents')
+            || str_contains($currentPath, 'admin/settings') 
+            || str_contains($currentPath, 'admin/landing-contents');
+    @endphp
+
     <nav class="sidebar-nav">
-        @foreach ($sidebarMenu as $menu)
-            @php
-                $menuRoute = $menu['route'] ?? null;
-                $menuParams = $menu['params'] ?? [];
-                $menuHref = '#';
-                if ($menuRoute && \Illuminate\Support\Facades\Route::has($menuRoute)) {
-                    try { $menuHref = route($menuRoute, $menuParams); } catch (\Throwable $e) { $menuHref = '#'; }
-                } elseif (!empty($menu['url'])) {
-                    $menuHref = url($menu['url']);
-                }
-                $isActive = false;
-                if (!empty($menuRoute) && is_string($menuRoute)) {
-                    if ($currentRoute === $menuRoute) {
-                        $isActive = true;
-                    } elseif (str_starts_with($currentRoute, $menuRoute . '.')) {
-                        $isActive = true;
-                    }
-                }
-                if (!empty($menu['activeWhen']) && is_array($menu['activeWhen'])) {
-                    foreach ($menu['activeWhen'] as $r) {
-                        if (str_starts_with($currentRoute, $r) || $currentRoute === $r) { $isActive = true; break; }
-                    }
-                }
-            @endphp
-            <a class="nav-link {{ $isActive ? 'active' : '' }}"
-               href="{{ $menuHref }}"
-               @if($isActive) aria-current="page" @endif>
-                <span class="nav-icon"><i class="bi {{ $menu['icon'] ?? 'bi-circle' }}" aria-hidden="true"></i></span>
-                <span class="nav-text">{{ $menu['label'] ?? 'Menu' }}</span>
-            </a>
-        @endforeach
+        <ul class="nav flex-column gap-1 p-0 mb-0">
+            @if ($user?->isAdmin())
+                <li class="nav-item">
+                    <a class="nav-link {{ str_starts_with($currentRoute, 'admin.dashboard') ? 'active' : '' }}" href="{{ route('admin.dashboard') }}">
+                        <span class="nav-icon"><i class="bi bi-speedometer2" aria-hidden="true"></i></span>
+                        <span class="nav-text">Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ str_starts_with($currentRoute, 'admin.positions') ? 'active' : '' }}" href="{{ route('admin.positions.index') }}">
+                        <span class="nav-icon"><i class="bi bi-briefcase" aria-hidden="true"></i></span>
+                        <span class="nav-text">Posisi Magang</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ str_starts_with($currentRoute, 'admin.applications') ? 'active' : '' }}" href="{{ route('admin.applications.index') }}">
+                        <span class="nav-icon"><i class="bi bi-journal-check" aria-hidden="true"></i></span>
+                        <span class="nav-text">Verifikasi Pendaftaran</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ str_starts_with($currentRoute, 'admin.active-interns') ? 'active' : '' }}" href="{{ route('admin.active-interns.index') }}">
+                        <span class="nav-icon"><i class="bi bi-people-fill" aria-hidden="true"></i></span>
+                        <span class="nav-text">Status Magang</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ str_starts_with($currentRoute, 'admin.surveys') ? 'active' : '' }}" href="{{ route('admin.surveys.index') }}">
+                        <span class="nav-icon"><i class="bi bi-star-fill" aria-hidden="true"></i></span>
+                        <span class="nav-text">Survei Kepuasan</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ $isPengaturanActive ? 'active' : '' }}" href="#" onclick="event.preventDefault(); const sub = document.getElementById('subPengaturan'); sub.style.display = (sub.style.display === 'none' || sub.style.display === '') ? 'block' : 'none';">
+                        <i class="bi bi-gear me-2"></i>
+                        <span>Pengaturan</span>
+                        <i class="bi bi-chevron-down ms-auto float-end"></i>
+                    </a>
+                    <div id="subPengaturan" style="display: {{ $isPengaturanActive ? 'block' : 'none' }};">
+                        <ul class="nav flex-column ms-3 mt-1">
+                            <li class="nav-item">
+                                <a class="nav-link py-1" href="{{ url('/admin/settings#pengaturan-global') }}">
+                                    <i class="bi bi-globe me-2"></i>Pengaturan Global
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link py-1" href="{{ url('/admin/settings#landing-page-portal') }}">
+                                    <i class="bi bi-layout-text-window-reverse me-2"></i>Landing Page Portal
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link py-1" href="{{ url('/admin/settings#informasi-kontak') }}">
+                                    <i class="bi bi-person-lines-fill me-2"></i>Informasi Kontak & Sosial Media
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link py-1" href="{{ url('/admin/landing-contents') }}">
+                                    <i class="bi bi-grid-fill me-2"></i>Konten Landing
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ str_starts_with($currentRoute, 'profile.edit') ? 'active' : '' }}" href="{{ route('profile.edit') }}">
+                        <span class="nav-icon"><i class="bi bi-person-gear" aria-hidden="true"></i></span>
+                        <span class="nav-text">Akun Saya</span>
+                    </a>
+                </li>
+            @elseif ($user?->isParticipant())
+                <li class="nav-item">
+                    <a class="nav-link {{ str_starts_with($currentRoute, 'participant.dashboard') ? 'active' : '' }}" href="{{ route('participant.dashboard') }}">
+                        <span class="nav-icon"><i class="bi bi-speedometer2" aria-hidden="true"></i></span>
+                        <span class="nav-text">Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ str_starts_with($currentRoute, 'participant.profile') ? 'active' : '' }}" href="{{ route('participant.profile.index') }}">
+                        <span class="nav-icon"><i class="bi bi-person-badge" aria-hidden="true"></i></span>
+                        <span class="nav-text">Profil Saya</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ str_starts_with($currentRoute, 'participant.registrations') ? 'active' : '' }}" href="{{ route('participant.registrations.index') }}">
+                        <span class="nav-icon"><i class="bi bi-journal-text" aria-hidden="true"></i></span>
+                        <span class="nav-text">Riwayat Magang</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ str_starts_with($currentRoute, 'profile.edit') ? 'active' : '' }}" href="{{ route('profile.edit') }}">
+                        <span class="nav-icon"><i class="bi bi-person-gear" aria-hidden="true"></i></span>
+                        <span class="nav-text">Akun Saya</span>
+                    </a>
+                </li>
+            @endif
+        </ul>
     </nav>
 
     <div class="sidebar-user">

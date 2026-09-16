@@ -10,68 +10,84 @@
     $ulasanPerbaikan = number_format(($statistics['counts'][1] ?? 0) + ($statistics['counts'][2] ?? 0) + ($statistics['counts'][3] ?? 0));
 @endphp
 
-<div class="space-y-6">
+<div class="space-y-4">
     {{-- Page Header --}}
-    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-slate-200 pb-5">
+    <div class="d-flex justify-content-between align-items-center pb-2 mb-3 border-bottom">
         <div>
-            <h1 class="text-2xl font-bold text-slate-800 flex items-center gap-2">
-                <i class="bi bi-star-fill text-amber-400"></i> Survei Kepuasan
+            <h1 class="h3 fw-bold text-dark mb-0 d-flex align-items-center gap-2">
+                <i class="bi bi-star-fill text-warning fs-4"></i> Survei Kepuasan
             </h1>
         </div>
         <div>
-            <a href="{{ route('admin.surveys.export') }}" class="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold rounded-lg shadow-md transition-colors">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+            <a href="{{ route('admin.surveys.export') }}" class="btn btn-primary btn-sm px-3 py-2 fw-bold rounded-lg shadow-sm d-inline-flex align-items-center gap-2">
+                <i class="bi bi-file-earmark-pdf"></i>
                 Ekspor PDF
             </a>
         </div>
     </div>
 
-    {{-- Statistics Summary Cards --}}
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6 mt-4">
+    {{-- Top Statistics Row (Ultra-Compact, 4 Columns) --}}
+    <div class="row g-3 mb-4">
         <!-- Card 1: Total Responden -->
-        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 flex items-center justify-between hover:shadow-md transition-shadow">
-            <div>
-                <p class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Total Responden</p>
-                <h3 class="text-2xl font-extrabold text-slate-800">{{ $totalResponden }}</h3>
-            </div>
-            <div class="w-10 h-10 flex items-center justify-center rounded-lg bg-blue-500 text-white shadow-sm shrink-0">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+        <div class="col-md-6 col-lg-3">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body p-2 px-3 d-flex align-items-center justify-content-between">
+                    <div>
+                        <p class="text-muted text-uppercase fw-bold mb-1" style="font-size: 0.65rem; letter-spacing: 0.5px;">Total Responden</p>
+                        <h5 class="fw-bold mb-0 text-dark">{{ $totalResponden }}</h5>
+                    </div>
+                    <div class="text-primary">
+                        <i class="bi bi-people-fill fs-5"></i>
+                    </div>
+                </div>
             </div>
         </div>
 
         <!-- Card 2: Rata-Rata Rating -->
-        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 flex items-center justify-between hover:shadow-md transition-shadow">
-            <div>
-                <p class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Rata-Rata Rating</p>
-                <div class="flex items-baseline gap-1">
-                    <h3 class="text-2xl font-extrabold text-slate-800">{{ number_format((float)$rataRata, 1) }}</h3>
-                    <span class="text-sm font-medium text-slate-500">/ 5.0</span>
+        <div class="col-md-6 col-lg-3">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body p-2 px-3 d-flex align-items-center justify-content-between">
+                    <div>
+                        <p class="text-muted text-uppercase fw-bold mb-1" style="font-size: 0.65rem; letter-spacing: 0.5px;">Rata-Rata Rating</p>
+                        <div class="d-flex align-items-baseline gap-1">
+                            <h5 class="fw-bold mb-0 text-dark">{{ number_format((float)$rataRata, 1) }}</h5>
+                            <span class="text-muted small" style="font-size: 0.75rem;">/ 5.0</span>
+                        </div>
+                    </div>
+                    <div class="text-warning">
+                        <i class="bi bi-star-fill fs-5"></i>
+                    </div>
                 </div>
-            </div>
-            <div class="w-10 h-10 flex items-center justify-center rounded-lg bg-amber-500 text-white shadow-sm shrink-0">
-                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
             </div>
         </div>
 
         <!-- Card 3: Sangat Puas -->
-        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 flex items-center justify-between hover:shadow-md transition-shadow">
-            <div>
-                <p class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Sangat Puas (5★)</p>
-                <h3 class="text-2xl font-extrabold text-slate-800">{{ $sangatPuas }}</h3>
-            </div>
-            <div class="w-10 h-10 flex items-center justify-center rounded-lg bg-emerald-500 text-white shadow-sm shrink-0">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        <div class="col-md-6 col-lg-3">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body p-2 px-3 d-flex align-items-center justify-content-between">
+                    <div>
+                        <p class="text-muted text-uppercase fw-bold mb-1" style="font-size: 0.65rem; letter-spacing: 0.5px;">Sangat Puas (5★)</p>
+                        <h5 class="fw-bold mb-0 text-dark">{{ $sangatPuas }}</h5>
+                    </div>
+                    <div class="text-success">
+                        <i class="bi bi-emoji-smile-fill fs-5"></i>
+                    </div>
+                </div>
             </div>
         </div>
 
         <!-- Card 4: Ulasan Perbaikan -->
-        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 flex items-center justify-between hover:shadow-md transition-shadow">
-            <div>
-                <p class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Ulasan Perbaikan</p>
-                <h3 class="text-2xl font-extrabold text-slate-800">{{ $ulasanPerbaikan }}</h3>
-            </div>
-            <div class="w-10 h-10 flex items-center justify-center rounded-lg bg-purple-500 text-white shadow-sm shrink-0">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
+        <div class="col-md-6 col-lg-3">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body p-2 px-3 d-flex align-items-center justify-content-between">
+                    <div>
+                        <p class="text-muted text-uppercase fw-bold mb-1" style="font-size: 0.65rem; letter-spacing: 0.5px;">Ulasan Perbaikan</p>
+                        <h5 class="fw-bold mb-0 text-dark">{{ $ulasanPerbaikan }}</h5>
+                    </div>
+                    <div class="text-info">
+                        <i class="bi bi-chat-left-text-fill fs-5"></i>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

@@ -45,86 +45,82 @@
 
     </div>
 
-    {{-- Statistic Cards --}}
+    {{-- Statistic Cards (Ultra-Compact) --}}
     <div class="row g-3 mb-4">
+        <!-- Card 1: Total Posisi -->
         <div class="col-md-4">
-            <div class="card border shadow-sm">
-                <div class="card-body">
-                    <div class="d-flex align-items-center justify-content-between">
-                        <div>
-                            <p class="text-muted mb-1">Total Posisi</p>
-                            <h3 class="fw-bold mb-0">{{ $statistics['total'] ?? 0 }}</h3>
-                        </div>
-                        <div class="bg-primary-subtle rounded-circle p-3">
-                            <i class="bi bi-briefcase text-primary fs-4"></i>
-                        </div>
+            <div class="card shadow-sm border-0">
+                <div class="card-body p-2 px-3 d-flex align-items-center justify-content-between">
+                    <div>
+                        <p class="text-muted text-uppercase fw-bold mb-1" style="font-size: 0.65rem; letter-spacing: 0.5px;">Total Posisi</p>
+                        <h5 class="fw-bold mb-0 text-dark">{{ $statistics['total'] ?? $totalPosisi ?? 0 }}</h5>
+                    </div>
+                    <div class="text-primary">
+                        <i class="bi bi-briefcase-fill fs-5"></i>
                     </div>
                 </div>
             </div>
         </div>
+
+        <!-- Card 2: Posisi Aktif -->
         <div class="col-md-4">
-            <div class="card border shadow-sm">
-                <div class="card-body">
-                    <div class="d-flex align-items-center justify-content-between">
-                        <div>
-                            <p class="text-muted mb-1">Posisi Aktif</p>
-                            <h3 class="fw-bold text-success mb-0">{{ $statistics['aktif'] ?? 0 }}</h3>
-                        </div>
-                        <div class="bg-success-subtle rounded-circle p-3">
-                            <i class="bi bi-toggle-on text-success fs-4"></i>
-                        </div>
+            <div class="card shadow-sm border-0">
+                <div class="card-body p-2 px-3 d-flex align-items-center justify-content-between">
+                    <div>
+                        <p class="text-muted text-uppercase fw-bold mb-1" style="font-size: 0.65rem; letter-spacing: 0.5px;">Posisi Aktif</p>
+                        <h5 class="fw-bold mb-0 text-dark">{{ $statistics['aktif'] ?? $posisiAktif ?? 0 }}</h5>
+                    </div>
+                    <div class="text-success">
+                        <i class="bi bi-check-circle-fill fs-5"></i>
                     </div>
                 </div>
             </div>
         </div>
+
+        <!-- Card 3: Posisi Nonaktif -->
         <div class="col-md-4">
-            <div class="card border shadow-sm">
-                <div class="card-body">
-                    <div class="d-flex align-items-center justify-content-between">
-                        <div>
-                            <p class="text-muted mb-1">Posisi Nonaktif</p>
-                            <h3 class="fw-bold text-secondary mb-0">{{ $statistics['nonaktif'] ?? 0 }}</h3>
-                        </div>
-                        <div class="bg-secondary-subtle rounded-circle p-3">
-                            <i class="bi bi-toggle-off text-secondary fs-4"></i>
-                        </div>
+            <div class="card shadow-sm border-0">
+                <div class="card-body p-2 px-3 d-flex align-items-center justify-content-between">
+                    <div>
+                        <p class="text-muted text-uppercase fw-bold mb-1" style="font-size: 0.65rem; letter-spacing: 0.5px;">Posisi Nonaktif</p>
+                        <h5 class="fw-bold mb-0 text-dark">{{ $statistics['nonaktif'] ?? $posisiNonaktif ?? 0 }}</h5>
+                    </div>
+                    <div class="text-secondary">
+                        <i class="bi bi-dash-circle-fill fs-5"></i>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    {{-- Search + Filter --}}
+    {{-- Search + Filter (Auto-Submit) --}}
     <div class="card border shadow-sm mb-4">
-        <div class="card-body">
-            <form method="GET" action="{{ route('admin.positions.index') }}" class="row g-3 align-items-end">
-                <div class="col-md-7">
-                    <label for="search" class="form-label">Cari Posisi</label>
-                    <div class="input-group">
-                        <span class="input-group-text"><i class="bi bi-search text-muted"></i></span>
-                        <input
-                            type="text"
-                            name="search"
-                            id="search"
-                            class="form-control"
-                            placeholder="Cari berdasarkan nama, deskripsi, slug, atau kualifikasi..."
-                            value="{{ $filters['search'] ?? '' }}"
-                        >
+        <div class="card-body p-3">
+            <form action="{{ route('admin.positions.index') }}" method="GET" class="mb-0">
+                <div class="row g-2 align-items-center">
+                    <!-- 1. Search Input (Wider) -->
+                    <div class="col-12 col-md-8">
+                        <div class="input-group">
+                            <span class="input-group-text bg-white text-muted border-end-0"><i class="bi bi-search"></i></span>
+                            <input type="text" name="search" class="form-control border-start-0 ps-0" placeholder="Cari berdasarkan nama, deskripsi, slug, atau kualifikasi... (Tekan Enter)" value="{{ request('search', $filters['search'] ?? '') }}">
+                        </div>
                     </div>
-                </div>
-                <div class="col-md-3">
-                    <label for="per_page" class="form-label">Tampilkan per Halaman</label>
-                    <select name="per_page" id="per_page" class="form-select" onchange="this.form.submit()">
-                        <option value="10" {{ request('per_page') === '10' ? 'selected' : '' }}>10</option>
-                        <option value="25" {{ request('per_page') === '25' ? 'selected' : '' }}>25</option>
-                        <option value="50" {{ request('per_page') === '50' ? 'selected' : '' }}>50</option>
-                        <option value="100" {{ request('per_page') === '100' ? 'selected' : '' }}>100</option>
-                    </select>
-                </div>
-                <div class="col-md-2 d-grid">
-                    <button type="submit" class="inline-flex items-center justify-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg shadow-sm transition-colors border-0">
-                        <i class="bi bi-funnel me-1"></i> Terapkan
-                    </button>
+
+                    <!-- 2. Per Page Dropdown (Auto-submit) -->
+                    <div class="col-12 col-md-4">
+                        <div class="d-flex align-items-center">
+                            <span class="text-muted small me-2 text-nowrap d-none d-lg-inline">Per Halaman:</span>
+                            <select name="per_page" class="form-select text-muted" onchange="this.form.submit()">
+                                <option value="5" {{ request('per_page', $filters['per_page'] ?? '') == '5' ? 'selected' : '' }}>5 data</option>
+                                <option value="10" {{ request('per_page', $filters['per_page'] ?? '10') == '10' ? 'selected' : '' }}>10 data</option>
+                                <option value="15" {{ request('per_page', $filters['per_page'] ?? '') == '15' ? 'selected' : '' }}>15 data</option>
+                                <option value="20" {{ request('per_page', $filters['per_page'] ?? '') == '20' ? 'selected' : '' }}>20 data</option>
+                                <option value="25" {{ request('per_page', $filters['per_page'] ?? '') == '25' ? 'selected' : '' }}>25 data</option>
+                                <option value="50" {{ request('per_page', $filters['per_page'] ?? '') == '50' ? 'selected' : '' }}>50 data</option>
+                                <option value="100" {{ request('per_page', $filters['per_page'] ?? '') == '100' ? 'selected' : '' }}>100 data</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
             </form>
         </div>

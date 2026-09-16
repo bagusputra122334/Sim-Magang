@@ -600,16 +600,13 @@
             .mobile-auth-btns .nav-portal-btn,
             .mobile-auth-btns .main-btn,
             .mobile-auth-btns .main-btn-outline {
-                width: 100% !important;
-                height: auto !important;
+                width: 100%;
                 min-height: 42px;
-                padding: 10px 14px !important;
-                font-size: 13px !important;
-                line-height: 1.35 !important;
+                padding: 10px 16px;
+                font-size: 13.5px;
+                line-height: 1.4;
                 text-align: center;
-                white-space: normal !important;
-                word-break: normal !important;
-                display: flex !important;
+                display: flex;
                 align-items: center;
                 justify-content: center;
                 gap: 6px;
@@ -1120,16 +1117,12 @@
 
         /* FAQ Accordion */
         .faq-item {
-            background: #ffffff !important;
-            border: 1px solid #e2e8f0 !important;
+            background: var(--sim-surface-card);
+            border: 1px solid var(--sim-border);
             border-radius: 14px;
             margin-bottom: 14px;
             overflow: hidden;
-        }
-
-        html[data-theme="dark"] .faq-item {
-            background: #1e293b !important;
-            border-color: #334155 !important;
+            transition: all 0.25s ease;
         }
 
         .faq-btn {
@@ -1140,15 +1133,12 @@
             text-align: left;
             font-weight: 700;
             font-size: 16px;
-            color: #0f172a !important;
+            color: var(--sim-text);
             display: flex;
             justify-content: space-between;
             align-items: center;
             cursor: pointer;
-        }
-
-        html[data-theme="dark"] .faq-btn {
-            color: #f8fafc !important;
+            transition: color 0.25s ease;
         }
 
         .faq-btn:focus {
@@ -1158,28 +1148,20 @@
         .faq-body {
             padding: 0 22px 20px;
             font-size: 14.5px;
-            color: #475569 !important;
-            background: transparent !important;
+            color: var(--sim-text-muted);
+            background: transparent;
             line-height: 1.65;
         }
 
         .faq-item p {
-            color: #475569 !important;
-            opacity: 1 !important;
-            visibility: visible !important;
-            background: transparent !important;
-        }
-
-        html[data-theme="dark"] .faq-item p {
-            color: #cbd5e1 !important;
+            color: var(--sim-text-muted);
+            opacity: 1;
+            visibility: visible;
+            background: transparent;
         }
 
         .faq-item p strong {
-            color: #0f172a !important;
-        }
-
-        html[data-theme="dark"] .faq-item p strong {
-            color: #ffffff !important;
+            color: var(--sim-text);
         }
 
         /* Blog & Guides */
@@ -1708,9 +1690,8 @@
                                                x-model="searchQuery" 
                                                autocomplete="off"
                                                placeholder="Cari formasi, panduan..." 
-                                               class="w-full !pl-12 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-full text-sm text-slate-700 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all shadow-inner"
-                                               :class="searchQuery.length > 0 ? '!pl-4' : '!pl-12'"
-                                               :style="searchQuery.length > 0 ? 'padding-left: 1rem !important;' : 'padding-left: 3rem !important;'">
+                                               class="w-full pr-4 py-2 bg-slate-50 border border-slate-200 rounded-full text-sm text-slate-700 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all shadow-inner"
+                                               :class="searchQuery.length > 0 ? 'pl-4' : 'pl-12'">
                                     </form>
                                 </div>
 
@@ -1736,9 +1717,8 @@
                                                x-model="searchQuery" 
                                                autocomplete="off"
                                                placeholder="Cari formasi, panduan..." 
-                                               class="w-full !pl-12 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-full text-sm text-slate-700 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all shadow-inner"
-                                               :class="searchQuery.length > 0 ? '!pl-4' : '!pl-12'"
-                                               :style="searchQuery.length > 0 ? 'padding-left: 1rem !important;' : 'padding-left: 3rem !important;'">
+                                               class="w-full pr-4 py-2 bg-slate-50 border border-slate-200 rounded-full text-sm text-slate-700 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all shadow-inner"
+                                               :class="searchQuery.length > 0 ? 'pl-4' : 'pl-12'">
                                     </form>
                                 </div>
                                 </div></div>
@@ -1750,7 +1730,7 @@
         </div>
 
         {{-- Hero Section --}}
-        <div id="home" class="hero_wrapper !pb-16 lg:!pb-24 mb-12 lg:mb-16">
+        <div id="home" class="hero_wrapper pb-16 lg:pb-24 mb-12 lg:mb-16">
             <div class="hero-pattern-overlay"></div>
             <div class="hero-glow"></div>
 
@@ -1773,16 +1753,16 @@
                         <div class="d-flex flex-wrap align-items-center gap-3 wow fadeInLeft" data-wow-duration="1.2s" data-wow-delay="0.7s">
                             @auth
                                 @if(auth()->user()->isAdmin())
-                                    <a href="{{ route('admin.dashboard') }}" class="main-btn mr-3">
+                                    <a href="{{ route('admin.dashboard') }}" class="main-btn">
                                         <i class="bi bi-speedometer2"></i> Dashboard Administrator
                                     </a>
                                 @else
-                                    <a href="{{ route('participant.dashboard') }}" class="main-btn mr-3">
+                                    <a href="{{ route('participant.dashboard') }}" class="main-btn">
                                         <i class="bi bi-person-workspace"></i> Buka Dashboard Saya
                                     </a>
                                 @endif
                             @else
-                                <a href="{{ route('register') }}" class="main-btn mr-3">
+                                <a href="{{ route('register') }}" class="main-btn">
                                     <i class="bi bi-send-check-fill"></i> Daftar Magang Sekarang
                                 </a>
                                 <a href="#positions" class="hero-btn-outline page-scroll">
@@ -1814,7 +1794,7 @@
 
                 <div class="col-lg-6 wow fadeInRight" data-wow-duration="1.2s">
                     <div class="section_title mb-4">
-                        <h2 class="title text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">{!! get_setting('about_title', 'SIMAGANG <br> <span>Diskominfo SP</span>') !!}</h2>
+                        <h2 class="title text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">{!! get_setting('about_title', 'SIMAGANG <span>Diskominfo SP</span>') !!}</h2>
                         <p class="text-left mx-0 leading-relaxed">
                             {{ get_setting('about_description', 'Platform pendaftaran magang resmi untuk Mahasiswa dan Siswa SMK. Seluruh proses dilakukan 100% secara digital, terstruktur, dan transparan.') }}
                         </p>
@@ -1849,7 +1829,7 @@
     </section>
 
     <!--====== POSISI & FORMASI ======-->
-    <section id="positions" class="destination_area !pt-16 !pb-16 lg:!pt-20 lg:!pb-20 scroll-mt-24">
+    <section id="positions" class="destination_area py-16 lg:py-20 scroll-mt-24">
         <div class="container" id="search-results">
             <div class="row justify-content-center">
                 <div class="col-lg-8">
@@ -1861,38 +1841,40 @@
 
             @if(request()->filled('search'))
                 <div class="w-full flex justify-between items-center mb-6">
-                    <p class="text-sm text-slate-600">Menampilkan hasil pencarian untuk: <span class="font-bold text-indigo-600">"{{ request('search') }}"</span></p>
+                    <p class="text-sm text-slate-600 dark:text-slate-300">Menampilkan hasil pencarian untuk: <span class="font-bold text-indigo-600 dark:text-indigo-400">"{{ request('search') }}"</span></p>
                     <a href="{{ url('/') }}#search-results" class="btn btn-outline-secondary text-xs px-3 py-1">Bersihkan</a>
                 </div>
 
                 @if($positions->isEmpty() && $matchedGuides->isEmpty() && $matchedSections->isEmpty())
-                    <div class="text-center py-12 bg-slate-50 rounded-2xl border border-slate-200 w-full mb-12">
-                        <p class="text-slate-500">Maaf, tidak ada hasil pencarian yang cocok dengan kata kunci tersebut.</p>
+                    <div class="text-center py-12 bg-slate-50 dark:bg-slate-800/60 rounded-2xl border border-slate-200 dark:border-slate-700 w-full mb-12">
+                        <p class="text-slate-500 dark:text-slate-400">Maaf, tidak ada hasil pencarian yang cocok dengan kata kunci tersebut.</p>
                     </div>
                 @else
                     {{-- Formasi Magang Results --}}
                     @if($positions->isNotEmpty())
                         <div class="mb-8 w-full">
-                            <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center">
+                            <h3 class="text-lg font-bold text-slate-800 dark:text-slate-100 mb-4 flex items-center">
                                 <i class="bi bi-briefcase-fill text-indigo-600 me-2"></i> Formasi Magang ({{ $positions->count() }})
                             </h3>
-                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
+                            <div class="row g-4 w-full">
                                 @foreach($positions as $position)
-                                    <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 flex flex-col justify-between hover:shadow-md transition-shadow">
-                                        <div>
-                                            <span class="inline-block bg-indigo-50 text-indigo-600 text-xs font-semibold px-2.5 py-1 rounded-full mb-2">Formasi Aktif</span>
-                                            <h4 class="font-bold text-slate-800 text-lg mb-2">{{ $position->nama_posisi }}</h4>
-                                            <p class="text-slate-500 text-sm line-clamp-3 mb-4">{{ $position->deskripsi ?? 'Tidak ada deskripsi.' }}</p>
-                                        </div>
-                                        @auth
-                                            @if(auth()->user()->isPeserta())
-                                                <a href="{{ route('participant.registrations.create', ['position_id' => $position->id]) }}" class="text-indigo-600 font-semibold text-sm hover:underline mt-auto">Daftar Posisi Ini &rarr;</a>
+                                    <div class="col-12 col-md-6 col-lg-4 d-flex">
+                                        <div class="position-card flex flex-col justify-between w-100 p-4">
+                                            <div>
+                                                <span class="position-badge mb-2">Formasi Aktif</span>
+                                                <h4 class="font-bold text-slate-800 dark:text-slate-100 text-lg mb-2">{{ $position->nama_posisi }}</h4>
+                                                <p class="text-slate-500 dark:text-slate-400 text-sm line-clamp-3 mb-4">{{ $position->deskripsi ?? 'Tidak ada deskripsi.' }}</p>
+                                            </div>
+                                            @auth
+                                                @if(auth()->user()->isPeserta())
+                                                    <a href="{{ route('participant.registrations.create', ['position_id' => $position->id]) }}" class="main-btn-outline btn-sm mt-auto justify-content-center">Daftar Posisi Ini <i class="bi bi-arrow-right ml-1"></i></a>
+                                                @else
+                                                    <a href="{{ route('admin.positions.show', $position->id) }}" class="main-btn-outline btn-sm mt-auto justify-content-center">Kelola Posisi Ini <i class="bi bi-arrow-right ml-1"></i></a>
+                                                @endif
                                             @else
-                                                <a href="{{ route('admin.positions.show', $position->id) }}" class="text-indigo-600 font-semibold text-sm hover:underline mt-auto">Kelola Posisi Ini &rarr;</a>
-                                            @endif
-                                        @else
-                                            <a href="{{ route('register', ['position' => $position->id]) }}" class="text-indigo-600 font-semibold text-sm hover:underline mt-auto">Daftar Posisi Ini &rarr;</a>
-                                        @endauth
+                                                <a href="{{ route('register', ['position' => $position->id]) }}" class="main-btn-outline btn-sm mt-auto justify-content-center">Daftar Posisi Ini <i class="bi bi-arrow-right ml-1"></i></a>
+                                            @endauth
+                                        </div>
                                     </div>
                                 @endforeach
                             </div>
@@ -1902,18 +1884,20 @@
                     {{-- Panduan Magang Results --}}
                     @if($matchedGuides->isNotEmpty())
                         <div class="mb-8 w-full">
-                            <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center">
+                            <h3 class="text-lg font-bold text-slate-800 dark:text-slate-100 mb-4 flex items-center">
                                 <i class="bi bi-book-half text-emerald-600 me-2"></i> Panduan Resmi ({{ $matchedGuides->count() }})
                             </h3>
-                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
+                            <div class="row g-4 w-full">
                                 @foreach($matchedGuides as $guide)
-                                    <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 flex flex-col justify-between hover:shadow-md transition-shadow">
-                                        <div>
-                                            <span class="inline-block bg-emerald-50 text-emerald-600 text-xs font-semibold px-2.5 py-1 rounded-full mb-2">{{ $guide['badge'] }}</span>
-                                            <h4 class="font-bold text-slate-800 text-lg mb-2">{{ $guide['title'] }}</h4>
-                                            <p class="text-slate-500 text-sm line-clamp-3 mb-4">{{ $guide['summary'] }}</p>
+                                    <div class="col-12 col-md-6 col-lg-4 d-flex">
+                                        <div class="position-card flex flex-col justify-between w-100 p-4">
+                                            <div>
+                                                <span class="position-badge mb-2">{{ $guide['badge'] }}</span>
+                                                <h4 class="font-bold text-slate-800 dark:text-slate-100 text-lg mb-2">{{ $guide['title'] }}</h4>
+                                                <p class="text-slate-500 dark:text-slate-400 text-sm line-clamp-3 mb-4">{{ $guide['summary'] }}</p>
+                                            </div>
+                                            <a href="{{ route('guides.show', $guide['slug']) }}" class="main-btn-outline btn-sm mt-auto justify-content-center">Baca Panduan <i class="bi bi-arrow-right ml-1"></i></a>
                                         </div>
-                                        <a href="{{ route('guides.show', $guide['slug']) }}" class="text-emerald-600 font-semibold text-sm hover:underline mt-auto">Baca Panduan &rarr;</a>
                                     </div>
                                 @endforeach
                             </div>
@@ -1923,18 +1907,20 @@
                     {{-- Seksi & Halaman Website --}}
                     @if($matchedSections->isNotEmpty())
                         <div class="mb-8 w-full">
-                            <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center">
+                            <h3 class="text-lg font-bold text-slate-800 dark:text-slate-100 mb-4 flex items-center">
                                 <i class="bi bi-compass-fill text-amber-500 me-2"></i> Seksi & Halaman Website ({{ $matchedSections->count() }})
                             </h3>
-                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
+                            <div class="row g-4 w-full">
                                 @foreach($matchedSections as $section)
-                                    <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 flex flex-col justify-between hover:shadow-md transition-shadow">
-                                        <div>
-                                            <span class="inline-block bg-amber-50 text-amber-700 text-xs font-semibold px-2.5 py-1 rounded-full mb-2">Navigasi</span>
-                                            <h4 class="font-bold text-slate-800 text-lg mb-2">Seksi: {{ $section['title'] }}</h4>
-                                            <p class="text-slate-500 text-sm line-clamp-3 mb-4">{{ $section['desc'] }}</p>
+                                    <div class="col-12 col-md-6 col-lg-4 d-flex">
+                                        <div class="position-card flex flex-col justify-between w-100 p-4">
+                                            <div>
+                                                <span class="position-badge mb-2">Navigasi</span>
+                                                <h4 class="font-bold text-slate-800 dark:text-slate-100 text-lg mb-2">Seksi: {{ $section['title'] }}</h4>
+                                                <p class="text-slate-500 dark:text-slate-400 text-sm line-clamp-3 mb-4">{{ $section['desc'] }}</p>
+                                            </div>
+                                            <a href="{{ $section['url'] }}" class="main-btn-outline btn-sm mt-auto justify-content-center">Buka Seksi <i class="bi bi-arrow-right ml-1"></i></a>
                                         </div>
-                                        <a href="{{ $section['url'] }}" class="text-amber-600 font-semibold text-sm hover:underline mt-auto">Buka Seksi &rarr;</a>
                                     </div>
                                 @endforeach
                             </div>
@@ -1943,7 +1929,7 @@
                 @endif
             @else
                 <div id="formasi-subtitle-trigger" class="w-full flex items-center justify-between mb-6 mt-4">
-                    <h3 class="text-lg sm:text-xl font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2" style="color: #1e293b;">
+                    <h3 class="text-lg sm:text-xl font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2">
                         <i class="bi bi-briefcase-fill text-indigo-600"></i> Formasi magang yang tersedia
                     </h3>
                     <!-- Carousel Navigation Controls -->
@@ -1958,8 +1944,8 @@
                 </div>
 
                 {{-- Dynamic Positions Horizontal Carousel --}}
-                <div class="relative w-full overflow-hidden p-1">
-                    <div id="positions-carousel" class="flex overflow-x-auto no-scrollbar gap-5 sm:gap-6 pb-4 pt-1 w-full cursor-grab active:cursor-grabbing select-none" style="scrollbar-width: none; -ms-overflow-style: none;">
+                <div class="relative w-full overflow-hidden p-3 -m-3">
+                    <div id="positions-carousel" class="flex overflow-x-auto no-scrollbar gap-5 sm:gap-6 pb-4 pt-2 w-full cursor-grab active:cursor-grabbing select-none" style="scrollbar-width: none; -ms-overflow-style: none;">
                         @if($positions->isNotEmpty())
                             @foreach($positions as $pos)
                                 <div class="snap-start flex-shrink-0 w-[84%] sm:w-[47%] lg:w-[30.5%] flex flex-col">
@@ -1986,16 +1972,16 @@
                                             @endauth
                                             @auth
                                                 @if(auth()->user()->isPeserta())
-                                                    <a href="{{ route('participant.registrations.create', ['position_id' => $pos->id]) }}" class="main-btn btn-block text-center">
+                                                    <a href="{{ route('participant.registrations.create', ['position_id' => $pos->id]) }}" class="main-btn w-100 justify-content-center">
                                                         Daftar Formasi Ini
                                                     </a>
                                                 @else
-                                                    <a href="{{ route('admin.positions.show', $pos->id) }}" class="main-btn btn-block text-center">
+                                                    <a href="{{ route('admin.positions.show', $pos->id) }}" class="main-btn w-100 justify-content-center">
                                                         Kelola Formasi
                                                     </a>
                                                 @endif
                                             @else
-                                                <a href="{{ route('register') }}" class="main-btn btn-block text-center">
+                                                <a href="{{ route('register') }}" class="main-btn w-100 justify-content-center">
                                                     Daftar Sekarang
                                                 </a>
                                             @endauth
@@ -2017,7 +2003,7 @@
                                             <div class="d-flex justify-content-between mb-1"><span>Bidang:</span><strong style="color: var(--sim-text);">Aplikasi & Informatika</strong></div>
                                             <div class="d-flex justify-content-between"><span>Peserta:</span><strong style="color: var(--sim-text);">Mahasiswa / SMK</strong></div>
                                         </div>
-                                        <a href="{{ route('register') }}" class="main-btn btn-block text-center">Daftar Sekarang</a>
+                                        <a href="{{ route('register') }}" class="main-btn w-100 justify-content-center">Daftar Sekarang</a>
                                     </div>
                                 </div>
                             </div>
@@ -2033,7 +2019,7 @@
                                             <div class="d-flex justify-content-between mb-1"><span>Bidang:</span><strong style="color: var(--sim-text);">Komunikasi & Informasi Publik</strong></div>
                                             <div class="d-flex justify-content-between"><span>Peserta:</span><strong style="color: var(--sim-text);">Mahasiswa / SMK</strong></div>
                                         </div>
-                                        <a href="{{ route('register') }}" class="main-btn btn-block text-center">Daftar Sekarang</a>
+                                        <a href="{{ route('register') }}" class="main-btn w-100 justify-content-center">Daftar Sekarang</a>
                                     </div>
                                 </div>
                             </div>
@@ -2049,7 +2035,7 @@
                                             <div class="d-flex justify-content-between mb-1"><span>Bidang:</span><strong style="color: var(--sim-text);">Persandian & Jaringan</strong></div>
                                             <div class="d-flex justify-content-between"><span>Peserta:</span><strong style="color: var(--sim-text);">Mahasiswa / SMK</strong></div>
                                         </div>
-                                        <a href="{{ route('register') }}" class="main-btn btn-block text-center">Daftar Sekarang</a>
+                                        <a href="{{ route('register') }}" class="main-btn w-100 justify-content-center">Daftar Sekarang</a>
                                     </div>
                                 </div>
                             </div>
@@ -2124,7 +2110,7 @@
     </script>
 
     <!--====== KEUNGGULAN & FASILITAS ======-->
-    <section id="services" class="services_area !pt-16 !pb-16 lg:!pt-20 lg:!pb-20 scroll-mt-24">
+    <section id="services" class="services_area py-16 lg:py-20 scroll-mt-24">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-8">
@@ -2159,7 +2145,7 @@
     </section>
 
     <!--====== ALUR PENDAFTARAN ======-->
-    <section id="alur" class="destination_area !pt-16 !pb-16 lg:!pt-20 lg:!pb-20 scroll-mt-24">
+    <section id="alur" class="destination_area py-16 lg:py-20 scroll-mt-24">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-8">
@@ -2194,7 +2180,7 @@
     </section>
 
     <!--====== FAQ SECTION ======-->
-    <section id="faq" class="services_area !pt-16 !pb-16 lg:!pt-20 lg:!pb-20 scroll-mt-24">
+    <section id="faq" class="services_area py-16 lg:py-20 scroll-mt-24">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-8">
@@ -2229,7 +2215,7 @@
 
 
     <!--====== FOOTER ======-->
-    <footer id="footer" class="footer_area bg-[#0f172a] rounded-t-3xl sm:rounded-t-[2.5rem] overflow-hidden shadow-2xl w-full border-t border-slate-800/40 !pt-0 mt-12 mb-0 scroll-mt-24">
+    <footer id="footer" class="footer_area bg-[#0f172a] rounded-t-3xl sm:rounded-t-[2.5rem] overflow-hidden shadow-2xl w-full border-t border-slate-800/40 pt-0 mt-12 mb-0 scroll-mt-24">
         <div class="container">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-6">
                 <!-- COLUMN 1: HUBUNGI KAMI -->
@@ -2324,10 +2310,10 @@
 
                 <div class="w-full flex flex-col" x-data="{ rating: 0, hoverRating: 0, isSubmitting: false }">
                     <h3 class="text-white font-bold text-sm mb-4 tracking-wider uppercase">SURVEI KEPUASAN</h3>
-                    <form action="{{ route('surveys.store') }}" method="POST" @submit="isSubmitting = true" class="w-full bg-white rounded-2xl p-5 flex flex-col items-center text-center shadow-lg">
+                    <form action="{{ route('surveys.store') }}" method="POST" @submit="isSubmitting = true" class="w-full bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700/60 rounded-2xl p-5 flex flex-col items-center text-center shadow-lg">
                         @csrf
-                        <h4 class="text-slate-800 font-extrabold text-xs sm:text-sm mb-1">Indeks Kepuasan Masyarakat</h4>
-                        <p class="text-slate-500 text-xs mb-3">Berikan penilaian Anda</p>
+                        <h4 class="text-slate-800 dark:text-slate-100 font-extrabold text-xs sm:text-sm mb-1">Indeks Kepuasan Masyarakat</h4>
+                        <p class="text-slate-500 dark:text-slate-400 text-xs mb-3">Berikan penilaian Anda</p>
                         
                         <!-- Interactive Stars -->
                         <div class="w-full flex justify-center items-center gap-1.5 mb-3">
@@ -2336,7 +2322,7 @@
                             <svg @click="rating = {{ $i }}" 
                                  @mouseenter="hoverRating = {{ $i }}" 
                                  @mouseleave="hoverRating = 0"
-                                 :class="{'text-amber-400': hoverRating >= {{ $i }} || rating >= {{ $i }}, 'text-slate-200': hoverRating < {{ $i }} && rating < {{ $i }}}"
+                                 :class="{'text-amber-400': hoverRating >= {{ $i }} || rating >= {{ $i }}, 'text-slate-200 dark:text-slate-600': hoverRating < {{ $i }} && rating < {{ $i }}}"
                                  class="w-6 h-6 sm:w-7 sm:h-7 cursor-pointer transition-colors duration-150 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                                 <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
                             </svg>
@@ -2344,7 +2330,7 @@
                         </div>
 
                         <!-- Message & Submit -->
-                        <textarea name="komentar" rows="2" class="w-full text-xs border border-slate-200 rounded-xl p-2.5 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 mb-3 transition-colors duration-200 text-slate-800 placeholder-slate-400" placeholder="Tulis pesan/saran singkat..."></textarea>
+                        <textarea name="komentar" rows="2" class="w-full text-xs border border-slate-200 dark:border-slate-700 rounded-xl p-2.5 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 dark:focus:ring-blue-900/40 mb-3 transition-colors duration-200 text-slate-800 dark:text-slate-100 bg-white dark:bg-slate-900/50 placeholder-slate-400" placeholder="Tulis pesan/saran singkat..."></textarea>
                         <button type="submit" x-bind:disabled="isSubmitting" class="w-full bg-indigo-600 hover:bg-blue-700 hover:shadow-lg hover:-translate-y-0.5 disabled:bg-indigo-400 text-white text-xs font-bold py-2.5 rounded-lg shadow-sm transition-all duration-300 flex justify-center items-center gap-2">
                             <span x-show="!isSubmitting">Kirim Survei</span>
                             <span x-show="isSubmitting">Mengirim...</span>
@@ -2355,9 +2341,9 @@
             </div>
 
             <!-- COPYRIGHT SECTION -->
-            <div class="border-t border-slate-800/40 py-2.5 text-center text-xs text-slate-400/90 my-0">
+            <div class="border-t border-slate-800/40 py-4 text-center text-xs text-slate-400">
                 <p class="mb-0 leading-relaxed">
-                    &copy; {{ date('Y') }} {{ get_setting('footer_copyright', '2026 © SIMAGANG Diskominfo SP Kabupaten Tuban') }}
+                    &copy; {{ date('Y') }} {{ get_setting('footer_copyright', 'SIMAGANG Diskominfo SP Kabupaten Tuban') }}
                 </p>
             </div>
         </div>

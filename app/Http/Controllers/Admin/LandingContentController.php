@@ -15,7 +15,7 @@ class LandingContentController extends Controller
      */
     public function index(Request $request): View
     {
-        $selectedSection = $request->query('section');
+        $selectedSection = $request->query('section') ?? $request->query('category');
         $search = $request->query('search');
 
         $query = LandingContent::query();
@@ -31,10 +31,13 @@ class LandingContentController extends Controller
             });
         }
 
+        $perPage = $request->input('per_page', 10);
+        $perPage = (is_numeric($perPage) && $perPage > 0 && $perPage <= 100) ? (int) $perPage : 10;
+
         $contents = $query->orderBy('section')
             ->orderBy('order', 'asc')
             ->orderBy('id', 'asc')
-            ->paginate(15)
+            ->paginate($perPage)
             ->withQueryString();
 
         $statistics = [
@@ -58,7 +61,8 @@ class LandingContentController extends Controller
             'statistics',
             'sections',
             'selectedSection',
-            'search'
+            'search',
+            'perPage'
         ));
     }
 

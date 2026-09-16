@@ -21,59 +21,80 @@
         </div>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6 mb-6 mt-4">
+    <!-- Top Statistics Row (Ultra-Compact, 5 Columns) -->
+    <div class="row g-2 mb-4">
         <!-- Card 1: Total -->
-        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 flex items-center justify-between hover:shadow-md transition-shadow">
-            <div>
-                <p class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Total</p>
-                <h3 class="text-2xl font-extrabold text-slate-800">{{ $summary['total'] ?? 0 }}</h3> 
-            </div>
-            <div class="w-10 h-10 flex items-center justify-center rounded-lg bg-blue-500 text-white shadow-sm shrink-0">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+        <div class="col-md-4 col-lg">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body p-2 px-3 d-flex align-items-center justify-content-between">
+                    <div>
+                        <p class="text-muted text-uppercase fw-bold mb-1" style="font-size: 0.6rem; letter-spacing: 0.5px;">Total</p>
+                        <h5 class="fw-bold mb-0 text-dark">{{ $summary['total'] ?? $total ?? 0 }}</h5>
+                    </div>
+                    <div class="text-primary">
+                        <i class="bi bi-bar-chart-fill fs-5"></i>
+                    </div>
+                </div>
             </div>
         </div>
 
         <!-- Card 2: Submitted -->
-        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 flex items-center justify-between hover:shadow-md transition-shadow">
-            <div>
-                <p class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Submitted</p>
-                <h3 class="text-2xl font-extrabold text-slate-800">{{ $summary['submitted'] ?? 0 }}</h3>
-            </div>
-            <div class="w-10 h-10 flex items-center justify-center rounded-lg bg-sky-500 text-white shadow-sm shrink-0">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+        <div class="col-md-4 col-lg">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body p-2 px-3 d-flex align-items-center justify-content-between">
+                    <div>
+                        <p class="text-muted text-uppercase fw-bold mb-1" style="font-size: 0.6rem; letter-spacing: 0.5px;">Submitted</p>
+                        <h5 class="fw-bold mb-0 text-dark">{{ $summary['submitted'] ?? $submitted ?? 0 }}</h5>
+                    </div>
+                    <div class="text-info">
+                        <i class="bi bi-envelope-fill fs-5"></i>
+                    </div>
+                </div>
             </div>
         </div>
 
         <!-- Card 3: Under Review -->
-        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 flex items-center justify-between hover:shadow-md transition-shadow">
-            <div>
-                <p class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Under Review</p>
-                <h3 class="text-2xl font-extrabold text-slate-800">{{ $summary['review'] ?? 0 }}</h3>
-            </div>
-            <div class="w-10 h-10 flex items-center justify-center rounded-lg bg-amber-500 text-white shadow-sm shrink-0">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+        <div class="col-md-4 col-lg">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body p-2 px-3 d-flex align-items-center justify-content-between">
+                    <div>
+                        <p class="text-muted text-uppercase fw-bold mb-1" style="font-size: 0.6rem; letter-spacing: 0.5px;">Under Review</p>
+                        <h5 class="fw-bold mb-0 text-dark">{{ $summary['review'] ?? $underReview ?? 0 }}</h5>
+                    </div>
+                    <div class="text-warning">
+                        <i class="bi bi-clock-fill fs-5"></i>
+                    </div>
+                </div>
             </div>
         </div>
 
         <!-- Card 4: Accepted -->
-        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 flex items-center justify-between hover:shadow-md transition-shadow">
-            <div>
-                <p class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Accepted</p>
-                <h3 class="text-2xl font-extrabold text-slate-800">{{ $summary['accepted'] ?? 0 }}</h3>
-            </div>
-            <div class="w-10 h-10 flex items-center justify-center rounded-lg bg-emerald-500 text-white shadow-sm shrink-0">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        <div class="col-md-6 col-lg">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body p-2 px-3 d-flex align-items-center justify-content-between">
+                    <div>
+                        <p class="text-muted text-uppercase fw-bold mb-1" style="font-size: 0.6rem; letter-spacing: 0.5px;">Accepted</p>
+                        <h5 class="fw-bold mb-0 text-dark">{{ $summary['accepted'] ?? $accepted ?? 0 }}</h5>
+                    </div>
+                    <div class="text-success">
+                        <i class="bi bi-check-circle-fill fs-5"></i>
+                    </div>
+                </div>
             </div>
         </div>
 
         <!-- Card 5: Rejected -->
-        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 flex items-center justify-between hover:shadow-md transition-shadow">
-            <div>
-                <p class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Rejected</p>
-                <h3 class="text-2xl font-extrabold text-slate-800">{{ $summary['rejected'] ?? 0 }}</h3>
-            </div>
-            <div class="w-10 h-10 flex items-center justify-center rounded-lg bg-rose-500 text-white shadow-sm shrink-0">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        <div class="col-md-6 col-lg">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body p-2 px-3 d-flex align-items-center justify-content-between">
+                    <div>
+                        <p class="text-muted text-uppercase fw-bold mb-1" style="font-size: 0.6rem; letter-spacing: 0.5px;">Rejected</p>
+                        <h5 class="fw-bold mb-0 text-dark">{{ $summary['rejected'] ?? $rejected ?? 0 }}</h5>
+                    </div>
+                    <div class="text-danger">
+                        <i class="bi bi-x-circle-fill fs-5"></i>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

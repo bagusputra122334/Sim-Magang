@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Pengaturan System')
+@section('title', 'Pengaturan')
 
 @php
     $groupLabels = [
@@ -17,7 +17,7 @@
 @section('content')
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
-            <h1 class="h3 fw-bold mb-1 text-slate-800">Pengaturan System</h1>
+            <h1 class="h3 fw-bold mb-1 text-slate-800">Pengaturan</h1>
             <p class="text-muted mb-0">Kelola konfigurasi global aplikasi, teks landing page, dan kontak Diskominfo Tuban.</p>
         </div>
     </div>
@@ -53,9 +53,16 @@
                     'icon'  => 'bi-gear-fill',
                     'desc'  => 'Pengaturan kategori ' . $group
                 ];
+
+                $sectionId = match($group) {
+                    'global'       => 'pengaturan-global',
+                    'landing_page' => 'landing-page-portal',
+                    'contact'      => 'informasi-kontak',
+                    default        => 'pengaturan-' . str_replace('_', '-', $group),
+                };
             @endphp
 
-            <div class="card border-0 shadow-sm rounded-xl mb-4 overflow-hidden">
+            <div class="card border-0 shadow-sm rounded-xl mb-4 overflow-hidden" id="{{ $sectionId }}" style="scroll-margin-top: 80px;">
                 <div class="card-header bg-light border-bottom py-3 px-4 d-flex align-items-center gap-3">
                     <div class="rounded-circle bg-primary bg-opacity-10 p-2 d-flex align-items-center justify-content-center">
                         <i class="bi {{ $meta['icon'] }} fs-5 text-primary"></i>
@@ -141,3 +148,39 @@
         </div>
     </form>
 @endsection
+
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        function renderActiveSection() {
+            // Define the exact IDs of the 3 sections on this page
+            const sections = ['pengaturan-global', 'landing-page-portal', 'informasi-kontak'];
+            
+            // Get current hash from URL, remove the '#' symbol. 
+            // Default to 'pengaturan-global' if hash is empty or invalid.
+            let currentHash = window.location.hash.substring(1);
+            if (!sections.includes(currentHash)) {
+                currentHash = 'pengaturan-global';
+            }
+
+            // Loop through all sections: show the active one, hide the rest
+            sections.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) {
+                    // Using fadeIn effect equivalent by removing inline display limitations
+                    el.style.display = (id === currentHash) ? 'block' : 'none';
+                }
+            });
+            
+            // Smoothly scroll back to top to simulate a fresh page load
+            window.scrollTo(0, 0);
+        }
+
+        // 1. Run immediately on first page load
+        renderActiveSection();
+
+        // 2. Run every time a sidebar hash link is clicked
+        window.addEventListener('hashchange', renderActiveSection);
+    });
+</script>
+@endpush
