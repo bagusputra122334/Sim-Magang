@@ -1032,35 +1032,52 @@
                     </div>
                 </div>
 
-                <div class="w-full flex flex-col" x-data="{ rating: 0, hoverRating: 0, isSubmitting: false }">
+                <div class="w-full flex flex-col h-fit self-start" x-data="{ rating: 0, hoverRating: 0, isSubmitting: false }">
                     <h3 class="text-white font-bold text-sm mb-4 tracking-wider uppercase">SURVEI KEPUASAN</h3>
-                    <form action="{{ route('surveys.store') }}" method="POST" @submit="isSubmitting = true" class="w-full bg-white rounded-2xl p-5 flex flex-col items-center text-center shadow-lg">
-                        @csrf
-                        <h4 class="text-slate-800 font-extrabold text-xs sm:text-sm mb-1">Indeks Kepuasan Masyarakat</h4>
-                        <p class="text-slate-500 text-xs mb-3">Berikan penilaian Anda</p>
-                        
-                        <!-- Interactive Stars -->
-                        <div class="w-full flex justify-center items-center gap-1.5 mb-3">
-                            <input type="hidden" name="rating" x-model="rating" required>
-                            @for($i = 1; $i <= 5; $i++)
-                            <svg @click="rating = {{ $i }}" 
-                                 @mouseenter="hoverRating = {{ $i }}" 
-                                 @mouseleave="hoverRating = 0"
-                                 :class="{'text-amber-400': hoverRating >= {{ $i }} || rating >= {{ $i }}, 'text-slate-200': hoverRating < {{ $i }} && rating < {{ $i }}}"
-                                 class="w-6 h-6 sm:w-7 sm:h-7 cursor-pointer transition-colors duration-150 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-                            </svg>
-                            @endfor
+                    @if(session('survey_success'))
+                        <div class="w-full h-fit self-start bg-emerald-50 border border-emerald-200 rounded-2xl p-4 flex flex-col items-center text-center shadow-lg">
+                            <div class="w-10 h-10 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mb-2">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            </div>
+                            <h4 class="text-emerald-800 font-extrabold text-xs sm:text-sm mb-1">Terima Kasih!</h4>
+                            <p class="text-emerald-700 text-xs font-medium">{{ session('survey_success') }}</p>
                         </div>
+                    @else
+                        <form action="{{ route('surveys.store') }}" method="POST" @submit="isSubmitting = true" class="w-full h-fit self-start bg-white border border-slate-200 rounded-2xl p-4 flex flex-col items-center text-center shadow-lg">
+                            @csrf
+                            <h4 class="text-gray-800 font-extrabold text-xs sm:text-sm mb-1">Indeks Kepuasan Masyarakat</h4>
+                            <p class="text-gray-600 text-xs mb-2.5">Berikan penilaian Anda</p>
+                            
+                            <!-- Interactive Stars -->
+                            <div class="w-full flex justify-center items-center gap-1.5 mb-2.5">
+                                <input type="hidden" name="rating" x-model="rating" required>
+                                @for($i = 1; $i <= 5; $i++)
+                                <svg @click="rating = {{ $i }}" 
+                                     @mouseenter="hoverRating = {{ $i }}" 
+                                     @mouseleave="hoverRating = 0"
+                                     :class="{'text-amber-400': hoverRating >= {{ $i }} || rating >= {{ $i }}, 'text-gray-300': hoverRating < {{ $i }} && rating < {{ $i }}}"
+                                     class="w-6 h-6 sm:w-7 sm:h-7 cursor-pointer transition-colors duration-150 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                                </svg>
+                                @endfor
+                            </div>
 
-                        <!-- Message & Submit -->
-                        <textarea name="komentar" rows="2" class="w-full text-xs border border-slate-200 rounded-xl p-2.5 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 mb-3 transition-colors text-slate-800 placeholder-slate-400" placeholder="Tulis pesan/saran singkat..."></textarea>
-                        <button type="submit" x-bind:disabled="isSubmitting" class="w-full bg-indigo-600 hover:bg-indigo-700 disabled:bg-indigo-400 text-white text-xs font-bold py-2.5 rounded-lg shadow-sm transition-all duration-200 flex justify-center items-center gap-2">
-                            <span x-show="!isSubmitting">Kirim Survei</span>
-                            <span x-show="isSubmitting">Mengirim...</span>
-                            <svg x-show="isSubmitting" class="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
-                        </button>
-                    </form>
+                            <!-- Message (Visible & Required for 1-4 stars, Hidden for 5 stars) -->
+                            <textarea name="komentar" 
+                                      rows="2" 
+                                      x-show="rating > 0 && rating < 5" 
+                                      x-transition 
+                                      :required="rating > 0 && rating < 5" 
+                                      class="w-full text-xs border border-gray-300 rounded-xl p-2.5 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 mb-2.5 transition-colors text-gray-800 bg-white placeholder-gray-500" 
+                                      placeholder="Ceritakan alasan atau saran Anda..."></textarea>
+                            
+                            <button type="submit" :disabled="rating === 0 || isSubmitting" class="w-full bg-indigo-600 hover:bg-indigo-700 disabled:bg-indigo-400 disabled:cursor-not-allowed text-white text-xs font-bold py-2.5 rounded-lg shadow-sm transition-all duration-200 flex justify-center items-center gap-2">
+                                <span x-show="!isSubmitting">Kirim Survei</span>
+                                <span x-show="isSubmitting">Mengirim...</span>
+                                <svg x-show="isSubmitting" class="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                            </button>
+                        </form>
+                    @endif
                 </div>
             </div>
 

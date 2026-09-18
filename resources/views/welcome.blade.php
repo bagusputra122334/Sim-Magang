@@ -1677,21 +1677,21 @@
                                     </button>
 
                                     <form action="{{ url('/') }}#search-results" method="GET" class="relative hidden md:flex items-center w-56 lg:w-64" x-data="{ searchQuery: '{{ request('search') }}' }">
-                                        <!-- Icon: Only shows when input is empty -->
-                                        <div class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none z-10" x-show="searchQuery.length === 0" x-transition.opacity>
+                                        <!-- Icon wrapper with absolute positioning inside padded region -->
+                                        <div class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none z-10">
                                             <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                                             </svg>
                                         </div>
                                         
-                                        <!-- Input: Padding adjusts dynamically based on content length -->
+                                        <!-- Input: Permanent static left padding so placeholder/text never overlaps icon -->
                                         <input type="text" 
                                                name="search" 
                                                x-model="searchQuery" 
                                                autocomplete="off"
                                                placeholder="Cari formasi, panduan..." 
-                                               class="w-full pr-4 py-2 bg-slate-50 border border-slate-200 rounded-full text-sm text-slate-700 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all shadow-inner"
-                                               :class="searchQuery.length > 0 ? 'pl-4' : 'pl-12'">
+                                               class="w-full !pl-12 pl-12 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-full text-sm text-slate-700 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all shadow-inner"
+                                               style="padding-left: 3rem !important;">
                                     </form>
                                 </div>
 
@@ -1704,21 +1704,21 @@
                                         </button>
                                     </div>
                                     <form action="{{ url('/') }}#search-results" method="GET" class="relative flex items-center w-full mt-2" x-data="{ searchQuery: '{{ request('search') }}' }">
-                                        <!-- Icon: Only shows when input is empty -->
-                                        <div class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none z-10" x-show="searchQuery.length === 0" x-transition.opacity>
+                                        <!-- Icon wrapper with absolute positioning inside padded region -->
+                                        <div class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none z-10">
                                             <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                                             </svg>
                                         </div>
                                         
-                                        <!-- Input: Padding adjusts dynamically based on content length -->
+                                        <!-- Input: Permanent static left padding so placeholder/text never overlaps icon -->
                                         <input type="text" 
                                                name="search" 
                                                x-model="searchQuery" 
                                                autocomplete="off"
                                                placeholder="Cari formasi, panduan..." 
-                                               class="w-full pr-4 py-2 bg-slate-50 border border-slate-200 rounded-full text-sm text-slate-700 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all shadow-inner"
-                                               :class="searchQuery.length > 0 ? 'pl-4' : 'pl-12'">
+                                               class="w-full !pl-12 pl-12 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-full text-sm text-slate-700 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all shadow-inner"
+                                               style="padding-left: 3rem !important;">
                                     </form>
                                 </div>
                                 </div></div>
@@ -1730,18 +1730,13 @@
         </div>
 
         {{-- Hero Section --}}
-        <div id="home" class="hero_wrapper pb-16 lg:pb-24 mb-12 lg:mb-16">
+        <div id="home" class="hero_wrapper relative d-flex align-items-center flex items-center pb-16 lg:pb-24 mb-12 lg:mb-16" style="min-height: 85vh; display: flex; align-items: center;">
             <div class="hero-pattern-overlay"></div>
             <div class="hero-glow"></div>
 
-            <div class="container position-relative" style="z-index: 2;">
+            <div class="container position-relative w-100 w-full" style="z-index: 2;">
                 <div class="row align-items-center">
                     <div class="col-lg-7 mb-4 mb-lg-0">
-                        <div class="hero-badge-pill wow fadeInLeft" data-wow-duration="1.2s" data-wow-delay="0.1s">
-                            <i class="bi bi-patch-check-fill text-primary"></i>
-                            <span>{{ get_setting('hero_badge', 'Portal Resmi Pendaftaran Magang') }}</span>
-                        </div>
-
                         <h1 class="hero_title wow fadeInLeft" data-wow-duration="1.2s" data-wow-delay="0.3s">
                             {!! get_setting('hero_title', 'Membangun Talenta Digital untuk <span>Pelayanan Publik</span>') !!}
                         </h1>
@@ -2308,35 +2303,52 @@
                     </div>
                 </div>
 
-                <div class="w-full flex flex-col" x-data="{ rating: 0, hoverRating: 0, isSubmitting: false }">
+                <div class="w-full flex flex-col h-fit self-start" x-data="{ rating: 0, hoverRating: 0, isSubmitting: false }">
                     <h3 class="text-white font-bold text-sm mb-4 tracking-wider uppercase">SURVEI KEPUASAN</h3>
-                    <form action="{{ route('surveys.store') }}" method="POST" @submit="isSubmitting = true" class="w-full bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700/60 rounded-2xl p-5 flex flex-col items-center text-center shadow-lg">
-                        @csrf
-                        <h4 class="text-slate-800 dark:text-slate-100 font-extrabold text-xs sm:text-sm mb-1">Indeks Kepuasan Masyarakat</h4>
-                        <p class="text-slate-500 dark:text-slate-400 text-xs mb-3">Berikan penilaian Anda</p>
-                        
-                        <!-- Interactive Stars -->
-                        <div class="w-full flex justify-center items-center gap-1.5 mb-3">
-                            <input type="hidden" name="rating" x-model="rating" required>
-                            @for($i = 1; $i <= 5; $i++)
-                            <svg @click="rating = {{ $i }}" 
-                                 @mouseenter="hoverRating = {{ $i }}" 
-                                 @mouseleave="hoverRating = 0"
-                                 :class="{'text-amber-400': hoverRating >= {{ $i }} || rating >= {{ $i }}, 'text-slate-200 dark:text-slate-600': hoverRating < {{ $i }} && rating < {{ $i }}}"
-                                 class="w-6 h-6 sm:w-7 sm:h-7 cursor-pointer transition-colors duration-150 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-                            </svg>
-                            @endfor
+                    @if(session('survey_success'))
+                        <div class="w-full h-fit self-start bg-emerald-50 border border-emerald-200 rounded-2xl p-4 flex flex-col items-center text-center shadow-lg">
+                            <div class="w-10 h-10 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mb-2">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            </div>
+                            <h4 class="text-emerald-800 font-extrabold text-xs sm:text-sm mb-1">Terima Kasih!</h4>
+                            <p class="text-emerald-700 text-xs font-medium">{{ session('survey_success') }}</p>
                         </div>
+                    @else
+                        <form action="{{ route('surveys.store') }}" method="POST" @submit="isSubmitting = true" class="w-full h-fit self-start bg-white border border-slate-200 rounded-2xl p-4 flex flex-col items-center text-center shadow-lg">
+                            @csrf
+                            <h4 class="text-gray-800 font-extrabold text-xs sm:text-sm mb-1">Indeks Kepuasan Masyarakat</h4>
+                            <p class="text-gray-600 text-xs mb-2.5">Berikan penilaian Anda</p>
+                            
+                            <!-- Interactive Stars -->
+                            <div class="w-full flex justify-center items-center gap-1.5 mb-2.5">
+                                <input type="hidden" name="rating" x-model="rating" required>
+                                @for($i = 1; $i <= 5; $i++)
+                                <svg @click="rating = {{ $i }}" 
+                                     @mouseenter="hoverRating = {{ $i }}" 
+                                     @mouseleave="hoverRating = 0"
+                                     :class="{'text-amber-400': hoverRating >= {{ $i }} || rating >= {{ $i }}, 'text-gray-300': hoverRating < {{ $i }} && rating < {{ $i }}}"
+                                     class="w-6 h-6 sm:w-7 sm:h-7 cursor-pointer transition-colors duration-150 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                                </svg>
+                                @endfor
+                            </div>
 
-                        <!-- Message & Submit -->
-                        <textarea name="komentar" rows="2" class="w-full text-xs border border-slate-200 dark:border-slate-700 rounded-xl p-2.5 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 dark:focus:ring-blue-900/40 mb-3 transition-colors duration-200 text-slate-800 dark:text-slate-100 bg-white dark:bg-slate-900/50 placeholder-slate-400" placeholder="Tulis pesan/saran singkat..."></textarea>
-                        <button type="submit" x-bind:disabled="isSubmitting" class="w-full bg-indigo-600 hover:bg-blue-700 hover:shadow-lg hover:-translate-y-0.5 disabled:bg-indigo-400 text-white text-xs font-bold py-2.5 rounded-lg shadow-sm transition-all duration-300 flex justify-center items-center gap-2">
-                            <span x-show="!isSubmitting">Kirim Survei</span>
-                            <span x-show="isSubmitting">Mengirim...</span>
-                            <svg x-show="isSubmitting" class="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
-                        </button>
-                    </form>
+                            <!-- Message (Visible & Required for 1-4 stars, Hidden for 5 stars) -->
+                            <textarea name="komentar" 
+                                      rows="2" 
+                                      x-show="rating > 0 && rating < 5" 
+                                      x-transition 
+                                      :required="rating > 0 && rating < 5" 
+                                      class="w-full text-xs border border-gray-300 rounded-xl p-2.5 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 mb-2.5 transition-colors duration-200 text-gray-800 bg-white placeholder-gray-500" 
+                                      placeholder="Ceritakan alasan atau saran Anda..."></textarea>
+                            
+                            <button type="submit" :disabled="rating === 0 || isSubmitting" class="w-full bg-indigo-600 hover:bg-indigo-700 hover:shadow-lg disabled:bg-indigo-400 disabled:cursor-not-allowed text-white text-xs font-bold py-2.5 rounded-lg shadow-sm transition-all duration-300 flex justify-center items-center gap-2">
+                                <span x-show="!isSubmitting">Kirim Survei</span>
+                                <span x-show="isSubmitting">Mengirim...</span>
+                                <svg x-show="isSubmitting" class="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                            </button>
+                        </form>
+                    @endif
                 </div>
             </div>
 
@@ -2384,17 +2396,17 @@
             <!-- Alert / Session Flash Message Box -->
             <div id="modal-contact-alert" class="hidden mb-4 p-3 rounded-xl text-xs font-medium"></div>
 
-            @if(session('success') || session('contact_success'))
+            @if(session('contact_success'))
                 <div class="mb-4 p-3.5 rounded-xl text-xs font-semibold bg-emerald-100 text-emerald-800 border border-emerald-300 flex items-center gap-2">
                     <svg class="w-4 h-4 flex-shrink-0 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                    <span>{{ session('success') ?? session('contact_success') }}</span>
+                    <span>{{ session('contact_success') }}</span>
                 </div>
             @endif
 
-            @if(session('error') || session('contact_error'))
+            @if(session('contact_error'))
                 <div class="mb-4 p-3.5 rounded-xl text-xs font-semibold bg-rose-100 text-rose-800 border border-rose-300 flex items-center gap-2">
                     <svg class="w-4 h-4 flex-shrink-0 text-rose-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                    <span>{{ session('error') ?? session('contact_error') }}</span>
+                    <span>{{ session('contact_error') }}</span>
                 </div>
             @endif
 
@@ -2776,7 +2788,7 @@
             }
 
 
-            @if($errors->any() || session('success') || session('contact_success') || session('error') || session('contact_error'))
+            @if(session('contact_success') || session('contact_error') || $errors->has('name') || $errors->has('email') || $errors->has('phone') || $errors->has('wa_number') || $errors->has('category') || $errors->has('message'))
                 setTimeout(function() {
                     openModal();
                 }, 150);

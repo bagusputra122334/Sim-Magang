@@ -91,7 +91,6 @@ class ContactController extends Controller
             }
 
             return redirect()->to(url('/#contact'))
-                ->with('success', $successMessage)
                 ->with('contact_success', $successMessage);
         } catch (\Throwable $e) {
             Log::error('Gagal mengirim email formulir kontak landing page: ' . $e->getMessage(), [
@@ -111,7 +110,6 @@ class ContactController extends Controller
 
             return redirect()->to(url('/#contact'))
                 ->withInput()
-                ->with('error', $errorMessage)
                 ->with('contact_error', $errorMessage);
         }
     }

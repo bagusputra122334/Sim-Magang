@@ -12,6 +12,16 @@
 @section('title', 'Dashboard')
 
 @section('content')
+    @if(auth()->check() && \Illuminate\Support\Facades\Hash::check('password', auth()->user()->password))
+        <div class="alert alert-danger bg-red-100 border border-red-400 text-red-700 dark:bg-red-900/40 dark:text-red-200 dark:border-red-700 px-4 py-3 rounded relative mb-4 d-flex align-items-center justify-content-between gap-3 shadow-sm" role="alert">
+            <div class="d-flex align-items-center gap-2">
+                <i class="bi bi-shield-exclamation-fill fs-5 text-red-600 flex-shrink-0"></i>
+                <span class="fw-semibold text-sm">Peringatan Keamanan: Anda masih menggunakan password default. Harap segera ganti password Anda di menu Pengaturan Akun.</span>
+            </div>
+            <a href="{{ route('profile.edit') }}" class="btn btn-sm btn-danger text-nowrap flex-shrink-0 font-medium">Ganti Password</a>
+        </div>
+    @endif
+
     {{-- Header --}}
     <div class="page-heading mb-4">
         <div class="page-heading-copy">
@@ -176,15 +186,14 @@
     <div class="row">
         <div class="col-12">
             <section class="panel">
-                <div class="panel-header d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center gap-2 mb-3">
-                    <div>
-                        <h2 class="h5 mb-1 section-title text-lg md:text-xl font-bold">
-                            <i class="bi bi-journal-text me-1" aria-hidden="true"></i>
-                            <span>Pendaftaran Magang Terbaru</span>
+                <div class="panel-header flex flex-row justify-between items-center flex-nowrap d-flex justify-content-between align-items-center flex-nowrap w-full w-100 gap-3 mb-3">
+                    <div class="flex-grow-1 min-w-0">
+                        <h2 class="h5 mb-0 section-title text-base sm:text-lg md:text-xl font-bold whitespace-nowrap text-nowrap truncate flex items-center">
+                            <i class="bi bi-journal-text me-1 flex-shrink-0" aria-hidden="true"></i>
+                            <span class="whitespace-nowrap text-nowrap truncate">Pendaftaran Magang Terbaru</span>
                         </h2>
-                        <p class="text-muted mb-0 small">10 pendaftaran magang paling akhir diajukan oleh peserta.</p>
                     </div>
-                    <a class="btn btn-outline-secondary bg-white hover:bg-slate-50 text-slate-700 border border-slate-300 rounded-lg px-3 py-1.5 font-medium text-xs shadow-sm hover:shadow-md transition-all duration-200 w-100 sm:w-auto text-center" href="{{ route('admin.applications.index') }}">
+                    <a class="btn btn-outline-secondary bg-white hover:bg-slate-50 text-slate-700 border border-slate-300 rounded-lg px-3 py-1.5 font-medium text-xs shadow-sm hover:shadow-md transition-all duration-200 w-auto text-center flex-shrink-0 whitespace-nowrap text-nowrap" href="{{ route('admin.applications.index') }}">
                         <i class="bi bi-eye me-1" aria-hidden="true"></i> Lihat Semua Pendaftaran
                     </a>
                 </div>

@@ -34,7 +34,7 @@ class AdminNewPasswordController extends Controller
         $request->validate([
             'token'                 => ['required'],
             'email'                 => ['required', 'email'],
-            'password'              => ['required', 'confirmed', Rules\Password::defaults()],
+            'password'              => ['required', 'confirmed', Rules\Password::min(8)->mixedCase()->numbers()],
             'password_confirmation' => ['required'],
         ], [
             'token.required'                 => 'Token atur ulang kata sandi tidak ditemukan.',

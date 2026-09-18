@@ -18,7 +18,7 @@ class FrontendSurveyTest extends TestCase
         ]);
 
         $response->assertRedirect();
-        $response->assertSessionHas('success', 'Terima kasih atas penilaian dan masukan Anda!');
+        $response->assertSessionHas('survey_success', 'Terima kasih atas penilaian dan masukan Anda!');
 
         $this->assertDatabaseHas('surveys', [
             'rating' => 5,

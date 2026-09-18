@@ -29,10 +29,11 @@
     <div class="mb-3">
         <label class="form-label" for="password">Kata Sandi Baru</label>
         <input class="form-control @error('password') is-invalid @enderror" id="password" type="password" name="password" required autocomplete="new-password" placeholder="••••••••">
+        <p class="text-xs text-gray-500 text-muted mt-1 mb-0">Password minimal 8 karakter, mengandung huruf besar, huruf kecil, dan angka.</p>
         @error('password')
             <div class="invalid-feedback">{{ $message }}</div>
         @else
-            <div class="invalid-feedback">Kata sandi minimal 8 karakter.</div>
+            <div class="invalid-feedback">Kata sandi minimal 8 karakter, mengandung huruf besar, huruf kecil, dan angka.</div>
         @enderror
     </div>
 

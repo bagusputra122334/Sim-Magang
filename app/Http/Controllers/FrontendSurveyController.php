@@ -24,6 +24,6 @@ class FrontendSurveyController extends Controller
             'ip_address' => (string) $request->ip(),
         ]);
 
-        return back()->with('success', 'Terima kasih atas penilaian dan masukan Anda!');
+        return back()->with('survey_success', 'Terima kasih atas penilaian dan masukan Anda!');
     }
 }

@@ -24,6 +24,16 @@
 @section('title', 'Dashboard')
 
 @section('content')
+    @if(auth()->check() && \Illuminate\Support\Facades\Hash::check('password', auth()->user()->password))
+        <div class="alert alert-danger bg-red-100 border border-red-400 text-red-700 dark:bg-red-900/40 dark:text-red-200 dark:border-red-700 px-4 py-3 rounded relative mb-4 d-flex align-items-center justify-content-between gap-3 shadow-sm" role="alert">
+            <div class="d-flex align-items-center gap-2">
+                <i class="bi bi-shield-exclamation-fill fs-5 text-red-600 flex-shrink-0"></i>
+                <span class="fw-semibold text-sm">Peringatan Keamanan: Kata sandi yang Anda gunakan saat ini sangat berisiko. Harap segera perbarui kata sandi Anda di menu Pengaturan Akun.</span>
+            </div>
+            <a href="{{ route('profile.edit') }}" class="btn btn-sm btn-danger text-nowrap flex-shrink-0 font-medium">Ganti Password</a>
+        </div>
+    @endif
+
     {{-- Header --}}
     <div class="page-heading mb-4">
         <div class="page-heading-copy">
