@@ -32,21 +32,7 @@
         </div>
     </div>
 
-    @if (session('success'))
-        <div class="alert alert-success border shadow-sm mb-3">
-            <i class="bi bi-check2-circle me-1"></i> {!! session('success') !!}
-        </div>
-    @endif
-    @if (session('warning'))
-        <div class="alert alert-warning border shadow-sm mb-3">
-            <i class="bi bi-exclamation-triangle me-1"></i> {!! session('warning') !!}
-        </div>
-    @endif
-    @if (session('error'))
-        <div class="alert alert-danger border shadow-sm mb-3">
-            <i class="bi bi-x-octagon me-1"></i> {!! session('error') !!}
-        </div>
-    @endif
+
 
     <div class="row g-4">
         {{-- KIRI — Ringkasan Pendaftaran --}}
