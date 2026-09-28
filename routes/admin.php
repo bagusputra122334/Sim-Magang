@@ -155,6 +155,10 @@ Route::post('settings', [\App\Http\Controllers\Admin\SettingController::class, '
 Route::resource('landing-contents', \App\Http\Controllers\Admin\LandingContentController::class)
     ->names('landing-contents');
 
-
-
-
+/*
+|--------------------------------------------------------------------------
+| ADMIN KELOLA PEMBIMBING (PembimbingController)
+|--------------------------------------------------------------------------
+*/
+Route::resource('pembimbing', \App\Http\Controllers\Admin\PembimbingController::class)
+    ->names('pembimbing');

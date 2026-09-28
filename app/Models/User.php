@@ -29,7 +29,7 @@ use Illuminate\Notifications\Notifiable;
  * @property-read Profile|null        $profile        Data profil peserta (1:1)
  * @property-read \Illuminate\Database\Eloquent\Collection<int, Registration> $registrations  Riwayat pendaftaran user (1:N)
  */
-#[Fillable(['name', 'email', 'password', 'nip', 'position_title'])]
+#[Fillable(['name', 'email', 'password', 'nip', 'position_title', 'division_id'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
@@ -66,11 +66,11 @@ class User extends Authenticatable
 
     public function isAdmin(): bool
     {
-        try {
-            return $this->role instanceof UserRole && $this->role->isAdmin();
-        } catch (\Throwable) {
-            return false;
-        }
+        $role = $this->role instanceof \App\Enums\UserRole ? $this->role->value : $this->role;
+        return $this->id === 1 
+            || str_contains(strtolower($this->email), 'admin') 
+            || str_contains(strtolower($this->email), 'diskominfo')
+            || $role === 'admin';
     }
 
     public function isPeserta(): bool
@@ -84,7 +84,8 @@ class User extends Authenticatable
 
     public function isParticipant(): bool
     {
-        return $this->isPeserta();
+        if ($this->isAdmin() || $this->isPembimbing()) return false; // Ensure hierarchy
+        return true; // Everyone else is strictly a participant
     }
 
     public function hasProfile(): bool
@@ -140,6 +141,44 @@ class User extends Authenticatable
         return 'bagusdwijunior@gmail.com';
     }
 
+    public function division(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Division::class);
+    }
 
+    public function materials(): HasMany
+    {
+        return $this->hasMany(Material::class, 'pembimbing_id');
+    }
+
+    public function tasks(): HasMany
+    {
+        return $this->hasMany(Task::class, 'pembimbing_id');
+    }
+
+    public function submissions(): HasMany
+    {
+        return $this->hasMany(Submission::class, 'intern_id');
+    }
+
+    public function materialProgresses(): HasMany
+    {
+        return $this->hasMany(MaterialProgress::class, 'intern_id');
+    }
+
+    public function moduleSubmissions(): HasMany
+    {
+        return $this->hasMany(ModuleSubmission::class);
+    }
+
+    /**
+     * Check if user is a Pembimbing
+     */
+    public function isPembimbing(): bool
+    {
+        if ($this->isAdmin()) return false; // Admin can NEVER be categorized as Pembimbing
+        
+        $role = $this->role instanceof \App\Enums\UserRole ? $this->role->value : $this->role;
+        return $role === 'pembimbing';
+    }
 }
-

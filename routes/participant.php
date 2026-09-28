@@ -84,3 +84,14 @@ Route::prefix('applications')
                     ->with('error', 'Pendaftaran magang untuk Surat Balasan tidak ditemukan.');
             });
     });
+
+/*
+|--------------------------------------------------------------------------
+| Materials — Unified LMS Material & Task Management (Peserta)
+|--------------------------------------------------------------------------
+*/
+Route::prefix('materials')->name('materials.')->group(function (): void {
+    Route::get('/', [\App\Http\Controllers\Participant\MaterialController::class, 'index'])->name('index');
+    Route::get('/{id}', [\App\Http\Controllers\Participant\MaterialController::class, 'show'])->name('show');
+    Route::post('/{id}/submit', [\App\Http\Controllers\Participant\MaterialController::class, 'submitTask'])->name('submit');
+});

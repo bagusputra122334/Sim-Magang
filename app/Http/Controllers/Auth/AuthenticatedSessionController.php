@@ -31,9 +31,13 @@ class AuthenticatedSessionController extends Controller
 
         AuditLogger::login(Auth::user());
 
-        $fallback = auth()->user()->isAdmin()
-            ? route('admin.dashboard', absolute: false)
-            : route('participant.dashboard', absolute: false);
+        if (auth()->user()->isAdmin()) {
+            $fallback = route('admin.dashboard', absolute: false);
+        } elseif (auth()->user()->isPembimbing()) {
+            $fallback = route('pembimbing.dashboard', absolute: false);
+        } else {
+            $fallback = route('participant.dashboard', absolute: false);
+        }
 
         return redirect()->intended($fallback);
     }

@@ -6,12 +6,16 @@ enum UserRole: string
 {
     case Admin = 'admin';
     case Peserta = 'peserta';
+    case Pembimbing = 'pembimbing';
+    case Intern = 'intern';
 
     public function label(): string
     {
         return match ($this) {
             self::Admin => 'Admin',
             self::Peserta => 'Peserta',
+            self::Pembimbing => 'Pembimbing',
+            self::Intern => 'Intern',
         };
     }
 
@@ -27,6 +31,11 @@ enum UserRole: string
 
     public function isParticipant(): bool
     {
-        return $this === self::Peserta;
+        return $this === self::Peserta || $this === self::Intern;
+    }
+
+    public function isPembimbing(): bool
+    {
+        return $this === self::Pembimbing;
     }
 }

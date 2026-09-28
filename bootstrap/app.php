@@ -2,6 +2,7 @@
 
 use App\Http\Middleware\Admin\EnsureIsAdmin;
 use App\Http\Middleware\Participant\EnsureIsParticipant;
+use App\Http\Middleware\Pembimbing\EnsureIsPembimbing;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -17,6 +18,7 @@ return Application::configure(basePath: dirname(__DIR__))
 
         $middleware->alias([
             'admin'       => EnsureIsAdmin::class,
+            'pembimbing'  => EnsureIsPembimbing::class,
             'participant' => EnsureIsParticipant::class,
         ]);
 

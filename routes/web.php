@@ -1,6 +1,12 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Artisan;
+
+// Temporary cache clearing
+Artisan::call('route:clear');
+Artisan::call('config:clear');
+Artisan::call('cache:clear');
 
 /*
 |--------------------------------------------------------------------------
@@ -53,6 +59,10 @@ Route::get('/dashboard', function () {
 
     if ($user?->isAdmin()) {
         return redirect()->route('admin.dashboard');
+    }
+
+    if ($user?->isPembimbing()) {
+        return redirect()->route('pembimbing.dashboard');
     }
 
     if ($user?->isPeserta()) {
@@ -146,3 +156,40 @@ Route::prefix('participant')
 
 Route::post('/contact-send', [\App\Http\Controllers\ContactController::class, 'send']);
 
+/*
+|--------------------------------------------------------------------------
+| INTERN LMS ROUTES GROUP
+| Prefix  : /intern/lms
+| Name    : intern.lms.
+| Middleware : auth + participant (intern role)
+|--------------------------------------------------------------------------
+*/
+Route::prefix('intern/lms')
+    ->name('intern.lms.')
+    ->middleware(['auth', 'participant'])
+    ->group(function () {
+        Route::get('/dashboard', [\App\Http\Controllers\Intern\LmsController::class, 'dashboard'])->name('dashboard');
+        Route::get('/material/{id}', [\App\Http\Controllers\Intern\LmsController::class, 'showMaterial'])->name('material');
+        Route::post('/material/{id}/complete', [\App\Http\Controllers\Intern\LmsController::class, 'completeMaterial'])->name('material.complete');
+        Route::get('/task/{id}', [\App\Http\Controllers\Intern\LmsController::class, 'showTask'])->name('task');
+        Route::post('/task/{id}/submit', [\App\Http\Controllers\Intern\LmsController::class, 'submitTask'])->name('task.submit');
+    });
+
+/*
+|--------------------------------------------------------------------------
+| PEMBIMBING ROUTES GROUP
+| Prefix  : /pembimbing
+| Name    : pembimbing.*
+| Middleware : auth + pembimbing (EnsureIsPembimbing)
+|--------------------------------------------------------------------------
+*/
+Route::prefix('pembimbing')
+    ->name('pembimbing.')
+    ->middleware(['auth', 'pembimbing'])
+    ->group(function () {
+        Route::get('/dashboard', [\App\Http\Controllers\Pembimbing\DashboardController::class, 'index'])->name('dashboard');
+        Route::resource('materials', \App\Http\Controllers\Pembimbing\MaterialController::class);
+        Route::resource('tasks', \App\Http\Controllers\Pembimbing\TaskController::class);
+        Route::get('/tasks/{task}/submissions', [\App\Http\Controllers\Pembimbing\SubmissionController::class, 'index'])->name('tasks.submissions');
+        Route::put('/submissions/{submission}/review', [\App\Http\Controllers\Pembimbing\SubmissionController::class, 'review'])->name('submissions.review');
+    });

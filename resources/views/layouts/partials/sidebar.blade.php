@@ -5,12 +5,14 @@
 
     $dashboardUrl = match(true) {
         $user?->isAdmin() ?? false => route('admin.dashboard'),
+        $user?->isPembimbing() ?? false => route('pembimbing.dashboard'),
         $user?->isParticipant() ?? false => route('participant.dashboard'),
         default => route('login'),
     };
 
     $workspaceLabel = match(true) {
         $user?->isAdmin() ?? false => 'Workspace Admin',
+        $user?->isPembimbing() ?? false => 'Workspace Pembimbing',
         $user?->isParticipant() ?? false => 'Workspace Peserta',
         default => 'Public Workspace',
     };
@@ -92,6 +94,12 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link {{ str_starts_with($currentRoute, 'admin.pembimbing') ? 'active' : '' }}" href="{{ route('admin.pembimbing.index') }}">
+                        <span class="nav-icon"><i class="bi bi-person-workspace" aria-hidden="true"></i></span>
+                        <span class="nav-text">Pembimbing Magang</span>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link {{ str_starts_with($currentRoute, 'admin.surveys') ? 'active' : '' }}" href="{{ route('admin.surveys.index') }}">
                         <span class="nav-icon"><i class="bi bi-star-fill" aria-hidden="true"></i></span>
                         <span class="nav-text">Survei Kepuasan</span>
@@ -134,6 +142,31 @@
                         <span class="nav-text">Akun Saya</span>
                     </a>
                 </li>
+            @elseif ($user?->isPembimbing())
+                <li class="nav-item">
+                    <a class="nav-link {{ str_starts_with($currentRoute, 'pembimbing.dashboard') ? 'active' : '' }}" href="{{ route('pembimbing.dashboard') }}">
+                        <span class="nav-icon"><i class="bi bi-speedometer2" aria-hidden="true"></i></span>
+                        <span class="nav-text">Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ str_starts_with($currentRoute, 'pembimbing.materials') ? 'active' : '' }}" href="{{ route('pembimbing.materials.index') }}">
+                        <span class="nav-icon"><i class="bi bi-book" aria-hidden="true"></i></span>
+                        <span class="nav-text">Kelola Materi</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ str_starts_with($currentRoute, 'pembimbing.tasks') ? 'active' : '' }}" href="{{ route('pembimbing.tasks.index') }}">
+                        <span class="nav-icon"><i class="bi bi-list-task" aria-hidden="true"></i></span>
+                        <span class="nav-text">Kelola Tugas</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ str_starts_with($currentRoute, 'profile.edit') ? 'active' : '' }}" href="{{ route('profile.edit') }}">
+                        <span class="nav-icon"><i class="bi bi-person-gear" aria-hidden="true"></i></span>
+                        <span class="nav-text">Akun Saya</span>
+                    </a>
+                </li>
             @elseif ($user?->isParticipant())
                 <li class="nav-item">
                     <a class="nav-link {{ str_starts_with($currentRoute, 'participant.dashboard') ? 'active' : '' }}" href="{{ route('participant.dashboard') }}">
@@ -153,6 +186,28 @@
                         <span class="nav-text">Riwayat Magang</span>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ str_starts_with($currentRoute, 'participant.materials') ? 'active' : '' }}" href="{{ route('participant.materials.index') }}">
+                        <span class="nav-icon"><i class="bi bi-book" aria-hidden="true"></i></span>
+                        <span class="nav-text">Materi Magang</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ str_starts_with($currentRoute, 'participant.materials') ? 'active' : '' }}" href="{{ route('participant.materials.index') }}">
+                        <span class="nav-icon"><i class="bi bi-clipboard-check" aria-hidden="true"></i></span>
+                        <span class="nav-text">Tugas Magang</span>
+                    </a>
+                </li>
+                
+                @if($user?->role === \App\Enums\UserRole::Intern)
+                <li class="nav-item">
+                    <a class="nav-link {{ str_starts_with($currentRoute, 'intern.lms') ? 'active' : '' }}" href="{{ route('intern.lms.dashboard') }}">
+                        <span class="nav-icon"><i class="bi bi-journal-bookmark" aria-hidden="true"></i></span>
+                        <span class="nav-text">LMS & Tugas</span>
+                    </a>
+                </li>
+                @endif
+                
                 <li class="nav-item">
                     <a class="nav-link {{ str_starts_with($currentRoute, 'profile.edit') ? 'active' : '' }}" href="{{ route('profile.edit') }}">
                         <span class="nav-icon"><i class="bi bi-person-gear" aria-hidden="true"></i></span>

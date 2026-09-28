@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Repositories\RegistrationRepository;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
 
 class RegistrationService
@@ -330,6 +331,10 @@ class RegistrationService
 
             $result = $this->registrationRepository->update($registration, $updatePayload);
 
+            if ($enumStatus === RegistrationStatus::Accepted) {
+                $this->syncDivisionIdOnAcceptance($registration);
+            }
+
             DB::commit();
 
             return $result;
@@ -337,6 +342,92 @@ class RegistrationService
             DB::rollBack();
             throw $e;
         }
+    }
+
+    protected function syncDivisionIdOnAcceptance(Registration $registration): void
+    {
+        $participantUser = $registration->user;
+        if (! $participantUser instanceof User) {
+            return;
+        }
+
+        if (! empty($participantUser->division_id)) {
+            return;
+        }
+
+        $divisionId = $this->resolveDivisionIdFromRegistration($registration);
+        if ($divisionId === null) {
+            return;
+        }
+
+        $participantUser->update([
+            'division_id' => $divisionId,
+        ]);
+    }
+
+    public function resolveDivisionIdFromRegistration(Registration $registration): ?int
+    {
+        $registration->loadMissing(['position', 'user']);
+        $position = $registration->position;
+
+        if ($position === null) {
+            $pembimbing = User::where('role', \App\Enums\UserRole::Pembimbing)
+                ->whereNotNull('division_id')
+                ->first();
+
+            return $pembimbing?->division_id ?? null;
+        }
+
+        if (Schema::hasColumn('positions', 'division_id') && ! empty($position->getAttribute('division_id'))) {
+            return (int) $position->getAttribute('division_id');
+        }
+
+        $mentorNip = $position->getAttribute('mentor_nip');
+        $mentorName = $position->getAttribute('mentor_name');
+
+        if (! empty($mentorNip)) {
+            $pembimbing = User::where('role', \App\Enums\UserRole::Pembimbing)
+                ->whereNotNull('division_id')
+                ->where('nip', (string) $mentorNip)
+                ->first();
+
+            if ($pembimbing !== null) {
+                return (int) $pembimbing->division_id;
+            }
+        }
+
+        if (! empty($mentorName)) {
+            $pembimbing = User::where('role', \App\Enums\UserRole::Pembimbing)
+                ->whereNotNull('division_id')
+                ->where('name', 'like', '%'.trim((string) $mentorName).'%')
+                ->first();
+
+            if ($pembimbing !== null) {
+                return (int) $pembimbing->division_id;
+            }
+        }
+
+        $acceptedRegistrationSamePosition = Registration::where('position_id', $position->id)
+            ->where('status', RegistrationStatus::Accepted)
+            ->where('id', '!=', $registration->id)
+            ->whereHas('user', function ($q): void {
+                $q->whereNotNull('division_id');
+            })
+            ->latest()
+            ->first();
+
+        if ($acceptedRegistrationSamePosition !== null) {
+            $peerUser = $acceptedRegistrationSamePosition->user;
+            if ($peerUser !== null && ! empty($peerUser->division_id)) {
+                return (int) $peerUser->division_id;
+            }
+        }
+
+        $fallbackPembimbing = User::where('role', \App\Enums\UserRole::Pembimbing)
+            ->whereNotNull('division_id')
+            ->first();
+
+        return $fallbackPembimbing?->division_id ?? null;
     }
 
     /**
