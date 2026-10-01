@@ -39,10 +39,10 @@ class PembimbingController extends Controller
     public function create()
     {
         $positions = \App\Models\Position::all();
-        $divisions = [];
         foreach ($positions as $position) {
-            $divisions[] = \App\Models\Division::firstOrCreate(['nama_divisi' => $position->nama_posisi]);
+            \App\Models\Division::firstOrCreate(['nama_divisi' => $position->nama_posisi]);
         }
+        $divisions = \App\Models\Division::orderBy('nama_divisi')->get();
         return view('admin.pembimbing.create', compact('divisions'));
     }
 
@@ -70,11 +70,21 @@ class PembimbingController extends Controller
             abort(404);
         }
         $positions = \App\Models\Position::all();
-        $divisions = [];
         foreach ($positions as $position) {
-            $divisions[] = \App\Models\Division::firstOrCreate(['nama_divisi' => $position->nama_posisi]);
+            \App\Models\Division::firstOrCreate(['nama_divisi' => $position->nama_posisi]);
         }
-        return view('admin.pembimbing.edit', compact('pembimbing', 'divisions'));
+        $divisions = \App\Models\Division::orderBy('nama_divisi')->get();
+
+        $materialsCount = $pembimbing->materials()->count();
+        $tasksCount = method_exists($pembimbing, 'tasks') ? $pembimbing->tasks()->count() : 0;
+        $submissionsCount = 0;
+        if ($materialsCount > 0) {
+            $submissionsCount = \App\Models\ModuleSubmission::whereHas('material', function ($q) use ($pembimbing) {
+                $q->where('pembimbing_id', $pembimbing->id);
+            })->count();
+        }
+
+        return view('admin.pembimbing.edit', compact('pembimbing', 'divisions', 'materialsCount', 'tasksCount', 'submissionsCount'));
     }
 
     public function update(Request $request, User $pembimbing)

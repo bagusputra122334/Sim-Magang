@@ -40,15 +40,26 @@
                                     @endif
                                 </td>
                                 <td>
-                                    <div class="d-flex gap-2">
-                                        <a href="{{ route('pembimbing.materials.edit', $material->id) }}" class="btn btn-sm btn-info text-white">
-                                            <i class="bi bi-pencil"></i> Edit
+                                    <div class="d-flex align-items-center gap-2 flex-wrap">
+                                        <!-- Tombol Lihat Pengumpulan -->
+                                        <a href="{{ route('pembimbing.materials.submissions', $material->id) }}" class="btn btn-sm text-white fw-semibold shadow-sm rounded-pill px-3 py-1 d-inline-flex align-items-center gap-1" style="background-color: #4f46e5;" onmouseover="this.style.backgroundColor='#4338ca'" onmouseout="this.style.backgroundColor='#4f46e5'">
+                                            <i class="bi bi-eye"></i>
+                                            <span>Pengumpulan</span>
                                         </a>
-                                        <form action="{{ route('pembimbing.materials.destroy', $material->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus materi ini?');">
+
+                                        <!-- Tombol Edit -->
+                                        <a href="{{ route('pembimbing.materials.edit', $material->id) }}" class="btn btn-sm text-white fw-semibold shadow-sm rounded-pill px-3 py-1 d-inline-flex align-items-center gap-1" style="background-color: #06b6d4;" onmouseover="this.style.backgroundColor='#0891b2'" onmouseout="this.style.backgroundColor='#06b6d4'">
+                                            <i class="bi bi-pencil-square"></i>
+                                            <span>Edit</span>
+                                        </a>
+
+                                        <!-- Tombol Hapus -->
+                                        <form action="{{ route('pembimbing.materials.destroy', $material->id) }}" method="POST" class="d-inline-block" onsubmit="return confirm('Yakin ingin menghapus?');">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-sm btn-danger">
-                                                <i class="bi bi-trash"></i> Hapus
+                                            <button type="submit" class="btn btn-sm text-white fw-semibold shadow-sm rounded-pill px-3 py-1 d-inline-flex align-items-center gap-1" style="background-color: #dc2626;" onmouseover="this.style.backgroundColor='#b91c1c'" onmouseout="this.style.backgroundColor='#dc2626'">
+                                                <i class="bi bi-trash"></i>
+                                                <span>Hapus</span>
                                             </button>
                                         </form>
                                     </div>

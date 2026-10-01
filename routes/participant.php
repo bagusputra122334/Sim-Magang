@@ -92,6 +92,8 @@ Route::prefix('applications')
 */
 Route::prefix('materials')->name('materials.')->group(function (): void {
     Route::get('/', [\App\Http\Controllers\Participant\MaterialController::class, 'index'])->name('index');
-    Route::get('/{id}', [\App\Http\Controllers\Participant\MaterialController::class, 'show'])->name('show');
-    Route::post('/{id}/submit', [\App\Http\Controllers\Participant\MaterialController::class, 'submitTask'])->name('submit');
+    Route::get('/{material}', [\App\Http\Controllers\Participant\MaterialController::class, 'show'])->name('show');
+    Route::post('/{material}/submit', [\App\Http\Controllers\Participant\MaterialController::class, 'submitTask'])->name('submit');
+    Route::post('/{material}/mark-video-watched', [\App\Http\Controllers\Participant\MaterialController::class, 'markVideoWatched'])->name('mark-video-watched');
+    Route::post('/{material}/complete-video', [\App\Http\Controllers\Participant\MaterialController::class, 'completeVideo'])->name('complete-video');
 });

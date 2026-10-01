@@ -2,8 +2,8 @@
 @section('title', 'Materi Pembelajaran')
 @section('content')
 <div class="container-fluid">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Materi Pembelajaran</h1>
+    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+        <h1 class="h3 mb-0 text-gray-800">Materi & Penugasan</h1>
         <a href="{{ route('participant.dashboard') }}" class="btn btn-secondary">
             <i class="bi bi-arrow-left me-1"></i> Kembali ke Dashboard
         </a>
@@ -12,75 +12,129 @@
     @if(session('error'))
         <div class="alert alert-danger">{{ session('error') }}</div>
     @endif
+    @if(session('success'))
+        <div class="alert alert-success border-2 border-success rounded-3 shadow-sm mb-4 d-flex align-items-start" role="alert">
+            <i class="bi bi-check-circle-fill fs-4 text-success me-2 flex-shrink-0 mt-0.5"></i>
+            <div>
+                <h6 class="alert-heading fw-bold mb-1">Berhasil!</h6>
+                <p class="mb-0">{{ session('success') }}</p>
+            </div>
+        </div>
+    @endif
 
-    <div class="row g-3">
+    <!-- START OF CLEAN LIST CONTAINER (Layer 2 EXACT SPEC) -->
+    <div class="d-flex flex-column w-100" style="gap: 1rem;">
         @forelse($materials as $material)
             @php
-                $submissionExists = \App\Models\ModuleSubmission::where('material_id', $material->id)
-                    ->where('user_id', auth()->id())
-                    ->exists();
+                $rawId = $material->raw_id ?? $material->id;
+                $srcType = $material->source_type ?? 'material';
+                $isTaskFlag = (bool) ($material->is_task ?? false);
+
+                if ($material->submissions instanceof \Illuminate\Support\Collection && $material->submissions->isNotEmpty()) {
+                    $userSubmission = $material->submissions->first();
+                } else {
+                    $userSubmission = null;
+                }
+
+                if ($userSubmission !== null) {
+                    $isCompleted = true;
+                } elseif ($isTaskFlag || $srcType === 'task' || !empty($material->deadline)) {
+                    $isCompleted = \App\Models\ModuleSubmission::where('material_id', $rawId)
+                        ->where('user_id', auth()->id())
+                        ->exists();
+                } else {
+                    $isCompleted = false;
+                }
+
+                if (!empty($material->deadline) || $isTaskFlag || $srcType === 'task') {
+                    $jenisLabel = 'TUGAS';
+                    $jenisBg = '#fef3c7';
+                    $jenisColor = '#92400e';
+                } else {
+                    $jenisLabel = 'MATERI';
+                    $jenisBg = '#e0f2fe';
+                    $jenisColor = '#075985';
+                }
+
+                $hasDeadline = !empty($material->deadline);
+                $deadlineCarbon = $hasDeadline ? \Illuminate\Support\Carbon::parse($material->deadline) : null;
+                $createdCarbon = !empty($material->created_at) ? \Illuminate\Support\Carbon::parse($material->created_at) : null;
+                $isOverdue = $deadlineCarbon && $deadlineCarbon->isPast() && !$isCompleted;
             @endphp
-            <div class="col-md-6 col-lg-4">
-                <div class="card shadow-sm border-0 h-100">
-                    <div class="card-body d-flex flex-column">
-                        <div class="d-flex justify-content-between align-items-start gap-2 mb-2">
-                            <h5 class="card-title mb-0 fw-bold">{{ $material->title }}</h5>
-                            @if($material->is_task)
-                                <span class="badge bg-warning-subtle text-warning-emphasis border border-warning-subtle rounded-pill px-2.5 py-1 small fw-bold flex-shrink-0">
-                                    <i class="bi bi-clipboard-check me-1"></i> Tugas
-                                </span>
-                            @else
-                                <span class="badge bg-info-subtle text-info-emphasis border border-info-subtle rounded-pill px-2.5 py-1 small fw-bold flex-shrink-0">
-                                    <i class="bi bi-book me-1"></i> Materi
-                                </span>
-                            @endif
-                        </div>
 
-                        <p class="card-text text-muted small mb-3 flex-grow-1" style="display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">
-                            {{ \Illuminate\Support\Str::limit(strip_tags($material->description), 120) }}
-                        </p>
-
-                        @if($material->is_task && $material->deadline)
-                            <div class="mb-3">
-                                <small class="text-danger d-flex align-items-center">
-                                    <i class="bi bi-clock-fill me-1"></i>
-                                    Deadline: {{ $material->deadline->translatedFormat('d M Y H:i') }}
-                                </small>
-                            </div>
+            {{-- ======================================================================================
+                 SINGLE TASK CARD
+                 flex flex-col md:flex-row md:items-center justify-between gap-3 — NO OVERLAP
+                 ====================================================================================== --}}
+            <div class="bg-white border border-gray-200 rounded-lg p-3.5 sm:p-4 mb-3 shadow-sm hover:border-gray-300 transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <!-- Left Info Section -->
+                <div class="flex flex-col gap-1 min-w-0 flex-1">
+                    <div class="flex items-center gap-2 flex-wrap">
+                        @if($material->is_task)
+                            <span style="background-color: #fef3c7 !important; color: #92400e !important; padding: 0.125rem 0.5rem !important; border-radius: 0.25rem !important; font-size: 0.625rem !important; font-weight: 700 !important; letter-spacing: 0.05em !important; text-transform: uppercase !important; border: 1px solid #fde68a !important;">
+                                <i class="bi bi-clipboard-check me-0.5"></i> Tugas
+                            </span>
                         @endif
-
-                        <div class="d-flex gap-2 mt-auto">
-                            <a href="{{ route('participant.materials.show', $material->id) }}" class="btn btn-primary w-100">
-                                @if($material->is_task)
-                                    @if($submissionExists)
-                                        <i class="bi bi-eye me-1"></i> Lihat Status
-                                    @else
-                                        <i class="bi bi-pencil-square me-1"></i> Kerjakan Tugas
-                                    @endif
-                                @else
-                                    <i class="bi bi-book me-1"></i> Buka Materi
-                                @endif
-                            </a>
-                        </div>
+                        @if($userSubmission || $isCompleted)
+                            <span style="background-color: #d1fae5 !important; color: #065f46 !important; padding: 0.125rem 0.5rem !important; border-radius: 0.25rem !important; font-size: 0.625rem !important; font-weight: 700 !important; letter-spacing: 0.05em !important; text-transform: uppercase !important; border: 1px solid #6ee7b7 !important;">
+                                <i class="bi bi-check-circle-fill me-0.5"></i> Sudah Dikumpulkan
+                            </span>
+                        @elseif($isTaskFlag && $isOverdue)
+                            <span style="background-color: #fee2e2 !important; color: #991b1b !important; padding: 0.125rem 0.5rem !important; border-radius: 0.25rem !important; font-size: 0.625rem !important; font-weight: 700 !important; letter-spacing: 0.05em !important; text-transform: uppercase !important; border: 1px solid #fecaca !important;">
+                                <i class="bi bi-exclamation-triangle-fill me-0.5"></i> Terlambat
+                            </span>
+                        @elseif($isTaskFlag && !$isCompleted)
+                            <span style="background-color: #dbeafe !important; color: #1e40af !important; padding: 0.125rem 0.5rem !important; border-radius: 0.25rem !important; font-size: 0.625rem !important; font-weight: 700 !important; letter-spacing: 0.05em !important; text-transform: uppercase !important; border: 1px solid #bfdbfe !important;">
+                                <i class="bi bi-hourglass-split me-0.5"></i> Belum Dikumpulkan
+                            </span>
+                        @endif
+                        @if(!$material->is_task && !($userSubmission || $isCompleted))
+                            <span style="background-color: #e0f2fe !important; color: #075985 !important; padding: 0.125rem 0.5rem !important; border-radius: 0.25rem !important; font-size: 0.625rem !important; font-weight: 700 !important; letter-spacing: 0.05em !important; text-transform: uppercase !important; border: 1px solid #bae6fd !important;">
+                                <i class="bi bi-journal-text me-0.5"></i> Materi
+                            </span>
+                        @endif
                     </div>
+                    <h3 class="text-sm sm:text-base font-bold text-gray-900 truncate">{{ $material->title }}</h3>
+                    <p class="text-xs text-gray-500 flex items-center">
+                        <svg class="w-3.5 h-3.5 mr-1 text-gray-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                        Diberikan: {{ $material->created_at->format('d M Y, H:i') }} WIB
+                    </p>
+                </div>
+
+                <!-- Right Action Button (Status-Aware) -->
+                <div class="shrink-0 flex items-center">
+                    @if($isTaskFlag)
+                        @if($userSubmission || $isCompleted)
+                            <a href="{{ route('participant.materials.show', $material->id) }}" class="w-full sm:w-auto inline-flex items-center justify-center px-4 py-2 text-white text-xs font-bold rounded-lg shadow-sm transition" style="background-color: #4f46e5 !important;">
+                                <svg class="w-3.5 h-3.5 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                Sudah Dikumpulkan
+                            </a>
+                        @elseif($isOverdue)
+                            <a href="{{ route('participant.materials.show', $material->id) }}" class="w-full sm:w-auto inline-flex items-center justify-center px-4 py-2 text-white text-xs font-bold rounded-lg shadow-sm transition" style="background-color: #dc2626 !important;">
+                                <svg class="w-3.5 h-3.5 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                Terlambat — Kumpulkan
+                            </a>
+                        @else
+                            <a href="{{ route('participant.materials.show', $material->id) }}" class="w-full sm:w-auto inline-flex items-center justify-center px-4 py-2 text-white text-xs font-bold rounded-lg shadow-sm transition" style="background-color: #059669 !important;">
+                                Kumpulkan Tugas
+                                <svg class="w-3.5 h-3.5 ml-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                            </a>
+                        @endif
+                    @else
+                        <a href="{{ route('participant.materials.show', $material->id) }}" class="w-full sm:w-auto inline-flex items-center justify-center px-4 py-2 text-white text-xs font-bold rounded-lg shadow-sm transition" style="background-color: #0369a1 !important;">
+                            Lihat Materi
+                            <svg class="w-3.5 h-3.5 ml-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                        </a>
+                    @endif
                 </div>
             </div>
         @empty
-            <div class="col-12">
-                <div class="card shadow-sm border-0">
-                    <div class="card-body text-center py-5">
-                        <div class="avatar-xl bg-primary bg-opacity-10 text-primary mx-auto mb-3 d-flex align-items-center justify-content-center rounded-circle">
-                            <i class="bi bi-journal-text fs-1"></i>
-                        </div>
-                        <h4 class="fw-bold mb-2">Belum Ada Materi</h4>
-                        <p class="text-muted mb-0 mx-auto" style="max-width: 480px;">
-                            Saat ini belum ada materi pembelajaran yang diterbitkan oleh Pembimbing di divisi Anda. Silakan cek kembali nanti.
-                        </p>
-                    </div>
-                </div>
+            <div class="w-100 bg-white border border-gray-200 rounded-4 p-8 text-center text-gray-500">
+                Belum ada tugas atau materi yang diberikan.
             </div>
         @endforelse
     </div>
+    <!-- END OF CLEAN LIST CONTAINER -->
 
     @if($materials->hasPages())
         <div class="mt-4 d-flex justify-content-center">

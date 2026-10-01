@@ -189,6 +189,7 @@ Route::prefix('pembimbing')
     ->group(function () {
         Route::get('/dashboard', [\App\Http\Controllers\Pembimbing\DashboardController::class, 'index'])->name('dashboard');
         Route::resource('materials', \App\Http\Controllers\Pembimbing\MaterialController::class);
+        Route::get('/materials/{material}/submissions', [\App\Http\Controllers\Pembimbing\MaterialController::class, 'submissions'])->name('materials.submissions');
         Route::resource('tasks', \App\Http\Controllers\Pembimbing\TaskController::class);
         Route::get('/tasks/{task}/submissions', [\App\Http\Controllers\Pembimbing\SubmissionController::class, 'index'])->name('tasks.submissions');
         Route::put('/submissions/{submission}/review', [\App\Http\Controllers\Pembimbing\SubmissionController::class, 'review'])->name('submissions.review');

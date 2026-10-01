@@ -12,6 +12,12 @@ class ModuleSubmission extends Model
 
     protected $guarded = [];
 
+    protected $casts = [
+        'is_video_watched' => 'boolean',
+        'video_watched_at' => 'datetime',
+        'grade' => 'integer',
+    ];
+
     public function material(): BelongsTo
     {
         return $this->belongsTo(Material::class);

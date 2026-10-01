@@ -15,7 +15,7 @@ class EnsureIsPembimbing
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (! $request->user() || ! $request->user()->isPembimbing()) {
+        if (! $request->user() || (! $request->user()->isPembimbing() && ! $request->user()->isAdmin())) {
             abort(403, 'Unauthorized access - Anda bukan pembimbing.');
         }
 

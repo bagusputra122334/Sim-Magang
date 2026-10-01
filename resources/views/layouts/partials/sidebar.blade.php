@@ -151,14 +151,8 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {{ str_starts_with($currentRoute, 'pembimbing.materials') ? 'active' : '' }}" href="{{ route('pembimbing.materials.index') }}">
-                        <span class="nav-icon"><i class="bi bi-book" aria-hidden="true"></i></span>
-                        <span class="nav-text">Kelola Materi</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {{ str_starts_with($currentRoute, 'pembimbing.tasks') ? 'active' : '' }}" href="{{ route('pembimbing.tasks.index') }}">
-                        <span class="nav-icon"><i class="bi bi-list-task" aria-hidden="true"></i></span>
-                        <span class="nav-text">Kelola Tugas</span>
+                        <span class="nav-icon"><i class="bi bi-clipboard-check" aria-hidden="true"></i></span>
+                        <span class="nav-text">Penugasan</span>
                     </a>
                 </li>
                 <li class="nav-item">
@@ -188,14 +182,8 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {{ str_starts_with($currentRoute, 'participant.materials') ? 'active' : '' }}" href="{{ route('participant.materials.index') }}">
-                        <span class="nav-icon"><i class="bi bi-book" aria-hidden="true"></i></span>
-                        <span class="nav-text">Materi Magang</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {{ str_starts_with($currentRoute, 'participant.materials') ? 'active' : '' }}" href="{{ route('participant.materials.index') }}">
-                        <span class="nav-icon"><i class="bi bi-clipboard-check" aria-hidden="true"></i></span>
-                        <span class="nav-text">Tugas Magang</span>
+                        <span class="nav-icon"><i class="bi bi-journal-bookmark" aria-hidden="true"></i></span>
+                        <span class="nav-text">Penugasan</span>
                     </a>
                 </li>
                 

@@ -19,6 +19,12 @@
     $latestStatus = is_string($latestStatus) ? ucfirst(strtolower($latestStatus)) : '';
 
     $canApplyNew = $canApplyNew ?? ($reg === null || in_array(strtolower((string)$latestStatus), ['rejected', 'completed', 'inactive', 'dinonaktifkan']));
+
+    $totalAssignments = $totalAssignments ?? 0;
+    $pendingCount = $pendingCount ?? 0;
+    $doneCount = $doneCount ?? 0;
+    $overdueCount = $overdueCount ?? 0;
+    $assignments = $assignments ?? [];
 @endphp
 
 @section('title', 'Dashboard')
@@ -79,10 +85,10 @@
         </div>
     @endif
 
-    <!-- Top Statistics Row (Ultra-Compact, 4 Columns) -->
+    <!-- Top Statistics Row (Ultra-Compact, 6 Columns - Extended with Assignment Stats) -->
     <div class="row g-3 mb-2">
         <!-- Card 1: Status Profil -->
-        <div class="col-md-6 col-lg-3">
+        <div class="col-md-6 col-lg-2">
             <div class="card shadow-sm border-0 h-100">
                 <div class="card-body p-2 px-3 d-flex align-items-center justify-content-between">
                     <div>
@@ -97,7 +103,7 @@
         </div>
 
         <!-- Card 2: Total Pendaftaran -->
-        <div class="col-md-6 col-lg-3">
+        <div class="col-md-6 col-lg-2">
             <div class="card shadow-sm border-0 h-100">
                 <div class="card-body p-2 px-3 d-flex align-items-center justify-content-between">
                     <div>
@@ -112,7 +118,7 @@
         </div>
 
         <!-- Card 3: Status Terbaru -->
-        <div class="col-md-6 col-lg-3">
+        <div class="col-md-6 col-lg-2">
             <div class="card shadow-sm border-0 h-100">
                 <div class="card-body p-2 px-3 d-flex align-items-center justify-content-between">
                     <div>
@@ -133,7 +139,7 @@
         </div>
 
         <!-- Card 4: Surat Balasan -->
-        <div class="col-md-6 col-lg-3">
+        <div class="col-md-6 col-lg-2">
             <div class="card shadow-sm border-0 h-100">
                 <div class="card-body p-2 px-3 d-flex align-items-center justify-content-between">
                     <div>
@@ -148,6 +154,184 @@
                 </div>
             </div>
         </div>
+
+        <!-- Card 5: Total Penugasan -->
+        <div class="col-md-6 col-lg-2">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body p-2 px-3 d-flex align-items-center justify-content-between">
+                    <div>
+                        <p class="text-muted text-uppercase fw-bold mb-1 small">Total Penugasan</p>
+                        <h5 class="fw-bold mb-0 text-slate-900 dark:text-slate-100">{{ $totalAssignments }}</h5>
+                    </div>
+                    <div class="text-indigo">
+                        <i class="bi bi-list-task fs-5"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 6: Tugas Tertunda / Perlu Dikerjakan -->
+        <div class="col-md-6 col-lg-2">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body p-2 px-3 d-flex align-items-center justify-content-between">
+                    <div>
+                        <p class="text-muted text-uppercase fw-bold mb-1 small">Tugas Tertunda</p>
+                        <h5 class="fw-bold mb-0 {{ $overdueCount > 0 ? 'text-danger' : ($pendingCount > 0 ? 'text-warning' : 'text-success') }}">
+                            {{ $overdueCount > 0 ? $overdueCount . ' Terlambat' : ($pendingCount > 0 ? $pendingCount . ' Tugas' : 'Selesai') }}
+                        </h5>
+                    </div>
+                    <div class="{{ $overdueCount > 0 ? 'text-danger' : ($pendingCount > 0 ? 'text-warning' : 'text-success') }}">
+                        <i class="bi {{ $overdueCount > 0 ? 'bi-exclamation-triangle-fill' : ($pendingCount > 0 ? 'bi-clock-history' : 'bi-check2-circle') }} fs-5"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- ASSIGNMENT DASHBOARD WIDGET (Always visible after stats) --}}
+    <div class="panel mb-4">
+        <div class="panel-header border-bottom pb-3 mb-3 d-flex flex-wrap align-items-center justify-content-between gap-2">
+            <div>
+                <h2 class="h5 mb-1 section-title">
+                    <i class="bi bi-clipboard-check" aria-hidden="true"></i>
+                    <span>Penugasan Aktif</span>
+                </h2>
+                <p class="text-muted mb-0">
+                    Materi & Tugas dari Pembimbing Anda.
+                    <a href="{{ route('participant.materials.index') }}" class="text-decoration-none fw-semibold ms-1">
+                        Lihat Semua <i class="bi bi-arrow-right ms-1"></i>
+                    </a>
+                </p>
+            </div>
+            <div class="d-flex gap-2 flex-wrap">
+                <span class="badge bg-warning-subtle text-warning-emphasis border border-warning-subtle rounded-pill px-3 py-2 small fw-bold">
+                    <i class="bi bi-clock-history me-1"></i> Tertunda: {{ $pendingCount }}
+                </span>
+                @if($overdueCount > 0)
+                    <span class="badge bg-danger-subtle text-danger-emphasis border border-danger-subtle rounded-pill px-3 py-2 small fw-bold">
+                        <i class="bi bi-exclamation-triangle-fill me-1"></i> Terlambat: {{ $overdueCount }}
+                    </span>
+                @endif
+                <span class="badge bg-success-subtle text-success-emphasis border border-success-subtle rounded-pill px-3 py-2 small fw-bold">
+                    <i class="bi bi-check2-circle me-1"></i> Selesai: {{ $doneCount }}
+                </span>
+            </div>
+        </div>
+
+        @if(empty($assignments))
+            <div class="text-center py-4">
+                <div class="avatar-lg bg-indigo bg-opacity-10 text-indigo mx-auto mb-3 d-flex align-items-center justify-content-center rounded-circle">
+                    <i class="bi bi-clipboard2-x fs-3"></i>
+                </div>
+                <h5 class="fw-bold mb-1 text-muted">Belum Ada Penugasan</h5>
+                <p class="text-muted small mb-3 mx-auto" style="max-width: 480px;">
+                    Saat ini Pembimbing di divisi Anda belum mempublikasikan materi atau penugasan. Silakan cek kembali secara berkala.
+                </p>
+            </div>
+        @else
+            <div class="list-group list-group-flush border rounded-3 overflow-hidden">
+                @foreach($assignments as $assignment)
+                    @php
+                        $isSubmitted = !empty($assignment->submitted);
+                        $isOverdue = !empty($assignment->overdue);
+                        $srcType = $assignment->source_type ?? 'material';
+                        $isTask = (bool) ($assignment->is_task ?? false);
+                        $deadlineVal = $assignment->deadline ?? null;
+                        $deadlineStr = '';
+                        $overdueBadge = '';
+                        if ($deadlineVal !== null) {
+                            $carbonDeadline = \Illuminate\Support\Carbon::parse($deadlineVal);
+                            $deadlineStr = $carbonDeadline->translatedFormat('d M Y H:i');
+                            if ($isOverdue && !$isSubmitted) {
+                                $overdueBadge = '<span class="badge bg-danger-subtle text-danger-emphasis border border-danger-subtle rounded-pill px-2 py-0.5 ms-1 small">Terlambat</span>';
+                            }
+                        }
+                    @endphp
+                    <a href="{{ route('participant.materials.show', $assignment->id) }}" class="list-group-item list-group-item-action d-flex align-items-center gap-3 p-3 border-0 border-bottom last:border-0 @if(!$isSubmitted && $isOverdue) bg-danger bg-opacity-5 @endif">
+                        <div class="flex-shrink-0">
+                            @if($srcType === 'task')
+                                <div class="avatar-md bg-indigo bg-opacity-10 text-indigo d-flex align-items-center justify-content-center rounded-3">
+                                    <i class="bi bi-list-task fs-4"></i>
+                                </div>
+                            @elseif($isTask)
+                                <div class="avatar-md bg-warning bg-opacity-10 text-warning d-flex align-items-center justify-content-center rounded-3">
+                                    <i class="bi bi-clipboard-check fs-4"></i>
+                                </div>
+                            @else
+                                <div class="avatar-md bg-info bg-opacity-10 text-info d-flex align-items-center justify-content-center rounded-3">
+                                    <i class="bi bi-book fs-4"></i>
+                                </div>
+                            @endif
+                        </div>
+
+                        <div class="flex-grow-1 min-w-0">
+                            <div class="d-flex flex-wrap align-items-center gap-2 mb-1">
+                                <h6 class="mb-0 fw-bold text-truncate flex-grow-1">{{ $assignment->title }}</h6>
+                                @if($srcType === 'task')
+                                    <span class="badge bg-indigo-subtle text-indigo-emphasis border border-indigo-subtle rounded-pill px-2 py-0.5 small fw-bold flex-shrink-0">
+                                        Tugas
+                                    </span>
+                                @elseif($isTask)
+                                    <span class="badge bg-warning-subtle text-warning-emphasis border border-warning-subtle rounded-pill px-2 py-0.5 small fw-bold flex-shrink-0">
+                                        Tugas
+                                    </span>
+                                @else
+                                    <span class="badge bg-info-subtle text-info-emphasis border border-info-subtle rounded-pill px-2 py-0.5 small fw-bold flex-shrink-0">
+                                        Materi
+                                    </span>
+                                @endif
+                                @if($isSubmitted)
+                                    <span class="badge bg-success-subtle text-success-emphasis border border-success-subtle rounded-pill px-2 py-0.5 small fw-bold flex-shrink-0">
+                                        <i class="bi bi-check2-circle me-1"></i> Sudah Dikumpulkan
+                                    </span>
+                                @endif
+                                {!! $overdueBadge !!}
+                            </div>
+                            <p class="mb-0 small text-muted text-truncate" style="-webkit-line-clamp: 1;">
+                                {{ \Illuminate\Support\Str::limit(strip_tags($assignment->description), 100) }}
+                            </p>
+                            @if($deadlineStr !== '' && $isTask)
+                                <div class="mt-1">
+                                    <small class="{{ $isOverdue && !$isSubmitted ? 'text-danger fw-semibold' : 'text-muted' }} d-inline-flex align-items-center">
+                                        <i class="bi bi-clock-fill me-1"></i>
+                                        Deadline: {{ $deadlineStr }}
+                                    </small>
+                                </div>
+                            @endif
+                        </div>
+
+                        <div class="flex-shrink-0 d-flex gap-2 align-items-center">
+                            @if($isSubmitted)
+                                <span class="text-success d-none d-md-inline">
+                                    <i class="bi bi-check2-circle fs-4"></i>
+                                </span>
+                            @elseif($isOverdue && $isTask)
+                                <span class="text-danger d-none d-md-inline">
+                                    <i class="bi bi-exclamation-triangle-fill fs-4"></i>
+                                </span>
+                            @elseif($isTask)
+                                <span class="text-warning d-none d-md-inline">
+                                    <i class="bi bi-pencil-square fs-4"></i>
+                                </span>
+                            @else
+                                <span class="text-info d-none d-md-inline">
+                                    <i class="bi bi-arrow-right-circle fs-4"></i>
+                                </span>
+                            @endif
+                            <i class="bi bi-chevron-right text-muted fs-5 d-none d-sm-inline"></i>
+                        </div>
+                    </a>
+                @endforeach
+            </div>
+
+            @if($totalAssignments > count($assignments))
+                <div class="mt-3 text-center">
+                    <a href="{{ route('participant.materials.index') }}" class="btn btn-outline-primary btn-sm rounded-pill px-4">
+                        <i class="bi bi-collection me-1"></i> Lihat Semua Penugasan ({{ $totalAssignments }})
+                    </a>
+                </div>
+            @endif
+        @endif
     </div>
 
     <div class="row g-3 mt-0">

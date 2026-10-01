@@ -407,6 +407,24 @@ class RegistrationService
             }
         }
 
+        $positionName = trim((string) $position->getAttribute('nama_posisi'));
+        if ($positionName !== '' && Schema::hasTable('divisions') && Schema::hasColumn('divisions', 'nama_divisi')) {
+            $matchedDivision = DB::table('divisions')
+                ->where('nama_divisi', $positionName)
+                ->orWhere('nama_divisi', 'LIKE', '%'.$positionName.'%')
+                ->first();
+
+            if ($matchedDivision !== null && ! empty($matchedDivision->id)) {
+                $divisionMatchedId = (int) $matchedDivision->id;
+                $pembimbingInDivision = User::where('role', \App\Enums\UserRole::Pembimbing)
+                    ->where('division_id', $divisionMatchedId)
+                    ->first();
+                if ($pembimbingInDivision !== null) {
+                    return $divisionMatchedId;
+                }
+            }
+        }
+
         $acceptedRegistrationSamePosition = Registration::where('position_id', $position->id)
             ->where('status', RegistrationStatus::Accepted)
             ->where('id', '!=', $registration->id)

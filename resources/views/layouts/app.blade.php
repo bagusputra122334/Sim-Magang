@@ -47,7 +47,7 @@
             @include('layouts.partials.navbar')
 
             <main class="dashboard-content flex-grow-1">
-                <div class="container-fluid px-3 px-lg-4 py-4">
+                <div class="container-fluid px-3 px-lg-4 pt-2 pb-8">
 
                     @if(isset($errors) && $errors->any())
                         <div class="alert alert-danger alert-dismissible fade show mb-4" role="alert">
