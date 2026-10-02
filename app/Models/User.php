@@ -29,7 +29,7 @@ use Illuminate\Notifications\Notifiable;
  * @property-read Profile|null        $profile        Data profil peserta (1:1)
  * @property-read \Illuminate\Database\Eloquent\Collection<int, Registration> $registrations  Riwayat pendaftaran user (1:N)
  */
-#[Fillable(['name', 'email', 'password', 'nip', 'position_title', 'division_id'])]
+#[Fillable(['name', 'email', 'password', 'nip', 'position_title', 'division_id', 'position_id', 'avatar'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
@@ -125,6 +125,13 @@ class User extends Authenticatable
 
     public function getFotoUrlAttribute(): ?string
     {
+        if ($this->avatar !== null && trim($this->avatar) !== '') {
+            if (str_starts_with($this->avatar, 'http://') || str_starts_with($this->avatar, 'https://')) {
+                return $this->avatar;
+            }
+            return \Illuminate\Support\Facades\Storage::disk('public')->url($this->avatar);
+        }
+
         return $this->profile?->foto_url;
     }
 
@@ -146,6 +153,11 @@ class User extends Authenticatable
         return $this->belongsTo(Division::class);
     }
 
+    public function position(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Position::class);
+    }
+
     public function materials(): HasMany
     {
         return $this->hasMany(Material::class, 'pembimbing_id');
@@ -154,6 +166,11 @@ class User extends Authenticatable
     public function tasks(): HasMany
     {
         return $this->hasMany(Task::class, 'pembimbing_id');
+    }
+
+    public function mentoredPositions(): HasMany
+    {
+        return $this->hasMany(Position::class, 'mentor_nip', 'nip');
     }
 
     public function submissions(): HasMany

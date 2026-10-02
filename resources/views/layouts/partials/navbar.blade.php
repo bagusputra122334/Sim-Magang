@@ -7,12 +7,14 @@
     $settingsUrl = route('profile.edit');
     $profileUrl = match(true) {
         $user?->isAdmin() ?? false => route('admin.dashboard'),
+        $user?->isPembimbing() ?? false => route('pembimbing.profile.index'),
         $user?->isParticipant() ?? false => route('participant.profile.index'),
         default => route('login'),
     };
 
     $dashboardUrl = match(true) {
         $user?->isAdmin() ?? false => route('admin.dashboard'),
+        $user?->isPembimbing() ?? false => route('pembimbing.dashboard'),
         $user?->isParticipant() ?? false => route('participant.dashboard'),
         default => route('login'),
     };

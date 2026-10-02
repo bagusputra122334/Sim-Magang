@@ -187,9 +187,10 @@
                     <thead class="table-light">
                         <tr>
                             <th class="text-center" style="width: 60px;">No</th>
-                            <th style="width: 34%;">Nama</th>
+                            <th style="width: 30%;">Nama</th>
                             <th>Asal Instansi</th>
-                            <th class="text-center" style="width: 140px;">Status</th>
+                            <th class="text-center" style="width: 130px;">Status</th>
+                            <th class="text-center" style="width: 170px;">Absensi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -246,10 +247,18 @@
                                         {{ $intern->operational_status_label }}
                                     </span>
                                 </td>
+                                <td class="text-center">
+                                    <a href="{{ route('pembimbing.attendance.show', $intern) }}"
+                                       class="btn btn-sm d-inline-flex align-items-center justify-content-center gap-1.5 fw-semibold"
+                                       style="background-color: #2563eb !important; color: #ffffff !important; border-radius: 0.5rem; min-width: 112px; font-size: 0.75rem;">
+                                        <i class="bi bi-calendar2-check" style="font-size: 0.85rem;"></i>
+                                        Rekap Absensi
+                                    </a>
+                                </td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="4" class="text-center py-4">
+                                <td colspan="5" class="text-center py-4">
                                     <div class="d-flex flex-column align-items-center gap-2">
                                         <i class="bi bi-inbox display-6 text-muted"></i>
                                         <div class="fw-semibold text-muted small">

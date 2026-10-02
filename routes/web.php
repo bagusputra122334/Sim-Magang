@@ -193,4 +193,10 @@ Route::prefix('pembimbing')
         Route::resource('tasks', \App\Http\Controllers\Pembimbing\TaskController::class);
         Route::get('/tasks/{task}/submissions', [\App\Http\Controllers\Pembimbing\SubmissionController::class, 'index'])->name('tasks.submissions');
         Route::put('/submissions/{submission}/review', [\App\Http\Controllers\Pembimbing\SubmissionController::class, 'review'])->name('submissions.review');
+
+        Route::get('/attendance/{registration}/pdf', [\App\Http\Controllers\Pembimbing\AttendanceController::class, 'exportPdf'])->name('attendance.pdf');
+        Route::get('/attendance/{registration}', [\App\Http\Controllers\Pembimbing\AttendanceController::class, 'show'])->name('attendance.show');
+
+        Route::get('/profile', [\App\Http\Controllers\Pembimbing\ProfileController::class, 'index'])->name('profile.index');
+        Route::post('/profile/avatar', [\App\Http\Controllers\Pembimbing\ProfileController::class, 'updateAvatar'])->name('profile.avatar');
     });

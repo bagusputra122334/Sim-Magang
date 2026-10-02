@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Participant\DailyCheckinController;
 use App\Http\Controllers\Participant\DashboardController as ParticipantDashboardController;
 use App\Http\Controllers\Participant\OnboardingController;
 use App\Http\Controllers\Participant\ProfileController;
@@ -96,4 +97,15 @@ Route::prefix('materials')->name('materials.')->group(function (): void {
     Route::post('/{material}/submit', [\App\Http\Controllers\Participant\MaterialController::class, 'submitTask'])->name('submit');
     Route::post('/{material}/mark-video-watched', [\App\Http\Controllers\Participant\MaterialController::class, 'markVideoWatched'])->name('mark-video-watched');
     Route::post('/{material}/complete-video', [\App\Http\Controllers\Participant\MaterialController::class, 'completeVideo'])->name('complete-video');
+});
+
+/*
+|--------------------------------------------------------------------------
+| Daily Check-in — Aktivitas Magang Harian (Peserta)
+|--------------------------------------------------------------------------
+*/
+Route::prefix('daily-checkins')->name('daily-checkins.')->group(function (): void {
+    Route::get('/', [DailyCheckinController::class, 'index'])->name('index');
+    Route::post('/', [DailyCheckinController::class, 'store'])->name('store');
+    Route::get('/monthly', [DailyCheckinController::class, 'getMonthData'])->name('monthly');
 });

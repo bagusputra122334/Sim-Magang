@@ -104,7 +104,10 @@
             workspace: @json(
                 auth()->user()?->isAdmin()
                     ? 'Workspace Admin'
-                    : (auth()->user()?->isParticipant() ? 'Workspace Peserta' : 'Public Workspace')
+                    : (auth()->user()?->isPembimbing()
+                        ? 'Workspace Pembimbing'
+                        : (auth()->user()?->isParticipant() ? 'Workspace Peserta' : 'Public Workspace')
+                    )
             ),
             avatar: @json(auth()->user()?->foto_url ?? asset('assets/images/avatar/avatar.jpg'))
         };

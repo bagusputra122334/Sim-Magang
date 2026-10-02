@@ -33,11 +33,19 @@
                 ['icon' => 'bi-layout-text-window-reverse', 'label' => 'Konten Landing', 'route' => 'admin.landing-contents.index', 'params' => []],
                 ['icon' => 'bi-person-gear', 'label' => 'Akun Saya', 'route' => 'profile.edit', 'params' => []],
             ];
+        } elseif ($user?->isPembimbing()) {
+            $sidebarMenu = [
+                ['icon' => 'bi-speedometer2', 'label' => 'Dashboard', 'route' => 'pembimbing.dashboard', 'params' => []],
+                ['icon' => 'bi-clipboard-check', 'label' => 'Penugasan', 'route' => 'pembimbing.materials.index', 'params' => []],
+                ['icon' => 'bi-person-gear', 'label' => 'Akun Saya', 'route' => 'pembimbing.profile.index', 'params' => []],
+            ];
         } elseif ($user?->isParticipant()) {
             $sidebarMenu = [
                 ['icon' => 'bi-speedometer2', 'label' => 'Dashboard', 'route' => 'participant.dashboard', 'params' => []],
                 ['icon' => 'bi-person-badge', 'label' => 'Profil Saya', 'route' => 'participant.profile.index', 'params' => []],
                 ['icon' => 'bi-journal-text', 'label' => 'Riwayat Magang', 'route' => 'participant.registrations.index', 'params' => []],
+                ['icon' => 'bi-journal-bookmark', 'label' => 'Penugasan', 'route' => 'participant.materials.index', 'params' => []],
+                ['icon' => 'bi-calendar2-check-fill', 'label' => 'Absensi Harian', 'route' => 'participant.daily-checkins.index', 'params' => []],
                 ['icon' => 'bi-person-gear', 'label' => 'Akun Saya', 'route' => 'profile.edit', 'params' => []],
             ];
         }
@@ -156,7 +164,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ str_starts_with($currentRoute, 'profile.edit') ? 'active' : '' }}" href="{{ route('profile.edit') }}">
+                    <a class="nav-link {{ str_starts_with($currentRoute, 'pembimbing.profile') ? 'active' : '' }}" href="{{ route('pembimbing.profile.index') }}">
                         <span class="nav-icon"><i class="bi bi-person-gear" aria-hidden="true"></i></span>
                         <span class="nav-text">Akun Saya</span>
                     </a>
@@ -184,6 +192,12 @@
                     <a class="nav-link {{ str_starts_with($currentRoute, 'participant.materials') ? 'active' : '' }}" href="{{ route('participant.materials.index') }}">
                         <span class="nav-icon"><i class="bi bi-journal-bookmark" aria-hidden="true"></i></span>
                         <span class="nav-text">Penugasan</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ str_starts_with($currentRoute, 'participant.daily-checkins') ? 'active' : '' }}" href="{{ route('participant.daily-checkins.index') }}">
+                        <span class="nav-icon"><i class="bi bi-calendar2-check-fill" aria-hidden="true"></i></span>
+                        <span class="nav-text">Absensi Harian</span>
                     </a>
                 </li>
                 
