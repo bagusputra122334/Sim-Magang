@@ -40,7 +40,6 @@ class MaterialController extends Controller
             'file_materi' => 'nullable|file|mimes:pdf,doc,docx,xls,xlsx,ppt,pptx,zip,rar|max:10240',
             'youtube_url' => 'nullable|url|max:255',
             'is_task' => 'nullable|boolean',
-            'task_instruction' => 'nullable|string',
             'deadline' => 'nullable|date',
             'submission_type' => [
                 'nullable',
@@ -50,7 +49,6 @@ class MaterialController extends Controller
 
         $materialData = $validated;
         $materialData['is_task'] = $isTask ? 1 : 0;
-        $materialData['task_instruction'] = $request->input('task_instruction');
         $materialData['deadline'] = $request->input('deadline');
         $materialData['submission_type'] = $isTask
             ? $request->input('submission_type') ?: null
@@ -92,7 +90,6 @@ class MaterialController extends Controller
             'file_materi' => 'nullable|file|mimes:pdf,doc,docx,xls,xlsx,ppt,pptx,zip,rar|max:10240',
             'youtube_url' => 'nullable|url|max:255',
             'is_task' => 'nullable|boolean',
-            'task_instruction' => 'nullable|string',
             'deadline' => 'nullable|date',
             'submission_type' => [
                 'nullable',
@@ -102,7 +99,6 @@ class MaterialController extends Controller
 
         $materialData = $validated;
         $materialData['is_task'] = $isTask ? 1 : 0;
-        $materialData['task_instruction'] = $request->input('task_instruction');
         $materialData['deadline'] = $request->input('deadline');
         $materialData['submission_type'] = $isTask
             ? $request->input('submission_type') ?: null

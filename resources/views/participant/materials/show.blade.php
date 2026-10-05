@@ -323,22 +323,18 @@
 
                             {{-- =================================================================
                                  GANTI FILE / UNGGAH ULANG (RESUBMISSION) TOGGLE
-                                 Button trigger -> Collapse reveals edit form
                                  ================================================================= --}}
-                            <div class="mb-4">
-                                <button class="btn btn-outline-warning btn-sm fw-bold w-100 rounded-3 py-2 d-inline-flex align-items-center justify-content-center gap-2 shadow-sm"
+                            <div class="mb-4" x-data="{ openResubmit: {{ $errors->any() ? 'true' : 'false' }} }">
+                                <button class="btn btn-warning btn-sm fw-bold w-100 rounded-3 py-2 d-inline-flex align-items-center justify-content-center gap-2 shadow-sm text-dark"
                                         type="button"
-                                        data-bs-toggle="collapse"
-                                        data-bs-target="#resubmitFormCollapse"
-                                        aria-expanded="false"
-                                        aria-controls="resubmitFormCollapse"
-                                        onclick="const t = this; setTimeout(()=>{t.scrollIntoView({behavior:'smooth', block:'nearest'});}, 320);">
-                                    <i class="bi bi-arrow-repeat"></i>
+                                        @click="openResubmit = !openResubmit; if(openResubmit) { setTimeout(() => $el.scrollIntoView({behavior: 'smooth', block: 'start'}), 100); }">
+                                    <i class="bi bi-arrow-repeat fs-6"></i>
                                     <span>Ganti File / Unggah Ulang</span>
-                                    <i class="bi bi-chevron-double-down small"></i>
+                                    <i class="bi bi-chevron-double-down small" :class="{'d-none': openResubmit}"></i>
+                                    <i class="bi bi-chevron-double-up small d-none" :class="{'d-block': openResubmit, 'd-none': !openResubmit}"></i>
                                 </button>
 
-                                <div class="collapse mt-4" id="resubmitFormCollapse">
+                                <div x-show="openResubmit" x-transition.duration.300ms class="mt-4" style="display: none;">
                                     <div class="p-4 border border-warning-subtle bg-warning-subtle rounded-4">
                                         <p class="small fw-semibold text-warning-emphasis mb-3 d-flex align-items-center gap-2">
                                             <i class="bi bi-exclamation-triangle-fill flex-shrink-0"></i>

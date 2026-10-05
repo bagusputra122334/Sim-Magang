@@ -272,7 +272,9 @@
                                 $date = \Carbon\Carbon::instance($date);
                                 $key = $date->toDateString();
                                 $checkin = $checkins->get($key);
-                                $isWeekend = $date->isWeekend();
+                                $holidayService = app(\App\Services\HolidayService::class);
+                                $isWeekend = $holidayService->isHolidayOrWeekend($date);
+                                $holidayName = $holidayService->getHolidayName($date);
                                 $hasData = (bool) $checkin;
                                 if ($isWeekend) {
                                     $statusBadge = 'bg-red-500 text-white';
@@ -310,7 +312,15 @@
                                             </span>
                                         @endif
                                     @else
-                                        <span class="text-muted fst-italic small">-</span>
+                                        <span class="text-muted fst-italic small">
+                                            @if($isWeekend && $holidayName)
+                                                Libur: {{ $holidayName }}
+                                            @elseif($isWeekend)
+                                                Libur/Akhir Pekan
+                                            @else
+                                                -
+                                            @endif
+                                        </span>
                                     @endif
                                 </td>
                                 <td class="text-center text-gray-700">

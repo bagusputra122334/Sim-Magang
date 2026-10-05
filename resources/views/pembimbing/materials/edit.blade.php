@@ -108,11 +108,6 @@
                         @error('submission_type')<div class="invalid-feedback">{{ $message }}</div>@enderror
                     </div>
 
-                    <div class="mb-3">
-                        <label class="form-label">Instruksi Tugas (Opsional)</label>
-                        <textarea name="task_instruction" class="form-control @error('task_instruction') is-invalid @enderror" rows="4" placeholder="Masukkan instruksi detail untuk tugas yang harus dikerjakan peserta...">{{ old('task_instruction', $material->task_instruction) }}</textarea>
-                        @error('task_instruction')<div class="invalid-feedback">{{ $message }}</div>@enderror
-                    </div>
 
                     <div class="mb-3">
                         <label class="form-label">Batas Waktu (Deadline) - Opsional</label>

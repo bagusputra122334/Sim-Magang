@@ -161,12 +161,24 @@
             <td style="text-align: center;"><span class="{{ $statusClass }}">{{ $statusLabel }}</span></td>
             <td>
                 @if($row['activity'])
-                    <span style="font-size: 9.5px;">{!! nl2br(e($row['activity'])) !!}</span>
+                    <span style="font-size: 9.5px;">
+                        @if($row['status'] === 'libur')
+                            Libur: {!! nl2br(e($row['activity'])) !!}
+                        @else
+                            {!! nl2br(e($row['activity'])) !!}
+                        @endif
+                    </span>
                     @if(strlen($row['activity']) > 250)
                         <div style="font-size: 8px; color: #64748b; margin-top: 2px;">({{ strlen($row['activity']) }} karakter)</div>
                     @endif
                 @else
-                    <span class="fst-italic text-muted" style="font-size: 9.5px;">-</span>
+                    <span class="fst-italic text-muted" style="font-size: 9.5px;">
+                        @if($row['status'] === 'libur')
+                            Libur / Akhir Pekan
+                        @else
+                            -
+                        @endif
+                    </span>
                 @endif
             </td>
             <td style="text-align: center;">

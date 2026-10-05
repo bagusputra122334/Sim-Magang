@@ -38,6 +38,21 @@
     </div>
 
     {{-- STATISTICS ROW (UNIFORM SLIM 1-ROW LAYOUT — HORIZONTALLY ALIGNED) --}}
+    @if(isset($isActive) && !$isActive)
+    <div class="card border-0 rounded-4 shadow-sm overflow-hidden text-center py-5 mb-4 mt-2">
+        <div class="card-body">
+            <div class="mb-3">
+                <div class="d-inline-flex align-items-center justify-content-center rounded-circle" style="width: 80px; height: 80px; background-color: #fffbeb;">
+                    <i class="bi bi-shield-lock-fill text-warning" style="font-size: 2.5rem;"></i>
+                </div>
+            </div>
+            <h4 class="fw-bold text-gray-900 mb-2">Akses Terbatas</h4>
+            <p class="text-muted fs-6 mx-auto mb-0" style="max-width: 550px; line-height: 1.6;">
+                Akun Anda belum aktif atau belum ditempatkan pada divisi magang. Fitur absensi harian akan terbuka otomatis setelah status magang Anda disetujui oleh admin.
+            </p>
+        </div>
+    </div>
+    @else
     <div class="row g-2 mb-3" id="stats-row">
         @php
             $_statCards = [
@@ -281,6 +296,7 @@
             </div>
         </div>
     </div>
+    @endif
 </div>
 @endsection
 
@@ -311,6 +327,8 @@
         activeMonth : @json($defaultMonth),
         todayStr    : @json(\Illuminate\Support\Carbon::now()->format('Y-m-d')),
         activeDate  : @json(\Illuminate\Support\Carbon::now()->format('Y-m-d')),
+        periodeMulai: @json($periodeMulai ?? null),
+        holidays    : @json($holidays ?? []),
         checkins    : {},
         checkinArr  : []
     };
@@ -401,6 +419,8 @@
             var isActive = (dateStr === state.activeDate);
             var dowIdx = curDateObj ? getDowIdx0FromMonday(curDateObj) : -1;
             var isWeekend = (dowIdx === 5 || dowIdx === 6);
+            var holidayName = dateStr && state.holidays[dateStr] ? state.holidays[dateStr] : null;
+            var isWeekendOrHoliday = isWeekend || !!holidayName;
 
             if (!isInMonth){
                 html += '<div class="w-9 h-9"></div>';
@@ -431,7 +451,7 @@
                 colors = ['bg-blue-600', 'text-white', 'font-bold'];
             } else if (hasCheckin) {
                 colors = ['bg-emerald-500', 'text-white', 'font-semibold'];
-            } else if (isWeekend) {
+            } else if (isWeekendOrHoliday) {
                 colors = ['bg-red-500', 'text-white', 'font-semibold'];
             } else {
                 colors = ['bg-gray-100', 'text-gray-700', 'hover:bg-gray-200'];
@@ -441,7 +461,10 @@
 
             var titleTxt = fmtHumanDmy(curDateObj);
             if (hasCheckin) titleTxt += ' • Sudah absen';
-            else if (isWeekend) titleTxt += ' • Libur/Akhir Pekan';
+            else if (isWeekendOrHoliday) {
+                if (holidayName) titleTxt += ' • Libur: ' + holidayName;
+                else titleTxt += ' • Libur/Akhir Pekan';
+            }
             else titleTxt += ' • Belum diisi';
             if (dateStr === state.todayStr) titleTxt += ' • Hari Ini';
 
@@ -481,15 +504,30 @@
         setFormAlert(null);
         setTextareaError(null);
 
-        if (els.submitTxt){
-            els.submitTxt.textContent = hasData ? 'Perbarui Absensi' : 'Simpan Absensi';
-        }
-        if (els.submitIco){
-            els.submitIco.innerHTML = '<i class="bi bi-cloud-arrow-up-fill"></i>';
+        if (state.periodeMulai && dateStr < state.periodeMulai) {
+            if (els.textarea) {
+                els.textarea.disabled = true;
+                els.textarea.placeholder = 'Belum Dimulai - Anda tidak dapat mengisi absensi sebelum tanggal mulai magang.';
+            }
+            if (els.submitBtn) els.submitBtn.disabled = true;
+            if (els.submitTxt) els.submitTxt.textContent = 'Belum Dimulai';
+            if (els.submitIco) els.submitIco.innerHTML = '<i class="bi bi-lock-fill"></i>';
+        } else {
+            if (els.textarea) {
+                els.textarea.disabled = false;
+                els.textarea.placeholder = 'Jelaskan secara rinci kegiatan magang Anda hari ini (misal: Memperbaiki bug login page, Membuat migration untuk tabel users, dsb.)';
+            }
+            if (els.submitBtn) els.submitBtn.disabled = false;
+            if (els.submitTxt) {
+                els.submitTxt.textContent = hasData ? 'Perbarui Absensi' : 'Simpan Absensi';
+            }
+            if (els.submitIco) {
+                els.submitIco.innerHTML = '<i class="bi bi-cloud-arrow-up-fill"></i>';
+            }
         }
 
         renderCalendar();
-        if (els.textarea){
+        if (els.textarea && (!state.periodeMulai || dateStr >= state.periodeMulai)) {
             try { els.textarea.focus(); } catch(e){}
         }
     }
@@ -704,6 +742,9 @@
                 };
             });
             parseCheckinsFromMapToArray();
+            if (resp.holidays) {
+                state.holidays = resp.holidays;
+            }
             if (resp.month){
                 state.activeMonth = resp.month;
                 if (els.picker) els.picker.value = resp.month;

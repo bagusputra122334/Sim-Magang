@@ -26,11 +26,22 @@ class LmsController extends Controller
             return redirect()->route('participant.dashboard')->with('error', 'Anda belum ditugaskan ke divisi manapun.');
         }
 
+        $acceptedRegistration = $intern->registrations()
+            ->where('status', \App\Enums\RegistrationStatus::Accepted->value ?? \App\Enums\RegistrationStatus::Accepted)
+            ->latest()
+            ->first();
+        $periodeMulai = $acceptedRegistration && $acceptedRegistration->periode_mulai 
+            ? \Carbon\Carbon::parse($acceptedRegistration->periode_mulai)->startOfDay() 
+            : null;
+
         $pembimbingIds = User::where('role', UserRole::Pembimbing)
             ->where('division_id', $intern->division_id)
             ->pluck('id');
 
         $materials = Material::whereIn('pembimbing_id', $pembimbingIds)
+            ->when($periodeMulai, function($query, $periodeMulai) {
+                return $query->where('created_at', '>=', $periodeMulai);
+            })
             ->whereDoesntHave('progresses', function ($query) use ($intern) {
                 $query->where('intern_id', $intern->id)->where('is_completed', true);
             })
@@ -38,6 +49,9 @@ class LmsController extends Controller
             ->get();
 
         $tasks = Task::whereIn('pembimbing_id', $pembimbingIds)
+            ->when($periodeMulai, function($query, $periodeMulai) {
+                return $query->where('created_at', '>=', $periodeMulai);
+            })
             ->orderBy('deadline', 'asc')
             ->get();
 

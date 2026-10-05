@@ -130,7 +130,7 @@
             </div>
         @empty
             <div class="w-100 bg-white border border-gray-200 rounded-4 p-8 text-center text-gray-500">
-                Belum ada tugas atau materi yang diberikan.
+                Belum ada penugasan baru untuk Anda.
             </div>
         @endforelse
     </div>

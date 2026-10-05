@@ -26,6 +26,15 @@ class MaterialController extends Controller
                 ->with('error', 'Anda belum terdaftar pada divisi manapun. Silakan hubungi admin untuk verifikasi pendaftaran.');
         }
 
+        $acceptedRegistration = $user->registrations()
+            ->where('status', \App\Enums\RegistrationStatus::Accepted->value ?? \App\Enums\RegistrationStatus::Accepted)
+            ->latest()
+            ->first();
+        
+        $periodeMulai = $acceptedRegistration && $acceptedRegistration->periode_mulai
+            ? \Carbon\Carbon::parse($acceptedRegistration->periode_mulai)->startOfDay()
+            : \Carbon\Carbon::now()->addYears(100);
+
         $materials = Material::with(['submissions' => function ($q) {
                 $q->where('user_id', auth()->id());
             }])
@@ -38,6 +47,7 @@ class MaterialController extends Controller
                 $sub->where('division_id', $user->division_id);
             });
         })
+            ->whereDate('created_at', '>=', $periodeMulai)
             ->latest()
             ->paginate(10);
 

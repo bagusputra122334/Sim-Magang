@@ -7,12 +7,26 @@ use App\Models\DailyCheckin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Carbon;
+use App\Services\HolidayService;
 
 class DailyCheckinController extends Controller
 {
     public function index(Request $request)
     {
         $user = Auth::user();
+
+        $acceptedRegistration = $user->registrations()
+            ->where('status', \App\Enums\RegistrationStatus::Accepted->value)
+            ->latest()
+            ->first();
+
+        if (!$acceptedRegistration) {
+            return redirect()->route('participant.dashboard')
+                ->with('warning', 'Anda belum memiliki penempatan magang aktif atau status belum diterima. Akses absensi dibatasi.');
+        }
+
+        $isActive = !empty($user->division_id);
+        $periodeMulai = $acceptedRegistration ? $acceptedRegistration->periode_mulai?->format('Y-m-d') : null;
 
         $month = $request->input('month', now()->format('Y-m'));
         try {
@@ -29,12 +43,27 @@ class DailyCheckinController extends Controller
             ->orderBy('date', 'asc')
             ->get();
 
-        return view('participant.daily-checkins.index', compact('checkins', 'month', 'startOfMonth', 'endOfMonth'));
+        $holidayService = app(HolidayService::class);
+        $holidays = $holidayService->getHolidaysForYear($dateRef->year);
+
+        return view('participant.daily-checkins.index', compact('checkins', 'month', 'startOfMonth', 'endOfMonth', 'isActive', 'periodeMulai', 'holidays'));
     }
 
     public function store(Request $request): \Illuminate\Http\JsonResponse
     {
         $user = Auth::user();
+
+        $acceptedRegistration = $user->registrations()
+            ->where('status', \App\Enums\RegistrationStatus::Accepted->value)
+            ->latest()
+            ->first();
+
+        if (!$acceptedRegistration || empty($user->division_id)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Anda belum memiliki penempatan magang aktif atau status belum diterima.',
+            ], 403);
+        }
 
         $validated = $request->validate([
             'date'     => 'required|date_format:Y-m-d',
@@ -47,6 +76,13 @@ class DailyCheckinController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Format tanggal tidak valid.',
+            ], 422);
+        }
+
+        if ($acceptedRegistration->periode_mulai && $dateCheck->startOfDay()->isBefore($acceptedRegistration->periode_mulai->startOfDay())) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Tidak dapat mengisi absensi sebelum tanggal mulai magang.',
             ], 422);
         }
 
@@ -78,6 +114,18 @@ class DailyCheckinController extends Controller
     public function getMonthData(Request $request): \Illuminate\Http\JsonResponse
     {
         $user = Auth::user();
+
+        $acceptedRegistration = $user->registrations()
+            ->where('status', \App\Enums\RegistrationStatus::Accepted->value)
+            ->latest()
+            ->first();
+
+        if (!$acceptedRegistration || empty($user->division_id)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Anda belum memiliki penempatan magang aktif atau status belum diterima.',
+            ], 403);
+        }
 
         $month = $request->input('month', now()->format('Y-m'));
         try {
@@ -111,6 +159,7 @@ class DailyCheckinController extends Controller
             'days_in_month'=> $dateRef->daysInMonth,
             'checkins'     => $checkins,
             'checkin_dates'=> $checkins->pluck('date')->toArray(),
+            'holidays'     => app(HolidayService::class)->getHolidaysForYear($dateRef->year),
         ], 200);
     }
 }

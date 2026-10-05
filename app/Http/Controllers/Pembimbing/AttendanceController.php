@@ -9,6 +9,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use App\Services\HolidayService;
 
 class AttendanceController extends Controller
 {
@@ -98,10 +99,11 @@ class AttendanceController extends Controller
 
         $totalPeriodDays = (int) $start->diffInDays($end) + 1;
 
+        $holidayService = app(HolidayService::class);
         $totalWeekendDays = 0;
         $cursor = $start->copy();
         while ($cursor->lte($end)) {
-            if ($cursor->isWeekend()) {
+            if ($holidayService->isHolidayOrWeekend($cursor)) {
                 $totalWeekendDays++;
             }
             $cursor->addDay();
@@ -136,12 +138,14 @@ class AttendanceController extends Controller
         while ($cursor->lte($end)) {
             $key = $cursor->toDateString();
             $checkin = $checkins->get($key);
-            $isWeekend = $cursor->isWeekend();
+            $holidayService = app(HolidayService::class);
+            $isWeekendOrHoliday = $holidayService->isHolidayOrWeekend($cursor);
+            $holidayName = $holidayService->getHolidayName($cursor);
             $hasData = (bool) $checkin;
 
-            if ($hasData && ! $isWeekend) {
+            if ($hasData && ! $isWeekendOrHoliday) {
                 $status = 'hadir';
-            } elseif ($isWeekend) {
+            } elseif ($isWeekendOrHoliday) {
                 $status = 'libur';
             } else {
                 $status = 'belum';
@@ -152,7 +156,7 @@ class AttendanceController extends Controller
                 'date'      => $cursor->translatedFormat('d/m/Y'),
                 'day'       => $cursor->translatedFormat('l'),
                 'status'    => $status,
-                'activity'  => $hasData ? (string) $checkin->activity : null,
+                'activity'  => $hasData ? (string) $checkin->activity : ($holidayName ?? null),
                 'submitted' => $hasData && $checkin->submitted_at
                     ? $checkin->submitted_at->translatedFormat('H:i:s')
                     : null,
