@@ -26,30 +26,33 @@ class MaterialController extends Controller
                 ->with('error', 'Anda belum terdaftar pada divisi manapun. Silakan hubungi admin untuk verifikasi pendaftaran.');
         }
 
-        $acceptedRegistration = $user->registrations()
-            ->where('status', \App\Enums\RegistrationStatus::Accepted->value ?? \App\Enums\RegistrationStatus::Accepted)
-            ->latest()
-            ->first();
-        
-        $periodeMulai = $acceptedRegistration && $acceptedRegistration->periode_mulai
-            ? \Carbon\Carbon::parse($acceptedRegistration->periode_mulai)->startOfDay()
-            : \Carbon\Carbon::now()->addYears(100);
+        $dashboardController = app(\App\Http\Controllers\Participant\DashboardController::class);
+        $pembimbingIds = $dashboardController->resolvePembimbingIdsForDashboard($user);
+        $divisionId = $dashboardController->resolveDivisionIdForDashboard($user);
 
-        $materials = Material::with(['submissions' => function ($q) {
-                $q->where('user_id', auth()->id());
-            }])
-            ->where(function ($q) use ($user) {
-            if (\Illuminate\Support\Facades\Schema::hasColumn('materials', 'division_id')) {
-                $q->where('division_id', $user->division_id);
-            }
+        $query = Material::with(['submissions' => function ($q) {
+            $q->where('user_id', auth()->id());
+        }]);
 
-            $q->orWhereHas('pembimbing', function ($sub) use ($user) {
-                $sub->where('division_id', $user->division_id);
-            });
-        })
-            ->whereDate('created_at', '>=', $periodeMulai)
-            ->latest()
-            ->paginate(10);
+        if (!empty($pembimbingIds)) {
+            $query->whereIn('pembimbing_id', $pembimbingIds)
+                  ->where('created_at', '>=', $user->created_at);
+        } elseif ($divisionId !== null) {
+            $query->whereHas('pembimbing', function ($q) use ($divisionId) {
+                $q->where('division_id', $divisionId);
+            })->where('created_at', '>=', $user->created_at);
+        } else {
+            $query->where(function ($q) use ($user) {
+                if (\Illuminate\Support\Facades\Schema::hasColumn('materials', 'division_id')) {
+                    $q->where('division_id', $user->division_id);
+                }
+                $q->orWhereHas('pembimbing', function ($sub) use ($user) {
+                    $sub->where('division_id', $user->division_id);
+                });
+            })->where('created_at', '>=', $user->created_at);
+        }
+
+        $materials = $query->latest()->paginate(10);
 
         return view('participant.materials.index', compact('materials'));
     }

@@ -95,10 +95,26 @@
                         @endif
                     </div>
                     <h3 class="text-sm sm:text-base font-bold text-gray-900 truncate">{{ $material->title }}</h3>
-                    <p class="text-xs text-gray-500 flex items-center">
+                    <p class="text-xs text-gray-500 flex items-center mb-1">
                         <svg class="w-3.5 h-3.5 mr-1 text-gray-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                         Diberikan: {{ $material->created_at->format('d M Y, H:i') }} WIB
                     </p>
+                    @if($hasDeadline && $isTaskFlag)
+                        @php
+                            $dlColorClass = 'text-gray-500';
+                            $dlExtraText = '';
+                            if (!$isCompleted && $deadlineCarbon->isPast()) {
+                                $dlColorClass = 'text-red-500 font-bold';
+                                $dlExtraText = ' (Terlewat)';
+                            } elseif (!$isCompleted && $deadlineCarbon->diffInHours(now()) < 24) {
+                                $dlColorClass = 'text-orange-500 font-bold';
+                            }
+                        @endphp
+                        <p class="text-xs flex items-center {{ $dlColorClass }}">
+                            <svg class="w-3.5 h-3.5 mr-1 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            Deadline: {{ $deadlineCarbon->translatedFormat('d M Y, H:i') }} WIB{{ $dlExtraText }}
+                        </p>
+                    @endif
                 </div>
 
                 <!-- Right Action Button (Status-Aware) -->

@@ -63,7 +63,7 @@ class DashboardController extends ParticipantController
         ));
     }
 
-    private function resolvePembimbingIdsForDashboard(User $user): array
+    public function resolvePembimbingIdsForDashboard(User $user): array
     {
         $user = $this->ensureDivisionIdResolved($user);
 
@@ -173,7 +173,7 @@ class DashboardController extends ParticipantController
         return array_values(array_unique(array_filter($pembimbingIds, static fn ($v): bool => is_int($v) || ctype_digit((string) $v))));
     }
 
-    private function resolveDivisionIdForDashboard(User $user): ?int
+    public function resolveDivisionIdForDashboard(User $user): ?int
     {
         if (! empty($user->division_id)) {
             return (int) $user->division_id;
@@ -262,11 +262,13 @@ class DashboardController extends ParticipantController
 
         if (! empty($pembimbingIds)) {
             $materials = Material::whereIn('pembimbing_id', $pembimbingIds)
+                ->where('created_at', '>=', $user->created_at)
                 ->latest()
                 ->take(10)
                 ->get();
 
             $tasks = Task::whereIn('pembimbing_id', $pembimbingIds)
+                ->where('created_at', '>=', $user->created_at)
                 ->latest()
                 ->take(10)
                 ->get();
@@ -274,6 +276,7 @@ class DashboardController extends ParticipantController
             $materials = Material::whereHas('pembimbing', function ($q) use ($divisionId): void {
                 $q->where('division_id', $divisionId);
             })
+                ->where('created_at', '>=', $user->created_at)
                 ->latest()
                 ->take(10)
                 ->get();
@@ -281,6 +284,7 @@ class DashboardController extends ParticipantController
             $tasks = Task::whereHas('pembimbing', function ($q) use ($divisionId): void {
                 $q->where('division_id', $divisionId);
             })
+                ->where('created_at', '>=', $user->created_at)
                 ->latest()
                 ->take(10)
                 ->get();
@@ -338,7 +342,7 @@ class DashboardController extends ParticipantController
         $pendingCount = $sorted->filter(fn ($a): bool => $a->is_task && ! $a->submitted && ! $a->overdue)->count();
         $doneCount = $sorted->filter(fn ($a): bool => $a->submitted)->count();
         $overdueCount = $sorted->filter(fn ($a): bool => $a->overdue)->count();
-        $displayAssignments = $sorted->take(5)->all();
+        $displayAssignments = $sorted->take(2)->all();
 
         return [
             'assignments' => $displayAssignments,
@@ -371,21 +375,28 @@ class DashboardController extends ParticipantController
             ];
         }
 
-        $disk = \Illuminate\Support\Facades\Storage::disk('public');
-
         $cvPath = $latestRegistration->cv_path;
-        $cvExists = $cvPath !== null && trim($cvPath) !== '' && $disk->exists($cvPath);
-        $cvUrl = $cvExists ? $disk->url($cvPath) : null;
+        $cvDisk = (! empty($cvPath) && \Illuminate\Support\Facades\Storage::disk('local')->exists($cvPath))
+            ? \Illuminate\Support\Facades\Storage::disk('local')
+            : \Illuminate\Support\Facades\Storage::disk('public');
+        $cvExists = $cvPath !== null && trim($cvPath) !== '' && $cvDisk->exists($cvPath);
+        $cvUrl = $cvExists ? $this->registrationService->getUrlDokumen($cvPath) : null;
         $cvBasename = $cvExists ? basename($cvPath) : null;
 
         $spPath = $latestRegistration->surat_pengantar_path;
-        $spExists = $spPath !== null && trim($spPath) !== '' && $disk->exists($spPath);
-        $spUrl = $spExists ? $disk->url($spPath) : null;
+        $spDisk = (! empty($spPath) && \Illuminate\Support\Facades\Storage::disk('local')->exists($spPath))
+            ? \Illuminate\Support\Facades\Storage::disk('local')
+            : \Illuminate\Support\Facades\Storage::disk('public');
+        $spExists = $spPath !== null && trim($spPath) !== '' && $spDisk->exists($spPath);
+        $spUrl = $spExists ? $this->registrationService->getUrlDokumen($spPath) : null;
         $spBasename = $spExists ? basename($spPath) : null;
 
         $pmPath = $latestRegistration->proposal_magang_path ?? null;
-        $pmExists = $pmPath !== null && trim($pmPath) !== '' && $disk->exists($pmPath);
-        $pmUrl = $pmExists ? $disk->url($pmPath) : null;
+        $pmDisk = (! empty($pmPath) && \Illuminate\Support\Facades\Storage::disk('local')->exists($pmPath))
+            ? \Illuminate\Support\Facades\Storage::disk('local')
+            : \Illuminate\Support\Facades\Storage::disk('public');
+        $pmExists = $pmPath !== null && trim($pmPath) !== '' && $pmDisk->exists($pmPath);
+        $pmUrl = $pmExists ? $this->registrationService->getUrlDokumen($pmPath) : null;
         $pmBasename = $pmExists ? basename($pmPath) : null;
 
         $sbPath = $latestRegistration->surat_balasan_path;

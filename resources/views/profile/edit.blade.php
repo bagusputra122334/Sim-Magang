@@ -5,7 +5,6 @@
 @section('content')
     <div class="page-heading">
         <div class="page-heading-copy">
-            <span class="page-icon"><i class="bi bi-gear" aria-hidden="true"></i></span>
             <div>
                 <h1 class="h3 mb-1">Pengaturan Akun</h1>
                 <p class="text-muted mb-0">Kelola informasi profil akun login dan kata sandi Anda.</p>

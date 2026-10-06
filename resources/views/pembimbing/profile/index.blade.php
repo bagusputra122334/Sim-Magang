@@ -121,16 +121,7 @@
                             <i class="bi bi-briefcase me-1" style="color: #64748b;"></i>Jabatan / Posisi
                         </label>
                         @php
-                            $jabatanDisplay = trim((string) ($positionLabel ?? ''));
-                            if ($jabatanDisplay === '') {
-                                $jabatanDisplay = trim((string) ($user->position?->nama_posisi ?? ''));
-                            }
-                            if ($jabatanDisplay === '') {
-                                $jabatanDisplay = trim((string) ($user->position_title ?? ''));
-                            }
-                            if ($jabatanDisplay === '') {
-                                $jabatanDisplay = '-';
-                            }
+                            $jabatanDisplay = 'Pembimbing';
                         @endphp
                         <div class="fw-semibold text-gray-900 py-2 px-3 bg-gray-50 rounded-md border border-gray-100"
                              style="font-size: 0.92rem; color: #0f172a; min-height: 42px;">

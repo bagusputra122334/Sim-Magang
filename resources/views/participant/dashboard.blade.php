@@ -86,14 +86,14 @@
     @endif
 
     <!-- Top Statistics Row (Ultra-Compact, 6 Columns - Extended with Assignment Stats) -->
-    <div class="row g-3 mb-2">
+    <div class="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-6 lg:gap-4 mb-4">
         <!-- Card 1: Status Profil -->
-        <div class="col-md-6 col-lg-2">
+        <div>
             <div class="card shadow-sm border-0 h-100">
                 <div class="card-body p-2 px-3 d-flex align-items-center justify-content-between">
                     <div>
-                        <p class="text-muted text-uppercase fw-bold mb-1 small">Status Profil</p>
-                        <h5 class="fw-bold mb-0 {{ $hasProfile ? 'text-success' : 'text-danger' }}">{{ $hasProfile ? 'Terisi Lengkap' : 'Belum Terisi' }}</h5>
+                        <p class="text-muted text-uppercase fw-bold mb-1" style="font-size: 0.65rem; letter-spacing: 0.5px;">Status Profil</p>
+                        <div class="fw-bold text-lg mb-0 {{ $hasProfile ? 'text-success' : 'text-danger' }}">{{ $hasProfile ? 'Terisi Lengkap' : 'Belum Terisi' }}</div>
                     </div>
                     <div class="{{ $hasProfile ? 'text-success' : 'text-danger' }}">
                         <i class="bi {{ $hasProfile ? 'bi-person-check-fill' : 'bi-person-exclamation' }} fs-5"></i>
@@ -103,12 +103,12 @@
         </div>
 
         <!-- Card 2: Total Pendaftaran -->
-        <div class="col-md-6 col-lg-2">
+        <div>
             <div class="card shadow-sm border-0 h-100">
                 <div class="card-body p-2 px-3 d-flex align-items-center justify-content-between">
                     <div>
-                        <p class="text-muted text-uppercase fw-bold mb-1 small">Total Pendaftaran</p>
-                        <h5 class="fw-bold mb-0 text-slate-900 dark:text-slate-100">{{ $totalRegistrations }}</h5>
+                        <p class="text-muted text-uppercase fw-bold mb-1" style="font-size: 0.65rem; letter-spacing: 0.5px;">Total Pendaftaran</p>
+                        <div class="fw-bold text-lg mb-0 text-slate-900 dark:text-slate-100">{{ $totalRegistrations }}</div>
                     </div>
                     <div class="text-primary">
                         <i class="bi bi-file-earmark-text-fill fs-5"></i>
@@ -118,17 +118,17 @@
         </div>
 
         <!-- Card 3: Status Terbaru -->
-        <div class="col-md-6 col-lg-2">
+        <div>
             <div class="card shadow-sm border-0 h-100">
                 <div class="card-body p-2 px-3 d-flex align-items-center justify-content-between">
                     <div>
-                        <p class="text-muted text-uppercase fw-bold mb-1 small">Status Terbaru</p>
+                        <p class="text-muted text-uppercase fw-bold mb-1" style="font-size: 0.65rem; letter-spacing: 0.5px;">Status Terbaru</p>
                         @if ($reg !== null)
-                            <h5 class="fw-bold mb-0 {{ $reg->is_terminated ? 'text-danger' : ($sv === 'accepted' ? 'text-success' : ($sv === 'rejected' ? 'text-danger' : ($sv === 'under_review' ? 'text-warning' : 'text-primary'))) }}">
+                            <div class="fw-bold text-lg mb-0 {{ $reg->is_terminated ? 'text-danger' : ($sv === 'accepted' ? 'text-success' : ($sv === 'rejected' ? 'text-danger' : ($sv === 'under_review' ? 'text-warning' : 'text-primary'))) }}">
                                 {{ $reg->is_terminated ? 'Dinonaktifkan' : $reg->status->label() }}
-                            </h5>
+                            </div>
                         @else
-                            <h5 class="fw-bold mb-0 text-secondary">Belum Ada</h5>
+                            <div class="fw-bold text-lg mb-0 text-secondary">Belum Ada</div>
                         @endif
                     </div>
                     <div class="{{ $reg !== null ? ($reg->is_terminated ? 'text-danger' : ($sv === 'accepted' ? 'text-success' : ($sv === 'rejected' ? 'text-danger' : ($sv === 'under_review' ? 'text-warning' : 'text-primary')))) : 'text-secondary' }}">
@@ -139,14 +139,14 @@
         </div>
 
         <!-- Card 4: Surat Balasan -->
-        <div class="col-md-6 col-lg-2">
+        <div>
             <div class="card shadow-sm border-0 h-100">
                 <div class="card-body p-2 px-3 d-flex align-items-center justify-content-between">
                     <div>
-                        <p class="text-muted text-uppercase fw-bold mb-1 small">Surat Balasan</p>
-                        <h5 class="fw-bold mb-0 {{ $documentInfo['surat_balasan_exists'] ? 'text-success' : 'text-secondary' }}">
+                        <p class="text-muted text-uppercase fw-bold mb-1" style="font-size: 0.65rem; letter-spacing: 0.5px;">Surat Balasan</p>
+                        <div class="fw-bold text-lg mb-0 {{ $documentInfo['surat_balasan_exists'] ? 'text-success' : 'text-secondary' }}">
                             {{ $documentInfo['surat_balasan_exists'] ? 'Tersedia' : 'Belum Ada' }}
-                        </h5>
+                        </div>
                     </div>
                     <div class="{{ $documentInfo['surat_balasan_exists'] ? 'text-success' : 'text-secondary' }}">
                         <i class="bi {{ $documentInfo['surat_balasan_exists'] ? 'bi-file-earmark-check-fill' : 'bi-envelope-fill' }} fs-5"></i>
@@ -156,12 +156,12 @@
         </div>
 
         <!-- Card 5: Total Penugasan -->
-        <div class="col-md-6 col-lg-2">
+        <div>
             <div class="card shadow-sm border-0 h-100">
                 <div class="card-body p-2 px-3 d-flex align-items-center justify-content-between">
                     <div>
-                        <p class="text-muted text-uppercase fw-bold mb-1 small">Total Penugasan</p>
-                        <h5 class="fw-bold mb-0 text-slate-900 dark:text-slate-100">{{ $totalAssignments }}</h5>
+                        <p class="text-muted text-uppercase fw-bold mb-1" style="font-size: 0.65rem; letter-spacing: 0.5px;">Total Penugasan</p>
+                        <div class="fw-bold text-lg mb-0 text-slate-900 dark:text-slate-100">{{ $totalAssignments }}</div>
                     </div>
                     <div class="text-indigo">
                         <i class="bi bi-list-task fs-5"></i>
@@ -170,15 +170,15 @@
             </div>
         </div>
 
-        <!-- Card 6: Tugas Tertunda / Perlu Dikerjakan -->
-        <div class="col-md-6 col-lg-2">
+        <!-- Card 6: Tugas Tertunda -->
+        <div>
             <div class="card shadow-sm border-0 h-100">
                 <div class="card-body p-2 px-3 d-flex align-items-center justify-content-between">
                     <div>
-                        <p class="text-muted text-uppercase fw-bold mb-1 small">Tugas Tertunda</p>
-                        <h5 class="fw-bold mb-0 {{ $overdueCount > 0 ? 'text-danger' : ($pendingCount > 0 ? 'text-warning' : 'text-success') }}">
+                        <p class="text-muted text-uppercase fw-bold mb-1" style="font-size: 0.65rem; letter-spacing: 0.5px;">Tugas Tertunda</p>
+                        <div class="fw-bold text-lg mb-0 {{ $overdueCount > 0 ? 'text-danger' : ($pendingCount > 0 ? 'text-warning' : 'text-success') }}">
                             {{ $overdueCount > 0 ? $overdueCount . ' Terlambat' : ($pendingCount > 0 ? $pendingCount . ' Tugas' : 'Selesai') }}
-                        </h5>
+                        </div>
                     </div>
                     <div class="{{ $overdueCount > 0 ? 'text-danger' : ($pendingCount > 0 ? 'text-warning' : 'text-success') }}">
                         <i class="bi {{ $overdueCount > 0 ? 'bi-exclamation-triangle-fill' : ($pendingCount > 0 ? 'bi-clock-history' : 'bi-check2-circle') }} fs-5"></i>
@@ -198,7 +198,7 @@
                 </h2>
                 <p class="text-muted mb-0">
                     Materi & Tugas dari Pembimbing Anda.
-                    <a href="{{ route('participant.materials.index') }}" class="text-decoration-none fw-semibold ms-1">
+                    <a href="{{ route('participant.materials.index') }}" class="text-primary fw-bold text-decoration-none ms-1" style="cursor: pointer; transition: all 0.2s ease-in-out;" onmouseover="this.style.textDecoration='underline'; this.style.color='#0a58ca';" onmouseout="this.style.textDecoration='none'; this.style.color='';">
                         Lihat Semua <i class="bi bi-arrow-right ms-1"></i>
                     </a>
                 </p>
@@ -291,10 +291,22 @@
                                 {{ \Illuminate\Support\Str::limit(strip_tags($assignment->description), 100) }}
                             </p>
                             @if($deadlineStr !== '' && $isTask)
+                                @php
+                                    $deadlineColorClass = 'text-gray-500';
+                                    $deadlineExtraText = '';
+                                    if (!$isSubmitted && isset($carbonDeadline)) {
+                                        if ($carbonDeadline->isPast()) {
+                                            $deadlineColorClass = 'text-red-600 font-bold';
+                                            $deadlineExtraText = ' (Terlewat)';
+                                        } elseif ($carbonDeadline->diffInHours(now()) < 24) {
+                                            $deadlineColorClass = 'text-orange-500 font-bold';
+                                        }
+                                    }
+                                @endphp
                                 <div class="mt-1">
-                                    <small class="{{ $isOverdue && !$isSubmitted ? 'text-danger fw-semibold' : 'text-muted' }} d-inline-flex align-items-center">
+                                    <small class="{{ $deadlineColorClass }} d-inline-flex align-items-center">
                                         <i class="bi bi-clock-fill me-1"></i>
-                                        Deadline: {{ $deadlineStr }}
+                                        Deadline: {{ $deadlineStr }}{{ $deadlineExtraText }}
                                     </small>
                                 </div>
                             @endif
@@ -324,13 +336,7 @@
                 @endforeach
             </div>
 
-            @if($totalAssignments > count($assignments))
-                <div class="mt-3 text-center">
-                    <a href="{{ route('participant.materials.index') }}" class="btn btn-outline-primary btn-sm rounded-pill px-4">
-                        <i class="bi bi-collection me-1"></i> Lihat Semua Penugasan ({{ $totalAssignments }})
-                    </a>
-                </div>
-            @endif
+
         @endif
     </div>
 
@@ -413,14 +419,14 @@
 
             {{-- Admin Notes (If Rejected / Available) --}}
             @if ($reg !== null && !empty(trim($reg->catatan_admin ?? '')))
-                <div class="panel mt-4 border-danger">
+                <div class="panel mt-4 border-info">
                     <div class="panel-header border-bottom pb-2 mb-2">
-                        <h2 class="h6 mb-0 text-danger section-title">
+                        <h2 class="h6 mb-0 text-info section-title">
                             <i class="bi bi-chat-left-dots" aria-hidden="true"></i>
                             <span>Catatan Admin</span>
                         </h2>
                     </div>
-                    <div class="alert alert-danger mb-0">
+                    <div class="alert alert-info mb-0">
                         <p class="mb-0 small fst-italic">"{{ $reg->catatan_admin }}"</p>
                     </div>
                 </div>
@@ -568,7 +574,7 @@
                         <div class="col-12 col-sm-6 col-lg-3">
                             <div class="p-3 border rounded-3 text-center h-100 d-flex flex-column justify-content-between">
                                 <div>
-                                    <i class="bi bi-file-earmark-pdf fs-1 {{ $documentInfo['proposal_magang_exists'] ? 'text-danger' : 'text-muted' }}"></i>
+                                    <i class="bi bi-file-earmark-pdf fs-1 {{ $documentInfo['proposal_magang_exists'] ? 'text-info' : 'text-muted' }}"></i>
                                     <h4 class="h6 fw-bold mt-2 mb-1">Proposal Magang</h4>
                                     <small class="text-muted d-block mb-2">
                                         {{ $documentInfo['proposal_magang_exists'] ? 'File Terunggah' : 'Belum Ada File' }}
@@ -576,7 +582,7 @@
                                 </div>
                                 <div>
                                     @if ($documentInfo['proposal_magang_exists'])
-                                        <a href="{{ $documentInfo['proposal_magang_url'] }}" target="_blank" class="btn btn-outline-danger btn-sm w-100">
+                                        <a href="{{ $documentInfo['proposal_magang_url'] }}" target="_blank" class="btn btn-outline-info btn-sm w-100">
                                             <i class="bi bi-download me-1"></i> Unduh Proposal
                                         </a>
                                     @else
