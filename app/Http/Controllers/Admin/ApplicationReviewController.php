@@ -244,9 +244,16 @@ class ApplicationReviewController extends AdminController
                     );
             }
 
+            $cvUrl = ! empty($reg->cv_path) ? (str_starts_with($reg->cv_path, 'http') ? $reg->cv_path : route('documents.view', ['registration' => $reg->id, 'type' => 'cv'])) : null;
+            $spUrl = ! empty($reg->surat_pengantar_path) ? (str_starts_with($reg->surat_pengantar_path, 'http') ? $reg->surat_pengantar_path : route('documents.view', ['registration' => $reg->id, 'type' => 'surat_pengantar'])) : null;
+            $pmUrl = ! empty($reg->proposal_magang_path) ? (str_starts_with($reg->proposal_magang_path, 'http') ? $reg->proposal_magang_path : route('documents.view', ['registration' => $reg->id, 'type' => 'proposal_magang'])) : null;
+
             return view('admin.applications.review', [
-                'application' => $reg,
-                'reg'         => $reg,
+                'application'       => $reg,
+                'reg'               => $reg,
+                'cvUrl'             => $cvUrl,
+                'suratPengantarUrl' => $spUrl,
+                'proposalMagangUrl' => $pmUrl,
             ]);
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             unset($e);

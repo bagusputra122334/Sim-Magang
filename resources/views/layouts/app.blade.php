@@ -50,20 +50,20 @@
                 <div class="container-fluid px-3 px-lg-4 pt-2 pb-8">
 
                     @if(isset($errors) && $errors->any())
-                        <div class="alert alert-danger alert-dismissible fade show mb-4" role="alert">
+                        <div class="alert alert-danger alert-dismissible fade show mb-2.5 py-2 px-3" role="alert">
                             <div class="d-flex align-items-start">
-                                <i class="bi bi-exclamation-triangle-fill fs-5 me-3 mt-1"></i>
-                                <div class="flex-grow-1">
-                                    <h6 class="alert-heading fw-semibold mb-2">
+                                <i class="bi bi-exclamation-triangle-fill fs-6 me-2.5 mt-0.5"></i>
+                                <div class="flex-grow-1 text-xs">
+                                    <h6 class="alert-heading fw-semibold mb-1 text-xs">
                                         Terdapat kesalahan pada input data:
                                     </h6>
                                     <ul class="mb-0 ps-3">
                                         @foreach($errors->all() as $error)
-                                            <li class="mb-1">{{ $error }}</li>
+                                            <li class="mb-0.5">{{ $error }}</li>
                                         @endforeach
                                     </ul>
                                 </div>
-                                <button type="button" class="btn-close ms-3"
+                                <button type="button" class="btn-close ms-2 p-2"
                                         data-bs-dismiss="alert" aria-label="Tutup"></button>
                             </div>
                         </div>
@@ -80,11 +80,11 @@
                                     default   => 'bi-info-circle-fill',
                                 };
                             @endphp
-                            <div class="alert alert-{{ $type }} alert-dismissible fade show mb-4" role="alert">
+                            <div class="alert alert-{{ $type }} alert-dismissible fade show mb-2.5 py-2 px-3" role="alert">
                                 <div class="d-flex align-items-center">
-                                    <i class="bi {{ $icon }} fs-5 me-3"></i>
-                                    <div class="flex-grow-1">{!! session($type) !!}</div>
-                                    <button type="button" class="btn-close ms-3" data-bs-dismiss="alert" aria-label="Tutup"></button>
+                                    <i class="bi {{ $icon }} fs-6 me-2.5"></i>
+                                    <div class="flex-grow-1 text-xs">{!! session($type) !!}</div>
+                                    <button type="button" class="btn-close ms-2 p-2" data-bs-dismiss="alert" aria-label="Tutup"></button>
                                 </div>
                             </div>
                         @endif

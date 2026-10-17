@@ -7,25 +7,25 @@
 @endpush
 
 @section('content')
-<div class="row justify-content-center mb-4 py-2">
+<div class="row justify-content-center mb-3 py-1">
     <div class="col-lg-10 col-xl-9">
         @include('participant.onboarding._wizard', ['activeStep' => 3])
 
-        <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-2">
+        <div class="d-flex flex-wrap justify-content-between align-items-center mb-3 gap-2">
             <div>
-                <h1 class="h3 fw-bold mb-1">
-                    <i class="bi bi-person-lines-fill text-primary me-2"></i>Lengkapi Biodata Peserta
+                <h1 class="h4 fw-bold mb-0 text-slate-800 dark:text-slate-100">
+                    <i class="bi bi-person-lines-fill text-primary me-1.5"></i>Lengkapi Biodata Peserta
                 </h1>
-                <p class="text-muted small mb-0">
+                <p class="text-muted text-xs mb-0">
                     Isi formulir profil secara lengkap agar Anda dapat mengajukan pendaftaran magang di Diskominfo Tuban.
                 </p>
             </div>
         </div>
 
         @if ($errors->any())
-            <div class="alert alert-danger mb-4 border rounded-3">
-                <h5 class="alert-heading fw-bold mb-2"><i class="bi bi-exclamation-triangle-fill me-2"></i>Terjadi Kesalahan Pengisian:</h5>
-                <ul class="mb-0 small ps-3">
+            <div class="alert alert-danger mb-3 p-2.5 text-xs border rounded-2">
+                <h5 class="alert-heading text-xs font-bold mb-1"><i class="bi bi-exclamation-triangle-fill me-1"></i>Terjadi Kesalahan Pengisian:</h5>
+                <ul class="mb-0 text-xs ps-3">
                     @foreach ($errors->all() as $err)
                         <li>{{ $err }}</li>
                     @endforeach
@@ -38,11 +38,11 @@
 
             @include('participant.profile._form')
 
-            <div class="d-flex justify-content-end gap-2 border-top pt-4">
-                <a href="{{ route('participant.onboarding.choose-type') }}" class="btn bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 rounded-xl font-semibold shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md px-4 py-2.5">
+            <div class="d-flex justify-content-end gap-2 border-top pt-2.5 mt-2">
+                <a href="{{ route('participant.onboarding.choose-type') }}" class="btn bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 rounded-lg font-bold shadow-sm transition-all px-3 py-1.5 text-xs">
                     <i class="bi bi-arrow-left me-1"></i> Kembali Pilih Kategori
                 </a>
-                <button type="submit" class="w-full md:w-auto bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 px-6 rounded-lg shadow-sm transition-all duration-200 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed">
+                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-1.5 px-4 text-xs rounded-lg shadow-sm transition-all flex items-center justify-center gap-1.5">
                     <i class="bi bi-save"></i> Simpan Profil & Lanjutkan
                 </button>
             </div>

@@ -257,37 +257,57 @@ class DashboardController extends ParticipantController
         $pembimbingIds = $this->resolvePembimbingIdsForDashboard($user);
         $divisionId = $this->resolveDivisionIdForDashboard($user);
 
+        $acceptedRegistration = $user->registrations
+            ->first(function ($r): bool {
+                $statusVal = $r->status instanceof \BackedEnum ? $r->status->value : $r->status;
+                return strtolower((string) $statusVal) === 'accepted';
+            });
+
+        if ($acceptedRegistration === null) {
+            $acceptedRegistration = $user->registrations()
+                ->where(function ($q) {
+                    $q->where('status', \App\Enums\RegistrationStatus::Accepted)
+                      ->orWhere('status', 'accepted');
+                })
+                ->latest('id')
+                ->first();
+        }
+
+        $startDate = $acceptedRegistration?->periode_mulai;
+        $endDate   = $acceptedRegistration?->periode_selesai;
+
         $materials = collect();
         $tasks = collect();
 
-        if (! empty($pembimbingIds)) {
-            $materials = Material::whereIn('pembimbing_id', $pembimbingIds)
-                ->where('created_at', '>=', $user->created_at)
-                ->latest()
-                ->take(10)
-                ->get();
+        // Hanya tampilkan materi dan tugas jika peserta memiliki pendaftaran accepted dan tanggal mulai magang
+        if ($acceptedRegistration && $startDate) {
+            if (! empty($pembimbingIds)) {
+                $materialsQuery = Material::whereIn('pembimbing_id', $pembimbingIds);
+                $tasksQuery = Task::whereIn('pembimbing_id', $pembimbingIds);
+            } elseif ($divisionId !== null) {
+                $materialsQuery = Material::whereHas('pembimbing', function ($q) use ($divisionId): void {
+                    $q->where('division_id', $divisionId);
+                });
+                $tasksQuery = Task::whereHas('pembimbing', function ($q) use ($divisionId): void {
+                    $q->where('division_id', $divisionId);
+                });
+            } else {
+                $materialsQuery = null;
+                $tasksQuery = null;
+            }
 
-            $tasks = Task::whereIn('pembimbing_id', $pembimbingIds)
-                ->where('created_at', '>=', $user->created_at)
-                ->latest()
-                ->take(10)
-                ->get();
-        } elseif ($divisionId !== null) {
-            $materials = Material::whereHas('pembimbing', function ($q) use ($divisionId): void {
-                $q->where('division_id', $divisionId);
-            })
-                ->where('created_at', '>=', $user->created_at)
-                ->latest()
-                ->take(10)
-                ->get();
+            if ($materialsQuery !== null && $tasksQuery !== null) {
+                $materialsQuery->whereDate('created_at', '>=', $startDate);
+                $tasksQuery->whereDate('created_at', '>=', $startDate);
 
-            $tasks = Task::whereHas('pembimbing', function ($q) use ($divisionId): void {
-                $q->where('division_id', $divisionId);
-            })
-                ->where('created_at', '>=', $user->created_at)
-                ->latest()
-                ->take(10)
-                ->get();
+                if ($endDate) {
+                    $materialsQuery->whereDate('created_at', '<=', $endDate);
+                    $tasksQuery->whereDate('created_at', '<=', $endDate);
+                }
+
+                $materials = $materialsQuery->latest()->take(10)->get();
+                $tasks = $tasksQuery->latest()->take(10)->get();
+            }
         }
 
         $merged = collect();

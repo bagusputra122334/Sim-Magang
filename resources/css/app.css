@@ -1,3 +1,12 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.page-heading {
+    margin-bottom: 0.5rem !important;
+    padding-bottom: 0 !important;
+}
+
+.page-heading-copy p {
+    margin-top: 0.15rem !important;
+}

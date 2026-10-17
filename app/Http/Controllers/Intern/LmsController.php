@@ -26,34 +26,37 @@ class LmsController extends Controller
             return redirect()->route('participant.dashboard')->with('error', 'Anda belum ditugaskan ke divisi manapun.');
         }
 
-        $acceptedRegistration = $intern->registrations()
-            ->where('status', \App\Enums\RegistrationStatus::Accepted->value ?? \App\Enums\RegistrationStatus::Accepted)
-            ->latest()
-            ->first();
-        $periodeMulai = $acceptedRegistration && $acceptedRegistration->periode_mulai 
-            ? \Carbon\Carbon::parse($acceptedRegistration->periode_mulai)->startOfDay() 
-            : null;
+        $acceptedRegistration = $this->getActiveAcceptedRegistration($intern);
+        $startDate = $acceptedRegistration?->periode_mulai;
+        $endDate   = $acceptedRegistration?->periode_selesai;
 
         $pembimbingIds = User::where('role', UserRole::Pembimbing)
             ->where('division_id', $intern->division_id)
             ->pluck('id');
 
-        $materials = Material::whereIn('pembimbing_id', $pembimbingIds)
-            ->when($periodeMulai, function($query, $periodeMulai) {
-                return $query->where('created_at', '>=', $periodeMulai);
-            })
+        $materialsQuery = Material::whereIn('pembimbing_id', $pembimbingIds)
             ->whereDoesntHave('progresses', function ($query) use ($intern) {
                 $query->where('intern_id', $intern->id)->where('is_completed', true);
-            })
-            ->latest()
-            ->get();
+            });
 
-        $tasks = Task::whereIn('pembimbing_id', $pembimbingIds)
-            ->when($periodeMulai, function($query, $periodeMulai) {
-                return $query->where('created_at', '>=', $periodeMulai);
-            })
-            ->orderBy('deadline', 'asc')
-            ->get();
+        $tasksQuery = Task::whereIn('pembimbing_id', $pembimbingIds);
+
+        if ($acceptedRegistration && $startDate) {
+            $materialsQuery->whereDate('created_at', '>=', $startDate);
+            $tasksQuery->whereDate('created_at', '>=', $startDate);
+
+            if ($endDate) {
+                $materialsQuery->whereDate('created_at', '<=', $endDate);
+                $tasksQuery->whereDate('created_at', '<=', $endDate);
+            }
+        } else {
+            // Jika belum accepted / belum ada start_date, jangan tampilkan materi/tugas masa lalu
+            $materialsQuery->whereRaw('1 = 0');
+            $tasksQuery->whereRaw('1 = 0');
+        }
+
+        $materials = $materialsQuery->latest()->get();
+        $tasks = $tasksQuery->orderBy('deadline', 'asc')->get();
 
         return view('intern.lms.dashboard', compact('materials', 'tasks'));
     }
@@ -67,6 +70,20 @@ class LmsController extends Controller
         $pembimbing = User::find($material->pembimbing_id);
         if ($intern->division_id !== null && $pembimbing->division_id !== $intern->division_id) {
             abort(403);
+        }
+
+        $acceptedRegistration = $this->getActiveAcceptedRegistration($intern);
+        $startDate = $acceptedRegistration?->periode_mulai;
+        $endDate   = $acceptedRegistration?->periode_selesai;
+
+        if ($acceptedRegistration && $startDate && $material->created_at) {
+            $materialDate = $material->created_at->toDateString();
+            if ($materialDate < \Carbon\Carbon::parse($startDate)->toDateString()) {
+                abort(403, 'Materi ini diterbitkan sebelum periode magang Anda dimulai.');
+            }
+            if ($endDate && $materialDate > \Carbon\Carbon::parse($endDate)->toDateString()) {
+                abort(403, 'Materi ini diterbitkan setelah periode magang Anda berakhir.');
+            }
         }
 
         $progress = MaterialProgress::firstOrCreate(
@@ -111,6 +128,20 @@ class LmsController extends Controller
             abort(403);
         }
 
+        $acceptedRegistration = $this->getActiveAcceptedRegistration($intern);
+        $startDate = $acceptedRegistration?->periode_mulai;
+        $endDate   = $acceptedRegistration?->periode_selesai;
+
+        if ($acceptedRegistration && $startDate && $task->created_at) {
+            $taskDate = $task->created_at->toDateString();
+            if ($taskDate < \Carbon\Carbon::parse($startDate)->toDateString()) {
+                abort(403, 'Tugas ini diterbitkan sebelum periode magang Anda dimulai.');
+            }
+            if ($endDate && $taskDate > \Carbon\Carbon::parse($endDate)->toDateString()) {
+                abort(403, 'Tugas ini diterbitkan setelah periode magang Anda berakhir.');
+            }
+        }
+
         $submission = Submission::where('intern_id', $intern->id)->where('task_id', $task->id)->first();
 
         return view('intern.lms.task_show', compact('task', 'submission'));
@@ -125,6 +156,20 @@ class LmsController extends Controller
         $pembimbing = User::find($task->pembimbing_id);
         if ($intern->division_id !== null && $pembimbing->division_id !== $intern->division_id) {
             abort(403);
+        }
+
+        $acceptedRegistration = $this->getActiveAcceptedRegistration($intern);
+        $startDate = $acceptedRegistration?->periode_mulai;
+        $endDate   = $acceptedRegistration?->periode_selesai;
+
+        if ($acceptedRegistration && $startDate && $task->created_at) {
+            $taskDate = $task->created_at->toDateString();
+            if ($taskDate < \Carbon\Carbon::parse($startDate)->toDateString()) {
+                abort(403, 'Tugas ini diterbitkan sebelum periode magang Anda dimulai.');
+            }
+            if ($endDate && $taskDate > \Carbon\Carbon::parse($endDate)->toDateString()) {
+                abort(403, 'Tugas ini diterbitkan setelah periode magang Anda berakhir.');
+            }
         }
 
         $request->validate([
@@ -185,5 +230,24 @@ class LmsController extends Controller
         ]);
 
         return $intern->fresh();
+    }
+
+    protected function getActiveAcceptedRegistration(User $intern): ?\App\Models\Registration
+    {
+        return $intern->registrations()
+            ->where(function ($q) {
+                $q->where('status', \App\Enums\RegistrationStatus::Accepted)
+                  ->orWhere('status', 'accepted');
+            })
+            ->where('is_terminated', false)
+            ->latest('id')
+            ->first()
+            ?? $intern->registrations()
+                ->where(function ($q) {
+                    $q->where('status', \App\Enums\RegistrationStatus::Accepted)
+                      ->orWhere('status', 'accepted');
+                })
+                ->latest('id')
+                ->first();
     }
 }

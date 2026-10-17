@@ -3,18 +3,18 @@
     $isEdit = $formMode === 'edit';
 @endphp
 
-<div class="row g-4">
+<div class="row g-2.5">
     <div class="col-lg-8">
         {{-- Nama Posisi --}}
-        <div class="mb-4">
-            <label for="nama_posisi" class="form-label fw-semibold">
+        <div class="mb-3">
+            <label for="nama_posisi" class="form-label text-xs font-bold !text-slate-800 dark:!text-slate-200">
                 Nama Posisi Magang <span class="text-danger">*</span>
             </label>
             <input
                 type="text"
                 name="nama_posisi"
                 id="nama_posisi"
-                class="form-control form-control-lg @error('nama_posisi') is-invalid @enderror"
+                class="form-control py-1.5 px-2.5 text-xs @error('nama_posisi') is-invalid @enderror"
                 maxlength="100"
                 placeholder="Contoh: Web Developer Backend Laravel"
                 value="{{ old('nama_posisi', $position->nama_posisi ?? '') }}"
@@ -27,8 +27,8 @@
         </div>
 
         {{-- Slug URL --}}
-        <div class="mb-4">
-            <label for="slug" class="form-label fw-semibold">
+        <div class="mb-3">
+            <label for="slug" class="form-label text-xs font-bold !text-slate-800 dark:!text-slate-200">
                 Slug URL <span class="text-danger">*</span>
             </label>
             <div class="input-group">
@@ -37,7 +37,7 @@
                     type="text"
                     name="slug"
                     id="slug"
-                    class="form-control @error('slug') is-invalid @enderror"
+                    class="form-control py-1.5 px-2.5 text-xs @error('slug') is-invalid @enderror"
                     maxlength="150"
                     placeholder="web-developer-backend-laravel"
                     pattern="[a-z0-9\-_]+"
@@ -55,14 +55,14 @@
         </div>
 
         {{-- Deskripsi --}}
-        <div class="mb-4">
-            <label for="deskripsi" class="form-label fw-semibold">Deskripsi & Tugas</label>
+        <div class="mb-3">
+            <label for="deskripsi" class="form-label text-xs font-bold !text-slate-800 dark:!text-slate-200">Deskripsi & Tugas</label>
             <textarea
                 name="deskripsi"
                 id="deskripsi"
                 rows="6"
                 maxlength="5000"
-                class="form-control @error('deskripsi') is-invalid @enderror"
+                class="form-control py-1.5 px-2.5 text-xs @error('deskripsi') is-invalid @enderror"
                 placeholder="Jelaskan deskripsi pekerjaan, tugas pokok, dll..."
             >{{ old('deskripsi', $position->deskripsi ?? '') }}</textarea>
             <div class="form-text d-flex justify-content-between">
@@ -75,14 +75,14 @@
         </div>
 
         {{-- Kualifikasi --}}
-        <div class="mb-4">
-            <label for="kualifikasi" class="form-label fw-semibold">Kualifikasi & Persyaratan</label>
+        <div class="mb-3">
+            <label for="kualifikasi" class="form-label text-xs font-bold !text-slate-800 dark:!text-slate-200">Kualifikasi & Persyaratan</label>
             <textarea
                 name="kualifikasi"
                 id="kualifikasi"
                 rows="5"
                 maxlength="5000"
-                class="form-control @error('kualifikasi') is-invalid @enderror"
+                class="form-control py-1.5 px-2.5 text-xs @error('kualifikasi') is-invalid @enderror"
                 placeholder="Persyaratan: - Mahasiswa Semester 5+, - Menguasai HTML, CSS, JS, dll..."
             >{{ old('kualifikasi', $position->kualifikasi ?? '') }}</textarea>
             <div class="form-text d-flex justify-content-between">
@@ -95,23 +95,23 @@
         </div>
 
         {{-- Pembimbing Lapangan --}}
-        <div class="card border-0 bg-light mb-4">
-            <div class="card-header bg-transparent border-0 pt-3 pb-0">
+        <div class="card border-0 bg-light mb-3">
+            <div class="card-header bg-transparent border-0 pt-2.5 pb-1">
                 <h6 class="fw-bold mb-0 text-primary small text-uppercase">
                     <i class="bi bi-person-badge-fill me-1"></i> Pembimbing Lapangan (Mentor Unit)
                 </h6>
             </div>
-            <div class="card-body">
-                <div class="row g-3">
+            <div class="card-body p-3 sm:p-4">
+                <div class="row g-2.5">
                     <div class="col-md-7">
-                        <label for="mentor_name" class="form-label fw-semibold mb-1">
+                        <label for="mentor_name" class="form-label text-xs font-bold !text-slate-800 dark:!text-slate-200 mb-1">
                             Nama Pembimbing Lapangan
                         </label>
                         <input
                             type="text"
                             name="mentor_name"
                             id="mentor_name"
-                            class="form-control @error('mentor_name') is-invalid @enderror"
+                            class="form-control py-1.5 px-2.5 text-xs @error('mentor_name') is-invalid @enderror"
                             maxlength="255"
                             placeholder="Contoh: Drs. Eko Prasetyo, M.Kom"
                             value="{{ old('mentor_name', $position->mentor_name ?? '') }}"
@@ -122,14 +122,14 @@
                         @enderror
                     </div>
                     <div class="col-md-5">
-                        <label for="mentor_nip" class="form-label fw-semibold mb-1">
+                        <label for="mentor_nip" class="form-label text-xs font-bold !text-slate-800 dark:!text-slate-200 mb-1">
                             NIP Pembimbing Lapangan
                         </label>
                         <input
                             type="text"
                             name="mentor_nip"
                             id="mentor_nip"
-                            class="form-control @error('mentor_nip') is-invalid @enderror"
+                            class="form-control py-1.5 px-2.5 text-xs @error('mentor_nip') is-invalid @enderror"
                             maxlength="30"
                             placeholder="19820315 200801 1 004"
                             value="{{ old('mentor_nip', $position->mentor_nip ?? '') }}"
@@ -146,19 +146,19 @@
 
     {{-- Sidebar Kanan: Pengaturan --}}
     <div class="col-lg-4">
-        <div class="card border-0 bg-light mb-4">
-            <div class="card-header border-0 bg-transparent pt-4 pb-2">
+        <div class="card border-0 bg-light mb-3">
+            <div class="card-header border-0 bg-transparent pt-2.5 pb-1.5">
                 <h6 class="fw-bold mb-0 text-uppercase text-muted small">
                     <i class="bi bi-gear-wide-connected me-1"></i> Pengaturan
                 </h6>
             </div>
-            <div class="card-body">
+            <div class="card-body p-3 sm:p-4">
                 {{-- Kuota (Tidak Diterapkan Pembatasan Kuota) --}}
                 <input type="hidden" name="kuota" value="{{ old('kuota', $position->kuota ?? 0) }}">
 
                 {{-- Status --}}
-                <div class="mb-4">
-                    <label class="form-label fw-semibold">
+                <div class="mb-3">
+                    <label class="form-label text-xs font-bold !text-slate-800 dark:!text-slate-200">
                         Status Posisi <span class="text-danger">*</span>
                     </label>
                     <div class="d-flex flex-column gap-2">
@@ -173,12 +173,12 @@
                                     @checked(old('status', $position->status?->value ?? \App\Enums\PositionStatus::Aktif->value) === $status->value)
                                     required
                                 >
-                                <label class="form-check-label fw-medium" for="status_{{ $status->value }}">
+                                <label class="form-check-label fw-medium text-xs" for="status_{{ $status->value }}">
                                     @if ($status->isAktif())
-                                        <span class="text-success">
+                                        <span class="text-success font-semibold">
                                             <i class="bi bi-toggle-on me-1"></i>
                                         @else
-                                        <span class="text-secondary">
+                                        <span class="text-secondary font-semibold">
                                             <i class="bi bi-toggle-off me-1"></i>
                                         @endif
                                         {{ $status->label() }}
@@ -198,20 +198,20 @@
 
                 @if($isEdit)
                     {{-- Riwayat Perubahan --}}
-                    <div class="card border-0 shadow-sm bg-white mb-4">
-                        <div class="card-header bg-light border-bottom py-3">
+                    <div class="card border-0 shadow-sm bg-white mb-3">
+                        <div class="card-header bg-light border-bottom py-2 px-3">
                             <h6 class="fw-bold mb-0 text-dark small text-uppercase">
                                 <i class="bi bi-clock-history me-1 text-primary"></i> Riwayat Perubahan
                             </h6>
                         </div>
-                        <div class="card-body p-3">
-                            <div class="mb-3">
+                        <div class="card-body p-2.5">
+                            <div class="mb-2">
                                 <small class="text-muted d-block fw-semibold text-uppercase" style="font-size: 0.7rem; letter-spacing: 0.05em;">Terakhir diperbarui</small>
-                                <span class="fw-bold text-dark fs-6">{{ $position->updated_at?->locale('id')->translatedFormat('d F Y, H:i') ?? '-' }} WIB</span>
+                                <span class="fw-bold text-dark text-xs">{{ $position->updated_at?->locale('id')->translatedFormat('d F Y, H:i') ?? '-' }} WIB</span>
                             </div>
                             <div>
                                 <small class="text-muted d-block fw-semibold text-uppercase" style="font-size: 0.7rem; letter-spacing: 0.05em;">Dibuat Pada</small>
-                                <span class="fw-medium text-secondary small">{{ $position->created_at?->locale('id')->translatedFormat('d F Y, H:i') ?? '-' }} WIB</span>
+                                <span class="fw-medium text-secondary text-xs">{{ $position->created_at?->locale('id')->translatedFormat('d F Y, H:i') ?? '-' }} WIB</span>
                             </div>
                         </div>
                     </div>
@@ -220,16 +220,16 @@
         </div>
 
         @if($isEdit)
-            <div class="card border-0 shadow-sm bg-danger text-white mb-4">
-                <div class="card-body p-4 text-center">
-                    <div class="mb-2">
-                        <i class="bi bi-exclamation-triangle-fill text-warning fs-1" aria-hidden="true"></i>
+            <div class="card border-0 shadow-sm bg-danger text-white mb-3">
+                <div class="card-body p-3 text-center">
+                    <div class="mb-1">
+                        <i class="bi bi-exclamation-triangle-fill text-warning fs-3" aria-hidden="true"></i>
                     </div>
-                    <h6 class="fw-bold text-white mb-2 fs-5">Hapus Posisi?</h6>
-                    <p class="text-white small mb-3">
+                    <h6 class="fw-bold text-white mb-1 fs-6">Hapus Posisi?</h6>
+                    <p class="text-white small mb-2.5 text-xs">
                         Posisi yang sudah punya pendaftar tidak bisa dihapus (ON DELETE RESTRICT).
                     </p>
-                    <button type="submit" form="delete-position-form" class="btn bg-white hover:bg-rose-50 text-rose-600 font-semibold rounded-xl px-4 py-2 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md">
+                    <button type="submit" form="delete-position-form" class="btn bg-white hover:bg-rose-50 text-rose-600 font-bold rounded-lg px-3 py-1.5 text-xs shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md">
                         <i class="bi bi-trash3 me-1" aria-hidden="true"></i> Hapus Posisi Ini
                     </button>
                 </div>

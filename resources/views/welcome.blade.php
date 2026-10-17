@@ -1924,8 +1924,8 @@
                 @endif
             @else
                 <div id="formasi-subtitle-trigger" class="w-full flex items-center justify-between mb-6 mt-4">
-                    <h3 class="text-lg sm:text-xl font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2">
-                        <i class="bi bi-briefcase-fill text-indigo-600"></i> Formasi magang yang tersedia
+                    <h3 class="text-lg sm:text-xl font-bold flex items-center gap-2" style="color: var(--sim-text);">
+                        <i class="bi bi-briefcase-fill" style="color: var(--sim-text);"></i> Formasi magang yang tersedia
                     </h3>
                     <!-- Carousel Navigation Controls -->
                     <div class="flex items-center gap-2.5">
@@ -1951,7 +1951,7 @@
                                                     <i class="bi bi-mortarboard-fill"></i> Mahasiswa & SMK
                                                 </span>
                                             </div>
-                                            <h4 class="position-title">{{ $pos->nama_posisi }}</h4>
+                                            <h4 class="position-title" style="color: black;">{{ $pos->nama_posisi }}</h4>
                                             <p class="position-desc">{{ Str::limit($pos->deskripsi, 130) }}</p>
                                         </div>
                                         <div class="mt-auto">
@@ -1960,7 +1960,7 @@
                                                     <div class="position-meta">
                                                         <div class="d-flex justify-content-between">
                                                             <span>Terakhir Diperbarui:</span>
-                                                            <strong style="color: var(--sim-text);">{{ $pos->updated_at?->locale('id')->translatedFormat('d M Y') ?? '-' }}</strong>
+                                                            <strong style="color: black;">{{ $pos->updated_at?->locale('id')->translatedFormat('d M Y') ?? '-' }}</strong>
                                                         </div>
                                                     </div>
                                                 @endif
@@ -1990,13 +1990,13 @@
                                 <div class="position-card flex flex-col h-full w-full rounded-2xl shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
                                     <div class="flex-grow flex flex-col">
                                         <span class="position-badge"><i class="bi bi-mortarboard-fill"></i> Mahasiswa & SMK</span>
-                                        <h4 class="position-title">Pengembangan Web & Aplikasi SPBE</h4>
+                                        <h4 class="position-title" style="color: black;">Pengembangan Web & Aplikasi SPBE</h4>
                                         <p class="position-desc">Pengembangan dan integrasi sistem informasi web pemerintah daerah berbasis Laravel, API SPBE, dan manajemen database MySQL.</p>
                                     </div>
                                     <div class="mt-auto">
                                         <div class="position-meta">
-                                            <div class="d-flex justify-content-between mb-1"><span>Bidang:</span><strong style="color: var(--sim-text);">Aplikasi & Informatika</strong></div>
-                                            <div class="d-flex justify-content-between"><span>Peserta:</span><strong style="color: var(--sim-text);">Mahasiswa / SMK</strong></div>
+                                            <div class="d-flex justify-content-between mb-1"><span>Bidang:</span><strong style="color: black;">Aplikasi & Informatika</strong></div>
+                                            <div class="d-flex justify-content-between"><span>Peserta:</span><strong style="color: black;">Mahasiswa / SMK</strong></div>
                                         </div>
                                         <a href="{{ route('register') }}" class="main-btn w-100 justify-content-center">Daftar Sekarang</a>
                                     </div>
@@ -2006,13 +2006,13 @@
                                 <div class="position-card flex flex-col h-full w-full rounded-2xl shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
                                     <div class="flex-grow flex flex-col">
                                         <span class="position-badge"><i class="bi bi-mortarboard-fill"></i> Mahasiswa & SMK</span>
-                                        <h4 class="position-title">Media Sosial & Konten Kreatif</h4>
+                                        <h4 class="position-title" style="color: black;">Media Sosial & Konten Kreatif</h4>
                                         <p class="position-desc">Produksi konten visual publikasi daerah, desain grafis, fotografi, liputan berita, dan pengelolaan media sosial resmi Pemkab Tuban.</p>
                                     </div>
                                     <div class="mt-auto">
                                         <div class="position-meta">
-                                            <div class="d-flex justify-content-between mb-1"><span>Bidang:</span><strong style="color: var(--sim-text);">Komunikasi & Informasi Publik</strong></div>
-                                            <div class="d-flex justify-content-between"><span>Peserta:</span><strong style="color: var(--sim-text);">Mahasiswa / SMK</strong></div>
+                                            <div class="d-flex justify-content-between mb-1"><span>Bidang:</span><strong style="color: black;">Komunikasi & Informasi Publik</strong></div>
+                                            <div class="d-flex justify-content-between"><span>Peserta:</span><strong style="color: black;">Mahasiswa / SMK</strong></div>
                                         </div>
                                         <a href="{{ route('register') }}" class="main-btn w-100 justify-content-center">Daftar Sekarang</a>
                                     </div>
@@ -2022,13 +2022,13 @@
                                 <div class="position-card flex flex-col h-full w-full rounded-2xl shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
                                     <div class="flex-grow flex flex-col">
                                         <span class="position-badge"><i class="bi bi-mortarboard-fill"></i> Mahasiswa & SMK</span>
-                                        <h4 class="position-title">Jaringan & Keamanan Informasi</h4>
+                                        <h4 class="position-title" style="color: black;">Jaringan & Keamanan Informasi</h4>
                                         <p class="position-desc">Pemeliharaan infrastruktur jaringan fiber optik, server intranet dinas, dan monitoring pengamanan informasi persandian.</p>
                                     </div>
                                     <div class="mt-auto">
                                         <div class="position-meta">
-                                            <div class="d-flex justify-content-between mb-1"><span>Bidang:</span><strong style="color: var(--sim-text);">Persandian & Jaringan</strong></div>
-                                            <div class="d-flex justify-content-between"><span>Peserta:</span><strong style="color: var(--sim-text);">Mahasiswa / SMK</strong></div>
+                                            <div class="d-flex justify-content-between mb-1"><span>Bidang:</span><strong style="color: black;">Persandian & Jaringan</strong></div>
+                                            <div class="d-flex justify-content-between"><span>Peserta:</span><strong style="color: black;">Mahasiswa / SMK</strong></div>
                                         </div>
                                         <a href="{{ route('register') }}" class="main-btn w-100 justify-content-center">Daftar Sekarang</a>
                                     </div>

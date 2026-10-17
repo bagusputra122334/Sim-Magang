@@ -3,108 +3,98 @@
 @section('title', 'Daftar Pendaftaran Magang — Admin')
 
 @section('content')
-    <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4 w-full w-100">
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-2.5 gap-2 w-full w-100">
         <!-- Page Title & Description (Left Side) -->
-        <div class="flex-1">
-            <h2 class="text-2xl font-bold text-slate-800 flex items-center gap-2">
-                <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+        <div>
+            <h1 class="h4 mb-0 fw-bold text-slate-800 dark:text-slate-100 flex items-center gap-2" style="line-height: 1.2;">
+                <svg class="w-5 h-5 text-blue-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
                 Verifikasi Pendaftaran Magang
-            </h2>
+            </h1>
         </div>
         
         <!-- Export Button (Pushed Strictly to Right Side) -->
         <div class="shrink-0 ms-auto">
-            <a href="{{ route('admin.applications.export_pdf', request()->query()) }}" class="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold rounded-lg shadow-md transition-colors">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+            <a href="{{ route('admin.applications.export_pdf', request()->query()) }}" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-lg shadow-sm transition-colors text-decoration-none">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
                 Ekspor PDF
             </a>
         </div>
     </div>
 
-    <!-- Top Statistics Row (Ultra-Compact, 5 Columns) -->
-    <div class="row g-2 mb-4">
+    <!-- Top Statistics Row (Ultra-Compact, 5 Columns - Wajib 1 Baris di Layar Desktop) -->
+    <div class="grid grid-cols-2 lg:grid-cols-5 gap-2 mb-2.5">
         <!-- Card 1: Total -->
-        <div class="col-md-4 col-lg">
-            <div class="card shadow-sm border-0 h-100">
-                <div class="card-body p-2 px-3 d-flex align-items-center justify-content-between">
-                    <div>
-                        <p class="text-muted text-uppercase fw-bold mb-1" style="font-size: 0.6rem; letter-spacing: 0.5px;">Total</p>
-                        <h5 class="fw-bold mb-0 text-dark">{{ $summary['total'] ?? $total ?? 0 }}</h5>
-                    </div>
-                    <div class="text-primary">
-                        <i class="bi bi-bar-chart-fill fs-5"></i>
-                    </div>
+        <div class="card shadow-sm border border-slate-200 dark:border-slate-700 rounded-lg h-full bg-white dark:bg-slate-800 p-2.5 sm:p-3">
+            <div class="d-flex align-items-center justify-content-between">
+                <div>
+                    <p class="text-xs font-extrabold !text-slate-700 dark:!text-slate-200 uppercase tracking-wider mb-0.5">TOTAL</p>
+                    <span class="text-xl lg:text-2xl font-black !text-gray-900 dark:!text-white opacity-100 block my-0.5 leading-none">{{ $summary['total'] ?? $total ?? 0 }}</span>
+                </div>
+                <div class="text-primary rounded bg-blue-100 dark:bg-blue-900/30 p-2 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 34px; height: 34px;">
+                    <i class="bi bi-bar-chart-fill fs-5"></i>
                 </div>
             </div>
         </div>
 
         <!-- Card 2: Submitted -->
-        <div class="col-md-4 col-lg">
-            <div class="card shadow-sm border-0 h-100">
-                <div class="card-body p-2 px-3 d-flex align-items-center justify-content-between">
-                    <div>
-                        <p class="text-muted text-uppercase fw-bold mb-1" style="font-size: 0.6rem; letter-spacing: 0.5px;">Submitted</p>
-                        <h5 class="fw-bold mb-0 text-dark">{{ $summary['submitted'] ?? $submitted ?? 0 }}</h5>
-                    </div>
-                    <div class="text-info">
-                        <i class="bi bi-envelope-fill fs-5"></i>
-                    </div>
+        <div class="card shadow-sm border border-slate-200 dark:border-slate-700 rounded-lg h-full bg-white dark:bg-slate-800 p-2.5 sm:p-3">
+            <div class="d-flex align-items-center justify-content-between">
+                <div>
+                    <p class="text-xs font-extrabold !text-slate-700 dark:!text-slate-200 uppercase tracking-wider mb-0.5">SUBMITTED</p>
+                    <span class="text-xl lg:text-2xl font-black !text-gray-900 dark:!text-white opacity-100 block my-0.5 leading-none">{{ $summary['submitted'] ?? $submitted ?? 0 }}</span>
+                </div>
+                <div class="text-info rounded bg-cyan-100 dark:bg-cyan-900/30 p-2 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 34px; height: 34px;">
+                    <i class="bi bi-envelope-fill fs-5 text-cyan-600"></i>
                 </div>
             </div>
         </div>
 
         <!-- Card 3: Under Review -->
-        <div class="col-md-4 col-lg">
-            <div class="card shadow-sm border-0 h-100">
-                <div class="card-body p-2 px-3 d-flex align-items-center justify-content-between">
-                    <div>
-                        <p class="text-muted text-uppercase fw-bold mb-1" style="font-size: 0.6rem; letter-spacing: 0.5px;">Under Review</p>
-                        <h5 class="fw-bold mb-0 text-dark">{{ $summary['review'] ?? $underReview ?? 0 }}</h5>
-                    </div>
-                    <div class="text-warning">
-                        <i class="bi bi-clock-fill fs-5"></i>
-                    </div>
+        <div class="card shadow-sm border border-slate-200 dark:border-slate-700 rounded-lg h-full bg-white dark:bg-slate-800 p-2.5 sm:p-3">
+            <div class="d-flex align-items-center justify-content-between">
+                <div>
+                    <p class="text-xs font-extrabold !text-slate-700 dark:!text-slate-200 uppercase tracking-wider mb-0.5">UNDER REVIEW</p>
+                    <span class="text-xl lg:text-2xl font-black !text-gray-900 dark:!text-white opacity-100 block my-0.5 leading-none">{{ $summary['review'] ?? $underReview ?? 0 }}</span>
+                </div>
+                <div class="text-warning rounded bg-amber-100 dark:bg-amber-900/30 p-2 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 34px; height: 34px;">
+                    <i class="bi bi-clock-fill fs-5 text-amber-600"></i>
                 </div>
             </div>
         </div>
 
         <!-- Card 4: Accepted -->
-        <div class="col-md-6 col-lg">
-            <div class="card shadow-sm border-0 h-100">
-                <div class="card-body p-2 px-3 d-flex align-items-center justify-content-between">
-                    <div>
-                        <p class="text-muted text-uppercase fw-bold mb-1" style="font-size: 0.6rem; letter-spacing: 0.5px;">Accepted</p>
-                        <h5 class="fw-bold mb-0 text-dark">{{ $summary['accepted'] ?? $accepted ?? 0 }}</h5>
-                    </div>
-                    <div class="text-success">
-                        <i class="bi bi-check-circle-fill fs-5"></i>
-                    </div>
+        <div class="card shadow-sm border border-slate-200 dark:border-slate-700 rounded-lg h-full bg-white dark:bg-slate-800 p-2.5 sm:p-3">
+            <div class="d-flex align-items-center justify-content-between">
+                <div>
+                    <p class="text-xs font-extrabold !text-slate-700 dark:!text-slate-200 uppercase tracking-wider mb-0.5">ACCEPTED</p>
+                    <span class="text-xl lg:text-2xl font-black !text-gray-900 dark:!text-white opacity-100 block my-0.5 leading-none">{{ $summary['accepted'] ?? $accepted ?? 0 }}</span>
+                </div>
+                <div class="text-success rounded bg-emerald-100 dark:bg-emerald-900/30 p-2 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 34px; height: 34px;">
+                    <i class="bi bi-check-circle-fill fs-5 text-emerald-600"></i>
                 </div>
             </div>
         </div>
 
         <!-- Card 5: Rejected -->
-        <div class="col-md-6 col-lg">
-            <div class="card shadow-sm border-0 h-100">
-                <div class="card-body p-2 px-3 d-flex align-items-center justify-content-between">
-                    <div>
-                        <p class="text-muted text-uppercase fw-bold mb-1" style="font-size: 0.6rem; letter-spacing: 0.5px;">Rejected</p>
-                        <h5 class="fw-bold mb-0 text-dark">{{ $summary['rejected'] ?? $rejected ?? 0 }}</h5>
-                    </div>
-                    <div class="text-danger">
-                        <i class="bi bi-x-circle-fill fs-5"></i>
-                    </div>
+        <div class="card shadow-sm border border-slate-200 dark:border-slate-700 rounded-lg h-full bg-white dark:bg-slate-800 p-2.5 sm:p-3 col-span-2 lg:col-span-1">
+            <div class="d-flex align-items-center justify-content-between">
+                <div>
+                    <p class="text-xs font-extrabold !text-slate-700 dark:!text-slate-200 uppercase tracking-wider mb-0.5">REJECTED</p>
+                    <span class="text-xl lg:text-2xl font-black !text-gray-900 dark:!text-white opacity-100 block my-0.5 leading-none">{{ $summary['rejected'] ?? $rejected ?? 0 }}</span>
+                </div>
+                <div class="text-danger rounded bg-rose-100 dark:bg-rose-900/30 p-2 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 34px; height: 34px;">
+                    <i class="bi bi-x-circle-fill fs-5 text-rose-600"></i>
                 </div>
             </div>
         </div>
     </div>
 
     {{-- Filter Bar --}}
-    <div class="card border shadow-sm mb-4">
-        <div class="card-body py-3">
-            <form method="GET" action="{{ route('admin.applications.index') }}" class="row g-3 align-items-end">
-                <div class="col-md-4">
-                    <label for="search" class="form-label mb-1 small fw-semibold">
+    <div class="card border border-slate-200 dark:border-slate-700 shadow-sm rounded-lg mb-2.5 bg-white dark:bg-slate-800">
+        <div class="card-body p-2.5">
+            <form method="GET" action="{{ route('admin.applications.index') }}" class="row g-2 align-items-end">
+                <div class="col-12 col-md-4">
+                    <label for="search" class="form-label mb-0.5 text-xs font-bold text-slate-700 dark:text-slate-300">
                         <i class="bi bi-search me-1"></i> Cari (Nama / No. / Email)
                     </label>
                     <div class="input-group">
@@ -112,19 +102,19 @@
                             type="text"
                             name="search"
                             id="search"
-                            class="form-control"
+                            class="form-control form-control-sm text-xs py-1.5 px-2.5"
                             value="{{ request('search', $filters['search'] ?? '') }}"
                             placeholder="Ketik nama atau nomor...">
-                        <button type="submit" class="btn btn-primary" title="Cari Pendaftaran">
+                        <button type="submit" class="btn btn-sm btn-primary py-1.5 px-2.5 text-xs font-semibold" title="Cari Pendaftaran">
                             <i class="bi bi-search" aria-hidden="true"></i>
                         </button>
                     </div>
                 </div>
-                <div class="col-md-3">
-                    <label for="status" class="form-label mb-1 small fw-semibold">
+                <div class="col-6 col-md-3">
+                    <label for="status" class="form-label mb-0.5 text-xs font-bold text-slate-700 dark:text-slate-300">
                         <i class="bi bi-filter me-1"></i> Status
                     </label>
-                    <select name="status" id="status" class="form-select" onchange="this.form.submit()">
+                    <select name="status" id="status" class="form-select form-select-sm text-xs py-1.5 px-2.5" onchange="this.form.submit()">
                         <option value="">Semua Status</option>
                         @foreach (\App\Enums\RegistrationStatus::cases() as $case)
                             <option value="{{ $case->value }}"
@@ -134,11 +124,11 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="col-md-3">
-                    <label for="position_id" class="form-label mb-1 small fw-semibold">
+                <div class="col-6 col-md-3">
+                    <label for="position_id" class="form-label mb-0.5 text-xs font-bold text-slate-700 dark:text-slate-300">
                         <i class="bi bi-briefcase me-1"></i> Posisi Magang
                     </label>
-                    <select name="position_id" id="position_id" class="form-select" onchange="this.form.submit()">
+                    <select name="position_id" id="position_id" class="form-select form-select-sm text-xs py-1.5 px-2.5" onchange="this.form.submit()">
                         <option value="">Semua Posisi Magang</option>
                         @foreach ($pilihanPosisi as $pos)
                             <option value="{{ $pos->id }}"
@@ -148,11 +138,11 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="col-md-2">
-                    <label for="per_page" class="form-label mb-1 small fw-semibold">
+                <div class="col-12 col-md-2">
+                    <label for="per_page" class="form-label mb-0.5 text-xs font-bold text-slate-700 dark:text-slate-300">
                         <i class="bi bi-list-ol me-1"></i> Per Halaman
                     </label>
-                    <select name="per_page" id="per_page" class="form-select" onchange="this.form.submit()">
+                    <select name="per_page" id="per_page" class="form-select form-select-sm text-xs py-1.5 px-2.5" onchange="this.form.submit()">
                         <option value="5" @selected((string)request('per_page', $perPage) === '5')>5 data</option>
                         <option value="10" @selected((string)request('per_page', $perPage) === '10')>10 data</option>
                         <option value="15" @selected((string)request('per_page', $perPage) === '15')>15 data</option>
@@ -165,51 +155,51 @@
     </div>
 
     {{-- Tabel List --}}
-    <div class="card border shadow-sm">
-        <div class="card-body p-0 w-full overflow-x-auto overflow-y-hidden border border-slate-200 rounded-xl table-responsive">
-            <table class="table table-sm table-hover align-middle mb-0">
-                <thead class="table-light border-bottom">
+    <div class="card border border-slate-200 dark:border-slate-700 shadow-sm rounded-lg bg-white dark:bg-slate-800">
+        <div class="w-full overflow-x-auto overflow-y-hidden rounded-t-lg table-responsive">
+            <table class="table table-hover align-middle mb-0 w-full text-xs">
+                <thead class="table-light border-bottom text-muted">
                     <tr>
-                        <th class="ps-3 py-2" style="width: 140px; min-width: 140px;">No. Pendaftaran</th>
-                        <th class="py-2 min-w-[220px]" style="min-width: 220px;">Nama Peserta</th>
-                        <th class="py-2 min-w-[220px]" style="min-width: 220px;">Jenis & Instansi</th>
-                        <th class="py-2 min-w-[250px]" style="min-width: 250px;">Posisi Magang</th>
-                        <th class="py-2" style="width: 120px; min-width: 120px;">Tgl Submit</th>
-                        <th class="py-2 text-center" style="width: 130px; min-width: 130px;">Status</th>
-                        <th class="py-2 text-end pe-3" style="width: 160px; min-width: 160px;">Aksi</th>
+                        <th class="ps-2.5 py-1.5 px-2.5 text-xs font-bold uppercase tracking-wider whitespace-nowrap" style="width: 140px; min-width: 140px;">No. Pendaftaran</th>
+                        <th class="py-1.5 px-2.5 text-xs font-bold uppercase tracking-wider min-w-[220px]" style="min-width: 220px;">Nama Peserta</th>
+                        <th class="py-1.5 px-2.5 text-xs font-bold uppercase tracking-wider min-w-[220px]" style="min-width: 220px;">Jenis & Instansi</th>
+                        <th class="py-1.5 px-2.5 text-xs font-bold uppercase tracking-wider min-w-[250px]" style="min-width: 250px;">Posisi Magang</th>
+                        <th class="py-1.5 px-2.5 text-xs font-bold uppercase tracking-wider whitespace-nowrap" style="width: 120px; min-width: 120px;">Tgl Submit</th>
+                        <th class="py-1.5 px-2.5 text-xs font-bold uppercase tracking-wider text-center whitespace-nowrap" style="width: 130px; min-width: 130px;">Status</th>
+                        <th class="pe-2.5 py-1.5 px-2.5 text-xs font-bold uppercase tracking-wider text-end whitespace-nowrap" style="width: 160px; min-width: 160px;">Aksi</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="divide-y divide-slate-100 dark:divide-slate-700">
                     @forelse ($applications as $app)
                         @php
                             $prof = $app->user?->profile;
                         @endphp
                         <tr>
-                            <td class="ps-3 font-monospace small text-primary fw-semibold" style="min-width: 140px;">
+                            <td class="ps-2.5 py-1.5 px-2.5 font-monospace text-xs text-primary fw-semibold whitespace-nowrap" style="min-width: 140px;">
                                 {{ $app->nomor_pendaftaran }}
                             </td>
-                            <td class="min-w-[220px]" style="min-width: 220px;">
-                                <div class="fw-semibold text-slate-900">{{ $app->user?->name ?? '—' }}</div>
-                                <div class="text-slate-500 small"><i class="bi bi-envelope me-1"></i>{{ $app->user?->email ?? '' }}</div>
+                            <td class="py-1.5 px-2.5 text-xs min-w-[220px]" style="min-width: 220px;">
+                                <div class="fw-bold text-slate-900 dark:text-slate-100 text-xs sm:text-sm">{{ $app->user?->name ?? '—' }}</div>
+                                <div class="text-slate-500 text-xs"><i class="bi bi-envelope me-1"></i>{{ $app->user?->email ?? '' }}</div>
                             </td>
-                            <td class="min-w-[220px]" style="min-width: 220px;">
+                            <td class="py-1.5 px-2.5 text-xs min-w-[220px]" style="min-width: 220px;">
                                 @if($prof)
-                                    <div class="mb-1">
-                                        <span class="badge {{ $prof->isSiswa() ? 'bg-success-subtle text-success border border-success-subtle' : 'bg-primary-subtle text-primary border border-primary-subtle' }}">
+                                    <div class="mb-0.5">
+                                        <span class="badge {{ $prof->isSiswa() ? 'bg-success-subtle text-success border border-success-subtle' : 'bg-primary-subtle text-primary border border-primary-subtle' }} text-xs py-0.5 px-2">
                                             {{ $prof->isSiswa() ? '🏫 Siswa / SMK' : '🎓 Mahasiswa' }}
                                         </span>
                                     </div>
-                                    <div class="fw-medium small text-slate-800">{{ $prof->institusi }}</div>
-                                    <div class="text-slate-500 small font-monospace">{{ $prof->numberLabel() }}: {{ $prof->numberValue() }}</div>
+                                    <div class="fw-semibold text-xs text-slate-800 dark:text-slate-200">{{ $prof->institusi }}</div>
+                                    <div class="text-slate-500 text-xs font-monospace" style="font-size: 0.7rem;">{{ $prof->numberLabel() }}: {{ $prof->numberValue() }}</div>
                                 @else
-                                    <span class="text-slate-400 small">Profil Belum Terisi</span>
+                                    <span class="text-slate-400 text-xs">Profil Belum Terisi</span>
                                 @endif
                             </td>
-                            <td class="min-w-[250px]" style="min-width: 250px;">
-                                <div class="text-slate-900 font-semibold text-sm">{{ $app->position?->nama_posisi ?? '—' }}</div>
+                            <td class="py-1.5 px-2.5 text-xs min-w-[250px]" style="min-width: 250px;">
+                                <div class="text-slate-900 dark:text-slate-100 font-semibold text-xs sm:text-sm">{{ $app->position?->nama_posisi ?? '—' }}</div>
                             </td>
-                            <td class="small text-slate-600" style="min-width: 120px;">{{ optional($app->tanggal_submit)->format('d M Y') ?? '-' }}</td>
-                            <td class="text-center" style="min-width: 130px;">
+                            <td class="py-1.5 px-2.5 text-xs text-slate-600 dark:text-slate-300 whitespace-nowrap" style="min-width: 120px;">{{ optional($app->tanggal_submit)->format('d M Y') ?? '-' }}</td>
+                            <td class="py-1.5 px-2.5 text-center whitespace-nowrap" style="min-width: 130px;">
                                 @php
                                     $statusMap = [
                                         \App\Enums\RegistrationStatus::Submitted->value   => 'bg-primary-subtle text-primary border border-primary-subtle',
@@ -219,36 +209,35 @@
                                     ];
                                     $cls = $statusMap[$app->status->value] ?? 'bg-secondary-subtle text-secondary border';
                                 @endphp
-                                <span class="badge {{ $cls }}">
+                                <span class="badge {{ $cls }} text-xs py-1 px-2.5 rounded-pill font-semibold">
                                     {{ $app->status->label() }}
                                 </span>
                             </td>
-                            <td class="text-end pe-3" style="min-width: 160px;">
-                                <div class="btn-group btn-group-sm">
+                            <td class="pe-2.5 py-1.5 px-2.5 text-end whitespace-nowrap" style="min-width: 160px;">
+                                <div class="d-inline-flex items-center gap-1">
                                     <a href="{{ route('admin.applications.show', $app->id) }}"
-                                       class="btn btn-outline-primary" title="Detail">
+                                       class="btn btn-sm btn-outline-primary py-1 px-2 text-xs" title="Detail">
                                         <i class="bi bi-eye"></i>
                                     </a>
                                     @if (! $app->isAccepted() && ! $app->isRejected())
                                         <a href="{{ route('admin.applications.review', $app->id) }}"
-                                           class="btn btn-primary bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white rounded-lg px-2.5 py-1 font-semibold text-xs shadow-sm" title="Review Sekarang">
-                                            <i class="bi bi-pencil-square me-1"></i> Review
+                                           class="btn btn-sm btn-primary bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white rounded-lg px-2.5 py-1 font-semibold text-xs shadow-sm d-inline-flex align-items-center gap-1" title="Review Sekarang">
+                                            <i class="bi bi-pencil-square"></i> Review
                                         </a>
                                     @else
-                                        <button type="button" class="btn btn-outline-secondary" disabled title="Sudah diverifikasi final">
+                                        <button type="button" class="btn btn-sm btn-outline-secondary py-1 px-2 text-xs" disabled title="Sudah diverifikasi final">
                                             Final
                                         </button>
                                     @endif
                                 </div>
                             </td>
-
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="7" class="text-center py-5 text-muted">
+                            <td colspan="7" class="text-center py-4 text-muted">
                                 <i class="bi bi-inbox fs-1 d-block mb-2 opacity-50"></i>
-                                <p class="mb-1">Tidak ada pendaftaran yang cocok dengan filter Anda.</p>
-                                <a href="{{ route('admin.applications.index') }}" class="btn btn-link btn-sm">
+                                <p class="mb-1 text-xs fw-medium">Tidak ada pendaftaran yang cocok dengan filter Anda.</p>
+                                <a href="{{ route('admin.applications.index') }}" class="btn btn-link btn-sm text-xs">
                                     Lihat seluruh pendaftaran
                                 </a>
                             </td>
@@ -257,9 +246,9 @@
                 </tbody>
             </table>
         </div>
-        <div class="card-footer bg-transparent border-top py-3 px-3">
+        <div class="card-footer bg-transparent border-top py-2.5 px-3">
             <div class="d-flex flex-column flex-md-row align-items-center justify-content-between gap-2">
-                <div class="text-muted small">
+                <div class="text-muted text-xs">
                     Menampilkan <strong>{{ $applications->firstItem() ?? 0 }}</strong> s.d. <strong>{{ $applications->lastItem() ?? 0 }}</strong> dari <strong>{{ $applications->total() }}</strong> pendaftar
                 </div>
                 <div>

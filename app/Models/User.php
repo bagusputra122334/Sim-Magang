@@ -64,6 +64,11 @@ class User extends Authenticatable
         return $this->hasMany(Registration::class);
     }
 
+    public function application(): HasOne
+    {
+        return $this->hasOne(Registration::class)->latestOfMany();
+    }
+
     public function isAdmin(): bool
     {
         $role = $this->role instanceof \App\Enums\UserRole ? $this->role->value : $this->role;
@@ -197,5 +202,21 @@ class User extends Authenticatable
         
         $role = $this->role instanceof \App\Enums\UserRole ? $this->role->value : $this->role;
         return $role === 'pembimbing';
+    }
+
+    /**
+     * Check if user is still using the default seed password.
+     */
+    public function hasDefaultPassword(): bool
+    {
+        return \Illuminate\Support\Facades\Hash::check('password', (string) $this->password);
+    }
+
+    /**
+     * Dynamic accessor for is_default_password.
+     */
+    public function getIsDefaultPasswordAttribute(): bool
+    {
+        return $this->hasDefaultPassword();
     }
 }

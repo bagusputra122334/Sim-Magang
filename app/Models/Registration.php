@@ -126,6 +126,16 @@ class Registration extends Model
         return sprintf('%s s/d %s', $mulai, $selesai);
     }
 
+    public function getStartDateAttribute(): ?\Carbon\Carbon
+    {
+        return $this->periode_mulai;
+    }
+
+    public function getEndDateAttribute(): ?\Carbon\Carbon
+    {
+        return $this->periode_selesai;
+    }
+
     public function getRegistrationNumberAttribute(): ?string
     {
         return $this->nomor_pendaftaran;

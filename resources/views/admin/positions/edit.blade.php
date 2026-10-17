@@ -3,18 +3,18 @@
 @section('title', 'Edit Posisi Magang: '.$position->nama_posisi)
 
 @section('content')
-    <div class="d-flex justify-content-between align-items-start mb-4">
+    <div class="d-flex justify-content-between align-items-start mb-3">
         <div>
             <h1 class="h3 fw-bold mb-0">Edit Posisi Magang</h1>
             <small class="text-muted">Terakhir diperbarui: {{ $position->updated_at?->format('d F Y H:i') ?? '-' }}</small>
         </div>
-        <a href="{{ route('admin.positions.index') }}" class="btn bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 rounded-xl font-semibold shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md px-4 py-2">
+        <a href="{{ route('admin.positions.index') }}" class="btn bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 rounded-lg font-bold shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md px-3 py-1.5 text-xs">
             <i class="bi bi-arrow-left me-1"></i> Kembali
         </a>
     </div>
 
     <div class="card border-0 shadow-sm">
-        <div class="card-body p-lg-5">
+        <div class="card-body p-3 sm:p-4">
             <form action="{{ route('admin.positions.update', $position) }}" method="POST" novalidate>
                 @csrf
                 @method('PUT')
@@ -25,15 +25,15 @@
                     'formMode' => 'edit',
                 ])
 
-                <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mt-4 pt-4 border-top">
-                    <a href="{{ route('admin.positions.index') }}" class="btn bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 rounded-xl font-semibold shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md px-4 py-2.5">
+                <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mt-3 pt-3 border-top">
+                    <a href="{{ route('admin.positions.index') }}" class="btn bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 rounded-lg font-bold shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md px-3 py-1.5 text-xs">
                         <i class="bi bi-x-circle me-1" aria-hidden="true"></i> Batal
                     </a>
                     <div class="d-flex flex-wrap gap-2">
-                        <a href="{{ route('admin.positions.create') }}" class="btn bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 rounded-xl font-semibold shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md px-4 py-2.5">
+                        <a href="{{ route('admin.positions.create') }}" class="btn bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 rounded-lg font-bold shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md px-3 py-1.5 text-xs">
                             <i class="bi bi-plus-lg me-1" aria-hidden="true"></i> Tambah Lainnya
                         </a>
-                        <button type="submit" class="btn bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white rounded-xl font-semibold shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md px-4 py-2.5">
+                        <button type="submit" class="btn bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white rounded-lg font-bold shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md px-3.5 py-1.5 text-xs">
                             <i class="bi bi-check2-circle me-1" aria-hidden="true"></i> Simpan Perubahan
                         </button>
                     </div>

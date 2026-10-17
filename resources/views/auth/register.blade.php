@@ -13,31 +13,31 @@
 
     <!-- Nama Lengkap -->
     <div class="mb-2">
-        <label class="form-label small mb-1" for="name">Nama Lengkap</label>
-        <input class="form-control form-control-sm @error('name') is-invalid @enderror" id="name" type="text" name="name" value="{{ old('name') }}" required autofocus autocomplete="name" placeholder="Nama Lengkap Anda">
+        <label class="form-label block text-xs font-bold !text-slate-800 dark:!text-slate-200 mb-1" for="name">Nama Lengkap</label>
+        <input class="form-control form-control-sm py-1.5 px-2.5 text-xs rounded-2 @error('name') is-invalid @enderror" id="name" type="text" name="name" value="{{ old('name') }}" required autofocus autocomplete="name" placeholder="Nama Lengkap Anda">
         @error('name')
-            <div class="invalid-feedback small">{{ $message }}</div>
+            <div class="invalid-feedback text-xs">{{ $message }}</div>
         @else
-            <div class="invalid-feedback small">Nama lengkap wajib diisi.</div>
+            <div class="invalid-feedback text-xs">Nama lengkap wajib diisi.</div>
         @enderror
     </div>
 
     <!-- Alamat Email -->
     <div class="mb-2">
-        <label class="form-label small mb-1" for="email">Alamat Email</label>
-        <input class="form-control form-control-sm @error('email') is-invalid @enderror" id="email" type="email" name="email" value="{{ old('email') }}" required autocomplete="username" placeholder="nama@email.com">
+        <label class="form-label block text-xs font-bold !text-slate-800 dark:!text-slate-200 mb-1" for="email">Alamat Email</label>
+        <input class="form-control form-control-sm py-1.5 px-2.5 text-xs rounded-2 @error('email') is-invalid @enderror" id="email" type="email" name="email" value="{{ old('email') }}" required autocomplete="username" placeholder="nama@email.com">
         @error('email')
-            <div class="invalid-feedback small">{{ $message }}</div>
+            <div class="invalid-feedback text-xs">{{ $message }}</div>
         @else
-            <div class="invalid-feedback small">Masukkan email yang valid.</div>
+            <div class="invalid-feedback text-xs">Masukkan email yang valid.</div>
         @enderror
     </div>
 
     <!-- Kata Sandi -->
     <div class="mb-2">
-        <label class="form-label small mb-1" for="password">Kata Sandi</label>
+        <label class="form-label block text-xs font-bold !text-slate-800 dark:!text-slate-200 mb-1" for="password">Kata Sandi</label>
         <div x-data="{ showPassword: false }" class="position-relative relative" style="position: relative; display: block; width: 100%;">
-            <input class="form-control form-control-sm @error('password') is-invalid @enderror" id="password" :type="showPassword ? 'text' : 'password'" name="password" required autocomplete="new-password" placeholder="••••••••" style="padding-right: 2.5rem !important; box-sizing: border-box;">
+            <input class="form-control form-control-sm py-1.5 px-2.5 text-xs rounded-2 @error('password') is-invalid @enderror" id="password" :type="showPassword ? 'text' : 'password'" name="password" required autocomplete="new-password" placeholder="••••••••" style="padding-right: 2.5rem !important; box-sizing: border-box;">
             <button type="button" @click="showPassword = !showPassword" class="absolute right-0 inset-y-0 pr-3 flex items-center text-gray-400 hover:text-gray-600 bg-transparent border-0" tabindex="-1" style="position: absolute !important; right: 10px !important; top: 50% !important; transform: translateY(-50%) !important; z-index: 50; border: none; background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #9ca3af;">
                 <svg x-show="!showPassword" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="height: 1.25rem; width: 1.25rem;">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -48,19 +48,19 @@
                 </svg>
             </button>
         </div>
-        <p class="text-xs text-gray-500 text-muted mt-1 mb-0">Password minimal 8 karakter, mengandung huruf besar, huruf kecil, dan angka.</p>
+        <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5 mb-0">Password minimal 8 karakter, mengandung huruf besar, huruf kecil, dan angka.</p>
         @error('password')
-            <div class="invalid-feedback small">{{ $message }}</div>
+            <div class="invalid-feedback text-xs">{{ $message }}</div>
         @else
-            <div class="invalid-feedback small">Kata sandi minimal 8 karakter, mengandung huruf besar, huruf kecil, dan angka.</div>
+            <div class="invalid-feedback text-xs">Kata sandi minimal 8 karakter, mengandung huruf besar, huruf kecil, dan angka.</div>
         @enderror
     </div>
 
     <!-- Konfirmasi Kata Sandi -->
     <div class="mb-2">
-        <label class="form-label small mb-1" for="password_confirmation">Konfirmasi Kata Sandi</label>
+        <label class="form-label block text-xs font-bold !text-slate-800 dark:!text-slate-200 mb-1" for="password_confirmation">Konfirmasi Kata Sandi</label>
         <div x-data="{ showPassword: false }" class="position-relative relative" style="position: relative; display: block; width: 100%;">
-            <input class="form-control form-control-sm @error('password_confirmation') is-invalid @enderror" id="password_confirmation" :type="showPassword ? 'text' : 'password'" name="password_confirmation" required autocomplete="new-password" placeholder="••••••••" style="padding-right: 2.5rem !important; box-sizing: border-box;">
+            <input class="form-control form-control-sm py-1.5 px-2.5 text-xs rounded-2 @error('password_confirmation') is-invalid @enderror" id="password_confirmation" :type="showPassword ? 'text' : 'password'" name="password_confirmation" required autocomplete="new-password" placeholder="••••••••" style="padding-right: 2.5rem !important; box-sizing: border-box;">
             <button type="button" @click="showPassword = !showPassword" class="absolute right-0 inset-y-0 pr-3 flex items-center text-gray-400 hover:text-gray-600 bg-transparent border-0" tabindex="-1" style="position: absolute !important; right: 10px !important; top: 50% !important; transform: translateY(-50%) !important; z-index: 50; border: none; background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #9ca3af;">
                 <svg x-show="!showPassword" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="height: 1.25rem; width: 1.25rem;">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -72,19 +72,19 @@
             </button>
         </div>
         @error('password_confirmation')
-            <div class="invalid-feedback small">{{ $message }}</div>
+            <div class="invalid-feedback text-xs">{{ $message }}</div>
         @else
-            <div class="invalid-feedback small">Ulangi kata sandi yang sama.</div>
+            <div class="invalid-feedback text-xs">Ulangi kata sandi yang sama.</div>
         @enderror
     </div>
 
-    <div class="form-check mb-2">
+    <div class="form-check mb-2.5">
         <input class="form-check-input" type="checkbox" id="terms" required>
-        <label class="form-check-label small" for="terms">Saya menyetujui syarat dan ketentuan</label>
-        <div class="invalid-feedback small">Anda harus menyetujui sebelum melanjutkan.</div>
+        <label class="form-check-label text-xs text-slate-700 dark:text-slate-300 font-medium" for="terms">Saya menyetujui syarat dan ketentuan</label>
+        <div class="invalid-feedback text-xs">Anda harus menyetujui sebelum melanjutkan.</div>
     </div>
 
-    <button class="btn btn-primary bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white !text-white rounded-xl font-semibold shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md hover:opacity-90 w-100 py-2 px-4" type="submit">
+    <button class="btn btn-primary bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white !text-white rounded-lg font-semibold shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow w-100 py-1.5 px-4 text-xs" type="submit">
         <i class="bi bi-person-plus me-1" aria-hidden="true"></i> Create Account
     </button>
 

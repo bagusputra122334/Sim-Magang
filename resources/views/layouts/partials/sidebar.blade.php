@@ -37,7 +37,7 @@
             $sidebarMenu = [
                 ['icon' => 'bi-speedometer2', 'label' => 'Dashboard', 'route' => 'pembimbing.dashboard', 'params' => []],
                 ['icon' => 'bi-clipboard-check', 'label' => 'Penugasan', 'route' => 'pembimbing.materials.index', 'params' => []],
-                ['icon' => 'bi-person-gear', 'label' => 'Akun Saya', 'route' => 'pembimbing.profile.index', 'params' => []],
+                ['icon' => 'bi-person-gear', 'label' => 'Profil Pembimbing', 'route' => 'pembimbing.profile.index', 'params' => []],
             ];
         } elseif ($user?->isParticipant()) {
             $sidebarMenu = [
@@ -164,9 +164,9 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ str_starts_with($currentRoute, 'pembimbing.profile') ? 'active' : '' }}" href="{{ route('pembimbing.profile.index') }}">
+                    <a class="nav-link {{ str_starts_with($currentRoute, 'pembimbing.profile') || request()->is('pembimbing/profile*') ? 'active' : '' }}" href="{{ url('/pembimbing/profile') }}">
                         <span class="nav-icon"><i class="bi bi-person-gear" aria-hidden="true"></i></span>
-                        <span class="nav-text">Akun Saya</span>
+                        <span class="nav-text">Profil Pembimbing</span>
                     </a>
                 </li>
             @elseif ($user?->isParticipant())

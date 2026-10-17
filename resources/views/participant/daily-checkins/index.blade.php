@@ -7,22 +7,22 @@
     $defaultMonthLabel = $startOfMonth->locale('id_ID')->isoFormat('MMMM YYYY');
 @endphp
 <div class="max-w-7xl mx-auto px-0 pt-0 pb-6" id="dc-root">
-    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
-        <div class="d-flex align-items-center gap-3 flex-wrap">
-            <h1 class="h2 fw-bold mb-0 text-gray-900" style="letter-spacing: -0.02em;">
-                <i class="bi bi-calendar2-check me-2 text-primary"></i>
+    <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+        <div class="d-flex align-items-center gap-2 flex-wrap">
+            <h1 class="h4 fw-bold mb-0 text-gray-900" style="letter-spacing: -0.02em;">
+                <i class="bi bi-calendar2-check me-1.5 text-primary"></i>
                 Absensi Harian
             </h1>
-            <span class="badge bg-primary-subtle text-primary border border-primary rounded-pill px-3 py-2 small fw-bold">
+            <span class="badge bg-primary-subtle text-primary border border-primary rounded-pill px-2.5 py-1 text-xs fw-bold">
                 <i class="bi bi-calendar-event me-1"></i>Hari ini: {{ $today->isoFormat('dddd, D MMM YYYY') }}
             </span>
         </div>
-        <div class="d-flex align-items-center gap-2">
-            <button type="button" id="dc-prev-month" class="btn btn-outline-secondary btn-sm fw-semibold rounded-3 px-3 py-2 d-inline-flex align-items-center gap-1 shadow-sm">
+        <div class="d-flex align-items-center gap-1.5">
+            <button type="button" id="dc-prev-month" class="btn btn-outline-secondary btn-sm fw-bold rounded-2 px-2.5 py-1.5 text-xs d-inline-flex align-items-center gap-1 shadow-sm">
                 <i class="bi bi-chevron-left"></i>
                 <span class="d-none d-sm-inline">Bulan Lalu</span>
             </button>
-            <select id="dc-month-picker" class="form-select form-select-sm fw-semibold rounded-3 px-3 py-2 border border-secondary shadow-sm" style="min-width: 180px;">
+            <select id="dc-month-picker" class="form-select form-select-sm fw-bold rounded-2 px-2.5 py-1.5 text-xs border border-secondary shadow-sm" style="min-width: 160px;">
                 @for($i = -6; $i <= 2; $i++)
                     @php
                         $d = \Illuminate\Support\Carbon::now()->addMonthsNoOverflow($i)->startOfMonth();
@@ -30,7 +30,7 @@
                     <option value="{{ $d->format('Y-m') }}" @selected($d->format('Y-m') === $defaultMonth)>{{ $d->locale('id_ID')->isoFormat('MMMM YYYY') }}</option>
                 @endfor
             </select>
-            <button type="button" id="dc-next-month" class="btn btn-outline-secondary btn-sm fw-semibold rounded-3 px-3 py-2 d-inline-flex align-items-center gap-1 shadow-sm">
+            <button type="button" id="dc-next-month" class="btn btn-outline-secondary btn-sm fw-bold rounded-2 px-2.5 py-1.5 text-xs d-inline-flex align-items-center gap-1 shadow-sm">
                 <span class="d-none d-sm-inline">Bulan Depan</span>
                 <i class="bi bi-chevron-right"></i>
             </button>
@@ -135,87 +135,87 @@
         </div>
     </div>
 
-    <div class="row g-4">
+    <div class="row g-2.5">
         {{-- ========================================= --}}
         {{-- KIRI: KALENDER GRID + RIWAYAT (col-lg-8) --}}
         {{-- ========================================= --}}
         <div class="col-lg-8">
-            <div class="card shadow-sm border-0 mb-4 rounded-4 overflow-hidden">
-                <div class="card-header bg-white border-bottom py-3 px-4 d-flex flex-wrap align-items-center justify-content-between gap-3">
-                    <h6 class="m-0 fw-bold text-primary fs-5">
-                        <i class="bi bi-grid-3x3-gap me-2"></i>Kalender Aktivitas
-                        <span class="ms-2 badge rounded-pill px-3 py-1.5 small fw-bold" id="calendar-month-label" style="background-color: #e0e7ff !important; color: #3730a3 !important;">
+            <div class="card shadow-sm border rounded-2 mb-3 overflow-hidden">
+                <div class="card-header bg-white border-bottom py-2 px-3 sm:px-4 d-flex flex-wrap align-items-center justify-content-between gap-2">
+                    <h6 class="m-0 fw-bold text-primary">
+                        <i class="bi bi-grid-3x3-gap me-1.5"></i>Kalender Aktivitas
+                        <span class="ms-1.5 badge rounded-pill px-2.5 py-0.5 text-xs fw-bold" id="calendar-month-label" style="background-color: #e0e7ff !important; color: #3730a3 !important;">
                             {{ $defaultMonthLabel }}
                         </span>
                     </h6>
-                    <div class="flex flex-wrap items-center gap-3 text-sm">
-                        <div class="flex items-center gap-1.5">
-                            <span class="inline-block rounded w-3.5 h-3.5 bg-gray-200"></span>
-                            <span class="text-gray-500 font-semibold">Belum</span>
+                    <div class="flex flex-wrap items-center gap-2.5 text-xs">
+                        <div class="flex items-center gap-1">
+                            <span class="inline-block rounded w-2.5 h-2.5 bg-gray-200"></span>
+                            <span class="text-gray-500 font-semibold text-xs">Belum</span>
                         </div>
-                        <div class="flex items-center gap-1.5">
-                            <span class="inline-block rounded w-3.5 h-3.5 bg-emerald-500"></span>
-                            <span class="text-gray-500 font-semibold">Sudah Absen</span>
+                        <div class="flex items-center gap-1">
+                            <span class="inline-block rounded w-2.5 h-2.5 bg-emerald-500"></span>
+                            <span class="text-gray-500 font-semibold text-xs">Sudah Absen</span>
                         </div>
-                        <div class="flex items-center gap-1.5">
-                            <span class="inline-block rounded w-3.5 h-3.5 bg-blue-600"></span>
-                            <span class="text-gray-500 font-semibold">Aktif/Dipilih</span>
+                        <div class="flex items-center gap-1">
+                            <span class="inline-block rounded w-2.5 h-2.5 bg-blue-600"></span>
+                            <span class="text-gray-500 font-semibold text-xs">Aktif/Dipilih</span>
                         </div>
-                        <div class="flex items-center gap-1.5">
-                            <span class="inline-block rounded w-3.5 h-3.5 bg-red-500"></span>
-                            <span class="text-gray-500 font-semibold">Libur/Akhir Pekan</span>
+                        <div class="flex items-center gap-1">
+                            <span class="inline-block rounded w-2.5 h-2.5 bg-red-500"></span>
+                            <span class="text-gray-500 font-semibold text-xs">Libur/Akhir Pekan</span>
                         </div>
                     </div>
                 </div>
-                <div class="card-body p-4">
-                    <div class="mb-3">
-                        <div class="grid grid-cols-7 gap-1.5 text-center font-semibold mb-2">
+                <div class="card-body p-3">
+                    <div class="mb-2">
+                        <div class="grid grid-cols-7 gap-1 text-center font-semibold mb-1.5">
                             @foreach(['Sen','Sel','Rab','Kam','Jum','Sab','Min'] as $dowLabel)
-                                <div class="flex items-center justify-center py-1">
+                                <div class="flex items-center justify-center py-0.5">
                                     <small class="uppercase font-bold text-gray-500 tracking-[0.08em] text-[0.65rem]">{{ $dowLabel }}</small>
                                 </div>
                             @endforeach
                         </div>
-                        <div id="dc-calendar-grid" class="grid grid-cols-7 gap-1.5"></div>
+                        <div id="dc-calendar-grid" class="grid grid-cols-7 gap-1"></div>
                     </div>
                 </div>
             </div>
 
-            <div class="card shadow-sm border-0 rounded-4 overflow-hidden">
-                <div class="card-header bg-white border-bottom py-3 px-4 d-flex flex-wrap align-items-center justify-content-between gap-3">
-                    <h6 class="m-0 fw-bold text-indigo fs-5">
-                        <i class="bi bi-clock-history me-2"></i>Riwayat Aktivitas Bulan Ini
+            <div class="card shadow-sm border rounded-2 overflow-hidden mb-3">
+                <div class="card-header bg-white border-bottom py-2 px-3 sm:px-4 d-flex flex-wrap align-items-center justify-content-between gap-2">
+                    <h6 class="m-0 fw-bold text-indigo">
+                        <i class="bi bi-clock-history me-1.5"></i>Riwayat Aktivitas Bulan Ini
                     </h6>
-                    <span class="badge rounded-pill px-3 py-1.5 small fw-bold" id="history-count-badge" style="background-color: #eef2ff !important; color: #3730a3 !important;">
+                    <span class="badge rounded-pill px-2.5 py-0.5 text-xs fw-bold" id="history-count-badge" style="background-color: #eef2ff !important; color: #3730a3 !important;">
                         {{ $checkins->count() }} entri
                     </span>
                 </div>
                 <div class="card-body p-0">
                     <div class="table-responsive" style="max-height: 480px; overflow-y: auto;">
-                        <table class="table mb-0 align-middle" id="dc-history-table">
+                        <table class="table mb-0 align-middle text-xs" id="dc-history-table">
                             <thead class="bg-light sticky-top" style="z-index: 1;">
                                 <tr>
-                                    <th class="fw-bold text-uppercase small text-muted px-3 py-2" style="letter-spacing: 0.05em; width: 18%;">Tanggal</th>
-                                    <th class="fw-bold text-uppercase small text-muted px-3 py-2" style="letter-spacing: 0.05em;">Uraian Kegiatan</th>
-                                    <th class="fw-bold text-uppercase small text-muted px-3 py-2" style="letter-spacing: 0.05em; width: 14%;">Status</th>
-                                    <th class="fw-bold text-uppercase small text-muted px-3 py-2" style="letter-spacing: 0.05em; width: 12%;">Jam Submit</th>
+                                    <th class="fw-bold text-uppercase text-muted px-3 py-1.5" style="letter-spacing: 0.05em; width: 18%; font-size: 0.7rem;">Tanggal</th>
+                                    <th class="fw-bold text-uppercase text-muted px-3 py-1.5" style="letter-spacing: 0.05em; font-size: 0.7rem;">Uraian Kegiatan</th>
+                                    <th class="fw-bold text-uppercase text-muted px-3 py-1.5" style="letter-spacing: 0.05em; width: 14%; font-size: 0.7rem;">Status</th>
+                                    <th class="fw-bold text-uppercase text-muted px-3 py-1.5" style="letter-spacing: 0.05em; width: 12%; font-size: 0.7rem;">Jam Submit</th>
                                 </tr>
                             </thead>
                             <tbody id="dc-history-tbody">
                                 @forelse($checkins->sortByDesc('date') as $ci)
                                     <tr data-date="{{ $ci->date->toDateString() }}" class="border-bottom border-gray-100">
-                                        <td class="px-3 py-2">
+                                        <td class="px-3 py-1.5">
                                             <div class="fw-bold text-gray-900">{{ $ci->date->locale('id_ID')->isoFormat('ddd, D MMM YYYY') }}</div>
                                         </td>
-                                        <td class="px-3 py-2">
-                                            <div class="text-gray-800 lh-base" style="white-space: pre-wrap; word-break: break-word;">{!! nl2br(e(\Illuminate\Support\Str::limit($ci->activity, 240))) !!}</div>
+                                        <td class="px-3 py-1.5">
+                                            <div class="text-gray-800 lh-base" style="white-space: pre-wrap; word-break: break-word;">{!! nl2br(preg_replace('/(https?:\/\/[^\s]+)/', '<a href="$1" target="_blank" class="text-blue-600 dark:text-blue-400 underline font-semibold hover:text-blue-800 transition-colors" rel="noopener noreferrer">$1</a>', e(\Illuminate\Support\Str::limit($ci->activity, 240)))) !!}</div>
                                         </td>
-                                        <td class="px-3 py-2">
-                                            <span class="d-inline-flex align-items-center px-2.5 py-1 small fw-bold rounded-pill border" style="background-color: #d1fae5 !important; color: #065f46 !important; border-color: #6ee7b7 !important;">
+                                        <td class="px-3 py-1.5">
+                                            <span class="d-inline-flex align-items-center px-2 py-0.5 text-xs fw-bold rounded-pill border" style="background-color: #d1fae5 !important; color: #065f46 !important; border-color: #6ee7b7 !important;">
                                                 <i class="bi bi-check-circle-fill me-1"></i>Terkirim
                                             </span>
                                         </td>
-                                        <td class="px-3 py-2">
+                                        <td class="px-3 py-1.5">
                                             <div class="d-flex align-items-center gap-1 fw-bold text-gray-700">
                                                 <i class="bi bi-alarm small text-muted"></i>
                                                 <span>{{ $ci->submitted_at ? $ci->submitted_at->format('H:i') : '—' }}</span>
@@ -227,8 +227,8 @@
                                     </tr>
                                 @empty
                                     <tr id="dc-empty-row">
-                                        <td colspan="4" class="px-3 py-5 text-center text-muted">
-                                            <i class="bi bi-inbox fs-1 d-block mb-2 text-gray-300"></i>
+                                        <td colspan="4" class="px-3 py-4 text-center text-muted">
+                                            <i class="bi bi-inbox fs-2 d-block mb-1 text-gray-300"></i>
                                             Belum ada aktivitas absensi pada bulan ini. Klik tanggal di kalender untuk mulai.
                                         </td>
                                     </tr>
@@ -244,32 +244,32 @@
         {{-- KANAN: FORM URAIAN KEGIATAN (col-lg-4)   --}}
         {{-- ========================================= --}}
         <div class="col-lg-4">
-            <div class="card shadow-sm border-0 rounded-4 overflow-hidden sticky-top" style="top: 1rem;">
-                <div class="card-header bg-white border-bottom py-2 px-4">
-                    <h6 class="m-0 fw-bold text-success fs-5">
-                        <i class="bi bi-pencil-square me-2"></i>Form Uraian Kegiatan
+            <div class="card shadow-sm border rounded-2 overflow-hidden sticky-top" style="top: 1rem;">
+                <div class="card-header bg-white border-bottom py-2 px-3 sm:px-4">
+                    <h6 class="m-0 fw-bold text-success">
+                        <i class="bi bi-pencil-square me-1.5"></i>Form Uraian Kegiatan
                     </h6>
                 </div>
-                <div class="card-body py-3 px-4">
-                    <div class="mb-3 p-2.5 rounded-3 border" style="background-color: #f8fafc !important; border-color: #e2e8f0 !important;">
-                        <small class="text-uppercase fw-bold text-muted d-block mb-0.5" style="letter-spacing: 0.05em; font-size: 0.7rem;">Tanggal Aktif</small>
-                        <div class="d-flex align-items-center gap-2">
+                <div class="card-body p-3 sm:p-4">
+                    <div class="mb-2.5 p-2 rounded-2 border" style="background-color: #f8fafc !important; border-color: #e2e8f0 !important;">
+                        <label class="block text-xs font-bold !text-slate-800 dark:!text-slate-200 uppercase mb-0.5" style="letter-spacing: 0.05em; font-size: 0.68rem;">Tanggal Aktif</label>
+                        <div class="d-flex align-items-center gap-1.5">
                             <i class="bi bi-calendar-date text-primary fs-5 flex-shrink-0"></i>
-                            <h5 class="mb-0 fw-bold text-gray-900" id="dc-active-date-label" style="font-size: 1.05rem !important;">{{ $today->isoFormat('D MMMM YYYY') }}</h5>
+                            <h6 class="mb-0 fw-bold text-gray-900" id="dc-active-date-label" style="font-size: 0.95rem !important;">{{ $today->isoFormat('D MMMM YYYY') }}</h6>
                         </div>
                     </div>
 
                     <form id="dc-checkin-form" autocomplete="off" novalidate>
                         <div class="mb-2">
-                            <label for="dc-activity" class="form-label fw-bold mb-1">
+                            <label for="dc-activity" class="form-label block text-xs font-bold !text-slate-800 dark:!text-slate-200 mb-1.5">
                                 <i class="bi bi-list-task me-1 text-indigo"></i>Uraian Kegiatan
                                 <span class="text-danger ms-1">*</span>
                             </label>
                             <textarea
                                 id="dc-activity"
                                 name="activity"
-                                rows="7"
-                                class="form-control rounded-3"
+                                rows="6"
+                                class="form-control rounded-2 py-1.5 px-2.5 text-xs"
                                 required
                                 minlength="5"
                                 maxlength="5000"
@@ -282,8 +282,8 @@
                         </div>
 
                         <button type="submit" id="dc-submit-btn"
-                                class="btn btn-success w-100 fw-bold py-2 rounded-3 shadow-sm d-inline-flex align-items-center justify-content-center gap-2 text-white transition-all"
-                                style="background-color: #059669 !important; --bs-btn-bg: #059669 !important; --bs-btn-hover-bg: #047857 !important; --bs-btn-border-color: #059669 !important; --bs-btn-hover-border-color: #047857 !important; font-size: 0.95rem;">
+                                class="btn btn-success w-100 fw-bold py-1.5 px-3.5 rounded-2 shadow-sm d-inline-flex align-items-center justify-content-center gap-1.5 text-white transition-all text-xs"
+                                style="background-color: #059669 !important; --bs-btn-bg: #059669 !important; --bs-btn-hover-bg: #047857 !important; --bs-btn-border-color: #059669 !important; --bs-btn-hover-border-color: #047857 !important;">
                             <span id="dc-submit-icon" class="d-inline-flex align-items-center">
                                 <i class="bi bi-cloud-arrow-up-fill"></i>
                             </span>
@@ -594,10 +594,12 @@
         var jamStr = submittedAt ? pad(submittedAt.getHours())+':'+pad(submittedAt.getMinutes()) : '—';
         var dateLabel = (DAY_NAMES_SHORT[getDowIdx0FromMonday(d)]||'')+', '+d.getDate()+' '+(MONTH_NAMES[d.getMonth()].slice(0,3))+' '+d.getFullYear();
 
-        var activityEsc = (payload.activity||'')
+        var rawAct = payload.activity || '';
+        if (rawAct.length > 280) rawAct = rawAct.slice(0, 280) + '...';
+        var activityEsc = rawAct
             .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+            .replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank" class="text-blue-600 dark:text-blue-400 underline font-semibold hover:text-blue-800 transition-colors" rel="noopener noreferrer">$1</a>')
             .replace(/\r\n|\r|\n/g,'<br>');
-        if (activityEsc.length > 280) activityEsc = activityEsc.slice(0,280) + '...';
 
         var existingTr = els.tbody.querySelector('tr[data-date="'+dateStr+'"]');
         var htmlRow = '<tr data-date="'+dateStr+'" class="border-bottom border-gray-100">' +

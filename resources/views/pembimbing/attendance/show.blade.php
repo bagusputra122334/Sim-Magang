@@ -11,7 +11,7 @@
 @endphp
 @section('title', 'Rekap Absensi - ' . ($intern?->name ?? 'Peserta'))
 @section('content')
-<div class="container-fluid" id="print-area" style="padding-top: 0.25rem !important;">
+<div class="container-fluid" id="print-area" style="padding-top: 0 !important;">
     <style>
         .print-only { display: none !important; }
         .no-print { }
@@ -42,30 +42,19 @@
     </div>
 
     {{-- Header Action (No Print) --}}
-    <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-2 no-print">
-        <div>
-            <div class="d-flex align-items-center gap-2 mb-1">
-                <a href="{{ route('pembimbing.dashboard') }}"
-                   class="btn btn-sm btn-outline-secondary d-inline-flex align-items-center gap-1 fw-semibold"
-                   style="border-radius: 0.5rem; font-size: 0.78rem;">
-                    <i class="bi bi-arrow-left"></i>
-                    Kembali
-                </a>
-                <nav aria-label="breadcrumb" class="mb-0" style="--bs-breadcrumb-divider: '›';">
-                    <ol class="breadcrumb mb-0" style="font-size: 0.75rem;">
-                        <li class="breadcrumb-item">
-                            <a href="{{ route('pembimbing.dashboard') }}" class="text-decoration-none text-muted">Dashboard</a>
-                        </li>
-                        <li class="breadcrumb-item active text-gray-700 fw-semibold" aria-current="page">Rekap Absensi</li>
-                    </ol>
-                </nav>
-            </div>
-            <h1 class="h4 mb-0 fw-bold" style="line-height: 1.25; color: #0f172a;">Rekap Absensi Harian</h1>
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-2 py-0.5 no-print" style="margin-top: 0 !important;">
+        <div class="d-flex align-items-center">
+            <a href="{{ route('pembimbing.dashboard') }}"
+               class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-slate-700 bg-white border border-slate-300 rounded-lg shadow-sm hover:bg-slate-50 dark:bg-slate-800 dark:text-slate-200 dark:border-slate-700 dark:hover:bg-slate-700 transition-all text-decoration-none"
+               title="Kembali ke Dashboard">
+                <i class="bi bi-arrow-left"></i>
+                Kembali
+            </a>
         </div>
         <div class="d-flex align-items-center gap-2">
             <a href="{{ route('pembimbing.attendance.pdf', $registration) }}"
-               class="btn btn-sm btn-danger no-print-link d-inline-flex align-items-center gap-1.5 fw-semibold"
-               style="border-radius: 0.5rem; font-size: 0.78rem; min-width: 135px;">
+               class="btn btn-sm btn-danger no-print-link d-inline-flex align-items-center gap-1.5 fw-semibold py-1.5 px-3 text-xs shadow-sm rounded-2"
+               style="min-width: 120px;">
                 <i class="bi bi-filetype-pdf"></i>
                 Ekspor PDF
             </a>
@@ -93,7 +82,7 @@
                     </div>
                     <div class="d-flex flex-column gap-1" style="font-size: 0.82rem;">
                         <div class="d-flex align-items-start gap-2">
-                            <span class="text-muted" style="min-width: 70px;">Instansi</span>
+                            <span class="text-xs font-bold !text-slate-800 dark:!text-slate-200" style="min-width: 70px;">Instansi</span>
                             <span class="text-gray-900 fw-medium">
                                 <i class="bi bi-building me-1" style="color: #475569;"></i>
                                 {{ $institution }}
@@ -101,13 +90,13 @@
                         </div>
                         @if($jurusan)
                         <div class="d-flex align-items-start gap-2">
-                            <span class="text-muted" style="min-width: 70px;">Jurusan</span>
+                            <span class="text-xs font-bold !text-slate-800 dark:!text-slate-200" style="min-width: 70px;">Jurusan</span>
                             <span class="text-gray-900 fw-medium">{{ $jurusan }}</span>
                         </div>
                         @endif
                         @if($posisi)
                         <div class="d-flex align-items-start gap-2">
-                            <span class="text-muted" style="min-width: 70px;">Posisi</span>
+                            <span class="text-xs font-bold !text-slate-800 dark:!text-slate-200" style="min-width: 70px;">Posisi</span>
                             <span class="text-gray-900 fw-medium">{{ $posisi->nama_posisi ?? $posisi->name ?? '-' }}</span>
                         </div>
                         @endif
@@ -117,25 +106,25 @@
                 <div class="col-md-6">
                     <div class="d-flex flex-column gap-1 ms-md-3" style="font-size: 0.82rem;">
                         <div class="d-flex align-items-start gap-2">
-                            <span class="text-muted" style="min-width: 110px;">Divisi</span>
+                            <span class="text-xs font-bold !text-slate-800 dark:!text-slate-200" style="min-width: 110px;">Divisi</span>
                             <span class="text-gray-900 fw-medium">
                                 <i class="bi bi-diagram-3 me-1" style="color: #475569;"></i>
                                 {{ $divisi?->nama_divisi ?? $divisi?->name ?? '-' }}
                             </span>
                         </div>
                         <div class="d-flex align-items-start gap-2">
-                            <span class="text-muted" style="min-width: 110px;">Periode Magang</span>
+                            <span class="text-xs font-bold !text-slate-800 dark:!text-slate-200" style="min-width: 110px;">Periode Magang</span>
                             <span class="text-gray-900 fw-medium">
                                 <i class="bi bi-calendar3 me-1"></i>
                                 {{ $start->translatedFormat('d M Y') }} &mdash; {{ $end->translatedFormat('d M Y') }}
                             </span>
                         </div>
                         <div class="d-flex align-items-start gap-2">
-                            <span class="text-muted" style="min-width: 110px;">Total Hari</span>
+                            <span class="text-xs font-bold !text-slate-800 dark:!text-slate-200" style="min-width: 110px;">Total Hari</span>
                             <span class="text-gray-900 fw-medium">{{ $totalPeriodDays }} hari</span>
                         </div>
                         <div class="d-flex align-items-start gap-2">
-                            <span class="text-muted" style="min-width: 110px;">Status</span>
+                            <span class="text-xs font-bold !text-slate-800 dark:!text-slate-200" style="min-width: 110px;">Status</span>
                             <span class="badge {{ $registration->operational_status_badge_class }} rounded-pill px-3 py-1 fw-semibold border" style="font-size: 0.72rem;">
                                 @if($registration->operational_status === 'active' || $registration->operational_status === 'upcoming')
                                     <i class="bi bi-dot me-1" style="color: #16a34a !important;"></i>
@@ -304,7 +293,7 @@
                                 </td>
                                 <td class="text-gray-900" style="line-height: 1.5;">
                                     @if($hasData)
-                                        <div class="text-sm">{!! \Illuminate\Support\Str::limit(nl2br(e($checkin->activity)), 450, ' …') !!}</div>
+                                        <div class="text-sm">{!! nl2br(preg_replace('/(https?:\/\/[^\s]+)/', '<a href="$1" target="_blank" class="text-blue-600 dark:text-blue-400 underline font-semibold hover:text-blue-800 transition-colors" rel="noopener noreferrer">$1</a>', e(\Illuminate\Support\Str::limit($checkin->activity, 450, ' …')))) !!}</div>
                                         @if(strlen($checkin->activity) > 450)
                                             <span class="text-muted d-block mt-1" style="font-size: 0.68rem;">
                                                 <i class="bi bi-text-paragraph me-1"></i>

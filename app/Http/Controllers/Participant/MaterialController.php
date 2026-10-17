@@ -26,6 +26,10 @@ class MaterialController extends Controller
                 ->with('error', 'Anda belum terdaftar pada divisi manapun. Silakan hubungi admin untuk verifikasi pendaftaran.');
         }
 
+        $acceptedRegistration = $this->getActiveAcceptedRegistration($user);
+        $startDate = $acceptedRegistration?->periode_mulai;
+        $endDate = $acceptedRegistration?->periode_selesai;
+
         $dashboardController = app(\App\Http\Controllers\Participant\DashboardController::class);
         $pembimbingIds = $dashboardController->resolvePembimbingIdsForDashboard($user);
         $divisionId = $dashboardController->resolveDivisionIdForDashboard($user);
@@ -35,12 +39,11 @@ class MaterialController extends Controller
         }]);
 
         if (!empty($pembimbingIds)) {
-            $query->whereIn('pembimbing_id', $pembimbingIds)
-                  ->where('created_at', '>=', $user->created_at);
+            $query->whereIn('pembimbing_id', $pembimbingIds);
         } elseif ($divisionId !== null) {
             $query->whereHas('pembimbing', function ($q) use ($divisionId) {
                 $q->where('division_id', $divisionId);
-            })->where('created_at', '>=', $user->created_at);
+            });
         } else {
             $query->where(function ($q) use ($user) {
                 if (\Illuminate\Support\Facades\Schema::hasColumn('materials', 'division_id')) {
@@ -49,7 +52,17 @@ class MaterialController extends Controller
                 $q->orWhereHas('pembimbing', function ($sub) use ($user) {
                     $sub->where('division_id', $user->division_id);
                 });
-            })->where('created_at', '>=', $user->created_at);
+            });
+        }
+
+        if ($acceptedRegistration && $startDate) {
+            $query->whereDate('created_at', '>=', $startDate);
+            if ($endDate) {
+                $query->whereDate('created_at', '<=', $endDate);
+            }
+        } else {
+            // Jika belum accepted / belum ada start_date, jangan tampilkan materi/tugas masa lalu
+            $query->whereRaw('1 = 0');
         }
 
         $materials = $query->latest()->paginate(10);
@@ -79,6 +92,20 @@ class MaterialController extends Controller
         if (\Illuminate\Support\Facades\Schema::hasColumn('materials', 'division_id') && !empty($material->division_id)) {
             if ($material->division_id !== $intern->division_id) {
                 abort(403);
+            }
+        }
+
+        $acceptedRegistration = $this->getActiveAcceptedRegistration($intern);
+        $startDate = $acceptedRegistration?->periode_mulai;
+        $endDate   = $acceptedRegistration?->periode_selesai;
+
+        if ($acceptedRegistration && $startDate && $material->created_at) {
+            $materialDate = $material->created_at->toDateString();
+            if ($materialDate < \Carbon\Carbon::parse($startDate)->toDateString()) {
+                abort(403, 'Materi/tugas ini diterbitkan sebelum periode magang Anda dimulai.');
+            }
+            if ($endDate && $materialDate > \Carbon\Carbon::parse($endDate)->toDateString()) {
+                abort(403, 'Materi/tugas ini diterbitkan setelah periode magang Anda berakhir.');
             }
         }
 
@@ -127,6 +154,20 @@ class MaterialController extends Controller
         if (\Illuminate\Support\Facades\Schema::hasColumn('materials', 'division_id') && !empty($material->division_id)) {
             if ($material->division_id !== $intern->division_id) {
                 abort(403);
+            }
+        }
+
+        $acceptedRegistration = $this->getActiveAcceptedRegistration($intern);
+        $startDate = $acceptedRegistration?->periode_mulai;
+        $endDate   = $acceptedRegistration?->periode_selesai;
+
+        if ($acceptedRegistration && $startDate && $material->created_at) {
+            $materialDate = $material->created_at->toDateString();
+            if ($materialDate < \Carbon\Carbon::parse($startDate)->toDateString()) {
+                abort(403, 'Tugas ini diterbitkan sebelum periode magang Anda dimulai.');
+            }
+            if ($endDate && $materialDate > \Carbon\Carbon::parse($endDate)->toDateString()) {
+                abort(403, 'Tugas ini diterbitkan setelah periode magang Anda berakhir.');
             }
         }
 
@@ -374,5 +415,24 @@ class MaterialController extends Controller
         ]);
 
         return $intern->fresh();
+    }
+
+    protected function getActiveAcceptedRegistration(User $user): ?\App\Models\Registration
+    {
+        return $user->registrations()
+            ->where(function ($q) {
+                $q->where('status', \App\Enums\RegistrationStatus::Accepted)
+                  ->orWhere('status', 'accepted');
+            })
+            ->where('is_terminated', false)
+            ->latest('id')
+            ->first()
+            ?? $user->registrations()
+                ->where(function ($q) {
+                    $q->where('status', \App\Enums\RegistrationStatus::Accepted)
+                      ->orWhere('status', 'accepted');
+                })
+                ->latest('id')
+                ->first();
     }
 }

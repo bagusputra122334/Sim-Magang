@@ -13,3 +13,18 @@ if (! function_exists('get_setting')) {
         return array_key_exists($key, $settings) ? $settings[$key] : $default;
     }
 }
+
+if (! function_exists('auto_link')) {
+    function auto_link(?string $text, string $class = 'text-blue-600 dark:text-blue-400 underline font-semibold hover:text-blue-800 transition-colors'): string
+    {
+        if ($text === null || $text === '') {
+            return '';
+        }
+
+        return preg_replace(
+            '/(https?:\/\/[^\s]+)/',
+            '<a href="$1" target="_blank" class="' . $class . '" rel="noopener noreferrer">$1</a>',
+            e($text)
+        );
+    }
+}

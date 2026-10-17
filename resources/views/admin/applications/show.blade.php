@@ -318,21 +318,21 @@
 
 @section('content')
     {{-- Header --}}
-    <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
         <div>
-            <h1 class="h3 fw-bold mb-0 text-body d-flex align-items-center gap-2 flex-wrap">
+            <h1 class="h4 fw-bold mb-0 text-slate-800 dark:text-slate-100 d-flex align-items-center gap-2 flex-wrap">
                 <i class="bi bi-file-earmark-text text-primary"></i> Detail Pendaftaran
-                <span class="badge bg-light text-primary border font-monospace fs-6 px-2.5 py-1">
+                <span class="badge bg-light text-primary border font-monospace text-xs px-2 py-0.5">
                     {{ $reg->nomor_pendaftaran }}
                 </span>
             </h1>
         </div>
         <div class="d-flex align-items-center gap-2 flex-wrap">
-            <a href="{{ route('admin.applications.index') }}" class="btn bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 rounded-xl font-semibold shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md px-3 py-1.5 text-sm">
+            <a href="{{ route('admin.applications.index') }}" class="btn bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 rounded-lg font-bold shadow-sm transition-all px-3 py-1.5 text-xs">
                 <i class="bi bi-arrow-left me-1"></i> Kembali ke Daftar
             </a>
             @if (! $reg->isAccepted() && ! $reg->isRejected())
-                <a href="{{ route('admin.applications.review', $reg->id) }}" class="btn bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white rounded-xl font-semibold shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md px-3 py-1.5 text-sm">
+                <a href="{{ route('admin.applications.review', $reg->id) }}" class="btn bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white rounded-lg font-bold shadow-sm transition-all px-3 py-1.5 text-xs">
                     <i class="bi bi-pencil-square me-1"></i> Berikan Keputusan (Review)
                 </a>
             @endif
@@ -341,10 +341,10 @@
 
     {{-- Business Rule #1 Alert UnderReview Auto --}}
     @if ($berubahJadiUnderReview ?? false)
-        <div class="alert alert-info alert-dismissible fade show mb-4 shadow-sm border" role="alert">
+        <div class="alert alert-info alert-dismissible fade show mb-3 p-2.5 text-xs shadow-sm border" role="alert">
             <div class="d-flex align-items-center">
-                <i class="bi bi-info-circle-fill fs-5 me-2 flex-shrink-0"></i>
-                <div class="small">
+                <i class="bi bi-info-circle-fill fs-6 me-2 flex-shrink-0"></i>
+                <div>
                     <b>Status Otomatis Diperbarui:</b> Pendaftaran ini otomatis beralih dari
                     <span class="badge rounded-pill bg-primary-subtle text-primary border border-primary-subtle">Submitted</span> ke
                     <span class="badge rounded-pill bg-warning-subtle text-warning border border-warning-subtle">Under Review</span>
@@ -356,70 +356,70 @@
     @endif
 
 
-    <div class="row g-4">
+    <div class="row g-2.5">
         {{-- KOLOM KIRI: Informasi Utama & Alur Dokumen --}}
         <div class="col-lg-8">
             {{-- 1. INFORMASI PENDAFTARAN --}}
-            <div class="card shadow-sm border mb-4 rounded-4">
-                <div class="card-header bg-light border-0 py-3 px-4 d-flex align-items-center justify-content-between flex-wrap gap-2">
-                    <h2 class="h5 mb-0 fw-bold text-body">
-                        <i class="bi bi-journal-text text-primary me-2"></i>Informasi Pendaftaran
+            <div class="card shadow-sm border mb-3 rounded-2">
+                <div class="card-header bg-light border-0 py-2 px-3 d-flex align-items-center justify-content-between flex-wrap gap-2">
+                    <h2 class="text-xs font-bold !text-slate-800 dark:!text-slate-200 uppercase tracking-wider mb-0">
+                        <i class="bi bi-journal-text text-primary me-1.5"></i>Informasi Pendaftaran
                     </h2>
-                    <span class="badge rounded-pill bg-{{ $badgeColor }} px-3 py-1.5 fs-6 shadow-xs">
+                    <span class="badge rounded-pill bg-{{ $badgeColor }} px-2 py-0.5 text-xs shadow-xs">
                         {{ $reg->status->label() }}
                     </span>
                 </div>
-                <div class="card-body p-4">
-                    <dl class="row mb-0 g-3">
-                        <dt class="col-sm-4 text-muted fw-normal small">Nomor Pendaftaran</dt>
-                        <dd class="col-sm-8 fw-bold font-monospace text-primary fs-6 mb-0">{{ $reg->nomor_pendaftaran }}</dd>
+                <div class="card-body p-3 sm:p-4 text-xs">
+                    <dl class="row mb-0 g-2">
+                        <dt class="col-sm-4 text-xs font-bold !text-slate-800 dark:!text-slate-200">Nomor Pendaftaran</dt>
+                        <dd class="col-sm-8 fw-bold font-monospace text-primary text-xs mb-0">{{ $reg->nomor_pendaftaran }}</dd>
 
-                        <dt class="col-sm-4 text-muted fw-normal small">Posisi Magang</dt>
-                        <dd class="col-sm-8 fw-semibold mb-0">
+                        <dt class="col-sm-4 text-xs font-bold !text-slate-800 dark:!text-slate-200">Posisi Magang</dt>
+                        <dd class="col-sm-8 fw-semibold mb-0 text-xs">
                             {{ $reg->position?->nama_posisi ?? '—' }}
                         </dd>
 
-                        <dt class="col-sm-4 text-muted fw-normal small">Pembimbing Lapangan</dt>
-                        <dd class="col-sm-8 mb-0">
+                        <dt class="col-sm-4 text-xs font-bold !text-slate-800 dark:!text-slate-200">Pembimbing Lapangan</dt>
+                        <dd class="col-sm-8 mb-0 text-xs">
                             @if($reg->position?->mentor_name)
                                 <div class="fw-semibold text-body">
                                     <i class="bi bi-person-badge text-primary me-1"></i>
                                     {{ $reg->position->mentor_name }}
                                 </div>
                                 @if($reg->position->mentor_nip)
-                                    <div class="text-muted small font-monospace">NIP: {{ $reg->position->mentor_nip }}</div>
+                                    <div class="text-muted font-monospace text-xs">NIP: {{ $reg->position->mentor_nip }}</div>
                                 @endif
                             @else
                                 <span class="text-muted">—</span>
                             @endif
                         </dd>
 
-                        <dt class="col-sm-4 text-muted fw-normal small">Periode Pelaksanaan</dt>
-                        <dd class="col-sm-8 mb-0">
+                        <dt class="col-sm-4 text-xs font-bold !text-slate-800 dark:!text-slate-200">Periode Pelaksanaan</dt>
+                        <dd class="col-sm-8 mb-0 text-xs">
                             <div class="fw-semibold">
                                 {{ optional($reg->periode_mulai)->format('d F Y') ?? '—' }}
                                 <span class="text-muted mx-1">s/d</span>
                                 {{ optional($reg->periode_selesai)->format('d F Y') ?? '—' }}
                             </div>
                             @if($reg->periode_label)
-                                <div class="text-muted small mt-0.5">
+                                <div class="text-muted text-xs mt-0.5">
                                     <i class="bi bi-calendar3 me-1"></i>{{ $reg->periode_label }}
                                 </div>
                             @endif
                         </dd>
 
-                        <dt class="col-sm-4 text-muted fw-normal small">Waktu Pengajuan (Submit)</dt>
-                        <dd class="col-sm-8 text-secondary mb-0">
+                        <dt class="col-sm-4 text-xs font-bold !text-slate-800 dark:!text-slate-200">Waktu Pengajuan (Submit)</dt>
+                        <dd class="col-sm-8 text-secondary mb-0 text-xs">
                             {{ optional($reg->tanggal_submit)->translatedFormat('d F Y • H:i') ?? '—' }} WIB
                         </dd>
 
-                        <dt class="col-sm-4 text-muted fw-normal small">Status Verifikasi</dt>
-                        <dd class="col-sm-8 mb-0">
-                            <span class="badge bg-{{ $badgeColor }} px-2.5 py-1 rounded-pill">
+                        <dt class="col-sm-4 text-xs font-bold !text-slate-800 dark:!text-slate-200">Status Verifikasi</dt>
+                        <dd class="col-sm-8 mb-0 text-xs">
+                            <span class="badge bg-{{ $badgeColor }} px-2 py-0.5 rounded-pill text-xs">
                                 {{ $reg->status->label() }}
                             </span>
                             @if ($reg->updated_at && optional($reg->tanggal_submit)->format('c') !== $reg->updated_at->format('c'))
-                                <span class="small text-muted ms-2">
+                                <span class="text-muted ms-2 text-xs">
                                     (Terakhir diperbarui: {{ $reg->updated_at->format('d/m/Y H:i') }})
                                 </span>
                             @endif
@@ -430,207 +430,55 @@
 
             {{-- 2. CATATAN VERIFIKASI ADMIN (JIKA ADA) --}}
             @if ($reg->catatan_admin)
-                <div class="card shadow-sm border mb-4 rounded-4 border-{{ $reg->isRejected() ? 'danger' : ($reg->isAccepted() ? 'success' : 'info') }}">
-                    <div class="card-header bg-{{ $reg->isRejected() ? 'danger' : ($reg->isAccepted() ? 'success' : 'info') }} bg-opacity-10 py-3 px-4 border-0">
-                        <h3 class="h6 mb-0 fw-bold text-{{ $reg->isRejected() ? 'danger' : ($reg->isAccepted() ? 'success' : 'info') }}">
-                            <i class="bi bi-chat-left-quote-fill me-2"></i>Catatan Verifikasi Administrator
+                <div class="card shadow-sm border mb-3 rounded-2 border-{{ $reg->isRejected() ? 'danger' : ($reg->isAccepted() ? 'success' : 'info') }}">
+                    <div class="card-header bg-{{ $reg->isRejected() ? 'danger' : ($reg->isAccepted() ? 'success' : 'info') }} bg-opacity-10 py-2 px-3 border-0">
+                        <h3 class="text-xs font-bold uppercase tracking-wider mb-0 text-{{ $reg->isRejected() ? 'danger' : ($reg->isAccepted() ? 'success' : 'info') }}">
+                            <i class="bi bi-chat-left-quote-fill me-1.5"></i>Catatan Verifikasi Administrator
                         </h3>
                     </div>
-                    <div class="card-body p-4">
+                    <div class="card-body p-3 sm:p-4 text-xs">
                         <p class="mb-0 text-body lh-base" style="white-space: pre-wrap;">{{ $reg->catatan_admin }}</p>
                     </div>
                 </div>
             @endif
 
-            {{-- 3. DOKUMEN PERSYARATAN PESERTA (COMPACT 3-COLUMN IN ONE ROW ON DESKTOP) --}}
-            <div class="card shadow-sm border mb-4 rounded-4">
-                <div class="card-header bg-light border-0 py-3 px-4 d-flex align-items-center justify-content-between flex-wrap gap-2">
+            {{-- 3. SURAT BALASAN RESMI (DOKUMEN ADMINISTRASI DINAS) --}}
+            <div class="card shadow-sm border mb-3 rounded-2 overflow-hidden">
+                <div class="card-header bg-light border-0 py-2 px-3 d-flex align-items-center justify-content-between flex-wrap gap-2">
                     <div>
-                        <h2 class="h5 mb-0 fw-bold text-body">
-                            <i class="bi bi-folder2-open text-primary me-2"></i>Dokumen Persyaratan
-                        </h2>
-                        <p class="text-muted small mb-0 mt-1">
-                            Berkas persyaratan yang diunggah oleh peserta saat mengajukan pendaftaran magang.
-                        </p>
-                    </div>
-                </div>
-                <div class="card-body p-4">
-                    <div class="row g-3">
-                        {{-- Dokumen 1: Curriculum Vitae --}}
-                        <div class="col-12 col-md-6 col-lg-4">
-                            <div class="doc-item-card">
-                                <div class="doc-card-header">
-                                    <div class="doc-icon-wrapper {{ $cvUrl ? 'active' : 'inactive' }}">
-                                        <i class="bi bi-person-lines-fill"></i>
-                                    </div>
-                                    <div class="doc-card-title-group">
-                                        <h4 class="doc-card-title">Curriculum Vitae</h4>
-                                        <p class="doc-card-desc">Biodata & Riwayat Hidup</p>
-                                    </div>
-                                </div>
-
-                                <div class="doc-file-box">
-                                    @if ($cvUrl)
-                                        <div class="file-meta-pill" title="{{ basename($reg->cv_path) }}">
-                                            <i class="bi bi-filetype-pdf text-danger flex-shrink-0"></i>
-                                            <span>{{ basename($reg->cv_path) }}</span>
-                                        </div>
-                                    @else
-                                        <div class="alert alert-warning small mb-0 py-1.5 px-2.5">
-                                            <i class="bi bi-exclamation-triangle me-1"></i> CV belum di-upload oleh peserta.
-                                        </div>
-                                    @endif
-                                </div>
-
-                                <div class="doc-card-actions">
-                                    @if ($cvUrl)
-                                        <a href="{{ $cvUrl }}" target="_blank" rel="noopener"
-                                           class="btn btn-doc-preview" title="Preview Curriculum Vitae">
-                                            <i class="bi bi-box-arrow-up-right"></i> Preview
-                                        </a>
-                                        <a href="{{ $cvUrl }}" download
-                                           class="btn btn-doc-download" title="Download Curriculum Vitae">
-                                            <i class="bi bi-download"></i> Download
-                                        </a>
-                                    @else
-                                        <div class="btn-doc-empty">
-                                            <i class="bi bi-dash-circle"></i> Berkas Kosong
-                                        </div>
-                                    @endif
-                                </div>
-                            </div>
-                        </div>
-
-                        {{-- Dokumen 2: Surat Pengantar / Rekomendasi --}}
-                        <div class="col-12 col-md-6 col-lg-4">
-                            <div class="doc-item-card">
-                                <div class="doc-card-header">
-                                    <div class="doc-icon-wrapper {{ $suratPengantarUrl ? 'active' : 'inactive' }}">
-                                        <i class="bi bi-envelope-paper"></i>
-                                    </div>
-                                    <div class="doc-card-title-group">
-                                        <h4 class="doc-card-title">Surat Pengantar / Rekomendasi</h4>
-                                        <p class="doc-card-desc">Rekomendasi Kampus / Sekolah</p>
-                                    </div>
-                                </div>
-
-                                <div class="doc-file-box">
-                                    @if ($suratPengantarUrl)
-                                        <div class="file-meta-pill" title="{{ basename($reg->surat_pengantar_path) }}">
-                                            <i class="bi bi-filetype-pdf text-danger flex-shrink-0"></i>
-                                            <span>{{ basename($reg->surat_pengantar_path) }}</span>
-                                        </div>
-                                    @else
-                                        <div class="alert alert-warning small mb-0 py-1.5 px-2.5">
-                                            <i class="bi bi-exclamation-triangle me-1"></i> Surat pengantar belum di-upload peserta.
-                                        </div>
-                                    @endif
-                                </div>
-
-                                <div class="doc-card-actions">
-                                    @if ($suratPengantarUrl)
-                                        <a href="{{ $suratPengantarUrl }}" target="_blank" rel="noopener"
-                                           class="btn btn-doc-preview" title="Preview Surat Pengantar">
-                                            <i class="bi bi-box-arrow-up-right"></i> Preview
-                                        </a>
-                                        <a href="{{ $suratPengantarUrl }}" download
-                                           class="btn btn-doc-download" title="Download Surat Pengantar">
-                                            <i class="bi bi-download"></i> Download
-                                        </a>
-                                    @else
-                                        <div class="btn-doc-empty">
-                                            <i class="bi bi-dash-circle"></i> Berkas Kosong
-                                        </div>
-                                    @endif
-                                </div>
-                            </div>
-                        </div>
-
-                        {{-- Dokumen 3: Proposal Magang --}}
-                        <div class="col-12 col-md-6 col-lg-4">
-                            <div class="doc-item-card">
-                                <div class="doc-card-header">
-                                    <div class="doc-icon-wrapper {{ !empty($proposalMagangUrl) ? 'active' : 'inactive' }}">
-                                        <i class="bi bi-file-earmark-pdf"></i>
-                                    </div>
-                                    <div class="doc-card-title-group">
-                                        <h4 class="doc-card-title">Proposal Magang</h4>
-                                        <p class="doc-card-desc">Rencana & Program Kerja</p>
-                                    </div>
-                                </div>
-
-                                <div class="doc-file-box">
-                                    @if (!empty($proposalMagangUrl))
-                                        <div class="file-meta-pill" title="{{ basename($reg->proposal_magang_path) }}">
-                                            <i class="bi bi-filetype-pdf text-danger flex-shrink-0"></i>
-                                            <span>{{ basename($reg->proposal_magang_path) }}</span>
-                                        </div>
-                                    @else
-                                        <div class="alert alert-warning small mb-0 py-1.5 px-2.5">
-                                            <i class="bi bi-exclamation-triangle me-1"></i> Proposal magang belum di-upload peserta.
-                                        </div>
-                                    @endif
-                                </div>
-
-                                <div class="doc-card-actions">
-                                    @if (!empty($proposalMagangUrl))
-                                        <a href="{{ $proposalMagangUrl }}" target="_blank" rel="noopener"
-                                           class="btn btn-doc-preview" title="Preview Proposal Magang">
-                                            <i class="bi bi-box-arrow-up-right"></i> Preview
-                                        </a>
-                                        <a href="{{ $proposalMagangUrl }}" download
-                                           class="btn btn-doc-download" title="Download Proposal Magang">
-                                            <i class="bi bi-download"></i> Download
-                                        </a>
-                                    @else
-                                        <div class="btn-doc-empty">
-                                            <i class="bi bi-dash-circle"></i> Berkas Kosong
-                                        </div>
-                                    @endif
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            {{-- 4. SURAT BALASAN RESMI (DOKUMEN ADMINISTRASI DINAS) --}}
-            <div class="card shadow-sm border mb-4 rounded-4 overflow-hidden">
-                <div class="card-header bg-light border-0 py-3 px-4 d-flex align-items-center justify-content-between flex-wrap gap-2">
-                    <div>
-                        <h2 class="h5 mb-0 fw-bold text-body">
-                            <i class="bi bi-file-earmark-check text-success me-2"></i>Surat Balasan
+                        <h2 class="text-xs font-bold !text-slate-800 dark:!text-slate-200 uppercase tracking-wider mb-0">
+                            <i class="bi bi-file-earmark-check text-success me-1.5"></i>Surat Balasan
                         </h2>
                     </div>
                     @if ($sbExists)
-                        <span class="badge bg-success bg-opacity-10 text-success border border-success-subtle px-3 py-1.5 rounded-pill fw-semibold small">
+                        <span class="badge bg-success bg-opacity-10 text-success border border-success-subtle px-2 py-0.5 rounded-pill fw-bold text-xs">
                             <i class="bi bi-check-circle-fill me-1"></i> Surat Telah Terbit
                         </span>
                     @elseif (! $reg->isAccepted())
-                        <span class="badge bg-secondary bg-opacity-10 text-secondary border border-secondary-subtle px-3 py-1.5 rounded-pill fw-semibold small">
+                        <span class="badge bg-secondary bg-opacity-10 text-secondary border border-secondary-subtle px-2 py-0.5 rounded-pill fw-bold text-xs">
                             <i class="bi bi-lock-fill me-1"></i> Belum Tersedia
                         </span>
                     @endif
                 </div>
 
-                <div class="card-body p-4">
+                <div class="card-body p-3 sm:p-4">
                     {{-- STATE A: SUDAH DIUNGGAH --}}
                     @if ($sbExists)
-                        <div class="reply-letter-card state-uploaded p-4">
-                            <div class="d-flex align-items-start gap-3 flex-wrap flex-md-nowrap mb-3">
-                                <div class="p-3 rounded-3 bg-success bg-opacity-10 text-success border border-success-subtle d-inline-flex align-items-center justify-content-center flex-shrink-0">
-                                    <i class="bi bi-file-earmark-check-fill fs-2"></i>
+                        <div class="reply-letter-card state-uploaded p-3 rounded-2">
+                            <div class="d-flex align-items-start gap-2.5 flex-wrap flex-md-nowrap mb-2.5">
+                                <div class="p-2 rounded-2 bg-success bg-opacity-10 text-success border border-success-subtle d-inline-flex align-items-center justify-content-center flex-shrink-0">
+                                    <i class="bi bi-file-earmark-check-fill fs-4"></i>
                                 </div>
                                 <div class="flex-grow-1">
                                     <div class="d-flex align-items-center gap-2 flex-wrap mb-1">
-                                        <h4 class="h5 fw-bold mb-0 text-body">Surat Balasan</h4>
-                                        <span class="badge bg-success text-white px-2 py-0.5 rounded-pill small">Sudah Diunggah</span>
+                                        <h4 class="text-xs font-bold !text-slate-800 dark:!text-slate-200 uppercase mb-0">Surat Balasan</h4>
+                                        <span class="badge bg-success text-white px-2 py-0.5 rounded-pill text-xs">Sudah Diunggah</span>
                                     </div>
-                                    <p class="text-muted small mb-3">
+                                    <p class="text-muted text-xs mb-2">
                                         Surat balasan resmi telah diterbitkan dan tersedia untuk diunduh oleh peserta melalui portal pendaftaran mereka.
                                     </p>
 
-                                    <div class="d-flex flex-wrap gap-2 mb-3">
+                                    <div class="d-flex flex-wrap gap-2 mb-2">
                                         <div class="file-meta-pill">
                                             <i class="bi bi-filetype-pdf text-danger"></i>
                                             <span class="font-monospace fw-semibold">{{ $sbBasename }}</span>
@@ -649,36 +497,36 @@
                                 </div>
                             </div>
 
-                            <div class="d-flex flex-wrap gap-2 pt-3 border-top justify-content-start align-items-center">
+                            <div class="d-flex flex-wrap gap-2 pt-2 border-top justify-content-start align-items-center">
                                 <a href="{{ $sbUrl }}" target="_blank" rel="noopener"
-                                   class="btn btn-outline-primary px-3 shadow-xs">
-                                    <i class="bi bi-eye me-1.5"></i> Preview
+                                   class="btn btn-outline-primary btn-sm px-2.5 py-1 text-xs font-semibold shadow-xs">
+                                    <i class="bi bi-eye me-1"></i> Preview
                                 </a>
                                 <a href="{{ route('admin.applications.reply-letter.download', $reg->id) }}"
-                                   class="btn btn-secondary px-3 shadow-sm fw-semibold">
-                                    <i class="bi bi-download me-1.5"></i> Download
+                                   class="btn btn-secondary btn-sm px-2.5 py-1 text-xs shadow-sm font-semibold">
+                                    <i class="bi bi-download me-1"></i> Download
                                 </a>
                                 <a href="{{ route('admin.applications.reply-letter', $reg->id) }}"
-                                   class="btn btn-outline-secondary px-3 ms-auto">
-                                    <i class="bi bi-arrow-repeat me-1.5"></i> Ganti Surat
+                                   class="btn btn-outline-secondary btn-sm px-2.5 py-1 text-xs ms-auto font-semibold">
+                                    <i class="bi bi-arrow-repeat me-1"></i> Ganti Surat
                                 </a>
                             </div>
                         </div>
 
                     {{-- STATE B: BELUM DIUNGGAH TAPI STATUS ACCEPTED --}}
                     @elseif ($reg->isAccepted())
-                        <div class="reply-letter-card state-pending p-4 rounded-xl border border-slate-200 bg-white" x-data="{ fileName: '' }">
-                            <form method="POST" action="{{ route('admin.applications.reply-letter.store', $reg->id) }}" enctype="multipart/form-data" class="space-y-4">
+                        <div class="reply-letter-card state-pending p-3 rounded-2 border border-slate-200 bg-white" x-data="{ fileName: '' }">
+                            <form method="POST" action="{{ route('admin.applications.reply-letter.store', $reg->id) }}" enctype="multipart/form-data" class="space-y-2.5">
                                 @csrf
                                 <div>
-                                    <div class="d-flex align-items-center justify-content-between mb-2">
-                                        <label for="surat_balasan" class="text-xs font-bold text-slate-700 uppercase tracking-wider mb-0 flex items-center gap-1.5">
+                                    <div class="d-flex align-items-center justify-content-between mb-1.5">
+                                        <label for="surat_balasan" class="text-xs font-bold !text-slate-800 dark:!text-slate-200 uppercase tracking-wider mb-0 flex items-center gap-1.5">
                                             <i class="bi bi-filetype-pdf text-rose-500"></i> Unggah Surat Balasan (PDF) <span class="text-rose-500">*</span>
                                         </label>
                                         <span class="text-xs text-slate-400">Maks. 2 MB</span>
                                     </div>
                                     
-                                    <div class="relative border border-dashed rounded-lg p-3.5 text-center transition-all duration-150"
+                                    <div class="relative border border-dashed rounded-lg p-2.5 text-center transition-all duration-150"
                                          :class="fileName ? 'border-blue-500 bg-blue-50/30' : 'border-slate-300 bg-slate-50/60 hover:border-blue-400 hover:bg-blue-50/10'">
                                         <input
                                             type="file"
@@ -690,17 +538,17 @@
                                             required>
                                         
                                         <!-- Default Dropzone Prompt (Hides when file is selected) -->
-                                        <div x-show="!fileName" class="flex items-center justify-center gap-2 py-1">
-                                            <i class="bi bi-cloud-arrow-up text-blue-600 text-lg"></i>
-                                            <span class="font-semibold text-slate-700 text-xs">Pilih atau seret file PDF ke sini</span>
+                                        <div x-show="!fileName" class="flex items-center justify-center gap-2 py-0.5">
+                                            <i class="bi bi-cloud-arrow-up text-blue-600 text-base"></i>
+                                            <span class="font-bold text-slate-700 text-xs">Pilih atau seret file PDF ke sini</span>
                                         </div>
                                         
                                         <!-- Active Selected File State -->
                                         <div x-show="fileName" x-cloak class="flex items-center justify-center gap-2 py-0.5">
-                                            <i class="bi bi-file-earmark-pdf text-blue-600 text-lg"></i>
-                                            <span class="font-semibold text-slate-800 text-xs truncate max-w-xs" x-text="fileName"></span>
+                                            <i class="bi bi-file-earmark-pdf text-blue-600 text-base"></i>
+                                            <span class="font-bold text-slate-800 text-xs truncate max-w-xs" x-text="fileName"></span>
                                             <button type="button" @click.stop.prevent="fileName = ''; document.getElementById('surat_balasan').value = ''" class="text-slate-400 hover:text-rose-600 transition-colors ms-1 relative z-20" title="Batal pilih file">
-                                                <i class="bi bi-x-circle-fill text-sm"></i>
+                                                <i class="bi bi-x-circle-fill text-xs"></i>
                                             </button>
                                         </div>
                                     </div>
@@ -712,7 +560,7 @@
                                 <!-- Action Footer: Primary Submit Button -->
                                 <div class="flex justify-end pt-1">
                                     <button type="submit"
-                                            class="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-medium text-sm rounded-xl transition-all shadow-sm flex items-center gap-2"
+                                            class="px-3.5 py-1.5 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-bold text-xs rounded-lg transition-all shadow-sm flex items-center gap-1.5"
                                             :class="!fileName ? 'opacity-60 cursor-not-allowed' : 'hover:shadow-md'"
                                             :disabled="!fileName">
                                         <i class="bi bi-upload"></i>
@@ -724,19 +572,19 @@
 
                     {{-- STATE C: BELUM TERSEDIA KARENA STATUS BELUM ACCEPTED --}}
                     @else
-                        <div class="reply-letter-card state-disabled p-4 text-muted">
-                            <div class="d-flex align-items-start gap-3">
-                                <div class="p-3 rounded-3 bg-secondary bg-opacity-10 text-secondary border border-secondary-subtle d-inline-flex align-items-center justify-content-center flex-shrink-0">
-                                    <i class="bi bi-shield-lock-fill fs-2"></i>
+                        <div class="reply-letter-card state-disabled p-3 rounded-2 text-muted">
+                            <div class="d-flex align-items-start gap-2.5">
+                                <div class="p-2 rounded-2 bg-secondary bg-opacity-10 text-secondary border border-secondary-subtle d-inline-flex align-items-center justify-content-center flex-shrink-0">
+                                    <i class="bi bi-shield-lock-fill fs-4"></i>
                                 </div>
                                 <div>
-                                    <h4 class="h6 fw-bold mb-1 text-body">Surat Balasan</h4>
+                                    <h4 class="text-xs font-bold mb-1 text-body uppercase">Surat Balasan</h4>
                                     @if ($reg->isRejected())
-                                        <p class="small mb-0 text-danger">
+                                        <p class="text-xs mb-0 text-danger">
                                             <i class="bi bi-x-circle me-1"></i> Pendaftaran ini berstatus <b>Ditolak (Rejected)</b>. Surat balasan penerimaan magang tidak diterbitkan.
                                         </p>
                                     @else
-                                        <p class="small mb-0 text-muted">
+                                        <p class="text-xs mb-0 text-muted">
                                             Belum ada surat balasan yang diunggah untuk pendaftaran ini. Surat balasan resmi diterbitkan setelah pendaftaran dinyatakan <b>Diterima (Accepted)</b> oleh Administrator.
                                             @if (!$reg->isAccepted() && !$reg->isRejected())
                                                 Silakan berikan keputusan terlebih dahulu melalui tombol <a href="{{ route('admin.applications.review', $reg->id) }}" class="fw-semibold text-primary text-decoration-none">Review Pendaftaran</a>.
@@ -753,85 +601,86 @@
 
         {{-- KOLOM KANAN: Profil Peserta --}}
         <div class="col-lg-4 align-self-start">
-            <div class="card shadow-sm border rounded-4 mb-4 profile-sidebar-card">
-                <div class="card-header bg-light border-0 py-3 px-4">
-                    <h2 class="h5 mb-0 fw-bold text-body">
-                        <i class="bi bi-person-badge text-primary me-2"></i>Profil Peserta
+            <div class="card shadow-sm border rounded-2 mb-3 profile-sidebar-card">
+                <div class="card-header bg-light border-0 py-2 px-3">
+                    <h2 class="text-xs font-bold !text-slate-800 dark:!text-slate-200 uppercase tracking-wider mb-0">
+                        <i class="bi bi-person-badge text-primary me-1.5"></i>Profil Peserta
                     </h2>
                 </div>
-                <div class="card-body p-4 text-center">
+                <div class="card-body p-3 sm:p-4 text-center">
                     @if ($profil && $profil->foto_url)
                         <img src="{{ $profil->foto_url }}"
                              alt="Foto {{ $reg->user?->name }}"
                              class="profile-avatar-img border shadow-xs"
-                             onerror="this.onerror=null;this.src='https://ui-avatars.com/api/?name={{ urlencode($reg->user?->name ?? 'User') }}&size=110&background=0d6efd&color=fff&bold=true';">
+                             style="width: 80px; height: 80px; min-width: 80px; min-height: 80px;"
+                             onerror="this.onerror=null;this.src='https://ui-avatars.com/api/?name={{ urlencode($reg->user?->name ?? 'User') }}&size=80&background=0d6efd&color=fff&bold=true';">
                     @else
-                        <div class="profile-avatar-placeholder bg-primary bg-opacity-10 text-primary border border-primary-subtle shadow-xs">
+                        <div class="profile-avatar-placeholder bg-primary bg-opacity-10 text-primary border border-primary-subtle shadow-xs" style="width: 80px; height: 80px; min-width: 80px; min-height: 80px; font-size: 1.5rem;">
                             {{ mb_substr($reg->user?->name ?? '?', 0, 1) }}
                         </div>
                     @endif
 
-                    <div class="mb-2">
-                        <span class="badge {{ $profil?->isSiswa() ? 'bg-success bg-opacity-10 text-success border border-success-subtle' : 'bg-primary bg-opacity-10 text-primary border border-primary-subtle' }} rounded-pill px-3 py-1.5 fw-bold">
+                    <div class="mb-1.5">
+                        <span class="badge {{ $profil?->isSiswa() ? 'bg-success bg-opacity-10 text-success border border-success-subtle' : 'bg-primary bg-opacity-10 text-primary border border-primary-subtle' }} rounded-pill px-2.5 py-0.5 text-xs fw-bold">
                             {{ $profil ? ($profil->isSiswa() ? '🏫 Siswa / SMK' : '🎓 Mahasiswa') : 'Belum Ada Profil' }}
                         </span>
                     </div>
 
-                    <h3 class="h5 fw-bold mb-0 text-body text-break" style="word-break: break-word; overflow-wrap: anywhere;">{{ $reg->user?->name ?? '—' }}</h3>
-                    <div class="text-muted small mb-4 text-break" style="word-break: break-word; overflow-wrap: anywhere;">{{ $reg->user?->email ?? '' }}</div>
+                    <h3 class="text-xs font-bold mb-0 text-slate-800 dark:text-slate-100 text-break" style="word-break: break-word; overflow-wrap: anywhere;">{{ $reg->user?->name ?? '—' }}</h3>
+                    <div class="text-muted text-xs mb-3 text-break" style="word-break: break-word; overflow-wrap: anywhere;">{{ $reg->user?->email ?? '' }}</div>
 
-                    <ul class="list-group list-group-flush text-start profile-info-list border-top">
-                        <li class="list-group-item">
-                            <span class="profile-info-label">Kategori</span>
-                            <span class="profile-info-value fw-semibold">{{ $profil?->participantTypeLabel() ?? '-' }}</span>
+                    <ul class="list-group list-group-flush text-start profile-info-list border-top text-xs">
+                        <li class="list-group-item py-1 px-0">
+                            <span class="profile-info-label text-xs font-bold !text-slate-800 dark:!text-slate-200">Kategori</span>
+                            <span class="profile-info-value fw-semibold text-xs">{{ $profil?->participantTypeLabel() ?? '-' }}</span>
                         </li>
-                        <li class="list-group-item">
-                            <span class="profile-info-label">NIK</span>
-                            <span class="profile-info-value font-monospace">{{ $profil?->nik ?? '—' }}</span>
+                        <li class="list-group-item py-1 px-0">
+                            <span class="profile-info-label text-xs font-bold !text-slate-800 dark:!text-slate-200">NIK</span>
+                            <span class="profile-info-value font-monospace text-xs">{{ $profil?->nik ?? '—' }}</span>
                         </li>
-                        <li class="list-group-item">
-                            <span class="profile-info-label">{{ $profil?->institutionLabel() ?? 'Institusi' }}</span>
-                            <span class="profile-info-value fw-bold text-primary">{{ $profil?->institusi ?? '—' }}</span>
+                        <li class="list-group-item py-1 px-0">
+                            <span class="profile-info-label text-xs font-bold !text-slate-800 dark:!text-slate-200">{{ $profil?->institutionLabel() ?? 'Institusi' }}</span>
+                            <span class="profile-info-value fw-bold text-primary text-xs">{{ $profil?->institusi ?? '—' }}</span>
                         </li>
-                        <li class="list-group-item">
-                            <span class="profile-info-label">{{ $profil?->numberLabel() ?? 'NIM / NIS' }}</span>
-                            <span class="profile-info-value font-monospace fw-semibold">{{ $profil?->numberValue() ?? '—' }}</span>
+                        <li class="list-group-item py-1 px-0">
+                            <span class="profile-info-label text-xs font-bold !text-slate-800 dark:!text-slate-200">{{ $profil?->numberLabel() ?? 'NIM / NIS' }}</span>
+                            <span class="profile-info-value font-monospace fw-semibold text-xs">{{ $profil?->numberValue() ?? '—' }}</span>
                         </li>
-                        <li class="list-group-item">
-                            <span class="profile-info-label">{{ $profil?->majorLabel() ?? 'Jurusan' }}</span>
-                            <span class="profile-info-value fw-semibold">{{ $profil?->jurusan ?? '—' }}</span>
+                        <li class="list-group-item py-1 px-0">
+                            <span class="profile-info-label text-xs font-bold !text-slate-800 dark:!text-slate-200">{{ $profil?->majorLabel() ?? 'Jurusan' }}</span>
+                            <span class="profile-info-value fw-semibold text-xs">{{ $profil?->jurusan ?? '—' }}</span>
                         </li>
                         @if($profil && $profil->isMahasiswa())
-                            <li class="list-group-item">
-                                <span class="profile-info-label">Semester</span>
-                                <span class="profile-info-value">
-                                    <span class="badge bg-light text-body border rounded-pill px-2.5 py-1">Semester {{ $profil->semester ?? '-' }}</span>
+                            <li class="list-group-item py-1 px-0">
+                                <span class="profile-info-label text-xs font-bold !text-slate-800 dark:!text-slate-200">Semester</span>
+                                <span class="profile-info-value text-xs">
+                                    <span class="badge bg-light text-body border rounded-pill px-2 py-0.5 text-xs">Semester {{ $profil->semester ?? '-' }}</span>
                                 </span>
                             </li>
                         @endif
-                        <li class="list-group-item">
-                            <span class="profile-info-label">Tahun Angkatan</span>
-                            <span class="profile-info-value">{{ $profil?->tahun_angkatan ?? '—' }}</span>
+                        <li class="list-group-item py-1 px-0">
+                            <span class="profile-info-label text-xs font-bold !text-slate-800 dark:!text-slate-200">Tahun Angkatan</span>
+                            <span class="profile-info-value text-xs">{{ $profil?->tahun_angkatan ?? '—' }}</span>
                         </li>
-                        <li class="list-group-item">
-                            <span class="profile-info-label">Nomor WhatsApp</span>
-                            <span class="profile-info-value">{{ $profil?->no_telepon ?? '—' }}</span>
+                        <li class="list-group-item py-1 px-0">
+                            <span class="profile-info-label text-xs font-bold !text-slate-800 dark:!text-slate-200">Nomor WhatsApp</span>
+                            <span class="profile-info-value text-xs">{{ $profil?->no_telepon ?? '—' }}</span>
                         </li>
-                        <li class="list-group-item">
-                            <span class="profile-info-label">Jenis Kelamin</span>
-                            <span class="profile-info-value">{{ $profil?->jenis_kelamin?->label() ?? '—' }}</span>
+                        <li class="list-group-item py-1 px-0">
+                            <span class="profile-info-label text-xs font-bold !text-slate-800 dark:!text-slate-200">Jenis Kelamin</span>
+                            <span class="profile-info-value text-xs">{{ $profil?->jenis_kelamin?->label() ?? '—' }}</span>
                         </li>
-                        <li class="list-group-item">
-                            <span class="profile-info-label">Tempat & Tgl Lahir</span>
-                            <span class="profile-info-value">{{ $profil?->tempat_lahir ?? '—' }}@if($profil?->tanggal_lahir), {{ $profil->tanggal_lahir->format('d/m/Y') }}@endif</span>
+                        <li class="list-group-item py-1 px-0">
+                            <span class="profile-info-label text-xs font-bold !text-slate-800 dark:!text-slate-200">Tempat & Tgl Lahir</span>
+                            <span class="profile-info-value text-xs">{{ $profil?->tempat_lahir ?? '—' }}@if($profil?->tanggal_lahir), {{ $profil->tanggal_lahir->format('d/m/Y') }}@endif</span>
                         </li>
-                        <li class="list-group-item">
-                            <span class="profile-info-label">Alamat Domisili</span>
-                            <span class="profile-info-value">{{ $profil?->alamat ?? '—' }}</span>
+                        <li class="list-group-item py-1 px-0">
+                            <span class="profile-info-label text-xs font-bold !text-slate-800 dark:!text-slate-200">Alamat Domisili</span>
+                            <span class="profile-info-value text-xs">{{ $profil?->alamat ?? '—' }}</span>
                         </li>
-                        <li class="list-group-item border-bottom-0">
-                            <span class="profile-info-label">ID Pengguna</span>
-                            <span class="profile-info-value font-monospace small text-muted">#{{ $reg->user?->id ?? '?' }}</span>
+                        <li class="list-group-item py-1 px-0 border-bottom-0">
+                            <span class="profile-info-label text-xs font-bold !text-slate-800 dark:!text-slate-200">ID Pengguna</span>
+                            <span class="profile-info-value font-monospace text-xs text-muted">#{{ $reg->user?->id ?? '?' }}</span>
                         </li>
                     </ul>
                 </div>

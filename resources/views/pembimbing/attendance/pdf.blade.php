@@ -163,9 +163,9 @@
                 @if($row['activity'])
                     <span style="font-size: 9.5px;">
                         @if($row['status'] === 'libur')
-                            Libur: {!! nl2br(e($row['activity'])) !!}
+                            Libur: {!! nl2br(preg_replace('/(https?:\/\/[^\s]+)/', '<a href="$1" target="_blank" style="color: #2563eb; text-decoration: underline;" rel="noopener noreferrer">$1</a>', e($row['activity']))) !!}
                         @else
-                            {!! nl2br(e($row['activity'])) !!}
+                            {!! nl2br(preg_replace('/(https?:\/\/[^\s]+)/', '<a href="$1" target="_blank" style="color: #2563eb; text-decoration: underline;" rel="noopener noreferrer">$1</a>', e($row['activity']))) !!}
                         @endif
                     </span>
                     @if(strlen($row['activity']) > 250)

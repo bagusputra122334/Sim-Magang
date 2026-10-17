@@ -28,7 +28,7 @@
     .doc-attachment-grid {
         display: grid;
         grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 1rem;
+        gap: 0.625rem;
         width: 100%;
         min-width: 0;
         box-sizing: border-box;
@@ -49,8 +49,8 @@
     .doc-attachment-card {
         background-color: var(--app-surface, #ffffff);
         border: 1px solid var(--app-border, #dee2e6);
-        border-radius: 14px;
-        padding: 1.15rem;
+        border-radius: 8px;
+        padding: 0.75rem;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
@@ -75,24 +75,24 @@
     .doc-attachment-header {
         display: flex;
         align-items: center;
-        gap: 0.75rem;
-        margin-bottom: 0.75rem;
+        gap: 0.5rem;
+        margin-bottom: 0.5rem;
         min-width: 0;
         width: 100%;
     }
 
     .doc-attachment-icon {
-        width: 42px;
-        height: 42px;
-        min-width: 42px;
-        min-height: 42px;
-        border-radius: 10px;
+        width: 32px;
+        height: 32px;
+        min-width: 32px;
+        min-height: 32px;
+        border-radius: 6px;
         background-color: rgba(220, 53, 69, 0.1);
         color: #dc3545;
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        font-size: 1.25rem;
+        font-size: 1rem;
         flex-shrink: 0;
     }
 
@@ -103,16 +103,16 @@
 
     .doc-attachment-title {
         font-weight: 700;
-        font-size: 0.875rem;
-        line-height: 1.25;
-        margin: 0 0 0.15rem;
+        font-size: 0.8rem;
+        line-height: 1.2;
+        margin: 0 0 0.1rem;
         color: var(--app-text, #212529);
         word-break: break-word;
         overflow-wrap: anywhere;
     }
 
     .doc-attachment-subtitle {
-        font-size: 0.725rem;
+        font-size: 0.7rem;
         color: var(--app-text-muted, #6c757d);
         display: block;
         line-height: 1.2;
@@ -121,15 +121,15 @@
     .doc-attachment-filepill {
         display: flex;
         align-items: center;
-        gap: 0.45rem;
-        padding: 0.35rem 0.55rem;
-        border-radius: 8px;
+        gap: 0.35rem;
+        padding: 0.25rem 0.45rem;
+        border-radius: 6px;
         background-color: var(--app-surface-soft, #f8f9fa);
         border: 1px solid var(--app-border, #e9ecef);
         font-family: var(--bs-font-monospace, monospace);
-        font-size: 0.725rem;
+        font-size: 0.7rem;
         color: var(--app-text-secondary, #495057);
-        margin-bottom: 0.85rem;
+        margin-bottom: 0.5rem;
         min-width: 0;
         width: 100%;
         box-sizing: border-box;
@@ -146,7 +146,7 @@
 
     .doc-attachment-card-bottom {
         margin-top: auto;
-        padding-top: 0.75rem;
+        padding-top: 0.5rem;
         border-top: 1px solid var(--app-border-subtle, var(--app-border, #e9ecef));
         width: 100%;
         min-width: 0;
@@ -156,7 +156,7 @@
     .doc-attachment-btn-group {
         display: flex;
         flex-direction: column;
-        gap: 0.45rem;
+        gap: 0.35rem;
         width: 100%;
         min-width: 0;
         box-sizing: border-box;
@@ -169,11 +169,11 @@
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        min-height: 38px;
-        font-size: 0.8rem;
-        font-weight: 600;
-        border-radius: 8px;
-        padding: 0.35rem 0.65rem;
+        min-height: 28px;
+        font-size: 0.75rem;
+        font-weight: 700;
+        border-radius: 6px;
+        padding: 0.25rem 0.5rem;
         white-space: nowrap;
         text-overflow: ellipsis;
         overflow: hidden;
@@ -193,41 +193,41 @@
 @endphp
 
 @section('content')
-<div class="row justify-content-center mb-4">
+<div class="row justify-content-center mb-3">
     <div class="col-lg-11">
 
         {{-- Hero Header --}}
-        <div class="card shadow-sm border rounded-4 overflow-hidden mb-4 {{ $isDeactivated ? 'border-danger bg-danger-subtle bg-opacity-10' : 'bg-body' }}">
-            <div class="card-body p-4 p-md-5">
-                <div class="row align-items-center g-3">
+        <div class="card shadow-sm border rounded-2 overflow-hidden mb-3 {{ $isDeactivated ? 'border-danger bg-danger-subtle bg-opacity-10' : 'bg-body' }}">
+            <div class="card-body p-3 sm:p-4">
+                <div class="row align-items-center g-2.5">
                     <div class="col-md-8">
-                        <div class="d-flex align-items-center gap-2 mb-2 flex-wrap">
-                            <span class="badge {{ $isDeactivated ? 'bg-danger-subtle text-danger border-danger-subtle' : 'bg-primary-subtle text-primary border-primary-subtle' }} border rounded-pill px-3 py-1 font-monospace small">
+                        <div class="d-flex align-items-center gap-1.5 mb-1.5 flex-wrap">
+                            <span class="badge {{ $isDeactivated ? 'bg-danger-subtle text-danger border-danger-subtle' : 'bg-primary-subtle text-primary border-primary-subtle' }} border rounded-pill px-2.5 py-0.5 font-monospace text-xs">
                                 <i class="bi bi-ticket-perforated-fill me-1"></i>{{ $reg->nomor_pendaftaran }}
                             </span>
-                            <span class="badge bg-body-tertiary text-body-secondary border rounded-pill px-2.5 py-1 small">
+                            <span class="badge bg-body-tertiary text-body-secondary border rounded-pill px-2 py-0.5 text-xs">
                                 <i class="bi bi-clock-history me-1"></i>{{ $reg->tanggal_submit?->translatedFormat('d M Y, H:i') }} WIB
                             </span>
                         </div>
-                        <h1 class="h3 fw-bold mb-1 text-body">
+                        <h1 class="h4 fw-bold mb-0.5 text-body">
                             {{ $reg->position?->nama_posisi ?? 'Detail Pendaftaran Magang' }}
                         </h1>
-                        <p class="text-muted mb-0 small">
+                        <p class="text-muted mb-0 text-xs">
                             <i class="bi bi-geo-alt me-1"></i>Dinas Komunikasi dan Informatika, Statistik dan Persandian Kab. Tuban
                         </p>
                     </div>
                     <div class="col-md-4 text-md-end">
                         <div class="d-inline-flex flex-column align-items-md-end gap-1">
                             @if($isDeactivated)
-                                <span class="badge rounded-pill px-3.5 py-2 fs-6 border bg-danger-subtle text-danger-emphasis border-danger-subtle" style="cursor: default; user-select: none;">
-                                    <i class="bi bi-x-circle-fill me-1.5"></i>Dinonaktifkan
+                                <span class="badge rounded-pill px-3 py-1.5 text-xs border bg-danger-subtle text-danger-emphasis border-danger-subtle fw-bold" style="cursor: default; user-select: none;">
+                                    <i class="bi bi-x-circle-fill me-1"></i>Dinonaktifkan
                                 </span>
                             @else
-                                <span class="badge rounded-pill px-3.5 py-2 fs-6 border {!! statusBadgeClass_($sv) !!}" style="cursor: default; user-select: none;">
+                                <span class="badge rounded-pill px-3 py-1.5 text-xs border {!! statusBadgeClass_($sv) !!} fw-bold" style="cursor: default; user-select: none;">
                                     {!! statusBadgeIcon_($sv) !!}{{ $reg->status->label() }}
                                 </span>
                             @endif
-                            <div class="small text-muted mt-1">
+                            <div class="text-xs text-muted mt-0.5">
                                 Status Pengajuan Pendaftaran
                             </div>
                         </div>
@@ -238,15 +238,15 @@
 
         {{-- Deactivated Status Alert Banner --}}
         @if($isDeactivated)
-            <div class="alert alert-danger border-2 border-danger-subtle rounded-4 mb-4 d-flex align-items-start shadow-sm bg-danger-subtle bg-opacity-30" role="alert">
-                <i class="bi bi-slash-circle-fill fs-3 text-danger me-3 flex-shrink-0 mt-0.5"></i>
-                <div class="flex-grow-1">
-                    <h5 class="alert-heading fw-bold mb-1 text-danger"><i class="bi bi-exclamation-octagon-fill me-1.5"></i>Status Magang DINONAKTIFKAN</h5>
+            <div class="alert alert-danger border rounded-2 mb-3 d-flex align-items-start py-2.5 px-3 shadow-sm bg-danger-subtle bg-opacity-30" role="alert">
+                <i class="bi bi-slash-circle-fill fs-5 text-danger me-2.5 flex-shrink-0 mt-0.5"></i>
+                <div class="flex-grow-1 text-xs">
+                    <strong class="alert-heading fw-bold d-block mb-1 text-danger"><i class="bi bi-exclamation-octagon-fill me-1"></i>Status Magang DINONAKTIFKAN</strong>
                     <p class="mb-1 text-dark lh-base">
                         Status kepesertaan magang Anda untuk posisi <strong>{{ $reg->position?->nama_posisi }}</strong> (#{{ $reg->nomor_pendaftaran }}) telah dinonaktifkan oleh Administrator Diskominfo SP Kabupaten Tuban.
                     </p>
                     @if(!empty($reg->catatan_penonaktifan))
-                        <div class="mt-2 pt-2 border-top border-danger-subtle text-danger-emphasis small">
+                        <div class="mt-1 pt-1 border-top border-danger-subtle text-danger-emphasis">
                             <strong>Catatan Penonaktifan:</strong> {{ $reg->catatan_penonaktifan }}
                         </div>
                     @endif
@@ -255,10 +255,10 @@
         @endif
 
         @if($sv === 'rejected' && !empty(trim($reg->catatan_admin ?? '')))
-            <div class="alert alert-danger border-2 rounded-4 mb-4 d-flex align-items-start" role="alert">
-                <i class="bi bi-file-earmark-x-fill fs-3 text-danger me-3 flex-shrink-0 mt-0.5"></i>
-                <div>
-                    <h5 class="alert-heading fw-semibold mb-1 text-danger">Catatan Verifikasi Administrator (Alasan Penolakan)</h5>
+            <div class="alert alert-danger border rounded-2 mb-3 d-flex align-items-start py-2.5 px-3" role="alert">
+                <i class="bi bi-file-earmark-x-fill fs-5 text-danger me-2.5 flex-shrink-0 mt-0.5"></i>
+                <div class="text-xs">
+                    <strong class="alert-heading fw-bold d-block mb-1 text-danger">Catatan Verifikasi Administrator (Alasan Penolakan)</strong>
                     <p class="mb-0 lh-base text-body">{{ $reg->catatan_admin }}</p>
                 </div>
             </div>
@@ -282,14 +282,14 @@
                     ];
                 }
             @endphp
-            <div class="card border-{{ $isDeactivated ? 'danger' : ($suratAda ? 'success' : 'warning') }} border-2 shadow-sm rounded-4 overflow-hidden mb-4 {{ $isDeactivated ? 'bg-danger-subtle bg-opacity-10' : 'bg-body' }}">
-                <div class="card-header bg-{{ $isDeactivated ? 'danger' : ($suratAda ? 'success' : 'warning') }} bg-opacity-10 border-0 py-3.5 px-4 px-md-5 d-flex flex-wrap gap-3 align-items-center justify-content-between">
+            <div class="card border-{{ $isDeactivated ? 'danger' : ($suratAda ? 'success' : 'warning') }} shadow-sm rounded-2 overflow-hidden mb-3 {{ $isDeactivated ? 'bg-danger-subtle bg-opacity-10' : 'bg-body' }}">
+                <div class="card-header bg-{{ $isDeactivated ? 'danger' : ($suratAda ? 'success' : 'warning') }} bg-opacity-10 border-0 py-2 px-3 sm:px-4 d-flex flex-wrap gap-2 align-items-center justify-content-between">
                     <div>
-                        <h5 class="mb-0 fw-bold text-{{ $isDeactivated ? 'danger' : ($suratAda ? 'success' : 'warning') }}-emphasis">
-                            <i class="bi bi-envelope-paper-fill me-2"></i>
+                        <h6 class="mb-0 fw-bold text-{{ $isDeactivated ? 'danger' : ($suratAda ? 'success' : 'warning') }}-emphasis">
+                            <i class="bi bi-envelope-paper-fill me-1.5"></i>
                             Surat Balasan Resmi — Dinas Komunikasi dan Informatika, Statistik dan Persandian
-                        </h5>
-                        <p class="mb-0 mt-1 small text-{{ $isDeactivated ? 'danger' : ($suratAda ? 'success' : 'warning') }}-emphasis opacity-75">
+                        </h6>
+                        <p class="mb-0 mt-0.5 text-xs text-{{ $isDeactivated ? 'danger' : ($suratAda ? 'success' : 'warning') }}-emphasis opacity-75">
                             @if($isDeactivated)
                                 <i class="bi bi-x-circle me-1"></i> Surat Balasan tidak tersedia karena status kepesertaan magang telah DINONAKTIFKAN.
                             @elseif($suratAda)
@@ -299,7 +299,7 @@
                             @endif
                         </p>
                     </div>
-                    <span class="badge rounded-pill bg-{{ $isDeactivated ? 'danger' : ($suratAda ? 'success' : 'warning') }} px-3 py-2 fs-6">
+                    <span class="badge rounded-pill bg-{{ $isDeactivated ? 'danger' : ($suratAda ? 'success' : 'warning') }} px-2.5 py-1 text-xs fw-bold">
                         @if($isDeactivated)
                             <i class="bi bi-x-circle-fill me-1"></i> TIDAK TERSEDIA
                         @elseif($suratAda)
@@ -309,22 +309,22 @@
                         @endif
                     </span>
                 </div>
-                <div class="card-body px-4 px-md-5 py-4">
+                <div class="card-body px-3 sm:px-4 py-3">
                     @if($isDeactivated)
-                        <div class="d-flex flex-column align-items-center text-center py-3">
-                            <i class="bi bi-file-earmark-x fs-1 text-danger mb-2 opacity-75"></i>
-                            <h6 class="fw-bold text-danger mb-1">Unduhan Surat Balasan Dinonaktifkan</h6>
-                            <p class="small text-muted mb-3 max-w-lg">
+                        <div class="d-flex flex-column align-items-center text-center py-2">
+                            <i class="bi bi-file-earmark-x fs-2 text-danger mb-1 opacity-75"></i>
+                            <h6 class="fw-bold text-danger mb-1 text-xs">Unduhan Surat Balasan Dinonaktifkan</h6>
+                            <p class="text-xs text-muted mb-2 max-w-lg">
                                 Karena status pendaftaran magang Anda telah dinonaktifkan oleh administrator, surat balasan resmi tidak dapat diunduh kembali.
                             </p>
-                            <button class="btn btn-secondary fw-semibold rounded-3 px-4 py-2 opacity-50 cursor-not-allowed d-inline-flex align-items-center gap-2" disabled>
+                            <button class="btn btn-secondary fw-bold rounded-2 px-3 py-1.5 text-xs opacity-50 cursor-not-allowed d-inline-flex align-items-center gap-1.5" disabled>
                                 <i class="bi bi-slash-circle me-1"></i> Download Surat Balasan (Dinonaktifkan)
                             </button>
                         </div>
                     @elseif($suratAda && $suratFileInfo)
-                        <div class="row g-3 align-items-center">
+                        <div class="row g-2.5 align-items-center">
                             <div class="col-lg-7">
-                                <dl class="row mb-0 small">
+                                <dl class="row mb-0 text-xs">
                                     <dt class="col-sm-4 text-muted">Nomor Pendaftaran</dt>
                                     <dd class="col-sm-8 fw-bold font-monospace text-success mb-1">{{ $reg->nomor_pendaftaran }}</dd>
 
@@ -339,14 +339,14 @@
                                 </dl>
                             </div>
                             <div class="col-lg-5">
-                                <div class="d-grid gap-2">
+                                <div class="d-grid gap-1.5">
                                     <a href="{{ route('participant.applications.reply-letter.download', $reg->id) }}"
-                                       class="btn btn-success btn-lg fw-semibold shadow-sm d-inline-flex align-items-center justify-content-center"
-                                       style="min-height: 48px;">
-                                        <i class="bi bi-file-earmark-pdf-fill me-2 fs-5"></i>
+                                       class="btn btn-success fw-bold text-xs rounded-2 shadow-sm d-inline-flex align-items-center justify-content-center py-1.5 px-3"
+                                       style="min-height: 36px;">
+                                        <i class="bi bi-file-earmark-pdf-fill me-1.5 fs-6"></i>
                                         Download Surat Balasan (PDF)
                                     </a>
-                                    <div class="small text-muted text-center">
+                                    <div class="text-xs text-muted text-center" style="font-size: 0.7rem;">
                                         <i class="bi bi-shield-check me-1"></i>
                                         File resmi dari Diskominfo SP Tuban, gunakan sebagai bukti penerimaan magang.
                                     </div>
@@ -354,9 +354,9 @@
                             </div>
                         </div>
                     @else
-                        <div class="d-flex flex-wrap gap-3 align-items-center">
+                        <div class="d-flex flex-wrap gap-2.5 align-items-center">
                             <div class="flex-grow-1">
-                                <p class="mb-0 small lh-lg text-body">
+                                <p class="mb-0 text-xs lh-base text-body">
                                     <i class="bi bi-info-circle me-1 text-warning"></i>
                                     Pendaftaran Anda sudah dinyatakan <b>DITERIMA</b>, namun Surat Balasan resmi dari Dinas Komunikasi dan Informatika, Statistik dan Persandian
                                     Kabupaten Tuban <b>belum diunggah</b> oleh tim Admin. Silakan periksa kembali secara berkala atau hubungi Admin jika
@@ -364,7 +364,7 @@
                                 </p>
                             </div>
                             <div class="flex-shrink-0">
-                                <div class="display-5 text-warning opacity-50">
+                                <div class="fs-2 text-warning opacity-50">
                                     <i class="bi bi-envelope-open"></i>
                                 </div>
                             </div>
@@ -374,60 +374,60 @@
             </div>
         @endif
 
-        <div class="row g-4">
+        <div class="row g-2.5">
             {{-- Main Column (Informasi & Lampiran) --}}
             <div class="col-lg-8">
                 {{-- 1. INFORMASI PENDAFTARAN --}}
-                <div class="card shadow-sm border rounded-4 overflow-hidden mb-4 bg-body">
-                    <div class="card-header bg-light border-0 py-3.5 px-4 px-md-5">
-                        <h5 class="mb-0 fw-bold text-body">
-                            <i class="bi bi-card-checklist text-primary me-2"></i>Informasi Pendaftaran
-                        </h5>
+                <div class="card shadow-sm border rounded-2 overflow-hidden mb-3 bg-body">
+                    <div class="card-header bg-light border-0 py-2 px-3 sm:px-4">
+                        <h6 class="mb-0 fw-bold text-body">
+                            <i class="bi bi-card-checklist text-primary me-1.5"></i>Informasi Pendaftaran
+                        </h6>
                     </div>
-                    <div class="card-body p-4 p-md-5">
-                        <div class="row g-4">
+                    <div class="card-body p-3 sm:p-4">
+                        <div class="row g-2.5">
                             <div class="col-md-6">
-                                <label class="text-muted small fw-semibold text-uppercase mb-1 d-block">Nama Peserta</label>
-                                <div class="fs-6 fw-semibold text-body">{{ $reg->user?->name ?? '—' }}</div>
+                                <label class="block text-xs font-bold !text-slate-800 dark:!text-slate-200 uppercase mb-1">Nama Peserta</label>
+                                <div class="text-xs fw-semibold text-body">{{ $reg->user?->name ?? '—' }}</div>
                             </div>
                             <div class="col-md-6">
-                                <label class="text-muted small fw-semibold text-uppercase mb-1 d-block">Email Peserta</label>
-                                <div class="fs-6 fw-semibold text-body">{{ $reg->user?->email ?? '—' }}</div>
+                                <label class="block text-xs font-bold !text-slate-800 dark:!text-slate-200 uppercase mb-1">Email Peserta</label>
+                                <div class="text-xs fw-semibold text-body">{{ $reg->user?->email ?? '—' }}</div>
                             </div>
                             <div class="col-md-6">
-                                <label class="text-muted small fw-semibold text-uppercase mb-1 d-block">Posisi Magang</label>
-                                <div class="fs-6 fw-bold text-primary">{{ $reg->position?->nama_posisi ?? '—' }}</div>
-                                <div class="small text-muted mt-1"><i class="bi bi-hash me-1"></i>Slug: {{ $reg->position?->slug ?? '-' }}</div>
+                                <label class="block text-xs font-bold !text-slate-800 dark:!text-slate-200 uppercase mb-1">Posisi Magang</label>
+                                <div class="text-xs fw-bold text-primary">{{ $reg->position?->nama_posisi ?? '—' }}</div>
+                                <div class="text-xs text-muted mt-0.5"><i class="bi bi-hash me-1"></i>Slug: {{ $reg->position?->slug ?? '-' }}</div>
                             </div>
                             <div class="col-md-6">
-                                <label class="text-muted small fw-semibold text-uppercase mb-1 d-block">Status Posisi</label>
-                                <div class="small">
-                                    <span class="badge bg-success-subtle text-success-emphasis border border-success-subtle rounded-pill px-3 py-1.5 fw-semibold"><i class="bi bi-check-circle-fill me-1"></i>Posisi Terbuka</span>
+                                <label class="block text-xs font-bold !text-slate-800 dark:!text-slate-200 uppercase mb-1">Status Posisi</label>
+                                <div>
+                                    <span class="badge bg-success-subtle text-success-emphasis border border-success-subtle rounded-pill px-2.5 py-1 text-xs fw-bold"><i class="bi bi-check-circle-fill me-1"></i>Posisi Terbuka</span>
                                 </div>
                             </div>
 
-                            <div class="col-12 my-1">
-                                <hr class="my-2 border-secondary-subtle">
+                            <div class="col-12 my-0.5">
+                                <hr class="my-1.5 border-secondary-subtle">
                             </div>
 
                             <div class="col-md-6">
-                                <label class="text-muted small fw-semibold text-uppercase mb-1 d-block">Periode Mulai Magang</label>
-                                <div class="fs-6 fw-semibold text-body"><i class="bi bi-calendar-plus text-primary me-2"></i>{{ $reg->periode_mulai?->translatedFormat('l, d F Y') ?? '—' }}</div>
+                                <label class="block text-xs font-bold !text-slate-800 dark:!text-slate-200 uppercase mb-1">Periode Mulai Magang</label>
+                                <div class="text-xs fw-semibold text-body"><i class="bi bi-calendar-plus text-primary me-1.5"></i>{{ $reg->periode_mulai?->translatedFormat('l, d F Y') ?? '—' }}</div>
                             </div>
                             <div class="col-md-6">
-                                <label class="text-muted small fw-semibold text-uppercase mb-1 d-block">Periode Selesai Magang</label>
-                                <div class="fs-6 fw-semibold text-body"><i class="bi bi-calendar2-check text-primary me-2"></i>{{ $reg->periode_selesai?->translatedFormat('l, d F Y') ?? '—' }}</div>
+                                <label class="block text-xs font-bold !text-slate-800 dark:!text-slate-200 uppercase mb-1">Periode Selesai Magang</label>
+                                <div class="text-xs fw-semibold text-body"><i class="bi bi-calendar2-check text-primary me-1.5"></i>{{ $reg->periode_selesai?->translatedFormat('l, d F Y') ?? '—' }}</div>
                             </div>
                             <div class="col-md-6">
-                                <label class="text-muted small fw-semibold text-uppercase mb-1 d-block">Durasi Magang</label>
-                                <div class="fs-6 fw-semibold text-primary">
+                                <label class="block text-xs font-bold !text-slate-800 dark:!text-slate-200 uppercase mb-1">Durasi Magang</label>
+                                <div class="text-xs fw-semibold text-primary">
                                     <i class="bi bi-hourglass-split me-1"></i>
                                     {{ $reg->periode_mulai && $reg->periode_selesai ? ($reg->periode_mulai->diffInDays($reg->periode_selesai) + 1).' Hari' : '—' }}
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <label class="text-muted small fw-semibold text-uppercase mb-1 d-block">Tanggal Submit</label>
-                                <div class="fs-6 fw-semibold text-body"><i class="bi bi-send-check text-primary me-2"></i>{{ $reg->tanggal_submit?->translatedFormat('d M Y — H:i') }} WIB</div>
+                                <label class="block text-xs font-bold !text-slate-800 dark:!text-slate-200 uppercase mb-1">Tanggal Submit</label>
+                                <div class="text-xs fw-semibold text-body"><i class="bi bi-send-check text-primary me-1.5"></i>{{ $reg->tanggal_submit?->translatedFormat('d M Y — H:i') }} WIB</div>
                             </div>
                         </div>
                     </div>
@@ -435,31 +435,31 @@
 
                 {{-- 2. DESKRIPSI POSISI (JIKA ADA) --}}
                 @if(!empty($reg->position?->deskripsi ?? null))
-                <div class="card shadow-sm border rounded-4 overflow-hidden mb-4 bg-body">
-                    <div class="card-header bg-light border-0 py-3.5 px-4 px-md-5">
-                        <h5 class="mb-0 fw-bold text-body">
-                            <i class="bi bi-info-square text-primary me-2"></i>Deskripsi Posisi Magang
-                        </h5>
+                <div class="card shadow-sm border rounded-2 overflow-hidden mb-3 bg-body">
+                    <div class="card-header bg-light border-0 py-2 px-3 sm:px-4">
+                        <h6 class="mb-0 fw-bold text-body">
+                            <i class="bi bi-info-square text-primary me-1.5"></i>Deskripsi Posisi Magang
+                        </h6>
                     </div>
-                    <div class="card-body p-4 p-md-5">
-                        <div class="lh-base fs-6 text-body">{!! nl2br(e($reg->position?->deskripsi ?? '')) !!}</div>
+                    <div class="card-body p-3 sm:p-4">
+                        <div class="lh-base text-xs text-body">{!! nl2br(e($reg->position?->deskripsi ?? '')) !!}</div>
                     </div>
                 </div>
                 @endif
 
                 {{-- 3. LAMPIRAN DOKUMEN PENDAFTARAN --}}
-                <div class="card shadow-sm border rounded-4 overflow-hidden mb-4 mb-lg-0 bg-body">
-                    <div class="card-header bg-light border-0 py-3.5 px-4 px-md-5 d-flex align-items-center justify-content-between flex-wrap gap-2">
+                <div class="card shadow-sm border rounded-2 overflow-hidden mb-3 mb-lg-0 bg-body">
+                    <div class="card-header bg-light border-0 py-2 px-3 sm:px-4 d-flex align-items-center justify-content-between flex-wrap gap-2">
                         <div>
-                            <h5 class="mb-0 fw-bold text-body">
-                                <i class="bi bi-folder2-open text-primary me-2"></i>Lampiran Dokumen Pendaftaran
-                            </h5>
-                            <p class="text-muted small mb-0 mt-0.5">
+                            <h6 class="mb-0 fw-bold text-body">
+                                <i class="bi bi-folder2-open text-primary me-1.5"></i>Lampiran Dokumen Pendaftaran
+                            </h6>
+                            <p class="text-muted text-xs mb-0 mt-0.5">
                                 Berkas dokumen persyaratan yang diunggah saat pengajuan pendaftaran magang.
                             </p>
                         </div>
                     </div>
-                    <div class="card-body p-4">
+                    <div class="card-body p-3">
                         @php
                             $cvUrl = $dokumenUrl['cv'] ?? (!empty($reg->cv_path) ? route('documents.downloadByPath', ['path' => $reg->cv_path]) : null);
                             $suratPengantarUrl = $dokumenUrl['surat_pengantar'] ?? (!empty($reg->surat_pengantar_path) ? route('documents.downloadByPath', ['path' => $reg->surat_pengantar_path]) : null);
@@ -486,7 +486,7 @@
                                             <span>{{ basename($reg->cv_path) }}</span>
                                         </div>
                                     @else
-                                        <div class="alert alert-secondary small mb-3 py-2 px-2.5 text-center">
+                                        <div class="alert alert-secondary text-xs mb-2 py-1.5 px-2 text-center">
                                             <i class="bi bi-dash-circle me-1"></i>CV tidak tersedia.
                                         </div>
                                     @endif
@@ -496,18 +496,18 @@
                                     @if(!empty($cvUrl))
                                         <div class="doc-attachment-btn-group">
                                             <a href="{{ $cvUrl }}" target="_blank" rel="noopener"
-                                               class="btn btn-outline-primary btn-sm fw-semibold"
+                                               class="btn btn-outline-primary btn-sm fw-bold"
                                                title="Lihat berkas PDF Curriculum Vitae">
                                                 <i class="bi bi-box-arrow-up-right me-1.5"></i>Lihat PDF
                                             </a>
                                             <a href="{{ $cvUrl }}" download
-                                               class="btn btn-primary btn-sm fw-semibold shadow-xs"
+                                               class="btn btn-primary btn-sm fw-bold shadow-xs"
                                                title="Download berkas Curriculum Vitae">
                                                 <i class="bi bi-download me-1.5"></i>Download
                                             </a>
                                         </div>
                                     @else
-                                        <div class="btn btn-sm btn-outline-secondary disabled w-100 py-2">
+                                        <div class="btn btn-sm btn-outline-secondary disabled w-100 py-1.5 text-xs">
                                             <i class="bi bi-dash-circle me-1"></i>Belum Diunggah
                                         </div>
                                     @endif
@@ -533,7 +533,7 @@
                                             <span>{{ basename($reg->surat_pengantar_path) }}</span>
                                         </div>
                                     @else
-                                        <div class="alert alert-secondary small mb-3 py-2 px-2.5 text-center">
+                                        <div class="alert alert-secondary text-xs mb-2 py-1.5 px-2 text-center">
                                             <i class="bi bi-dash-circle me-1"></i>Surat pengantar tidak tersedia.
                                         </div>
                                     @endif
@@ -543,18 +543,18 @@
                                     @if(!empty($suratPengantarUrl))
                                         <div class="doc-attachment-btn-group">
                                             <a href="{{ $suratPengantarUrl }}" target="_blank" rel="noopener"
-                                               class="btn btn-outline-primary btn-sm fw-semibold"
+                                               class="btn btn-outline-primary btn-sm fw-bold"
                                                title="Lihat berkas PDF Surat Pengantar">
                                                 <i class="bi bi-box-arrow-up-right me-1.5"></i>Lihat PDF
                                             </a>
                                             <a href="{{ $suratPengantarUrl }}" download
-                                               class="btn btn-primary btn-sm fw-semibold shadow-xs"
+                                               class="btn btn-primary btn-sm fw-bold shadow-xs"
                                                title="Download berkas Surat Pengantar">
                                                 <i class="bi bi-download me-1.5"></i>Download
                                             </a>
                                         </div>
                                     @else
-                                        <div class="btn btn-sm btn-outline-secondary disabled w-100 py-2">
+                                        <div class="btn btn-sm btn-outline-secondary disabled w-100 py-1.5 text-xs">
                                             <i class="bi bi-dash-circle me-1"></i>Belum Diunggah
                                         </div>
                                     @endif
@@ -580,7 +580,7 @@
                                             <span>{{ basename($reg->proposal_magang_path) }}</span>
                                         </div>
                                     @else
-                                        <div class="alert alert-secondary small mb-3 py-2 px-2.5 text-center">
+                                        <div class="alert alert-secondary text-xs mb-2 py-1.5 px-2 text-center">
                                             <i class="bi bi-dash-circle me-1"></i>Proposal belum diunggah.
                                         </div>
                                     @endif
@@ -590,18 +590,18 @@
                                     @if(!empty($proposalMagangUrl))
                                         <div class="doc-attachment-btn-group">
                                             <a href="{{ $proposalMagangUrl }}" target="_blank" rel="noopener"
-                                               class="btn btn-outline-primary btn-sm fw-semibold"
+                                               class="btn btn-outline-primary btn-sm fw-bold"
                                                title="Lihat berkas PDF Proposal Magang">
                                                 <i class="bi bi-box-arrow-up-right me-1.5"></i>Lihat PDF
                                             </a>
                                             <a href="{{ $proposalMagangUrl }}" download
-                                               class="btn btn-primary btn-sm fw-semibold shadow-xs"
+                                               class="btn btn-primary btn-sm fw-bold shadow-xs"
                                                title="Download berkas Proposal Magang">
                                                 <i class="bi bi-download me-1.5"></i>Download
                                             </a>
                                         </div>
                                     @else
-                                        <div class="btn btn-sm btn-outline-secondary disabled w-100 py-2">
+                                        <div class="btn btn-sm btn-outline-secondary disabled w-100 py-1.5 text-xs">
                                             <i class="bi bi-dash-circle me-1"></i>Belum Diunggah
                                         </div>
                                     @endif
@@ -614,26 +614,26 @@
 
             {{-- Right Column (Panel Aksi Pendaftaran) --}}
             <div class="col-lg-4 align-self-start">
-                <div class="card shadow-sm border rounded-4 mb-4 sticky-top bg-body" style="top: 1rem;">
-                    <div class="card-header bg-light border-0 py-3.5 px-4 d-flex align-items-center justify-content-between">
-                        <h5 class="mb-0 fw-bold text-body">
-                            <i class="bi bi-sliders text-primary me-2"></i>Aksi Pendaftaran
-                        </h5>
+                <div class="card shadow-sm border rounded-2 mb-3 sticky-top bg-body" style="top: 1rem;">
+                    <div class="card-header bg-light border-0 py-2 px-3 d-flex align-items-center justify-content-between">
+                        <h6 class="mb-0 fw-bold text-body">
+                            <i class="bi bi-sliders text-primary me-1.5"></i>Aksi Pendaftaran
+                        </h6>
                     </div>
-                    <div class="card-body p-4 d-grid gap-2.5">
+                    <div class="card-body p-3 d-grid gap-2">
                         @if($reg->isAccepted() && !empty($reg->surat_balasan_path) && \Illuminate\Support\Facades\Storage::disk('public')->exists($reg->surat_balasan_path))
                             <a href="{{ route('participant.applications.reply-letter.download', $reg->id) }}"
-                               class="btn btn-success fw-semibold d-inline-flex align-items-center justify-content-center shadow-sm"
-                               style="min-height: 44px;">
-                                <i class="bi bi-file-earmark-pdf-fill me-2 fs-5"></i>Download Surat Balasan
+                               class="btn btn-success fw-bold d-inline-flex align-items-center justify-content-center shadow-sm py-1.5 px-3 text-xs rounded-2"
+                               style="min-height: 34px;">
+                                <i class="bi bi-file-earmark-pdf-fill me-1.5 fs-6"></i>Download Surat Balasan
                             </a>
                         @endif
 
                         @if($reg->dapatDiubah())
                             <a href="{{ route('participant.registrations.edit', $reg->id) }}"
-                               class="btn btn-primary bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white rounded-xl font-semibold text-sm shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md px-4 py-2.5 w-100 d-inline-flex align-items-center justify-content-center gap-2"
-                               style="min-height: 44px; background-color: #4f46e5 !important; color: #ffffff !important; border-color: #4f46e5 !important;">
-                                <i class="bi bi-pencil-square me-2" style="color: #ffffff !important;"></i>Ubah Pendaftaran
+                               class="btn btn-primary bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white rounded-2 font-bold text-xs shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md px-3 py-1.5 w-100 d-inline-flex align-items-center justify-content-center gap-1.5"
+                               style="min-height: 34px; background-color: #4f46e5 !important; color: #ffffff !important; border-color: #4f46e5 !important;">
+                                <i class="bi bi-pencil-square me-1.5" style="color: #ffffff !important;"></i>Ubah Pendaftaran
                             </a>
                         @endif
 
@@ -645,25 +645,24 @@
                                 <button type="submit"
                                         id="btnDeleteShow"
                                         data-nomor="{{ $reg->nomor_pendaftaran }}"
-                                        class="btn btn-danger bg-rose-600 hover:bg-rose-700 active:bg-rose-800 text-white rounded-xl font-semibold text-sm shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md px-4 py-2.5 w-100 d-inline-flex align-items-center justify-content-center gap-2"
-                                        style="min-height: 44px; background-color: #e11d48 !important; color: #ffffff !important; border-color: #e11d48 !important;">
-                                    <i class="bi bi-trash3-fill me-2" style="color: #ffffff !important;"></i>Hapus Pendaftaran
+                                        class="btn btn-danger bg-rose-600 hover:bg-rose-700 active:bg-rose-800 text-white rounded-2 font-bold text-xs shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md px-3 py-1.5 w-100 d-inline-flex align-items-center justify-content-center gap-1.5"
+                                        style="min-height: 34px; background-color: #e11d48 !important; color: #ffffff !important; border-color: #e11d48 !important;">
+                                    <i class="bi bi-trash3-fill me-1.5" style="color: #ffffff !important;"></i>Hapus Pendaftaran
                                 </button>
                             </form>
                         @endif
 
                         <a href="{{ route('participant.registrations.index') }}"
-                           class="btn btn-secondary bg-slate-800 hover:bg-slate-700 active:bg-slate-900 text-white rounded-xl font-semibold text-sm shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md px-4 py-2.5 w-100 d-inline-flex align-items-center justify-content-center gap-2"
-                           style="min-height: 44px; background-color: #1e293b !important; color: #ffffff !important; border-color: #1e293b !important;">
-                            <i class="bi bi-arrow-left me-2" style="color: #ffffff !important;"></i>Kembali ke Riwayat
+                           class="btn btn-secondary bg-slate-800 hover:bg-slate-700 active:bg-slate-900 text-white rounded-2 font-bold text-xs shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md px-3 py-1.5 w-100 d-inline-flex align-items-center justify-content-center gap-1.5"
+                           style="min-height: 34px; background-color: #1e293b !important; color: #ffffff !important; border-color: #1e293b !important;">
+                            <i class="bi bi-arrow-left me-1.5" style="color: #ffffff !important;"></i>Kembali ke Riwayat
                         </a>
 
+                        <hr class="my-1.5 border-secondary-subtle">
 
-                        <hr class="my-2 border-secondary-subtle">
-
-                        <div class="p-3 rounded-3 bg-body-tertiary border small text-body-secondary lh-base">
-                            <div class="fw-semibold text-body mb-1 d-flex align-items-center">
-                                <i class="bi bi-shield-check text-success me-1.5"></i>Perlindungan Data:
+                        <div class="p-2.5 rounded-2 bg-body-tertiary border text-xs text-body-secondary lh-base">
+                            <div class="fw-bold text-body mb-0.5 d-flex align-items-center">
+                                <i class="bi bi-shield-check text-success me-1"></i>Perlindungan Data:
                             </div>
                             <div>Dokumen CV, Surat Pengantar, dan Proposal Magang Anda disimpan secara aman pada server internal Diskominfo dan hanya dapat diakses oleh tim Admin yang berwenang.</div>
                         </div>
