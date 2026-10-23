@@ -72,10 +72,15 @@ class User extends Authenticatable
     public function isAdmin(): bool
     {
         $role = $this->role instanceof \App\Enums\UserRole ? $this->role->value : $this->role;
+        if ($role === 'admin') {
+            return true;
+        }
+        if ($role === 'peserta' || $role === 'intern' || $role === 'pembimbing') {
+            return false;
+        }
         return $this->id === 1 
-            || str_contains(strtolower($this->email), 'admin') 
-            || str_contains(strtolower($this->email), 'diskominfo')
-            || $role === 'admin';
+            || str_contains(strtolower((string)$this->email), 'admin') 
+            || str_contains(strtolower((string)$this->email), 'diskominfo');
     }
 
     public function isPeserta(): bool

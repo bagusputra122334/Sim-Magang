@@ -12,10 +12,47 @@ use Illuminate\Validation\Rule;
 
 class MaterialController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $materials = Material::where('pembimbing_id', Auth::id())->latest()->paginate(10);
-        return view('pembimbing.materials.index', compact('materials'));
+        $perPage = (int) $request->input('perPage', 10);
+        if (!in_array($perPage, [10, 25, 50])) {
+            $perPage = 10;
+        }
+
+        $materials = Material::where('pembimbing_id', Auth::id())
+            ->when($request->filled('search'), function ($q) use ($request) {
+                $search = $request->input('search');
+                $q->where(function ($sub) use ($search) {
+                    $sub->where('title', 'like', "%{$search}%")
+                        ->orWhere('description', 'like', "%{$search}%");
+                });
+            })
+            ->when($request->filled('year'), function ($q) use ($request) {
+                $q->whereYear('created_at', $request->input('year'));
+            })
+            ->when($request->filled('month'), function ($q) use ($request) {
+                $q->whereMonth('created_at', $request->input('month'));
+            })
+            ->latest()
+            ->paginate($perPage)
+            ->withQueryString();
+
+        // Ambil tahun unik yang ada pada data materi milik pembimbing yang sedang login
+        $dbYears = Material::where('pembimbing_id', Auth::id())
+            ->whereNotNull('created_at')
+            ->pluck('created_at')
+            ->map(fn($dt) => (int) \Illuminate\Support\Carbon::parse($dt)->format('Y'))
+            ->unique()
+            ->values();
+
+        $currentYear = (int) date('Y');
+        // Gabungkan tahun dari database dengan rentang tahun saat ini hingga tahun depan
+        $availableYears = $dbYears->merge([$currentYear, $currentYear + 1])
+            ->unique()
+            ->sortDesc()
+            ->values();
+
+        return view('pembimbing.materials.index', compact('materials', 'availableYears'));
     }
 
     public function create()

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Participant;
 
+use App\Models\Registration;
 use App\Models\User;
 use App\Models\Material;
 use App\Models\Task;
@@ -11,6 +12,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Storage;
 
 class DashboardController extends ParticipantController
 {
@@ -43,7 +45,12 @@ class DashboardController extends ParticipantController
         $latestRegistration = $user->registrations->first();
         $totalRegistrations = $user->registrations->count();
 
-        $documentInfo = $this->buildDocumentInfo($latestRegistration);
+        $acceptedRegistration = $user->registrations
+            ->first(fn ($r) => is_object($r->status) && method_exists($r->status, 'isAccepted') && $r->status->isAccepted())
+            ?? $user->registrations->first(fn ($r) => is_string($r->status) && strtolower($r->status) === 'accepted');
+
+        $activeRegForDocs = $acceptedRegistration ?? $latestRegistration;
+        $documentInfo = $this->buildDocumentInfo($activeRegForDocs);
 
         $timeline = $this->buildStatusTimeline($latestRegistration);
 
@@ -55,6 +62,7 @@ class DashboardController extends ParticipantController
                 'profile',
                 'hasProfile',
                 'latestRegistration',
+                'acceptedRegistration',
                 'totalRegistrations',
                 'documentInfo',
                 'timeline',
@@ -439,6 +447,24 @@ class DashboardController extends ParticipantController
             ];
         }
 
+        $certPath = $latestRegistration?->certificate_path;
+        $certDisk = Storage::disk('public');
+        $certExists = ! empty($certPath) && is_string($certPath) && $certDisk->exists($certPath);
+        $certUrl = $certExists ? $certDisk->url($certPath) : null;
+        $certDownloadRoute = ($certExists && $latestRegistration) ? route('participant.applications.certificate.download', $latestRegistration->id) : null;
+        $certViewRoute = ($certExists && $latestRegistration) ? route('participant.applications.certificate.view', $latestRegistration->id) : null;
+        $certIssuedAt = $latestRegistration?->certificate_issued_at;
+        $certInfo = null;
+        if ($certExists) {
+            $cBytes = $certDisk->size($certPath);
+            $certInfo = [
+                'basename'      => basename($certPath),
+                'size_kb'       => (int) round($cBytes / 1024),
+                'human_size'    => number_format((int) round($cBytes / 1024), 0, ',', '.').' KB',
+                'last_modified' => date('d M Y H:i', $certDisk->lastModified($certPath)),
+            ];
+        }
+
         return [
             'cv_exists'                    => $cvExists,
             'cv_url'                       => $cvUrl,
@@ -452,6 +478,12 @@ class DashboardController extends ParticipantController
             'surat_balasan_exists'         => $sbExists,
             'surat_balasan_download_route' => $sbRoute,
             'surat_balasan_info'           => $sbInfo,
+            'certificate_exists'           => $certExists,
+            'certificate_url'              => $certUrl,
+            'certificate_download_route'   => $certDownloadRoute,
+            'certificate_view_route'       => $certViewRoute,
+            'certificate_issued_at'        => $certIssuedAt,
+            'certificate_info'             => $certInfo,
         ];
     }
 
@@ -586,5 +618,54 @@ class DashboardController extends ParticipantController
         }
 
         return $timeline;
+    }
+
+    /**
+     * Unduh file sertifikat kelulusan magang milik peserta yang sedang login.
+     *
+     * @param int|Registration $application
+     * @return \Symfony\Component\HttpFoundation\StreamedResponse|\Illuminate\Http\RedirectResponse
+     */
+    public function downloadCertificate(int|Registration $application)
+    {
+        $user = Auth::user();
+        $appId = $application instanceof Registration ? $application->id : (int) $application;
+
+        $reg = Registration::where('id', $appId)
+            ->where('user_id', $user->id)
+            ->first();
+
+        if (! $reg || empty($reg->certificate_path) || ! Storage::disk('public')->exists($reg->certificate_path)) {
+            return back()->with('error', 'Sertifikat kelulusan magang belum tersedia atau belum diterbitkan.');
+        }
+
+        $cleanNomor = str_replace(['/', '\\', ' '], '_', $reg->nomor_pendaftaran);
+        $fileName = 'Sertifikat_Kelulusan_' . $cleanNomor . '.pdf';
+
+        return Storage::disk('public')->download($reg->certificate_path, $fileName);
+    }
+
+    /**
+     * Preview sertifikat kelulusan magang di browser tab baru milik peserta yang sedang login.
+     *
+     * @param int|Registration $application
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse|\Illuminate\Http\RedirectResponse
+     */
+    public function viewCertificate(int|Registration $application)
+    {
+        $user = Auth::user();
+        $appId = $application instanceof Registration ? $application->id : (int) $application;
+
+        $reg = Registration::where('id', $appId)
+            ->where('user_id', $user->id)
+            ->first();
+
+        if (! $reg || empty($reg->certificate_path) || ! Storage::disk('public')->exists($reg->certificate_path)) {
+            abort(404, 'Sertifikat kelulusan magang belum tersedia.');
+        }
+
+        return response()->file(Storage::disk('public')->path($reg->certificate_path), [
+            'Content-Type' => 'application/pdf',
+        ]);
     }
 }

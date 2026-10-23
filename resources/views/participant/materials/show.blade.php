@@ -254,7 +254,7 @@
                                     <strong class="alert-heading fw-bold d-block mb-1">Sudah Dikumpulkan!</strong>
                                     <p class="mb-1">
                                         <strong>Status:</strong>
-                                        <span class="badge bg-success-subtle text-success-emphasis border border-success rounded-pill px-2 py-0.5 text-xs">
+                                        <span class="badge bg-emerald-100 text-emerald-950 border border-emerald-400 rounded-pill px-2.5 py-0.5 text-xs font-bold shadow-xs">
                                             {{ ucfirst(is_string($submission->status) ? $submission->status : ($submission->status?->value ?? 'Submitted')) }}
                                         </span>
                                     </p>
@@ -401,7 +401,7 @@
                                                 @error('submission_text')<div class="invalid-feedback text-xs">{{ $message }}</div>@enderror
                                             </div>
 
-                                            <button type="submit" class="btn btn-warning w-100 fw-bold py-1.5 px-3 text-xs rounded-2 shadow-sm d-inline-flex align-items-center justify-content-center gap-1.5 text-warning-emphasis">
+                                            <button type="button" id="btnConfirmResubmitTugas" class="btn btn-warning w-100 fw-bold py-1.5 px-3 text-xs rounded-2 shadow-sm d-inline-flex align-items-center justify-content-center gap-1.5 text-warning-emphasis">
                                                 <i class="bi bi-cloud-arrow-up-fill"></i>
                                                 <span>Simpan Unggahan Ulang</span>
                                             </button>
@@ -522,7 +522,7 @@
                                 @endif
 
                                 {{-- TOMBOL KIRIM TUGAS HIJAU GELAP SESUAI GAMBAR --}}
-                                <button type="submit" class="btn btn-success w-100 fw-bold py-1.5 px-3.5 mt-2 rounded-2 shadow-sm text-xs text-white" style="background-color: #059669; --bs-btn-bg: #059669; --bs-btn-hover-bg: #047857; --bs-btn-border-color: #059669; --bs-btn-hover-border-color: #047857;">
+                                <button type="button" id="btnConfirmSubmitTugas" class="btn btn-success w-100 fw-bold py-1.5 px-3.5 mt-2 rounded-2 shadow-sm text-xs text-white" style="background-color: #059669; --bs-btn-bg: #059669; --bs-btn-hover-bg: #047857; --bs-btn-border-color: #059669; --bs-btn-hover-border-color: #047857;">
                                     <i class="bi bi-send-fill me-1.5"></i>Kirim Tugas
                                 </button>
                             </form>
@@ -688,4 +688,53 @@
 })();
 </script>
 @endif
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    function setupTaskConfirm(btnId, isResubmit) {
+        var btn = document.getElementById(btnId);
+        if (!btn) return;
+
+        btn.addEventListener('click', function (e) {
+            e.preventDefault();
+            var form = btn.closest('form');
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+
+            var fileInput = form.querySelector('input[type="file"]');
+            var linkInput = form.querySelector('input[name="submission_link"]');
+            var fileName = fileInput && fileInput.files[0] ? fileInput.files[0].name : '';
+            var linkVal = linkInput ? linkInput.value.trim() : '';
+
+            var details = '<div class="row g-1">';
+            details += '<div class="col-4 text-slate-500 font-semibold">Tugas Materi</div><div class="col-8 fw-bold text-slate-900">{{ addslashes($material->title) }}</div>';
+            if (fileName) {
+                details += '<div class="col-4 text-slate-500 font-semibold">Berkas Lampiran</div><div class="col-8 font-monospace text-emerald-700">' + fileName.replace(/</g, '&lt;') + '</div>';
+            }
+            if (linkVal) {
+                details += '<div class="col-4 text-slate-500 font-semibold">Link URL</div><div class="col-8 text-blue-600 truncate">' + linkVal.replace(/</g, '&lt;') + '</div>';
+            }
+            details += '</div>';
+
+            window.SimangModal.confirm({
+                title: isResubmit ? 'Konfirmasi Unggah Ulang Tugas' : 'Konfirmasi Kirim Tugas',
+                icon: isResubmit ? 'bi-arrow-repeat' : 'bi-send-check-fill',
+                theme: isResubmit ? 'amber' : 'emerald',
+                summaryHtml: details,
+                alertText: isResubmit 
+                    ? 'Pengumpulan berkas / link sebelumnya akan digantikan oleh unggahan baru ini dan pembimbing akan diberitahu.'
+                    : 'Tugas Anda akan dikirimkan kepada pembimbing lapangan untuk dievaluasi dan dinilai.',
+                confirmText: isResubmit ? 'Ya, Perbarui Pengumpulan' : 'Ya, Kirim Tugas Sekarang',
+                confirmIcon: isResubmit ? 'bi-arrow-repeat' : 'bi-send-fill',
+                form: form
+            });
+        });
+    }
+
+    setupTaskConfirm('btnConfirmSubmitTugas', false);
+    setupTaskConfirm('btnConfirmResubmitTugas', true);
+});
+</script>
 @endsection

@@ -12,7 +12,7 @@ use Illuminate\Validation\Rule;
 
 class PembimbingController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         // Auto-repair: Ensure Admin role in DB is strictly 'admin'
         User::where('id', 1)
@@ -20,8 +20,13 @@ class PembimbingController extends Controller
             ->orWhere('email', 'like', '%admin%')
             ->update(['role' => 'admin']);
 
+        $perPage = (int) $request->input('per_page', 10);
+        if (! in_array($perPage, [5, 10, 25, 50], true)) {
+            $perPage = 10;
+        }
+
         // Fetch ONLY genuine Pembimbing accounts, strictly excluding Admin
-        $pembimbings = User::where(function($query) {
+        $query = User::where(function($query) {
                 $query->where('role', 'pembimbing')
                       ->orWhere('role', \App\Enums\UserRole::Pembimbing ?? null);
             })
@@ -29,11 +34,20 @@ class PembimbingController extends Controller
             ->where('email', 'NOT LIKE', '%diskominfo%')
             ->where('email', 'NOT LIKE', '%admin%')
             ->whereNotIn('role', ['admin', \App\Enums\UserRole::Admin ?? 'admin'])
-            ->with('division')
-            ->latest()
-            ->paginate(10);
+            ->with('division');
+
+        if ($request->filled('search')) {
+            $search = $request->input('search');
+            $query->where(function($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhere('email', 'like', "%{$search}%")
+                  ->orWhere('nip', 'like', "%{$search}%");
+            });
+        }
+
+        $pembimbings = $query->latest()->paginate($perPage)->withQueryString();
             
-        return view('admin.pembimbing.index', compact('pembimbings'));
+        return view('admin.pembimbing.index', compact('pembimbings', 'perPage'));
     }
 
     public function create()

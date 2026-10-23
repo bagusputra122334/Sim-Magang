@@ -8,7 +8,7 @@
         \App\Enums\RegistrationStatus::Rejected->value    => 'bg-danger-subtle text-danger border border-danger-subtle',
     ];
 
-    $reg = $latestRegistration ?? ($user->registrations->first() ?? null);
+    $reg = $acceptedRegistration ?? $latestRegistration ?? ($user->registrations->first() ?? null);
     $sv = $reg?->status?->value;
     $badgeClass = $sv !== null ? ($statusBadgeMap[$sv] ?? 'bg-secondary-subtle text-secondary border') : 'bg-secondary-subtle text-secondary border';
 
@@ -192,16 +192,16 @@
                 </p>
             </div>
             <div class="d-flex gap-1.5 flex-wrap">
-                <span class="badge bg-warning-subtle text-warning-emphasis border border-warning-subtle rounded-pill px-2.5 py-1.5 small fw-bold">
-                    <i class="bi bi-clock-history me-1"></i> Tertunda: {{ $pendingCount }}
+                <span class="badge bg-amber-100 text-amber-950 border border-amber-400 rounded-pill px-2.5 py-1 text-xs font-bold shadow-xs">
+                    <i class="bi bi-clock-history text-amber-700 me-1"></i> Tertunda: {{ $pendingCount }}
                 </span>
                 @if($overdueCount > 0)
-                    <span class="badge bg-danger-subtle text-danger-emphasis border border-danger-subtle rounded-pill px-2.5 py-1.5 small fw-bold">
-                        <i class="bi bi-exclamation-triangle-fill me-1"></i> Terlambat: {{ $overdueCount }}
+                    <span class="badge bg-rose-100 text-rose-950 border border-rose-400 rounded-pill px-2.5 py-1 text-xs font-bold shadow-xs">
+                        <i class="bi bi-exclamation-triangle-fill text-rose-700 me-1"></i> Terlambat: {{ $overdueCount }}
                     </span>
                 @endif
-                <span class="badge bg-success-subtle text-success-emphasis border border-success-subtle rounded-pill px-2.5 py-1.5 small fw-bold">
-                    <i class="bi bi-check2-circle me-1"></i> Selesai: {{ $doneCount }}
+                <span class="badge bg-emerald-100 text-emerald-950 border border-emerald-400 rounded-pill px-2.5 py-1 text-xs font-bold shadow-xs">
+                    <i class="bi bi-check2-circle text-emerald-700 me-1"></i> Selesai: {{ $doneCount }}
                 </span>
             </div>
         </div>
@@ -256,21 +256,21 @@
                             <div class="d-flex flex-wrap align-items-center gap-2 mb-1">
                                 <h6 class="mb-0 fw-bold text-truncate flex-grow-1">{{ $assignment->title }}</h6>
                                 @if($srcType === 'task')
-                                    <span class="badge bg-indigo-subtle text-indigo-emphasis border border-indigo-subtle rounded-pill px-2 py-0.5 small fw-bold flex-shrink-0">
+                                    <span class="badge bg-blue-100 text-blue-950 border border-blue-400 rounded-pill px-2.5 py-0.5 text-xs font-bold flex-shrink-0">
                                         Tugas
                                     </span>
                                 @elseif($isTask)
-                                    <span class="badge bg-warning-subtle text-warning-emphasis border border-warning-subtle rounded-pill px-2 py-0.5 small fw-bold flex-shrink-0">
+                                    <span class="badge bg-amber-100 text-amber-950 border border-amber-400 rounded-pill px-2.5 py-0.5 text-xs font-bold flex-shrink-0">
                                         Tugas
                                     </span>
                                 @else
-                                    <span class="badge bg-info-subtle text-info-emphasis border border-info-subtle rounded-pill px-2 py-0.5 small fw-bold flex-shrink-0">
+                                    <span class="badge bg-blue-100 text-blue-950 border border-blue-400 rounded-pill px-2.5 py-0.5 text-xs font-bold flex-shrink-0">
                                         Materi
                                     </span>
                                 @endif
                                 @if($isSubmitted)
-                                    <span class="badge bg-success-subtle text-success-emphasis border border-success-subtle rounded-pill px-2 py-0.5 small fw-bold flex-shrink-0">
-                                        <i class="bi bi-check2-circle me-1"></i> Sudah Dikumpulkan
+                                    <span class="badge bg-emerald-100 text-emerald-950 border border-emerald-400 rounded-pill px-2.5 py-0.5 text-xs font-bold flex-shrink-0">
+                                        <i class="bi bi-check2-circle text-emerald-700 me-1"></i> Sudah Dikumpulkan
                                     </span>
                                 @endif
                                 {!! $overdueBadge !!}

@@ -3,13 +3,9 @@
 @section('title', 'Pengaturan Akun')
 
 @section('content')
-    <div class="page-heading">
-        <div class="page-heading-copy">
-            <div>
-                <h1 class="h3 mb-1">Pengaturan Akun</h1>
-                <p class="text-muted mb-0">Kelola informasi profil akun login dan kata sandi Anda.</p>
-            </div>
-        </div>
+    <!-- Header Page: Title Tanpa Subtitle -->
+    <div class="w-full mb-3">
+        <h1 class="text-xl font-bold text-slate-800 dark:text-slate-100 tracking-tight mb-0">Pengaturan Akun</h1>
     </div>
 
     <div class="row g-2.5">

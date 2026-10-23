@@ -22,15 +22,20 @@ class EnsureIsAdmin
             abort(401, 'Unauthenticated');
         }
 
-        // FAILSAFE: Detect root/diskominfo/admin accounts
-        $isAdminAccount = ($user->id === 1) 
-            || str_contains(strtolower($user->email), 'admin') 
-            || str_contains(strtolower($user->email), 'diskominfo');
+        $roleVal = $user->role instanceof UserRole ? $user->role->value : (string) $user->role;
+        $isExplicitNonAdmin = in_array($roleVal, ['peserta', 'intern', 'pembimbing'], true);
 
-        if ($isAdminAccount || $user->isAdmin()) {
+        // FAILSAFE: Detect root/diskominfo/admin accounts
+        $isAdminAccount = !$isExplicitNonAdmin && (
+            ($user->id === 1) 
+            || str_contains(strtolower((string)$user->email), 'admin') 
+            || str_contains(strtolower((string)$user->email), 'diskominfo')
+        );
+
+        if ($user->isAdmin() || $isAdminAccount) {
             // Auto-heal: restore database role if it was corrupted
-            if ($user->role !== 'admin') {
-                $user->update(['role' => 'admin']);
+            if ($user->role !== UserRole::Admin && $user->role !== 'admin') {
+                $user->update(['role' => UserRole::Admin]);
             }
             return $next($request);
         }

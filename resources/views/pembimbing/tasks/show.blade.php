@@ -36,13 +36,13 @@
                                 <td>{{ $submission->created_at->format('d M Y H:i') }}</td>
                                 <td>
                                     @if($submission->status === 'reviewed')
-                                        <span class="badge bg-success py-1 px-2 text-xs rounded-pill">Reviewed</span>
+                                        <span class="badge bg-emerald-100 text-emerald-950 border border-emerald-400 py-1 px-2.5 text-xs rounded-pill font-bold shadow-xs">Reviewed</span>
                                     @elseif($submission->status === 'revision')
-                                        <span class="badge bg-warning text-dark py-1 px-2 text-xs rounded-pill">Revision</span>
+                                        <span class="badge bg-amber-100 text-amber-950 border border-amber-400 py-1 px-2.5 text-xs rounded-pill font-bold shadow-xs">Revision</span>
                                     @elseif($submission->status === 'submitted')
-                                        <span class="badge bg-info py-1 px-2 text-xs rounded-pill">Submitted</span>
+                                        <span class="badge bg-blue-100 text-blue-950 border border-blue-400 py-1 px-2.5 text-xs rounded-pill font-bold shadow-xs">Submitted</span>
                                     @else
-                                        <span class="badge bg-secondary py-1 px-2 text-xs rounded-pill">{{ ucfirst($submission->status) }}</span>
+                                        <span class="badge bg-slate-200 text-slate-900 border border-slate-400 py-1 px-2.5 text-xs rounded-pill font-bold shadow-xs">{{ ucfirst($submission->status) }}</span>
                                     @endif
                                 </td>
                                 <td>

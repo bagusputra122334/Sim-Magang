@@ -60,8 +60,28 @@ document.addEventListener('DOMContentLoaded', function () {
     const submitBtn = document.getElementById('btnSubmitPendaftaran');
     if (submitBtn) {
         submitBtn.addEventListener('click', function (e) {
-            const valid = confirm('Anda akan MENSUBMIT pendaftaran magang?\n\nSetelah submit, pendaftaran Anda tidak dapat diubah selama masa Under Review (kecuali jika status Rejected). Pastikan seluruh data & dokumen sudah BENAR dan LENGKAP.');
-            if (!valid) e.preventDefault();
+            e.preventDefault();
+            const form = submitBtn.closest('form');
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+
+            const posChecked = form.querySelector('input[name="position_id"]:checked');
+            const posLabel = posChecked ? (posChecked.closest('label')?.querySelector('.fw-bold')?.textContent?.trim() || 'Posisi Terpilih') : '—';
+            const cvFile = form.querySelector('input[name="cv"]')?.files[0]?.name || 'Berkas CV Terunggah';
+            const spFile = form.querySelector('input[name="surat_pengantar"]')?.files[0]?.name || 'Berkas Surat Pengantar';
+
+            window.SimangModal.confirm({
+                title: 'Konfirmasi Submit Pendaftaran Magang',
+                icon: 'bi-send-check-fill',
+                theme: 'blue',
+                summaryHtml: '<div class="row g-1"><div class="col-4 text-slate-500 font-semibold">Posisi Magang</div><div class="col-8 fw-bold text-slate-900">' + posLabel.replace(/</g, '&lt;') + '</div><div class="col-4 text-slate-500 font-semibold">Lampiran CV</div><div class="col-8 font-monospace text-emerald-700">' + cvFile.replace(/</g, '&lt;') + '</div><div class="col-4 text-slate-500 font-semibold">Surat Pengantar</div><div class="col-8 font-monospace text-emerald-700">' + spFile.replace(/</g, '&lt;') + '</div></div>',
+                alertText: 'Setelah disubmit, berkas pendaftaran Anda akan masuk tahap <strong>Under Review</strong> dan tidak dapat disunting kembali sampai proses verifikasi oleh Admin selesai.',
+                confirmText: 'Ya, Submit Pendaftaran',
+                confirmIcon: 'bi-send-fill',
+                form: form
+            });
         });
     }
 });

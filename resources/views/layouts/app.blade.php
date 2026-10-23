@@ -114,6 +114,7 @@
     </script>
     <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('assets/js/main.js') }}"></script>
+    @include('components.confirmation-modal')
     @stack('scripts')
 </body>
 </html>

@@ -187,6 +187,7 @@ Route::prefix('pembimbing')
     ->name('pembimbing.')
     ->middleware(['auth', 'pembimbing'])
     ->group(function () {
+        Route::get('/dashboard/export-pdf', [\App\Http\Controllers\Pembimbing\DashboardController::class, 'exportPdf'])->name('dashboard.export-pdf');
         Route::get('/dashboard', [\App\Http\Controllers\Pembimbing\DashboardController::class, 'index'])->name('dashboard');
         Route::resource('materials', \App\Http\Controllers\Pembimbing\MaterialController::class);
         Route::get('/materials/{material}/submissions', [\App\Http\Controllers\Pembimbing\MaterialController::class, 'submissions'])->name('materials.submissions');
@@ -196,6 +197,16 @@ Route::prefix('pembimbing')
 
         Route::get('/attendance/{registration}/pdf', [\App\Http\Controllers\Pembimbing\AttendanceController::class, 'exportPdf'])->name('attendance.pdf');
         Route::get('/attendance/{registration}', [\App\Http\Controllers\Pembimbing\AttendanceController::class, 'show'])->name('attendance.show');
+        Route::post('/attendance/{registration}/certificate', [\App\Http\Controllers\Pembimbing\CertificateController::class, 'upload'])->name('applications.certificate.upload');
+        Route::delete('/attendance/{registration}/certificate', [\App\Http\Controllers\Pembimbing\CertificateController::class, 'delete'])->name('applications.certificate.delete');
+
+        // Sertifikat Kelulusan Magang Digital (Pembimbing Lapangan)
+        Route::get('/certificates/export-pdf', [\App\Http\Controllers\Pembimbing\CertificateController::class, 'exportPdf'])->name('certificates.export-pdf');
+        Route::get('/certificates', [\App\Http\Controllers\Pembimbing\CertificateController::class, 'index'])->name('certificates.index');
+        Route::post('/certificates/{registration}/upload', [\App\Http\Controllers\Pembimbing\CertificateController::class, 'upload'])->name('certificates.upload');
+        Route::delete('/certificates/{registration}', [\App\Http\Controllers\Pembimbing\CertificateController::class, 'delete'])->name('certificates.delete');
+        Route::get('/certificates/{registration}/download', [\App\Http\Controllers\Pembimbing\CertificateController::class, 'download'])->name('certificates.download');
+        Route::get('/certificates/{registration}/view', [\App\Http\Controllers\Pembimbing\CertificateController::class, 'view'])->name('certificates.view');
 
         Route::get('/profile', [\App\Http\Controllers\Pembimbing\ProfileController::class, 'index'])->name('profile.index');
         Route::post('/profile/avatar', [\App\Http\Controllers\Pembimbing\ProfileController::class, 'updateAvatar'])->name('profile.avatar');

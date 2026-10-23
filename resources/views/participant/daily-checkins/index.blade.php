@@ -13,8 +13,8 @@
                 <i class="bi bi-calendar2-check me-1.5 text-primary"></i>
                 Absensi Harian
             </h1>
-            <span class="badge bg-primary-subtle text-primary border border-primary rounded-pill px-2.5 py-1 text-xs fw-bold">
-                <i class="bi bi-calendar-event me-1"></i>Hari ini: {{ $today->isoFormat('dddd, D MMM YYYY') }}
+            <span class="badge bg-blue-100 text-blue-950 border border-blue-400 rounded-pill px-2.5 py-1 text-xs font-bold shadow-xs">
+                <i class="bi bi-calendar-event text-blue-700 me-1"></i>Hari ini: {{ $today->isoFormat('dddd, D MMM YYYY') }}
             </span>
         </div>
         <div class="d-flex align-items-center gap-1.5">
@@ -653,11 +653,29 @@
             setTextareaError('Uraian kegiatan minimal 5 karakter.');
             return;
         }
-        if (activity.length > 5000){
-            setTextareaError('Uraian kegiatan maksimal 5000 karakter.');
-            return;
-        }
+        var d = new Date(state.activeDate.slice(0,4), +state.activeDate.slice(5,7)-1, +state.activeDate.slice(8,10));
+        var humanDate = d.getDate() + ' ' + MONTH_NAMES[d.getMonth()] + ' ' + d.getFullYear();
+        var snippet = activity.length > 150 ? activity.slice(0, 150) + '...' : activity;
 
+        if (window.SimangModal) {
+            window.SimangModal.confirm({
+                title: 'Konfirmasi Submit Absensi Harian',
+                icon: 'bi-calendar-check-fill',
+                theme: 'emerald',
+                summaryHtml: '<div class="row g-1"><div class="col-4 text-slate-500 font-semibold">Tanggal Absensi</div><div class="col-8 fw-bold text-slate-900">' + humanDate + '</div><div class="col-4 text-slate-500 font-semibold">Jurnal Kegiatan</div><div class="col-8 text-slate-700">' + snippet.replace(/</g, '&lt;') + '</div></div>',
+                alertText: 'Jurnal kegiatan absensi Anda hari ini akan dicatat ke dalam logbook dan dapat ditinjau oleh Pembimbing lapangan.',
+                confirmText: 'Ya, Simpan Absensi',
+                confirmIcon: 'bi-cloud-arrow-up-fill',
+                onConfirm: function () {
+                    performActualSubmit(activity);
+                }
+            });
+        } else {
+            performActualSubmit(activity);
+        }
+    }
+
+    function performActualSubmit(activity) {
         setSubmitLoading(true);
         var bodyObj = { date: state.activeDate, activity: activity };
 

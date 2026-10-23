@@ -17,7 +17,7 @@
 @section('content')
     <div class="d-flex justify-content-between align-items-center mb-3">
         <div>
-            <h1 class="h3 fw-bold mb-0.5 text-slate-800">Pengaturan</h1>
+            <h1 class="h3 fw-bold mb-0.5 text-slate-800">Pengaturan System</h1>
             <p class="text-muted small mb-0">Kelola konfigurasi global aplikasi, teks landing page, dan kontak Diskominfo Tuban.</p>
         </div>
     </div>

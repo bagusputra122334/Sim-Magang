@@ -84,7 +84,29 @@ Route::prefix('applications')
                 return redirect()->route('participant.registrations.index')
                     ->with('error', 'Pendaftaran magang untuk Surat Balasan tidak ditemukan.');
             });
+
+        /*
+        |----------------------------------------------------------------------
+        | SERTIFIKAT KELULUSAN MAGANG DIGITAL
+        |----------------------------------------------------------------------
+        */
+        Route::get('{application}/certificate/download', [\App\Http\Controllers\Participant\DashboardController::class, 'downloadCertificate'])
+            ->name('certificate.download');
+
+        Route::get('{application}/certificate/view', [\App\Http\Controllers\Participant\DashboardController::class, 'viewCertificate'])
+            ->name('certificate.view');
     });
+
+/*
+|--------------------------------------------------------------------------
+| Certificates — Dedicated Sertifikat Magang Peserta
+|--------------------------------------------------------------------------
+*/
+Route::prefix('certificates')->name('certificates.')->group(function (): void {
+    Route::get('/', [\App\Http\Controllers\Participant\CertificateController::class, 'index'])->name('index');
+    Route::get('/download/{application?}', [\App\Http\Controllers\Participant\CertificateController::class, 'download'])->name('download');
+    Route::get('/view/{application?}', [\App\Http\Controllers\Participant\CertificateController::class, 'view'])->name('view');
+});
 
 /*
 |--------------------------------------------------------------------------

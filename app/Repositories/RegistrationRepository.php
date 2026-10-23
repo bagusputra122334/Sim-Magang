@@ -253,22 +253,14 @@ class RegistrationRepository
             $query->where('position_id', $positionFilter);
         }
 
-        // Additional date filters if provided
-        if (! empty($filters['tanggal_mulai']) && is_string($filters['tanggal_mulai'])) {
-            try {
-                $tStart = \Illuminate\Support\Carbon::createFromFormat('Y-m-d', trim($filters['tanggal_mulai']));
-                if ($tStart instanceof \Illuminate\Support\Carbon) {
-                    $query->whereDate('tanggal_submit', '>=', $tStart->toDateString());
-                }
-            } catch (\Throwable) {}
-        }
-        if (! empty($filters['tanggal_selesai']) && is_string($filters['tanggal_selesai'])) {
-            try {
-                $tEnd = \Illuminate\Support\Carbon::createFromFormat('Y-m-d', trim($filters['tanggal_selesai']));
-                if ($tEnd instanceof \Illuminate\Support\Carbon) {
-                    $query->whereDate('tanggal_submit', '<=', $tEnd->toDateString());
-                }
-            } catch (\Throwable) {}
+        // Year filter if provided
+        if (! empty($filters['year'])) {
+            $yearVal = (int) $filters['year'];
+            $query->where(function ($q) use ($yearVal): void {
+                $q->whereYear('tanggal_submit', $yearVal)
+                    ->orWhereYear('created_at', $yearVal)
+                    ->orWhereYear('periode_mulai', $yearVal);
+            });
         }
 
         return $query

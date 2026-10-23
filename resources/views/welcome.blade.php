@@ -2205,11 +2205,74 @@
                 </div>
             </div>
         </div>
+    <!--====== PANDUAN & BERITA ======-->
+    <section id="blog" class="destination_area py-16 lg:py-20 scroll-mt-24">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="section_title text-center mb-12">
+                        <span class="section-tag">Informasi & Artikel</span>
+                        <h2 class="title">Panduan Magang <span>SIMAGANG</span></h2>
+                        <p>Panduan praktis dan tips mempersiapkan dokumen agar proses verifikasi Anda berjalan lancar.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <a href="{{ route('guides.show', 'pendaftaran') }}" class="single_blog wow fadeInUp" data-wow-duration="1.2s" data-wow-delay="0.1s" aria-label="Baca Panduan Lengkap Pendaftaran & Upload Berkas Magang">
+                        <div class="blog_image">
+                            <img src="{{ asset('traveland/images/blog-guide.png') }}" alt="Panduan Pendaftaran">
+                        </div>
+                        <div class="blog_content">
+                            <div class="blog_meta">
+                                <span><i class="bi bi-person mr-1"></i> Admin Diskominfo</span>
+                                <span><i class="bi bi-bookmark-check mr-1"></i> Panduan Resmi</span>
+                            </div>
+                            <h4 class="blog_title">Panduan Lengkap Pendaftaran & Upload Berkas Magang</h4>
+                            <p class="text-muted small mb-3">Persyaratan dokumen (CV, Surat Pengantar, Proposal Magang) dan tata cara pendaftaran daring melalui portal SIMAGANG.</p>
+                            <span class="blog_read_more">Baca Panduan <i class="bi bi-arrow-right"></i></span>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <a href="{{ route('guides.show', 'kategori-peserta') }}" class="single_blog wow fadeInUp" data-wow-duration="1.2s" data-wow-delay="0.3s" aria-label="Baca Ketentuan Kategori Mahasiswa dan Siswa SMK">
+                        <div class="blog_image">
+                            <img src="{{ asset('traveland/images/blog-category.png') }}" alt="Kategori Peserta">
+                        </div>
+                        <div class="blog_content">
+                            <div class="blog_meta">
+                                <span><i class="bi bi-mortarboard mr-1"></i> Akademik</span>
+                                <span><i class="bi bi-bookmark-check mr-1"></i> Informasi Resmi</span>
+                            </div>
+                            <h4 class="blog_title">Ketentuan Kategori Mahasiswa dan Siswa SMK</h4>
+                            <p class="text-muted small mb-3">Ketentuan pengisian profil dan persyaratan pendaftaran bagi kategori Mahasiswa Perguruan Tinggi serta Siswa SMK.</p>
+                            <span class="blog_read_more">Baca Panduan <i class="bi bi-arrow-right"></i></span>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <a href="{{ route('guides.show', 'surat-balasan') }}" class="single_blog wow fadeInUp" data-wow-duration="1.2s" data-wow-delay="0.5s" aria-label="Baca Penerbitan Surat Balasan Resmi Berformat Digital PDF">
+                        <div class="blog_image">
+                            <img src="{{ file_exists(public_path('storage/image/3.png')) ? asset('storage/image/3.png') : asset('storage/image/gambar 3.png') }}" alt="Surat Balasan">
+                        </div>
+                        <div class="blog_content">
+                            <div class="blog_meta">
+                                <span><i class="bi bi-file-earmark-check mr-1"></i> Verifikasi</span>
+                                <span><i class="bi bi-bookmark-check mr-1"></i> Layanan Digital</span>
+                            </div>
+                            <h4 class="blog_title">Penerbitan Surat Balasan Resmi Berformat Digital PDF</h4>
+                            <p class="text-muted small mb-3">Tahapan verifikasi pendaftaran dan tata cara mengunduh Surat Balasan resmi instansi berformat digital PDF.</p>
+                            <span class="blog_read_more">Baca Panduan <i class="bi bi-arrow-right"></i></span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
     </section>
 
-
-
-    <!--====== FOOTER ======-->
     <footer id="footer" class="footer_area bg-[#0f172a] rounded-t-3xl sm:rounded-t-[2.5rem] overflow-hidden shadow-2xl w-full border-t border-slate-800/40 pt-0 mt-12 mb-0 scroll-mt-24">
         <div class="container">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-6">

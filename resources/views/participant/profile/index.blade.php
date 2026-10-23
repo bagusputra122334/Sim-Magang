@@ -42,8 +42,8 @@
                         </div>
 
                         <div class="d-grid gap-1">
-                            <span class="badge bg-primary-subtle text-primary-emphasis rounded-pill py-1 px-2.5 text-xs">
-                                <i class="bi bi-person-badge me-1"></i>{{ $profile->participantTypeLabel() }}
+                            <span class="badge bg-blue-100 text-blue-950 border border-blue-400 rounded-pill py-1 px-2.5 text-xs font-bold shadow-xs">
+                                <i class="bi bi-person-badge me-1 text-blue-700"></i>{{ $profile->participantTypeLabel() }}
                             </span>
                         </div>
                     </div>
@@ -132,7 +132,7 @@
                                                 <th class="text-xs font-bold !text-slate-800 dark:!text-slate-200 py-1.5 px-2"><i class="bi bi-award me-1.5 text-primary"></i>Semester</th>
                                                 <td class="py-1.5 px-2">
                                                     @if($profile->semester)
-                                                        <span class="badge bg-primary-subtle text-primary-emphasis rounded-pill px-2 py-0.5 text-xs">
+                                                        <span class="badge bg-blue-100 text-blue-950 border border-blue-400 rounded-pill px-2.5 py-0.5 text-xs font-bold shadow-xs">
                                                             Semester {{ $profile->semester }}
                                                         </span>
                                                     @else

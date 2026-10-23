@@ -1,67 +1,134 @@
-@extends('layouts.app')
-@section('title', 'Kelola Pembimbing Magang')
+@extends('layouts.admin')
+
+@section('title', 'Daftar Pembimbing Magang')
+
 @section('content')
-<div class="container-fluid">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Daftar Pembimbing Magang</h1>
-        <a href="{{ route('admin.pembimbing.create') }}" class="btn btn-primary">
-            <i class="bi bi-plus-lg me-1"></i> Tambah Pembimbing
-        </a>
+<div class="w-full space-y-4">
+    <!-- Header Page: Title & Action Button Segaris Tanpa Subtitle -->
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 w-full">
+        <h1 class="text-xl font-bold text-slate-800 tracking-tight">Daftar Pembimbing Magang</h1>
+        <div>
+            <a href="{{ route('admin.pembimbing.create') }}" class="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-semibold shadow-sm transition-all text-decoration-none">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                Tambah Pembimbing
+            </a>
+        </div>
     </div>
 
     @if(session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
-    @endif
-
-    <div class="card shadow mb-4">
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-bordered table-hover">
-                    <thead class="table-light">
-                        <tr>
-                            <th>No</th>
-                            <th>Nama</th>
-                            <th>NIP</th>
-                            <th>Email</th>
-                            <th>Divisi</th>
-                            <th>Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @forelse($pembimbings as $pembimbing)
-                            <tr>
-                                <td>{{ $loop->iteration + $pembimbings->firstItem() - 1 }}</td>
-                                <td>{{ $pembimbing->name }}</td>
-                                <td>{{ $pembimbing->nip ?? '-' }}</td>
-                                <td>{{ $pembimbing->email }}</td>
-                                <td>{{ $pembimbing->division->nama_divisi ?? '-' }}</td>
-                                <td>
-                                    <div class="d-flex gap-2">
-                                        <a href="{{ route('admin.pembimbing.edit', $pembimbing->id) }}" class="btn btn-sm btn-info text-white">
-                                            <i class="bi bi-pencil"></i> Edit
-                                        </a>
-                                        <form action="{{ route('admin.pembimbing.destroy', $pembimbing->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus pembimbing ini?');">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-sm btn-danger">
-                                                <i class="bi bi-trash"></i> Hapus
-                                            </button>
-                                        </form>
-                                    </div>
-                                </td>
-                            </tr>
-                        @empty
-                            <tr>
-                                <td colspan="6" class="text-center">Belum ada data pembimbing.</td>
-                            </tr>
-                        @endforelse
-                    </tbody>
-                </table>
-            </div>
-            <div class="mt-3">
-                {{ $pembimbings->links() }}
+        <div class="p-3 bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-lg text-xs font-semibold flex items-center justify-between shadow-xs">
+            <div class="flex items-center gap-2">
+                <i class="bi bi-check-circle-fill text-emerald-600 text-sm"></i>
+                <span>{{ session('success') }}</span>
             </div>
         </div>
+    @endif
+
+    <!-- Main Card Container (Full Width) -->
+    <div class="w-full bg-white rounded-xl border border-slate-200/80 shadow-sm overflow-hidden">
+        <!-- Toolbar Ultra-Compact Single-Line -->
+        <form method="GET" action="{{ route('admin.pembimbing.index') }}" class="px-4 py-3 bg-slate-50/70 border-b border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3 w-full" role="search">
+            <div class="flex items-center gap-2 text-xs text-slate-700">
+                <span>Tampilkan</span>
+                <select name="perPage" class="h-8 px-2.5 pr-7 bg-white border border-slate-300 rounded text-xs font-medium text-slate-700 focus:outline-none focus:ring-1 focus:ring-blue-500 cursor-pointer" onchange="this.form.submit()">
+                    <option value="10" {{ (string)request('perPage', request('per_page', $perPage ?? 10)) === '10' ? 'selected' : '' }}>10</option>
+                    <option value="25" {{ (string)request('perPage', request('per_page', $perPage ?? 10)) === '25' ? 'selected' : '' }}>25</option>
+                    <option value="50" {{ (string)request('perPage', request('per_page', $perPage ?? 10)) === '50' ? 'selected' : '' }}>50</option>
+                </select>
+                @if(request('search') || (request('perPage') && request('perPage') != 10) || (request('per_page') && request('per_page') != 10))
+                    <a href="{{ route('admin.pembimbing.index') }}" title="Reset Filter" class="text-xs text-rose-600 hover:text-rose-700 font-medium ml-1">
+                        <i class="bi bi-x-circle-fill"></i> Reset
+                    </a>
+                @endif
+            </div>
+
+            <!-- Kanan: Search Bar -->
+            <div class="w-full sm:w-72">
+                <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari pembimbing (nama, NIP, email)..." class="h-8 w-full px-3 bg-white border border-slate-300 rounded text-xs text-slate-700 focus:outline-none focus:ring-1 focus:ring-blue-500 placeholder:text-slate-400">
+            </div>
+        </form>
+
+        <!-- Table Wrapper Full Width -->
+        <div class="w-full overflow-x-auto">
+            <table class="w-full text-left border-collapse text-xs">
+                <thead class="bg-slate-100/70 border-b border-slate-200 text-slate-600 font-semibold uppercase tracking-wider">
+                    <tr>
+                        <th class="px-3 py-3 w-12 text-center">NO</th>
+                        <th class="px-4 py-3">NAMA PEMBIMBING</th>
+                        <th class="px-4 py-3">NIP</th>
+                        <th class="px-4 py-3">EMAIL</th>
+                        <th class="px-4 py-3">DIVISI / BIDANG</th>
+                        <th class="px-4 py-3 text-center w-28">AKSI</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-200/80 bg-white">
+                    @forelse($pembimbings as $pembimbing)
+                        <tr class="hover:bg-slate-50/70 transition-colors">
+                            <td class="px-3 py-3 text-center font-medium text-slate-500">{{ $loop->iteration + $pembimbings->firstItem() - 1 }}</td>
+                            <td class="px-4 py-3">
+                                <span class="max-w-[220px] truncate block font-semibold text-slate-800" title="{{ $pembimbing->name }}">
+                                    {{ $pembimbing->name }}
+                                </span>
+                            </td>
+                            <td class="px-4 py-3">
+                                <span class="whitespace-nowrap font-mono text-slate-600" title="{{ $pembimbing->nip ?? '-' }}">
+                                    {{ $pembimbing->nip ?? '-' }}
+                                </span>
+                            </td>
+                            <td class="px-4 py-3 font-mono text-slate-600">{{ $pembimbing->email }}</td>
+                            <td class="px-4 py-3 text-slate-700">
+                                <span class="px-2.5 py-1 text-xs font-medium bg-slate-100 text-slate-700 rounded-md inline-block">
+                                    {{ $pembimbing->division->nama_divisi ?? '-' }}
+                                </span>
+                            </td>
+                            <td class="px-4 py-3 text-center">
+                                <div class="inline-flex items-center justify-center gap-1.5">
+                                    <a href="{{ route('admin.pembimbing.edit', $pembimbing->id) }}" class="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-semibold text-blue-700 bg-blue-50 hover:bg-blue-100 border border-blue-200 rounded-lg transition-colors text-decoration-none shadow-2xs" title="Edit Data Pembimbing">
+                                        <i class="bi bi-pencil-square"></i>
+                                        <span>Edit</span>
+                                    </a>
+                                    <form action="{{ route('admin.pembimbing.destroy', $pembimbing->id) }}" method="POST" class="inline">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="button"
+                                                class="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-semibold text-rose-700 bg-rose-50 hover:bg-rose-100 border border-rose-200 rounded-lg transition-colors shadow-2xs"
+                                                data-simang-confirm="<div class='row g-1'><div class='col-4 text-slate-500 font-semibold'>Nama</div><div class='col-8 fw-bold text-slate-900'>{{ addslashes($pembimbing->name) }}</div><div class='col-4 text-slate-500 font-semibold'>NIP</div><div class='col-8 font-monospace'>{{ $pembimbing->nip ?? '—' }}</div><div class='col-4 text-slate-500 font-semibold'>Divisi</div><div class='col-8'>{{ $pembimbing->division->nama_divisi ?? '—' }}</div></div>"
+                                                data-simang-title="Hapus Akun Pembimbing"
+                                                data-simang-icon="bi-trash-fill"
+                                                data-simang-theme="rose"
+                                                data-simang-alert="Akun pembimbing ini akan dihapus. Hak akses login pembimbing ke portal SIMAGANG akan dinonaktifkan."
+                                                data-simang-btn-text="Ya, Hapus Pembimbing"
+                                                data-simang-btn-icon="bi-trash-fill"
+                                                title="Hapus Akun Pembimbing">
+                                            <i class="bi bi-trash"></i>
+                                            <span>Hapus</span>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="6" class="px-4 py-8 text-center text-slate-500">
+                                <i class="bi bi-person-x fs-2 d-block mb-1 opacity-50"></i>
+                                <span class="text-xs">Belum ada data pembimbing yang cocok dengan kriteria pencarian.</span>
+                            </td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+
+        @if($pembimbings->hasPages())
+            <div class="px-4 py-3 border-t border-slate-200 bg-slate-50/50 flex flex-col sm:flex-row items-center justify-between gap-2">
+                <div class="text-xs text-slate-500">
+                    Menampilkan {{ $pembimbings->firstItem() ?? 0 }} - {{ $pembimbings->lastItem() ?? 0 }} dari {{ $pembimbings->total() }} data pembimbing
+                </div>
+                <div>
+                    {{ $pembimbings->links() }}
+                </div>
+            </div>
+        @endif
     </div>
 </div>
 @endsection

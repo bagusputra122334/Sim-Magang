@@ -2,10 +2,10 @@
 
 @php
     $statusBadgeMap = [
-        \App\Enums\RegistrationStatus::Submitted->value   => 'bg-primary-subtle text-primary border border-primary-subtle',
-        \App\Enums\RegistrationStatus::UnderReview->value => 'bg-warning-subtle text-warning border border-warning-subtle',
-        \App\Enums\RegistrationStatus::Accepted->value    => 'bg-success-subtle text-success border border-success-subtle',
-        \App\Enums\RegistrationStatus::Rejected->value    => 'bg-danger-subtle text-danger border border-danger-subtle',
+        \App\Enums\RegistrationStatus::Submitted->value   => 'bg-slate-100 text-slate-800 border border-slate-200',
+        \App\Enums\RegistrationStatus::UnderReview->value => 'bg-amber-100 text-amber-800 border border-amber-200',
+        \App\Enums\RegistrationStatus::Accepted->value    => 'bg-emerald-100 text-emerald-800 border border-emerald-200',
+        \App\Enums\RegistrationStatus::Rejected->value    => 'bg-rose-100 text-rose-800 border border-rose-200',
     ];
 @endphp
 
@@ -217,7 +217,7 @@
                                         <div class="font-medium !text-slate-700 dark:!text-slate-300 text-xs" style="font-size: 0.7rem;">{{ $reg->tanggal_submit?->translatedFormat('H:i') ?? '' }} WIB</div>
                                     </td>
                                     <td class="text-center whitespace-nowrap px-2.5 py-1.5">
-                                        <span class="badge {{ $badgeClass }} rounded-pill px-2.5 py-1 text-xs font-semibold">
+                                        <span class="inline-flex items-center px-2.5 py-1 text-xs font-semibold rounded-full {{ $badgeClass }}">
                                             {{ $reg->status->label() }}
                                         </span>
                                     </td>

@@ -9,10 +9,43 @@ use Illuminate\Support\Facades\Auth;
 
 class TaskController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $tasks = Task::where('pembimbing_id', Auth::id())->latest()->paginate(10);
-        return view('pembimbing.tasks.index', compact('tasks'));
+        $perPage = (int) $request->input('perPage', 10);
+        if (!in_array($perPage, [10, 25, 50])) {
+            $perPage = 10;
+        }
+
+        $tasks = Task::where('pembimbing_id', Auth::id())
+            ->when($request->filled('search'), function ($q) use ($request) {
+                $search = $request->input('search');
+                $q->where(function ($sub) use ($search) {
+                    $sub->where('title', 'like', "%{$search}%")
+                        ->orWhere('description', 'like', "%{$search}%");
+                });
+            })
+            ->when($request->filled('year'), function ($q) use ($request) {
+                $q->whereYear('deadline', $request->input('year'))
+                  ->orWhereYear('created_at', $request->input('year'));
+            })
+            ->latest()
+            ->paginate($perPage)
+            ->withQueryString();
+
+        $dbYears = Task::where('pembimbing_id', Auth::id())
+            ->whereNotNull('created_at')
+            ->pluck('created_at')
+            ->map(fn($dt) => (int) \Illuminate\Support\Carbon::parse($dt)->format('Y'))
+            ->unique()
+            ->values();
+
+        $currentYear = (int) date('Y');
+        $availableYears = $dbYears->merge([$currentYear, $currentYear + 1])
+            ->unique()
+            ->sortDesc()
+            ->values();
+
+        return view('pembimbing.tasks.index', compact('tasks', 'availableYears'));
     }
 
     public function create()

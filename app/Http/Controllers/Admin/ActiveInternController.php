@@ -76,13 +76,27 @@ class ActiveInternController extends AdminController
             'terminated' => $allAccepted->filter(fn ($r) => $r->operational_status === 'terminated')->count(),
         ];
 
+        $dbYears = Registration::where('status', RegistrationStatus::Accepted->value)
+            ->whereNotNull('created_at')
+            ->pluck('created_at')
+            ->map(fn($dt) => (int) \Illuminate\Support\Carbon::parse($dt)->format('Y'))
+            ->unique()
+            ->values();
+
+        $currentYear = (int) date('Y');
+        $availableYears = $dbYears->merge([$currentYear, $currentYear + 1])
+            ->unique()
+            ->sortDesc()
+            ->values();
+
         return view('admin.active-interns.index', [
-            'interns'    => $interns,
-            'search'     => $search,
-            'opStatus'   => $opStatus,
-            'year'       => $year,
-            'perPage'    => $perPage,
-            'statistics' => $statistics,
+            'interns'        => $interns,
+            'search'         => $search,
+            'opStatus'       => $opStatus,
+            'year'           => $year,
+            'availableYears' => $availableYears,
+            'perPage'        => $perPage,
+            'statistics'     => $statistics,
         ]);
     }
 

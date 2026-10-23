@@ -16,10 +16,6 @@ class EnsureIsParticipant
         }
 
         $user = Auth::user();
-        if ($user) {
-            return $next($request);
-        }
-
         if ($user === null || ! $user->isParticipant()) {
             abort(Response::HTTP_FORBIDDEN, 'Halaman ini hanya untuk Peserta Magang Terdaftar. Admin dapat menggunakan halaman Admin.');
         }

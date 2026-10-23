@@ -19,7 +19,7 @@
             </h1>
         </div>
         <div>
-            <a href="{{ route('admin.surveys.export') }}" class="btn btn-primary btn-sm px-3 py-2 fw-bold rounded-lg shadow-sm d-inline-flex align-items-center gap-2">
+            <a href="{{ route('admin.surveys.export', request()->query()) }}" class="btn btn-primary btn-sm px-3 py-2 fw-bold rounded-lg shadow-sm d-inline-flex align-items-center gap-2">
                 <i class="bi bi-file-earmark-pdf"></i>
                 Ekspor PDF
             </a>
@@ -94,14 +94,37 @@
 
     {{-- Main Survey Table Card --}}
     <div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
-        <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
-            <h2 class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                <i class="bi bi-table text-indigo-600 dark:text-indigo-400"></i> Data Submit Survei Kepuasan
-            </h2>
+        <!-- Toolbar Header (Ultra-Compact) -->
+        <form method="GET" action="{{ route('admin.surveys.index') }}" class="px-4 py-2.5 bg-slate-50/60 dark:bg-slate-800/60 border-b border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-2" role="search">
+            <div class="flex items-center gap-2 text-xs text-slate-700 dark:text-slate-300 w-full sm:w-auto flex-wrap sm:flex-nowrap">
+                <span>Tampilkan</span>
+                <select name="per_page" class="h-8 px-2.5 pr-7 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded text-xs font-medium text-slate-700 dark:text-slate-200 focus:outline-none focus:ring-1 focus:ring-blue-500 cursor-pointer shadow-xs" onchange="this.form.submit()">
+                    <option value="5" @selected((int)request('per_page', $perPage ?? 10) === 5)>5</option>
+                    <option value="10" @selected((int)request('per_page', $perPage ?? 10) === 10)>10</option>
+                    <option value="25" @selected((int)request('per_page', $perPage ?? 10) === 25)>25</option>
+                    <option value="50" @selected((int)request('per_page', $perPage ?? 10) === 50)>50</option>
+                </select>
+                <span>entri</span>
+
+                <!-- Filter Tahun (Dinamis) -->
+                <select name="year" class="h-8 px-2.5 pr-7 ml-1 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded text-xs font-medium text-slate-700 dark:text-slate-200 focus:outline-none focus:ring-1 focus:ring-blue-500 cursor-pointer shadow-xs" onchange="this.form.submit()">
+                    <option value="">Semua Tahun</option>
+                    @foreach($availableYears as $y)
+                        <option value="{{ $y }}" @selected((string)request('year') === (string)$y)>Tahun {{ $y }}</option>
+                    @endforeach
+                </select>
+
+                @if(request('year') || (request('per_page') && request('per_page') != 10))
+                    <a href="{{ route('admin.surveys.index') }}" title="Reset Filter" class="text-xs text-rose-600 hover:text-rose-700 font-medium ml-1">
+                        <i class="bi bi-x-circle-fill"></i> Reset
+                    </a>
+                @endif
+            </div>
+
             <span class="text-xs text-slate-500 dark:text-slate-400 font-medium">
-                Menampilkan Halaman {{ $surveys->currentPage() }} dari {{ $surveys->lastPage() ?: 1 }}
+                Halaman {{ $surveys->currentPage() }} dari {{ $surveys->lastPage() ?: 1 }}
             </span>
-        </div>
+        </form>
 
         <div class="overflow-x-auto">
             <table class="w-full text-left border-collapse">
@@ -134,7 +157,7 @@
                                             @endif
                                         @endfor
                                     </div>
-                                    <span class="text-xs font-bold px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800 dark:bg-amber-950/80 dark:text-amber-300 border border-amber-300 dark:border-amber-700">
+                                    <span class="text-xs font-bold px-2.5 py-0.5 rounded-full bg-amber-100 !text-amber-950 border border-amber-400 shadow-xs" style="color: #451a03 !important; background-color: #fef3c7 !important;">
                                         {{ $survey->rating }}/5
                                     </span>
                                 </div>

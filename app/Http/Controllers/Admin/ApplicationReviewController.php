@@ -44,10 +44,23 @@ class ApplicationReviewController extends AdminController
             'search'      => $request->string('search')->toString(),
             'status'      => $request->string('status')->toString(),
             'position_id' => $request->integer('position_id'),
+            'year'        => $request->input('year'),
         ];
 
         $daftarPendaftaran = $this->registrationService->adminSearchList($filters, $perPage);
         $pilihanPosisi    = $this->registrationRepository->getAllPilihanPosisiUntukFilterAdmin();
+
+        $dbYears = Registration::whereNotNull('created_at')
+            ->pluck('created_at')
+            ->map(fn($dt) => (int) \Illuminate\Support\Carbon::parse($dt)->format('Y'))
+            ->unique()
+            ->values();
+
+        $currentYear = (int) date('Y');
+        $availableYears = $dbYears->merge([$currentYear, $currentYear + 1])
+            ->unique()
+            ->sortDesc()
+            ->values();
 
         $summary = [
             'total'     => $daftarPendaftaran->total(),
@@ -62,6 +75,7 @@ class ApplicationReviewController extends AdminController
             'filters'         => $filters,
             'perPage'         => $perPage,
             'pilihanPosisi'   => $pilihanPosisi,
+            'availableYears'  => $availableYears,
             'summary'         => $summary,
         ]);
     }
@@ -126,6 +140,7 @@ class ApplicationReviewController extends AdminController
         $status = $request->string('status')->trim()->toString();
         $search = $request->string('search')->trim()->toString();
         $positionId = $request->input('position_id');
+        $year = $request->input('year');
 
         $query = \App\Models\Registration::with(['user.profile', 'position']);
 
@@ -135,6 +150,15 @@ class ApplicationReviewController extends AdminController
 
         if ($positionId) {
             $query->where('position_id', $positionId);
+        }
+
+        if (! empty($year)) {
+            $yearVal = (int) $year;
+            $query->where(function ($q) use ($yearVal): void {
+                $q->whereYear('tanggal_submit', $yearVal)
+                    ->orWhereYear('created_at', $yearVal)
+                    ->orWhereYear('periode_mulai', $yearVal);
+            });
         }
 
         if ($search !== '') {

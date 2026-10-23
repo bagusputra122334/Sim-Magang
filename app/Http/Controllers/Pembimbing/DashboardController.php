@@ -108,6 +108,15 @@ class DashboardController extends Controller
         $statsActiveInterns = $allAccepted->filter(fn ($r) => $r->operational_status === 'active' || $r->operational_status === 'upcoming')->count();
         $statsInactiveInterns = $allAccepted->filter(fn ($r) => $r->operational_status === 'completed' || $r->operational_status === 'terminated')->count();
 
+        // Ambil daftar tahun unik dari data anak bimbingan (kompatibel MySQL/MariaDB & SQLite testing)
+        $isSqlite = \Illuminate\Support\Facades\DB::connection()->getDriverName() === 'sqlite';
+        $yearExpression = $isSqlite ? "strftime('%Y', created_at) as year" : "YEAR(created_at) as year";
+        $availableYears = \App\Models\Registration::selectRaw($yearExpression)
+            ->whereNotNull('created_at')
+            ->distinct()
+            ->orderBy('year', 'desc')
+            ->pluck('year');
+
         $totalPenugasan = Material::where('pembimbing_id', $user->id)->count()
             + Task::where('pembimbing_id', $user->id)->count();
 
@@ -117,11 +126,107 @@ class DashboardController extends Controller
             'user',
             'search',
             'status',
+            'year',
+            'availableYears',
             'perPageRaw',
             'isAllPerPage',
             'statsTotalInterns',
             'statsActiveInterns',
             'statsInactiveInterns',
         ));
+    }
+
+    /**
+     * Ekspor daftar anak bimbingan (monitoring peserta) ke PDF secara dinamis sesuai filter toolbar.
+     */
+    public function exportPdf(Request $request)
+    {
+        $user = Auth::user();
+        abort_unless($user && $user->isPembimbing(), 403, 'Akses khusus pembimbing lapangan.');
+
+        $divisionName = $user->division->name ?? 'Aplikasi dan Informatika';
+        $search = trim((string) $request->query('search', ''));
+        $status = trim((string) $request->query('status', 'all'));
+        if (! in_array($status, ['all', 'active', 'inactive'], true)) {
+            $status = 'all';
+        }
+
+        $today = now()->toDateString();
+        $opStatus = $status;
+        $year = $request->input('year');
+
+        $query = \App\Models\Registration::query()
+            ->where('status', \App\Enums\RegistrationStatus::Accepted->value)
+            ->with(['user.profile', 'position'])
+            ->whereHas('user', function (Builder $q) use ($user) {
+                $q->where('division_id', $user->division_id);
+            });
+
+        if ($search !== '') {
+            $query->where(function ($q) use ($search): void {
+                $q->where('nomor_pendaftaran', 'like', "%{$search}%")
+                    ->orWhereHas('user', function ($uq) use ($search): void {
+                        $uq->where('name', 'like', "%{$search}%")
+                            ->orWhere('email', 'like', "%{$search}%")
+                            ->orWhereHas('profile', function ($pq) use ($search): void {
+                                $pq->where('institusi', 'like', "%{$search}%")
+                                    ->orWhere('jurusan', 'like', "%{$search}%");
+                            });
+                    })
+                    ->orWhereHas('position', function ($pq) use ($search): void {
+                        $pq->where('nama_posisi', 'like', "%{$search}%");
+                    });
+            });
+        }
+
+        if ($opStatus === 'inactive') {
+            $query->where('is_terminated', true)
+                ->orWhere(function($q) use ($today) {
+                    $q->where('is_terminated', false)
+                      ->whereDate('periode_selesai', '<', $today);
+                });
+        } elseif ($opStatus === 'active') {
+            $query->where('is_terminated', false)
+                ->where(function ($q) use ($today): void {
+                    $q->whereNull('periode_selesai')
+                        ->orWhereDate('periode_selesai', '>=', $today);
+                });
+        }
+
+        if (! empty($year)) {
+            $query->where(function ($q) use ($year): void {
+                $q->whereYear('periode_mulai', $year)
+                    ->orWhereYear('periode_selesai', $year)
+                    ->orWhereYear('created_at', $year);
+            });
+        }
+
+        $interns = $query->latest('updated_at')->get();
+
+        $allAccepted = \App\Models\Registration::where('status', \App\Enums\RegistrationStatus::Accepted->value)
+            ->whereHas('user', function (Builder $q) use ($user) {
+                $q->where('division_id', $user->division_id);
+            })->get();
+            
+        $statsTotalInterns = $allAccepted->count();
+        $statsActiveInterns = $allAccepted->filter(fn ($r) => $r->operational_status === 'active' || $r->operational_status === 'upcoming')->count();
+        $statsInactiveInterns = $allAccepted->filter(fn ($r) => $r->operational_status === 'completed' || $r->operational_status === 'terminated')->count();
+
+        $printedAt = now()->translatedFormat('d F Y H:i').' WIB';
+
+        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('pembimbing.dashboard-pdf', compact(
+            'interns',
+            'user',
+            'divisionName',
+            'search',
+            'status',
+            'year',
+            'statsTotalInterns',
+            'statsActiveInterns',
+            'statsInactiveInterns',
+            'printedAt'
+        ))->setPaper('a4', 'landscape');
+
+        return $pdf->download('Laporan_Anak_Bimbing_'.now()->format('Ymd_His').'.pdf');
     }
 }

@@ -48,18 +48,41 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
     'is_terminated',
     'catatan_penonaktifan',
     'terminated_at',
+    'certificate_path',
+    'certificate_issued_at',
 ])]
 class Registration extends Model
 {
+    protected $fillable = [
+        'nomor_pendaftaran',
+        'user_id',
+        'position_id',
+        'cv_path',
+        'surat_pengantar_path',
+        'proposal_magang_path',
+        'status',
+        'catatan_admin',
+        'surat_balasan_path',
+        'tanggal_submit',
+        'periode_mulai',
+        'periode_selesai',
+        'is_terminated',
+        'catatan_penonaktifan',
+        'terminated_at',
+        'certificate_path',
+        'certificate_issued_at',
+    ];
+
     protected function casts(): array
     {
         return [
-            'status'          => RegistrationStatus::class,
-            'tanggal_submit'  => 'datetime',
-            'periode_mulai'   => 'date',
-            'periode_selesai' => 'date',
-            'is_terminated'   => 'boolean',
-            'terminated_at'   => 'datetime',
+            'status'                => RegistrationStatus::class,
+            'tanggal_submit'        => 'datetime',
+            'periode_mulai'         => 'date',
+            'periode_selesai'       => 'date',
+            'is_terminated'         => 'boolean',
+            'terminated_at'         => 'datetime',
+            'certificate_issued_at' => 'datetime',
         ];
     }
 
@@ -70,7 +93,29 @@ class Registration extends Model
             'operational_status',
             'operational_status_label',
             'operational_status_badge_class',
+            'is_graduation_eligible',
         ];
+    }
+
+    /**
+     * Mengecek apakah peserta magang sudah mencapai hari terakhir magang atau setelahnya (now >= end_date).
+     */
+    public function isGraduationEligible(): bool
+    {
+        if ($this->status !== RegistrationStatus::Accepted || $this->is_terminated) {
+            return false;
+        }
+
+        if (! $this->periode_selesai) {
+            return true;
+        }
+
+        return now()->startOfDay()->gte($this->periode_selesai->copy()->startOfDay());
+    }
+
+    public function getIsGraduationEligibleAttribute(): bool
+    {
+        return $this->isGraduationEligible();
     }
 
     public function getOperationalStatusAttribute(): string
@@ -94,7 +139,7 @@ class Registration extends Model
     {
         return match ($this->operational_status) {
             'terminated' => 'Dinonaktifkan / Berhenti',
-            'completed'  => 'Selesai Magang',
+            'completed'  => ! empty($this->certificate_path) ? 'Selesai & Sertifikat Terbit' : 'Selesai (Menunggu Sertifikat)',
             'upcoming'   => 'Belum Mulai',
             default      => 'Aktif Magang',
         };
@@ -103,10 +148,12 @@ class Registration extends Model
     public function getOperationalStatusBadgeClassAttribute(): string
     {
         return match ($this->operational_status) {
-            'terminated' => 'bg-danger-subtle text-danger border border-danger-subtle',
-            'completed'  => 'bg-secondary-subtle text-secondary border border-secondary-subtle',
-            'upcoming'   => 'bg-warning-subtle text-warning-emphasis border border-warning-subtle',
-            default      => 'bg-success-subtle text-success border border-success-subtle',
+            'terminated' => 'bg-rose-100 text-rose-800 border border-rose-200',
+            'completed'  => ! empty($this->certificate_path)
+                ? 'bg-emerald-100 text-emerald-800 border border-emerald-200'
+                : 'bg-slate-100 text-slate-800 border border-slate-200',
+            'upcoming'   => 'bg-amber-100 text-amber-800 border border-amber-200',
+            default      => 'bg-emerald-100 text-emerald-800 border border-emerald-200',
         };
     }
 

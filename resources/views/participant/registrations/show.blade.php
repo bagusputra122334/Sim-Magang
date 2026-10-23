@@ -4,11 +4,11 @@
 @php
     function statusBadgeClass_($sv): string {
         return match($sv) {
-            'submitted'   => 'bg-primary-subtle text-primary-emphasis border-primary-subtle',
-            'under_review' => 'bg-warning-subtle text-warning-emphasis border-warning-subtle',
-            'accepted'    => 'bg-success-subtle text-success-emphasis border-success-subtle',
-            'rejected'    => 'bg-danger-subtle text-danger-emphasis border-danger-subtle',
-            default       => 'bg-secondary-subtle text-secondary-emphasis border-secondary-subtle',
+            'submitted'   => 'bg-blue-100 text-blue-950 border border-blue-400 font-bold',
+            'under_review' => 'bg-amber-100 text-amber-950 border border-amber-400 font-bold',
+            'accepted'    => 'bg-emerald-100 text-emerald-950 border border-emerald-400 font-bold',
+            'rejected'    => 'bg-rose-100 text-rose-950 border border-rose-400 font-bold',
+            default       => 'bg-slate-200 text-slate-900 border border-slate-400 font-bold',
         };
     }
     function statusBadgeIcon_($sv): string {
@@ -626,6 +626,14 @@
                                class="btn btn-success fw-bold d-inline-flex align-items-center justify-content-center shadow-sm py-1.5 px-3 text-xs rounded-2"
                                style="min-height: 34px;">
                                 <i class="bi bi-file-earmark-pdf-fill me-1.5 fs-6"></i>Download Surat Balasan
+                            </a>
+                        @endif
+
+                        @if(!empty($reg->certificate_path) && \Illuminate\Support\Facades\Storage::disk('public')->exists($reg->certificate_path))
+                            <a href="{{ route('participant.applications.certificate.view', $reg->id) }}" target="_blank"
+                               class="btn btn-primary fw-bold d-inline-flex align-items-center justify-content-center shadow-sm py-1.5 px-3 text-xs rounded-2 bg-blue-600 hover:bg-blue-700 text-white"
+                               style="min-height: 34px;">
+                                <i class="bi bi-award-fill me-1.5 fs-6"></i>Unduh Sertifikat Magang
                             </a>
                         @endif
 

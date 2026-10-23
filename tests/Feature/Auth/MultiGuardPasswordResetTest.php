@@ -55,13 +55,13 @@ class MultiGuardPasswordResetTest extends TestCase
         $response = $this->post(route('password.store'), [
             'token'                 => $token,
             'email'                 => 'peserta_reset@example.com',
-            'password'              => 'newpassword123',
-            'password_confirmation' => 'newpassword123',
+            'password'              => 'NewPassword123',
+            'password_confirmation' => 'NewPassword123',
         ]);
 
         $response->assertRedirect(route('login'));
         $user->refresh();
-        $this->assertTrue(Hash::check('newpassword123', $user->password));
+        $this->assertTrue(Hash::check('NewPassword123', $user->password));
     }
 
     public function test_admin_can_request_password_reset_link_and_receives_queued_notification(): void
@@ -105,12 +105,12 @@ class MultiGuardPasswordResetTest extends TestCase
         $response = $this->post(route('admin.password.store'), [
             'token'                 => $token,
             'email'                 => 'admin_reset@example.com',
-            'password'              => 'newadminpass123',
-            'password_confirmation' => 'newadminpass123',
+            'password'              => 'NewAdminPass123',
+            'password_confirmation' => 'NewAdminPass123',
         ]);
 
         $response->assertRedirect(route('login'));
         $admin->refresh();
-        $this->assertTrue(Hash::check('newadminpass123', $admin->password));
+        $this->assertTrue(Hash::check('NewAdminPass123', $admin->password));
     }
 }

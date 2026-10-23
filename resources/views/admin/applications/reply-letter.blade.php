@@ -2,12 +2,13 @@
 
 @php
     $reg = $application;
-    $statusColorMap = [
-        \App\Enums\RegistrationStatus::Submitted->value   => 'primary',
-        \App\Enums\RegistrationStatus::UnderReview->value => 'warning',
-        \App\Enums\RegistrationStatus::Accepted->value    => 'success',
-        \App\Enums\RegistrationStatus::Rejected->value    => 'danger',
+    $statusClassMap = [
+        \App\Enums\RegistrationStatus::Submitted->value   => 'bg-blue-100 text-blue-950 border border-blue-400 font-bold',
+        \App\Enums\RegistrationStatus::UnderReview->value => 'bg-amber-100 text-amber-950 border border-amber-400 font-bold',
+        \App\Enums\RegistrationStatus::Accepted->value    => 'bg-emerald-100 text-emerald-950 border border-emerald-400 font-bold',
+        \App\Enums\RegistrationStatus::Rejected->value    => 'bg-rose-100 text-rose-950 border border-rose-400 font-bold',
     ];
+    $badgeClass = $statusClassMap[$reg->status->value] ?? 'bg-slate-200 text-slate-900 border border-slate-400 font-bold';
     $badgeColor = $statusColorMap[$reg->status->value] ?? 'secondary';
 @endphp
 
@@ -38,7 +39,7 @@
             <div class="card shadow-sm border mb-3 rounded-2">
                 <div class="card-header bg-light py-2 px-3 d-flex align-items-center justify-content-between">
                     <h2 class="text-xs font-bold !text-slate-800 dark:!text-slate-200 uppercase tracking-wider mb-0"><i class="bi bi-info-circle me-1"></i> Ringkasan Pendaftaran</h2>
-                    <span class="badge rounded-pill bg-{{ $badgeColor }} px-2 py-0.5 text-xs">
+                    <span class="badge rounded-pill {{ $badgeClass }} px-2.5 py-1 text-xs">
                         {{ $reg->status->label() }}
                     </span>
                 </div>

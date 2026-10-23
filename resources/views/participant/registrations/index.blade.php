@@ -5,11 +5,11 @@
 if (!function_exists('statusBadgeClass')) {
     function statusBadgeClass($statusValue): string {
         return match($statusValue) {
-            'submitted'    => 'bg-primary-subtle text-primary-emphasis border-primary-subtle',
-            'under_review' => 'bg-warning-subtle text-warning-emphasis border-warning-subtle',
-            'accepted'     => 'bg-success-subtle text-success-emphasis border-success-subtle',
-            'rejected'     => 'bg-danger-subtle text-danger-emphasis border-danger-subtle',
-            default        => 'bg-secondary-subtle text-secondary-emphasis border-secondary-subtle',
+            'submitted'    => 'bg-blue-100 text-blue-950 border border-blue-400 font-bold',
+            'under_review' => 'bg-amber-100 text-amber-950 border border-amber-400 font-bold',
+            'accepted'     => 'bg-emerald-100 text-emerald-950 border border-emerald-400 font-bold',
+            'rejected'     => 'bg-rose-100 text-rose-950 border border-rose-400 font-bold',
+            default        => 'bg-slate-200 text-slate-900 border border-slate-400 font-bold',
         };
     }
 }

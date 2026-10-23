@@ -21,69 +21,69 @@
         </div>
     </div>
 
-    <!-- Top Statistics Row (Ultra-Compact, 5 Columns - Wajib 1 Baris di Layar Desktop) -->
-    <div class="grid grid-cols-2 lg:grid-cols-5 gap-2 mb-2.5">
+    <!-- Top Statistics Row (Compact Minimalist, 5 Columns - Wajib 1 Baris di Layar Desktop) -->
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2.5 sm:gap-3 mb-2.5">
         <!-- Card 1: Total -->
-        <div class="card shadow-sm border border-slate-200 dark:border-slate-700 rounded-lg h-full bg-white dark:bg-slate-800 p-2.5 sm:p-3">
-            <div class="d-flex align-items-center justify-content-between">
-                <div>
-                    <p class="text-xs font-extrabold !text-slate-700 dark:!text-slate-200 uppercase tracking-wider mb-0.5">TOTAL</p>
-                    <span class="text-xl lg:text-2xl font-black !text-gray-900 dark:!text-white opacity-100 block my-0.5 leading-none">{{ $summary['total'] ?? $total ?? 0 }}</span>
+        <div class="card shadow-sm border border-slate-200 dark:border-slate-700 rounded-lg h-full bg-white dark:bg-slate-800 py-2.5 px-3.5">
+            <div class="d-flex align-items-center justify-content-between gap-2">
+                <div class="min-w-0">
+                    <p class="text-[11px] font-bold !text-slate-600 dark:!text-slate-300 uppercase tracking-wider mb-0.5 truncate">TOTAL</p>
+                    <span class="text-lg lg:text-xl font-extrabold !text-gray-900 dark:!text-white opacity-100 block my-0 leading-none">{{ $summary['total'] ?? $total ?? 0 }}</span>
                 </div>
-                <div class="text-primary rounded bg-blue-100 dark:bg-blue-900/30 p-2 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 34px; height: 34px;">
-                    <i class="bi bi-bar-chart-fill fs-5"></i>
+                <div class="text-primary rounded-lg bg-blue-50 dark:bg-blue-900/30 p-1.5 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 32px; height: 32px;">
+                    <i class="bi bi-bar-chart-fill text-base"></i>
                 </div>
             </div>
         </div>
 
         <!-- Card 2: Submitted -->
-        <div class="card shadow-sm border border-slate-200 dark:border-slate-700 rounded-lg h-full bg-white dark:bg-slate-800 p-2.5 sm:p-3">
-            <div class="d-flex align-items-center justify-content-between">
-                <div>
-                    <p class="text-xs font-extrabold !text-slate-700 dark:!text-slate-200 uppercase tracking-wider mb-0.5">SUBMITTED</p>
-                    <span class="text-xl lg:text-2xl font-black !text-gray-900 dark:!text-white opacity-100 block my-0.5 leading-none">{{ $summary['submitted'] ?? $submitted ?? 0 }}</span>
+        <div class="card shadow-sm border border-slate-200 dark:border-slate-700 rounded-lg h-full bg-white dark:bg-slate-800 py-2.5 px-3.5">
+            <div class="d-flex align-items-center justify-content-between gap-2">
+                <div class="min-w-0">
+                    <p class="text-[11px] font-bold !text-slate-600 dark:!text-slate-300 uppercase tracking-wider mb-0.5 truncate">SUBMITTED</p>
+                    <span class="text-lg lg:text-xl font-extrabold !text-gray-900 dark:!text-white opacity-100 block my-0 leading-none">{{ $summary['submitted'] ?? $submitted ?? 0 }}</span>
                 </div>
-                <div class="text-info rounded bg-cyan-100 dark:bg-cyan-900/30 p-2 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 34px; height: 34px;">
-                    <i class="bi bi-envelope-fill fs-5 text-cyan-600"></i>
+                <div class="text-info rounded-lg bg-cyan-50 dark:bg-cyan-900/30 p-1.5 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 32px; height: 32px;">
+                    <i class="bi bi-envelope-fill text-base text-cyan-600"></i>
                 </div>
             </div>
         </div>
 
         <!-- Card 3: Under Review -->
-        <div class="card shadow-sm border border-slate-200 dark:border-slate-700 rounded-lg h-full bg-white dark:bg-slate-800 p-2.5 sm:p-3">
-            <div class="d-flex align-items-center justify-content-between">
-                <div>
-                    <p class="text-xs font-extrabold !text-slate-700 dark:!text-slate-200 uppercase tracking-wider mb-0.5">UNDER REVIEW</p>
-                    <span class="text-xl lg:text-2xl font-black !text-gray-900 dark:!text-white opacity-100 block my-0.5 leading-none">{{ $summary['review'] ?? $underReview ?? 0 }}</span>
+        <div class="card shadow-sm border border-slate-200 dark:border-slate-700 rounded-lg h-full bg-white dark:bg-slate-800 py-2.5 px-3.5">
+            <div class="d-flex align-items-center justify-content-between gap-2">
+                <div class="min-w-0">
+                    <p class="text-[11px] font-bold !text-slate-600 dark:!text-slate-300 uppercase tracking-wider mb-0.5 truncate">UNDER REVIEW</p>
+                    <span class="text-lg lg:text-xl font-extrabold !text-gray-900 dark:!text-white opacity-100 block my-0 leading-none">{{ $summary['review'] ?? $underReview ?? 0 }}</span>
                 </div>
-                <div class="text-warning rounded bg-amber-100 dark:bg-amber-900/30 p-2 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 34px; height: 34px;">
-                    <i class="bi bi-clock-fill fs-5 text-amber-600"></i>
+                <div class="text-warning rounded-lg bg-amber-50 dark:bg-amber-900/30 p-1.5 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 32px; height: 32px;">
+                    <i class="bi bi-clock-fill text-base text-amber-600"></i>
                 </div>
             </div>
         </div>
 
         <!-- Card 4: Accepted -->
-        <div class="card shadow-sm border border-slate-200 dark:border-slate-700 rounded-lg h-full bg-white dark:bg-slate-800 p-2.5 sm:p-3">
-            <div class="d-flex align-items-center justify-content-between">
-                <div>
-                    <p class="text-xs font-extrabold !text-slate-700 dark:!text-slate-200 uppercase tracking-wider mb-0.5">ACCEPTED</p>
-                    <span class="text-xl lg:text-2xl font-black !text-gray-900 dark:!text-white opacity-100 block my-0.5 leading-none">{{ $summary['accepted'] ?? $accepted ?? 0 }}</span>
+        <div class="card shadow-sm border border-slate-200 dark:border-slate-700 rounded-lg h-full bg-white dark:bg-slate-800 py-2.5 px-3.5">
+            <div class="d-flex align-items-center justify-content-between gap-2">
+                <div class="min-w-0">
+                    <p class="text-[11px] font-bold !text-slate-600 dark:!text-slate-300 uppercase tracking-wider mb-0.5 truncate">ACCEPTED</p>
+                    <span class="text-lg lg:text-xl font-extrabold !text-gray-900 dark:!text-white opacity-100 block my-0 leading-none">{{ $summary['accepted'] ?? $accepted ?? 0 }}</span>
                 </div>
-                <div class="text-success rounded bg-emerald-100 dark:bg-emerald-900/30 p-2 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 34px; height: 34px;">
-                    <i class="bi bi-check-circle-fill fs-5 text-emerald-600"></i>
+                <div class="text-success rounded-lg bg-emerald-50 dark:bg-emerald-900/30 p-1.5 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 32px; height: 32px;">
+                    <i class="bi bi-check-circle-fill text-base text-emerald-600"></i>
                 </div>
             </div>
         </div>
 
         <!-- Card 5: Rejected -->
-        <div class="card shadow-sm border border-slate-200 dark:border-slate-700 rounded-lg h-full bg-white dark:bg-slate-800 p-2.5 sm:p-3 col-span-2 lg:col-span-1">
-            <div class="d-flex align-items-center justify-content-between">
-                <div>
-                    <p class="text-xs font-extrabold !text-slate-700 dark:!text-slate-200 uppercase tracking-wider mb-0.5">REJECTED</p>
-                    <span class="text-xl lg:text-2xl font-black !text-gray-900 dark:!text-white opacity-100 block my-0.5 leading-none">{{ $summary['rejected'] ?? $rejected ?? 0 }}</span>
+        <div class="card shadow-sm border border-slate-200 dark:border-slate-700 rounded-lg h-full bg-white dark:bg-slate-800 py-2.5 px-3.5 col-span-2 sm:col-span-1">
+            <div class="d-flex align-items-center justify-content-between gap-2">
+                <div class="min-w-0">
+                    <p class="text-[11px] font-bold !text-slate-600 dark:!text-slate-300 uppercase tracking-wider mb-0.5 truncate">REJECTED</p>
+                    <span class="text-lg lg:text-xl font-extrabold !text-gray-900 dark:!text-white opacity-100 block my-0 leading-none">{{ $summary['rejected'] ?? $rejected ?? 0 }}</span>
                 </div>
-                <div class="text-danger rounded bg-rose-100 dark:bg-rose-900/30 p-2 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 34px; height: 34px;">
-                    <i class="bi bi-x-circle-fill fs-5 text-rose-600"></i>
+                <div class="text-danger rounded-lg bg-rose-50 dark:bg-rose-900/30 p-1.5 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 32px; height: 32px;">
+                    <i class="bi bi-x-circle-fill text-base text-rose-600"></i>
                 </div>
             </div>
         </div>
@@ -93,7 +93,7 @@
     <div class="card border border-slate-200 dark:border-slate-700 shadow-sm rounded-lg mb-2.5 bg-white dark:bg-slate-800">
         <div class="card-body p-2.5">
             <form method="GET" action="{{ route('admin.applications.index') }}" class="row g-2 align-items-end">
-                <div class="col-12 col-md-4">
+                <div class="col-12 col-md-3">
                     <label for="search" class="form-label mb-0.5 text-xs font-bold text-slate-700 dark:text-slate-300">
                         <i class="bi bi-search me-1"></i> Cari (Nama / No. / Email)
                     </label>
@@ -110,7 +110,7 @@
                         </button>
                     </div>
                 </div>
-                <div class="col-6 col-md-3">
+                <div class="col-6 col-md-2">
                     <label for="status" class="form-label mb-0.5 text-xs font-bold text-slate-700 dark:text-slate-300">
                         <i class="bi bi-filter me-1"></i> Status
                     </label>
@@ -138,7 +138,18 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="col-12 col-md-2">
+                <div class="col-6 col-md-2">
+                    <label for="year" class="form-label mb-0.5 text-xs font-bold text-slate-700 dark:text-slate-300">
+                        <i class="bi bi-calendar-event me-1"></i> Filter Tahun
+                    </label>
+                    <select name="year" id="year" class="form-select form-select-sm text-xs py-1.5 px-2.5" onchange="this.form.submit()">
+                        <option value="">Semua Tahun</option>
+                        @foreach ($availableYears ?? [] as $y)
+                            <option value="{{ $y }}" @selected((string)request('year', $filters['year'] ?? '') === (string)$y)>Tahun {{ $y }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-6 col-md-2">
                     <label for="per_page" class="form-label mb-0.5 text-xs font-bold text-slate-700 dark:text-slate-300">
                         <i class="bi bi-list-ol me-1"></i> Per Halaman
                     </label>
@@ -202,14 +213,14 @@
                             <td class="py-1.5 px-2.5 text-center whitespace-nowrap" style="min-width: 130px;">
                                 @php
                                     $statusMap = [
-                                        \App\Enums\RegistrationStatus::Submitted->value   => 'bg-primary-subtle text-primary border border-primary-subtle',
-                                        \App\Enums\RegistrationStatus::UnderReview->value => 'bg-warning-subtle text-warning border border-warning-subtle',
-                                        \App\Enums\RegistrationStatus::Accepted->value    => 'bg-success-subtle text-success border border-success-subtle',
-                                        \App\Enums\RegistrationStatus::Rejected->value    => 'bg-danger-subtle text-danger border border-danger-subtle',
+                                        \App\Enums\RegistrationStatus::Submitted->value   => 'bg-slate-100 text-slate-800 border-slate-200',
+                                        \App\Enums\RegistrationStatus::UnderReview->value => 'bg-amber-100 text-amber-800 border-amber-200',
+                                        \App\Enums\RegistrationStatus::Accepted->value    => 'bg-emerald-100 text-emerald-800 border-emerald-200',
+                                        \App\Enums\RegistrationStatus::Rejected->value    => 'bg-rose-100 text-rose-800 border-rose-200',
                                     ];
-                                    $cls = $statusMap[$app->status->value] ?? 'bg-secondary-subtle text-secondary border';
+                                    $cls = $statusMap[$app->status->value] ?? 'bg-slate-100 text-slate-800 border-slate-200';
                                 @endphp
-                                <span class="badge {{ $cls }} text-xs py-1 px-2.5 rounded-pill font-semibold">
+                                <span class="inline-flex items-center px-2.5 py-1 text-xs font-semibold rounded-full border {{ $cls }}">
                                     {{ $app->status->label() }}
                                 </span>
                             </td>

@@ -46,43 +46,43 @@
         </a>
     </div>
 
-    {{-- Statistic Cards (Ultra-Compact - Wajib 1 Baris di Layar Desktop) --}}
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 mb-2.5">
+    {{-- Statistic Cards (Compact Minimalist - Wajib 1 Baris di Layar Desktop) --}}
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5 mb-2.5">
         <!-- Card 1: Total Posisi -->
-        <div class="card shadow-sm border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 p-2.5 sm:p-3">
-            <div class="d-flex align-items-center justify-content-between">
-                <div>
-                    <p class="text-xs font-extrabold !text-slate-700 dark:!text-slate-200 uppercase tracking-wider mb-0.5">Total Posisi</p>
-                    <span class="text-xl lg:text-2xl font-black !text-gray-900 dark:!text-white opacity-100 block my-0.5 leading-none">{{ $statistics['total'] ?? $totalPosisi ?? 0 }}</span>
+        <div class="card shadow-sm border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 py-2.5 px-3.5">
+            <div class="d-flex align-items-center justify-content-between gap-2">
+                <div class="min-w-0">
+                    <p class="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-0.5 truncate">Total Posisi</p>
+                    <span class="text-xl font-bold text-slate-800 dark:text-white opacity-100 block my-0 leading-none">{{ $statistics['total'] ?? $totalPosisi ?? 0 }}</span>
                 </div>
-                <div class="text-primary rounded bg-blue-100 dark:bg-blue-900/30 p-2 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 34px; height: 34px;">
-                    <i class="bi bi-briefcase-fill fs-5"></i>
+                <div class="text-primary rounded-lg bg-blue-50 dark:bg-blue-900/30 p-1.5 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 32px; height: 32px;">
+                    <i class="bi bi-briefcase-fill text-base"></i>
                 </div>
             </div>
         </div>
 
         <!-- Card 2: Posisi Aktif -->
-        <div class="card shadow-sm border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 p-2.5 sm:p-3">
-            <div class="d-flex align-items-center justify-content-between">
-                <div>
-                    <p class="text-xs font-extrabold !text-slate-700 dark:!text-slate-200 uppercase tracking-wider mb-0.5">Posisi Aktif</p>
-                    <span class="text-xl lg:text-2xl font-black !text-gray-900 dark:!text-white opacity-100 block my-0.5 leading-none">{{ $statistics['aktif'] ?? $posisiAktif ?? 0 }}</span>
+        <div class="card shadow-sm border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 py-2.5 px-3.5">
+            <div class="d-flex align-items-center justify-content-between gap-2">
+                <div class="min-w-0">
+                    <p class="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-0.5 truncate">Posisi Aktif</p>
+                    <span class="text-xl font-bold text-slate-800 dark:text-white opacity-100 block my-0 leading-none">{{ $statistics['aktif'] ?? $posisiAktif ?? 0 }}</span>
                 </div>
-                <div class="text-success rounded bg-emerald-100 dark:bg-emerald-900/30 p-2 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 34px; height: 34px;">
-                    <i class="bi bi-check-circle-fill fs-5"></i>
+                <div class="text-success rounded-lg bg-emerald-50 dark:bg-emerald-900/30 p-1.5 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 32px; height: 32px;">
+                    <i class="bi bi-check-circle-fill text-base"></i>
                 </div>
             </div>
         </div>
 
         <!-- Card 3: Posisi Nonaktif -->
-        <div class="card shadow-sm border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 p-2.5 sm:p-3">
-            <div class="d-flex align-items-center justify-content-between">
-                <div>
-                    <p class="text-xs font-extrabold !text-slate-700 dark:!text-slate-200 uppercase tracking-wider mb-0.5">Posisi Nonaktif</p>
-                    <span class="text-xl lg:text-2xl font-black !text-gray-900 dark:!text-white opacity-100 block my-0.5 leading-none">{{ $statistics['nonaktif'] ?? $posisiNonaktif ?? 0 }}</span>
+        <div class="card shadow-sm border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 py-2.5 px-3.5">
+            <div class="d-flex align-items-center justify-content-between gap-2">
+                <div class="min-w-0">
+                    <p class="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-0.5 truncate">Posisi Nonaktif</p>
+                    <span class="text-xl font-bold text-slate-800 dark:text-white opacity-100 block my-0 leading-none">{{ $statistics['nonaktif'] ?? $posisiNonaktif ?? 0 }}</span>
                 </div>
-                <div class="text-secondary rounded bg-slate-100 dark:bg-slate-700 p-2 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 34px; height: 34px;">
-                    <i class="bi bi-dash-circle-fill fs-5"></i>
+                <div class="text-secondary rounded-lg bg-slate-100 dark:bg-slate-700/60 p-1.5 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 32px; height: 32px;">
+                    <i class="bi bi-dash-circle-fill text-base"></i>
                 </div>
             </div>
         </div>
@@ -165,19 +165,19 @@
                                     </div>
                                 @endif
                             </td>
-                            <td class="py-1.5 px-2.5 text-xs">
-                                <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-2.5 py-1 text-xs font-semibold">
-                                    <i class="bi bi-people me-1"></i>{{ $position->registrations()->count() }} pendaftar
+                            <td class="py-1.5 px-2.5 text-xs whitespace-nowrap">
+                                <span class="px-2.5 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800 border border-blue-200 inline-block text-center whitespace-nowrap shadow-2xs">
+                                    {{ $position->registrations()->count() }} pendaftar
                                 </span>
                             </td>
                             <td class="py-1.5 px-2.5 text-xs">
                                 @if ($position->status->isAktif())
-                                    <span class="badge bg-success rounded-pill px-2.5 py-1 text-xs font-semibold">
-                                        <i class="bi bi-toggle-on me-1"></i> Aktif
+                                    <span class="px-2.5 py-1 text-xs font-semibold rounded-full bg-emerald-100 text-emerald-800 border border-emerald-200 inline-flex items-center gap-1 shadow-2xs">
+                                        <i class="bi bi-toggle-on text-emerald-700"></i> Aktif
                                     </span>
                                 @else
-                                    <span class="badge bg-secondary rounded-pill px-2.5 py-1 text-xs font-semibold">
-                                        <i class="bi bi-toggle-off me-1"></i> Tidak Aktif
+                                    <span class="px-2.5 py-1 text-xs font-semibold rounded-full bg-rose-100 text-rose-800 border border-rose-200 inline-flex items-center gap-1 shadow-2xs">
+                                        <i class="bi bi-toggle-off text-rose-700"></i> Tidak Aktif
                                     </span>
                                 @endif
                             </td>
@@ -189,18 +189,30 @@
                                     @if ($position->status->isAktif())
                                         <a
                                             href="{{ route('admin.positions.toggle-status', $position) }}"
-                                            class="inline-flex items-center justify-center p-1.5 text-xs font-semibold text-amber-700 bg-amber-50 hover:bg-amber-100 hover:text-amber-900 border border-amber-200 rounded transition-colors text-decoration-none"
+                                            class="inline-flex items-center justify-center p-1.5 text-xs font-semibold text-amber-700 bg-amber-50 hover:bg-amber-100 hover:text-amber-900 border border-amber-200 rounded transition-colors text-decoration-none cursor-pointer"
                                             title="Nonaktifkan Posisi"
-                                            onclick="return confirm('Anda yakin ingin menonaktifkan posisi {{ $position->nama_posisi }}?');"
+                                            data-simang-confirm="<div class='row g-1'><div class='col-4 text-slate-500 font-semibold'>Nama Posisi</div><div class='col-8 fw-bold text-slate-900'>{{ addslashes($position->nama_posisi) }}</div></div>"
+                                            data-simang-title="Nonaktifkan Posisi Magang"
+                                            data-simang-icon="bi-power"
+                                            data-simang-theme="amber"
+                                            data-simang-alert="Posisi magang ini tidak akan ditampilkan lagi pada pilihan pendaftaran peserta baru."
+                                            data-simang-btn-text="Ya, Nonaktifkan"
+                                            data-simang-btn-icon="bi-power"
                                         >
                                             <i class="bi bi-power"></i>
                                         </a>
                                     @else
                                         <a
                                             href="{{ route('admin.positions.toggle-status', $position) }}"
-                                            class="inline-flex items-center justify-center p-1.5 text-xs font-semibold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 hover:text-emerald-900 border border-emerald-200 rounded transition-colors text-decoration-none"
+                                            class="inline-flex items-center justify-center p-1.5 text-xs font-semibold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 hover:text-emerald-900 border border-emerald-200 rounded transition-colors text-decoration-none cursor-pointer"
                                             title="Aktifkan Posisi"
-                                            onclick="return confirm('Anda yakin ingin mengaktifkan posisi {{ $position->nama_posisi }}?');"
+                                            data-simang-confirm="<div class='row g-1'><div class='col-4 text-slate-500 font-semibold'>Nama Posisi</div><div class='col-8 fw-bold text-slate-900'>{{ addslashes($position->nama_posisi) }}</div></div>"
+                                            data-simang-title="Aktifkan Posisi Magang"
+                                            data-simang-icon="bi-power"
+                                            data-simang-theme="emerald"
+                                            data-simang-alert="Posisi magang ini akan kembali dibuka dan dapat dipilih oleh calon peserta magang."
+                                            data-simang-btn-text="Ya, Aktifkan"
+                                            data-simang-btn-icon="bi-power"
                                         >
                                             <i class="bi bi-power"></i>
                                         </a>
@@ -215,13 +227,21 @@
                                     <form
                                         method="POST"
                                         action="{{ route('admin.positions.destroy', $position) }}"
-                                        onsubmit="return confirm('PERINGATAN: Posisi ini akan dihapus. Jika posisi sudah memiliki pendaftar, hapus akan gagal. Yakin menghapus posisi \'{{ $position->nama_posisi }}\'?');"
                                         style="display: inline-block;"
                                         class="m-0 p-0"
                                     >
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="inline-flex items-center justify-center p-1.5 text-xs font-semibold text-red-600 bg-red-50 hover:bg-red-100 hover:text-red-800 border border-red-200 rounded transition-colors" title="Hapus Posisi">
+                                        <button type="button"
+                                                class="inline-flex items-center justify-center p-1.5 text-xs font-semibold text-red-600 bg-red-50 hover:bg-red-100 hover:text-red-800 border border-red-200 rounded transition-colors cursor-pointer"
+                                                title="Hapus Posisi"
+                                                data-simang-confirm="<div class='row g-1'><div class='col-4 text-slate-500 font-semibold'>Nama Posisi</div><div class='col-8 fw-bold text-slate-900'>{{ addslashes($position->nama_posisi) }}</div></div>"
+                                                data-simang-title="Hapus Posisi Magang"
+                                                data-simang-icon="bi-trash3-fill"
+                                                data-simang-theme="rose"
+                                                data-simang-alert="Posisi ini akan dihapus dari sistem. Jika posisi sudah memiliki pendaftar, sistem akan menolak penghapusan demi menjaga integritas data."
+                                                data-simang-btn-text="Ya, Hapus Posisi"
+                                                data-simang-btn-icon="bi-trash3-fill">
                                             <i class="bi bi-trash3"></i>
                                         </button>
                                     </form>

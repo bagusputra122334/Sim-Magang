@@ -125,11 +125,11 @@
                         </div>
                         <div class="d-flex align-items-start gap-2">
                             <span class="text-xs font-bold !text-slate-800 dark:!text-slate-200" style="min-width: 110px;">Status</span>
-                            <span class="badge {{ $registration->operational_status_badge_class }} rounded-pill px-3 py-1 fw-semibold border" style="font-size: 0.72rem;">
+                            <span class="inline-flex items-center px-2.5 py-1 text-xs font-semibold rounded-full {{ $registration->operational_status_badge_class }}">
                                 @if($registration->operational_status === 'active' || $registration->operational_status === 'upcoming')
-                                    <i class="bi bi-dot me-1" style="color: #16a34a !important;"></i>
+                                    <i class="bi bi-dot me-1 text-emerald-600"></i>
                                 @else
-                                    <i class="bi bi-dot me-1" style="color: #ef4444 !important;"></i>
+                                    <i class="bi bi-dot me-1 text-rose-600"></i>
                                 @endif
                                 {{ $registration->operational_status_label }}
                             </span>

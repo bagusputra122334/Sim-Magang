@@ -84,7 +84,9 @@
                 </div>
 
                 <div class="pt-2 border-t mt-3">
-                    <button type="submit" class="btn btn-primary btn-sm py-1.5 px-3.5 text-xs font-bold">Simpan Materi</button>
+                    <button type="button" id="btnConfirmSubmitMateri" class="btn btn-primary btn-sm py-1.5 px-3.5 text-xs font-bold">
+                        <i class="bi bi-save me-1"></i> Simpan Materi
+                    </button>
                 </div>
             </form>
         </div>
@@ -100,5 +102,31 @@
             document.getElementById('submissionType').value = '';
         }
     }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        var btn = document.getElementById('btnConfirmSubmitMateri');
+        if (btn) {
+            btn.addEventListener('click', function () {
+                var form = btn.closest('form');
+                if (!form.checkValidity()) {
+                    form.reportValidity();
+                    return;
+                }
+                var title = form.querySelector('[name="title"]').value || 'Materi Baru';
+                var isTask = form.querySelector('[name="is_task"]').checked;
+
+                window.SimangModal.confirm({
+                    title: 'Konfirmasi Terbitkan Materi',
+                    icon: 'bi-cloud-arrow-up-fill',
+                    theme: 'blue',
+                    summaryHtml: '<div class="row g-1"><div class="col-4 text-slate-500 font-semibold">Judul Materi</div><div class="col-8 fw-bold text-slate-900">' + title.replace(/</g, '&lt;') + '</div><div class="col-4 text-slate-500 font-semibold">Tipe Konten</div><div class="col-8 fw-bold ' + (isTask ? 'text-amber-600' : 'text-blue-600') + '">' + (isTask ? 'Materi &amp; Penugasan' : 'Materi Pembelajaran') + '</div></div>',
+                    alertText: 'Materi ini akan langsung dipublikasikan dan dapat diakses oleh seluruh peserta bimbingan divisi Anda.',
+                    confirmText: 'Ya, Terbitkan Materi',
+                    confirmIcon: 'bi-send-check',
+                    form: form
+                });
+            });
+        }
+    });
 </script>
 @endsection

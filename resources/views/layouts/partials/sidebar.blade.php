@@ -37,6 +37,7 @@
             $sidebarMenu = [
                 ['icon' => 'bi-speedometer2', 'label' => 'Dashboard', 'route' => 'pembimbing.dashboard', 'params' => []],
                 ['icon' => 'bi-clipboard-check', 'label' => 'Penugasan', 'route' => 'pembimbing.materials.index', 'params' => []],
+                ['icon' => 'bi-award', 'label' => 'Sertifikat Magang', 'route' => 'pembimbing.certificates.index', 'params' => []],
                 ['icon' => 'bi-person-gear', 'label' => 'Profil Pembimbing', 'route' => 'pembimbing.profile.index', 'params' => []],
             ];
         } elseif ($user?->isParticipant()) {
@@ -46,6 +47,7 @@
                 ['icon' => 'bi-journal-text', 'label' => 'Riwayat Magang', 'route' => 'participant.registrations.index', 'params' => []],
                 ['icon' => 'bi-journal-bookmark', 'label' => 'Penugasan', 'route' => 'participant.materials.index', 'params' => []],
                 ['icon' => 'bi-calendar2-check-fill', 'label' => 'Absensi Harian', 'route' => 'participant.daily-checkins.index', 'params' => []],
+                ['icon' => 'bi-award', 'label' => 'Sertifikat Magang', 'route' => 'participant.certificates.index', 'params' => []],
                 ['icon' => 'bi-person-gear', 'label' => 'Akun Saya', 'route' => 'profile.edit', 'params' => []],
             ];
         }
@@ -164,6 +166,12 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link {{ str_starts_with($currentRoute, 'pembimbing.certificates') ? 'active' : '' }}" href="{{ route('pembimbing.certificates.index') }}">
+                        <span class="nav-icon"><i class="bi bi-award" aria-hidden="true"></i></span>
+                        <span class="nav-text">Sertifikat Magang</span>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link {{ str_starts_with($currentRoute, 'pembimbing.profile') || request()->is('pembimbing/profile*') ? 'active' : '' }}" href="{{ url('/pembimbing/profile') }}">
                         <span class="nav-icon"><i class="bi bi-person-gear" aria-hidden="true"></i></span>
                         <span class="nav-text">Profil Pembimbing</span>
@@ -198,6 +206,13 @@
                     <a class="nav-link {{ str_starts_with($currentRoute, 'participant.daily-checkins') ? 'active' : '' }}" href="{{ route('participant.daily-checkins.index') }}">
                         <span class="nav-icon"><i class="bi bi-calendar2-check-fill" aria-hidden="true"></i></span>
                         <span class="nav-text">Absensi Harian</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link {{ str_starts_with($currentRoute, 'participant.certificates') ? 'active' : '' }}" href="{{ route('participant.certificates.index') }}">
+                        <span class="nav-icon"><i class="bi bi-award" aria-hidden="true"></i></span>
+                        <span class="nav-text">Sertifikat Magang</span>
                     </a>
                 </li>
                 

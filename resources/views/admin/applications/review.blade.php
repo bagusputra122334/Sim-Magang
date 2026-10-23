@@ -342,29 +342,61 @@
     });
 })();
 
-function verifyConfirmation() {
+function verifyConfirmation(e) {
+    if (e && e.preventDefault) e.preventDefault();
+
     const acc = document.getElementById('status_accepted');
     const rej = document.getElementById('status_rejected');
     const cat = document.getElementById('catatan_admin').value.trim();
-    let msg;
+    const form = document.querySelector('form[action*="review"]');
+
+    let title, theme, icon, summaryHtml, alertText, btnText, btnIcon;
+
     if (acc && acc.checked) {
-        msg = cat.length === 0
-            ? 'Keputusan = ACCEPTED (Diterima). Tidak ada catatan admin. Lanjutkan submit final (tidak bisa dibatalkan)?'
-            : 'Keputusan = ACCEPTED (Diterima) dengan Catatan Admin. Lanjutkan submit final?';
+        title = 'Konfirmasi Penerimaan Magang';
+        theme = 'emerald';
+        icon = 'bi-check-circle-fill';
+        summaryHtml = '<div class="row g-1"><div class="col-4 text-slate-500 font-semibold">Keputusan</div><div class="col-8 fw-bold text-emerald-600">ACCEPTED (Diterima)</div><div class="col-4 text-slate-500 font-semibold">Nama Peserta</div><div class="col-8 fw-bold text-slate-900">{{ addslashes($reg->user?->name ?? '—') }}</div><div class="col-4 text-slate-500 font-semibold">Catatan</div><div class="col-8 text-slate-700">' + (cat.length > 0 ? cat.replace(/</g, '&lt;') : '<span class="text-muted italic">Tidak ada catatan</span>') + '</div></div>';
+        alertText = 'Peserta akan dinyatakan resmi diterima magang di Diskominfo SP Tuban. Email notifikasi penerimaan dan instruksi lanjutan akan dikirimkan otomatis.';
+        btnText = 'Ya, Terima Peserta';
+        btnIcon = 'bi-check-circle-fill';
     } else if (rej && rej.checked) {
         if (cat.length < 10) {
-            alert('Catatan Admin minimal 10 karakter saat Rejected.');
+            alert('Catatan Admin minimal 10 karakter saat status Rejected.');
             document.getElementById('catatan_admin').focus();
             return false;
         }
-        msg = 'Keputusan = REJECTED (Ditolak) dengan Catatan Admin. Lanjutkan submit final?';
+        title = 'Konfirmasi Penolakan Pendaftaran';
+        theme = 'rose';
+        icon = 'bi-x-circle-fill';
+        summaryHtml = '<div class="row g-1"><div class="col-4 text-slate-500 font-semibold">Keputusan</div><div class="col-8 fw-bold text-rose-600">REJECTED (Ditolak)</div><div class="col-4 text-slate-500 font-semibold">Nama Peserta</div><div class="col-8 fw-bold text-slate-900">{{ addslashes($reg->user?->name ?? '—') }}</div><div class="col-4 text-slate-500 font-semibold">Alasan</div><div class="col-8 text-slate-700">' + cat.replace(/</g, '&lt;') + '</div></div>';
+        alertText = 'Pendaftaran peserta akan ditolak secara permanen. Peserta akan menerima email pemberitahuan beserta alasan penolakan yang telah Anda cantumkan.';
+        btnText = 'Ya, Tolak Pendaftaran';
+        btnIcon = 'bi-x-circle-fill';
     } else {
-        alert('Pilih salah satu status: Accepted atau Rejected.');
+        alert('Silakan pilih salah satu keputusan terlebih dahulu: Accepted atau Rejected.');
         return false;
     }
-    const btn = document.getElementById('btn-submit-verif');
-    if (btn) { btn.disabled = true; btn.classList.add('opacity-75'); btn.innerHTML = '<i class="bi bi-arrow-repeat me-1 spinner-border spinner-border-sm"></i> Memproses ...'; }
-    return confirm(msg);
+
+    window.SimangModal.confirm({
+        title: title,
+        icon: icon,
+        theme: theme,
+        summaryHtml: summaryHtml,
+        alertText: alertText,
+        confirmText: btnText,
+        confirmIcon: btnIcon,
+        form: form
+    });
+
+    return false;
 }
+
+document.addEventListener('DOMContentLoaded', function () {
+    const btn = document.getElementById('btn-submit-verif');
+    if (btn) {
+        btn.addEventListener('click', verifyConfirmation);
+    }
+});
 </script>
 @endpush

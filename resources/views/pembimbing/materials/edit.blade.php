@@ -116,7 +116,9 @@
                 </div>
 
                 <div class="pt-2 border-t mt-3">
-                    <button type="submit" class="btn btn-primary btn-sm py-1.5 px-3.5 text-xs font-bold">Update Materi</button>
+                    <button type="button" id="btnConfirmUpdateMateri" class="btn btn-primary btn-sm py-1.5 px-3.5 text-xs font-bold">
+                        <i class="bi bi-save me-1"></i> Update Materi
+                    </button>
                 </div>
             </form>
         </div>
@@ -132,5 +134,30 @@
             document.getElementById('submissionType').value = '';
         }
     }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        var btn = document.getElementById('btnConfirmUpdateMateri');
+        if (btn) {
+            btn.addEventListener('click', function () {
+                var form = btn.closest('form');
+                if (!form.checkValidity()) {
+                    form.reportValidity();
+                    return;
+                }
+                var title = form.querySelector('[name="title"]').value || 'Materi';
+
+                window.SimangModal.confirm({
+                    title: 'Konfirmasi Perbarui Materi',
+                    icon: 'bi-pencil-square',
+                    theme: 'amber',
+                    summaryHtml: '<div class="row g-1"><div class="col-4 text-slate-500 font-semibold">Judul Materi</div><div class="col-8 fw-bold text-slate-900">' + title.replace(/</g, '&lt;') + '</div></div>',
+                    alertText: 'Perubahan materi dan batas waktu penugasan akan langsung tersinkronisasi ke seluruh akun peserta.',
+                    confirmText: 'Ya, Simpan Perubahan',
+                    confirmIcon: 'bi-check-lg',
+                    form: form
+                });
+            });
+        }
+    });
 </script>
 @endsection

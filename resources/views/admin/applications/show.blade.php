@@ -3,12 +3,13 @@
 @php
     $reg = $application;
     $profil = $profilPeserta ?? $reg->user?->profile ?? null;
-    $statusColorMap = [
-        \App\Enums\RegistrationStatus::Submitted->value   => 'primary',
-        \App\Enums\RegistrationStatus::UnderReview->value => 'warning',
-        \App\Enums\RegistrationStatus::Accepted->value    => 'success',
-        \App\Enums\RegistrationStatus::Rejected->value    => 'danger',
+    $statusClassMap = [
+        \App\Enums\RegistrationStatus::Submitted->value   => 'bg-blue-100 text-blue-950 border border-blue-400 font-bold',
+        \App\Enums\RegistrationStatus::UnderReview->value => 'bg-amber-100 text-amber-950 border border-amber-400 font-bold',
+        \App\Enums\RegistrationStatus::Accepted->value    => 'bg-emerald-100 text-emerald-950 border border-emerald-400 font-bold',
+        \App\Enums\RegistrationStatus::Rejected->value    => 'bg-rose-100 text-rose-950 border border-rose-400 font-bold',
     ];
+    $badgeClass = $statusClassMap[$reg->status->value] ?? 'bg-slate-200 text-slate-900 border border-slate-400 font-bold';
     $badgeColor = $statusColorMap[$reg->status->value] ?? 'secondary';
 
     // Surat Balasan Info
@@ -365,7 +366,7 @@
                     <h2 class="text-xs font-bold !text-slate-800 dark:!text-slate-200 uppercase tracking-wider mb-0">
                         <i class="bi bi-journal-text text-primary me-1.5"></i>Informasi Pendaftaran
                     </h2>
-                    <span class="badge rounded-pill bg-{{ $badgeColor }} px-2 py-0.5 text-xs shadow-xs">
+                    <span class="badge rounded-pill {{ $badgeClass }} px-2.5 py-1 text-xs shadow-xs">
                         {{ $reg->status->label() }}
                     </span>
                 </div>
@@ -415,7 +416,7 @@
 
                         <dt class="col-sm-4 text-xs font-bold !text-slate-800 dark:!text-slate-200">Status Verifikasi</dt>
                         <dd class="col-sm-8 mb-0 text-xs">
-                            <span class="badge bg-{{ $badgeColor }} px-2 py-0.5 rounded-pill text-xs">
+                            <span class="badge {{ $badgeClass }} px-2.5 py-1 rounded-pill text-xs">
                                 {{ $reg->status->label() }}
                             </span>
                             @if ($reg->updated_at && optional($reg->tanggal_submit)->format('c') !== $reg->updated_at->format('c'))
@@ -442,6 +443,155 @@
                 </div>
             @endif
 
+            {{-- DOKUMEN PERSYARATAN PESERTA --}}
+            <div class="card shadow-sm border mb-3 rounded-2">
+                <div class="card-header bg-light border-0 py-2 px-3 d-flex align-items-center justify-content-between flex-wrap gap-2">
+                    <div>
+                        <h2 class="text-xs font-bold !text-slate-800 dark:!text-slate-200 uppercase tracking-wider mb-0">
+                            <i class="bi bi-folder2-open text-primary me-1.5"></i>Dokumen Persyaratan
+                        </h2>
+                    </div>
+                </div>
+                <div class="card-body p-3">
+                    <div class="row g-3">
+                        {{-- Dokumen 1: Curriculum Vitae --}}
+                        <div class="col-12 col-md-6 col-lg-4">
+                            <div class="doc-item-card">
+                                <div class="doc-card-header">
+                                    <div class="doc-icon-wrapper {{ $cvUrl ? 'active' : 'inactive' }}">
+                                        <i class="bi bi-person-lines-fill"></i>
+                                    </div>
+                                    <div class="doc-card-title-group">
+                                        <h4 class="doc-card-title">Curriculum Vitae</h4>
+                                        <p class="doc-card-desc">Biodata & Riwayat Hidup</p>
+                                    </div>
+                                </div>
+
+                                <div class="doc-file-box">
+                                    @if ($cvUrl)
+                                        <div class="file-meta-pill" title="{{ basename($reg->cv_path) }}">
+                                            <i class="bi bi-filetype-pdf text-danger flex-shrink-0"></i>
+                                            <span>{{ basename($reg->cv_path) }}</span>
+                                        </div>
+                                    @else
+                                        <div class="alert alert-warning small mb-0 py-1.5 px-2.5">
+                                            <i class="bi bi-exclamation-triangle me-1"></i> CV belum di-upload oleh peserta.
+                                        </div>
+                                    @endif
+                                </div>
+
+                                <div class="doc-card-actions">
+                                    @if ($cvUrl)
+                                        <a href="{{ $cvUrl }}" target="_blank" rel="noopener"
+                                           class="btn btn-doc-preview" title="Preview Curriculum Vitae">
+                                            <i class="bi bi-box-arrow-up-right"></i> Preview
+                                        </a>
+                                        <a href="{{ $cvUrl }}" download
+                                           class="btn btn-doc-download" title="Download Curriculum Vitae">
+                                            <i class="bi bi-download"></i> Download
+                                        </a>
+                                    @else
+                                        <div class="btn-doc-empty">
+                                            <i class="bi bi-dash-circle"></i> Berkas Kosong
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+
+                        {{-- Dokumen 2: Surat Pengantar / Rekomendasi --}}
+                        <div class="col-12 col-md-6 col-lg-4">
+                            <div class="doc-item-card">
+                                <div class="doc-card-header">
+                                    <div class="doc-icon-wrapper {{ $suratPengantarUrl ? 'active' : 'inactive' }}">
+                                        <i class="bi bi-envelope-paper"></i>
+                                    </div>
+                                    <div class="doc-card-title-group">
+                                        <h4 class="doc-card-title">Surat Pengantar / Rekomendasi</h4>
+                                        <p class="doc-card-desc">Rekomendasi Kampus / Sekolah</p>
+                                    </div>
+                                </div>
+
+                                <div class="doc-file-box">
+                                    @if ($suratPengantarUrl)
+                                        <div class="file-meta-pill" title="{{ basename($reg->surat_pengantar_path) }}">
+                                            <i class="bi bi-filetype-pdf text-danger flex-shrink-0"></i>
+                                            <span>{{ basename($reg->surat_pengantar_path) }}</span>
+                                        </div>
+                                    @else
+                                        <div class="alert alert-warning small mb-0 py-1.5 px-2.5">
+                                            <i class="bi bi-exclamation-triangle me-1"></i> Surat pengantar belum di-upload peserta.
+                                        </div>
+                                    @endif
+                                </div>
+
+                                <div class="doc-card-actions">
+                                    @if ($suratPengantarUrl)
+                                        <a href="{{ $suratPengantarUrl }}" target="_blank" rel="noopener"
+                                           class="btn btn-doc-preview" title="Preview Surat Pengantar">
+                                            <i class="bi bi-box-arrow-up-right"></i> Preview
+                                        </a>
+                                        <a href="{{ $suratPengantarUrl }}" download
+                                           class="btn btn-doc-download" title="Download Surat Pengantar">
+                                            <i class="bi bi-download"></i> Download
+                                        </a>
+                                    @else
+                                        <div class="btn-doc-empty">
+                                            <i class="bi bi-dash-circle"></i> Berkas Kosong
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+
+                        {{-- Dokumen 3: Proposal Magang --}}
+                        <div class="col-12 col-md-6 col-lg-4">
+                            <div class="doc-item-card">
+                                <div class="doc-card-header">
+                                    <div class="doc-icon-wrapper {{ !empty($proposalMagangUrl) ? 'active' : 'inactive' }}">
+                                        <i class="bi bi-file-earmark-pdf"></i>
+                                    </div>
+                                    <div class="doc-card-title-group">
+                                        <h4 class="doc-card-title">Proposal Magang</h4>
+                                        <p class="doc-card-desc">Rencana & Program Kerja</p>
+                                    </div>
+                                </div>
+
+                                <div class="doc-file-box">
+                                    @if (!empty($proposalMagangUrl))
+                                        <div class="file-meta-pill" title="{{ basename($reg->proposal_magang_path) }}">
+                                            <i class="bi bi-filetype-pdf text-danger flex-shrink-0"></i>
+                                            <span>{{ basename($reg->proposal_magang_path) }}</span>
+                                        </div>
+                                    @else
+                                        <div class="alert alert-warning small mb-0 py-1.5 px-2.5">
+                                            <i class="bi bi-exclamation-triangle me-1"></i> Proposal magang belum di-upload peserta.
+                                        </div>
+                                    @endif
+                                </div>
+
+                                <div class="doc-card-actions">
+                                    @if (!empty($proposalMagangUrl))
+                                        <a href="{{ $proposalMagangUrl }}" target="_blank" rel="noopener"
+                                           class="btn btn-doc-preview" title="Preview Proposal Magang">
+                                            <i class="bi bi-box-arrow-up-right"></i> Preview
+                                        </a>
+                                        <a href="{{ $proposalMagangUrl }}" download
+                                           class="btn btn-doc-download" title="Download Proposal Magang">
+                                            <i class="bi bi-download"></i> Download
+                                        </a>
+                                    @else
+                                        <div class="btn-doc-empty">
+                                            <i class="bi bi-dash-circle"></i> Berkas Kosong
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             {{-- 3. SURAT BALASAN RESMI (DOKUMEN ADMINISTRASI DINAS) --}}
             <div class="card shadow-sm border mb-3 rounded-2 overflow-hidden">
                 <div class="card-header bg-light border-0 py-2 px-3 d-flex align-items-center justify-content-between flex-wrap gap-2">
@@ -451,12 +601,12 @@
                         </h2>
                     </div>
                     @if ($sbExists)
-                        <span class="badge bg-success bg-opacity-10 text-success border border-success-subtle px-2 py-0.5 rounded-pill fw-bold text-xs">
-                            <i class="bi bi-check-circle-fill me-1"></i> Surat Telah Terbit
+                        <span class="badge bg-emerald-100 text-emerald-950 border border-emerald-400 px-2.5 py-0.5 rounded-pill font-bold text-xs shadow-xs" style="color: #022c22 !important; background-color: #d1fae5 !important;">
+                            <i class="bi bi-check-circle-fill text-emerald-700 me-1"></i> Surat Telah Terbit
                         </span>
                     @elseif (! $reg->isAccepted())
-                        <span class="badge bg-secondary bg-opacity-10 text-secondary border border-secondary-subtle px-2 py-0.5 rounded-pill fw-bold text-xs">
-                            <i class="bi bi-lock-fill me-1"></i> Belum Tersedia
+                        <span class="badge bg-slate-200 text-slate-900 border border-slate-400 px-2.5 py-0.5 rounded-pill font-bold text-xs shadow-xs" style="color: #0f172a !important; background-color: #e2e8f0 !important;">
+                            <i class="bi bi-lock-fill text-slate-700 me-1"></i> Belum Tersedia
                         </span>
                     @endif
                 </div>
@@ -472,7 +622,9 @@
                                 <div class="flex-grow-1">
                                     <div class="d-flex align-items-center gap-2 flex-wrap mb-1">
                                         <h4 class="text-xs font-bold !text-slate-800 dark:!text-slate-200 uppercase mb-0">Surat Balasan</h4>
-                                        <span class="badge bg-success text-white px-2 py-0.5 rounded-pill text-xs">Sudah Diunggah</span>
+                                        <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-bold bg-emerald-100 text-emerald-950 border border-emerald-400" style="color: #022c22 !important; background-color: #d1fae5 !important;">
+                                            <i class="bi bi-check-circle-fill text-emerald-600"></i> Sudah Diunggah
+                                        </span>
                                     </div>
                                     <p class="text-muted text-xs mb-2">
                                         Surat balasan resmi telah diterbitkan dan tersedia untuk diunduh oleh peserta melalui portal pendaftaran mereka.
@@ -557,12 +709,27 @@
                                     @enderror
                                 </div>
 
-                                <!-- Action Footer: Primary Submit Button -->
+                                <!-- Action Footer: Primary Submit Button with Confirmation Modal -->
                                 <div class="flex justify-end pt-1">
-                                    <button type="submit"
-                                            class="px-3.5 py-1.5 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-bold text-xs rounded-lg transition-all shadow-sm flex items-center gap-1.5"
+                                    <button type="button"
+                                            id="btnConfirmSuratBalasan"
+                                            class="px-3.5 py-1.5 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-bold text-xs rounded-lg transition-all shadow-sm flex items-center gap-1.5 cursor-pointer"
                                             :class="!fileName ? 'opacity-60 cursor-not-allowed' : 'hover:shadow-md'"
-                                            :disabled="!fileName">
+                                            :disabled="!fileName"
+                                            @click="
+                                                if (fileName) {
+                                                    window.SimangModal.confirm({
+                                                        title: 'Konfirmasi Terbitkan Surat Balasan Resmi',
+                                                        icon: 'bi-file-earmark-check-fill',
+                                                        theme: 'blue',
+                                                        summaryHtml: '<div class=\'row g-1\'><div class=\'col-4 text-slate-500 font-semibold\'>Nama Peserta</div><div class=\'col-8 fw-bold text-slate-900\'>{{ addslashes($reg->user?->name ?? '—') }}</div><div class=\'col-4 text-slate-500 font-semibold\'>No. Pendaftaran</div><div class=\'col-8 font-monospace\'>{{ $reg->nomor_pendaftaran }}</div><div class=\'col-4 text-slate-500 font-semibold\'>Berkas PDF</div><div class=\'col-8 font-monospace text-blue-700\'>' + fileName + '</div></div>',
+                                                        alertText: 'Surat Balasan resmi ini akan diterbitkan ke portal peserta dan peserta dapat langsung mengunduhnya sebagai bukti penerimaan magang.',
+                                                        confirmText: 'Ya, Terbitkan Surat Balasan',
+                                                        confirmIcon: 'bi-send-check-fill',
+                                                        form: $el.closest('form')
+                                                    });
+                                                }
+                                            ">
                                         <i class="bi bi-upload"></i>
                                         <span>Kirim Surat Balasan</span>
                                     </button>
@@ -621,7 +788,7 @@
                     @endif
 
                     <div class="mb-1.5">
-                        <span class="badge {{ $profil?->isSiswa() ? 'bg-success bg-opacity-10 text-success border border-success-subtle' : 'bg-primary bg-opacity-10 text-primary border border-primary-subtle' }} rounded-pill px-2.5 py-0.5 text-xs fw-bold">
+                        <span class="badge {{ $profil?->isSiswa() ? 'bg-slate-200 text-slate-900 border border-slate-400' : 'bg-blue-100 text-blue-950 border border-blue-400' }} rounded-pill px-2.5 py-0.5 text-xs font-bold shadow-xs">
                             {{ $profil ? ($profil->isSiswa() ? '🏫 Siswa / SMK' : '🎓 Mahasiswa') : 'Belum Ada Profil' }}
                         </span>
                     </div>

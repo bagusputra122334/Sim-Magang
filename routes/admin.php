@@ -99,6 +99,23 @@ Route::prefix('applications')
 
         Route::get('{application}/reply-letter/download', [ReplyLetterController::class, 'download'])
             ->name('reply-letter.download');
+
+        /*
+        |----------------------------------------------------------------------
+        | SERTIFIKAT KELULUSAN MAGANG DIGITAL
+        |----------------------------------------------------------------------
+        */
+        Route::post('{application}/certificate', [\App\Http\Controllers\Admin\ApplicationController::class, 'uploadCertificate'])
+            ->name('certificate.upload');
+
+        Route::delete('{application}/certificate', [\App\Http\Controllers\Admin\ApplicationController::class, 'deleteCertificate'])
+            ->name('certificate.delete');
+
+        Route::get('{application}/certificate/download', [\App\Http\Controllers\Admin\ApplicationController::class, 'downloadCertificate'])
+            ->name('certificate.download');
+
+        Route::get('{application}/certificate/view', [\App\Http\Controllers\Admin\ApplicationController::class, 'viewCertificate'])
+            ->name('certificate.view');
     });
 
 /*
@@ -106,6 +123,9 @@ Route::prefix('applications')
 | ADMIN ACTIVE INTERNS (ActiveInternController)
 |--------------------------------------------------------------------------
 */
+Route::get('statuses', [\App\Http\Controllers\Admin\ActiveInternController::class, 'index'])
+    ->name('statuses.index');
+
 Route::prefix('active-interns')
     ->name('active-interns.')
     ->group(function (): void {
@@ -123,6 +143,23 @@ Route::prefix('active-interns')
 
         Route::patch('{id}/toggle-status', [\App\Http\Controllers\Admin\ActiveInternController::class, 'toggleStatus'])
             ->name('toggle-status');
+
+        /*
+        |----------------------------------------------------------------------
+        | SERTIFIKAT KELULUSAN MAGANG DIGITAL (ACTIVE INTERN)
+        |----------------------------------------------------------------------
+        */
+        Route::post('{id}/certificate', [\App\Http\Controllers\Admin\ApplicationController::class, 'uploadCertificate'])
+            ->name('certificate.upload');
+
+        Route::delete('{id}/certificate', [\App\Http\Controllers\Admin\ApplicationController::class, 'deleteCertificate'])
+            ->name('certificate.delete');
+
+        Route::get('{id}/certificate/download', [\App\Http\Controllers\Admin\ApplicationController::class, 'downloadCertificate'])
+            ->name('certificate.download');
+
+        Route::get('{id}/certificate/view', [\App\Http\Controllers\Admin\ApplicationController::class, 'viewCertificate'])
+            ->name('certificate.view');
     });
 
 /*
