@@ -4,7 +4,7 @@
 <div class="container-fluid">
 <div class="container-fluid">
     <div class="d-flex justify-content-between align-items-center mb-3">
-        <h1 class="h3 mb-0 text-gray-800 font-bold">Edit Pembimbing Magang</h1>
+        <h1 class="h3 mb-0 text-gray-800 dark:text-gray-100 font-bold">Edit Pembimbing Magang</h1>
         <a href="{{ route('admin.pembimbing.index') }}" class="btn btn-outline-secondary py-1.5 px-3 text-xs font-bold rounded-lg shadow-sm">
             <i class="bi bi-arrow-left me-1"></i> Kembali
         </a>

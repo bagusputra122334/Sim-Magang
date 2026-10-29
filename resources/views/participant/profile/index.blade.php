@@ -9,7 +9,7 @@
                 <div class="row align-items-center">
                     <div class="col-md-8">
                         <div class="d-flex align-items-center gap-2 mb-1">
-                            <span class="badge bg-white text-primary rounded-pill px-2 py-0.5 text-xs fw-bold">
+                            <span class="badge profile-header-badge bg-white dark:bg-slate-800 text-primary dark:text-blue-300 rounded-pill px-2.5 py-1 text-xs fw-bold border border-white/20 dark:border-slate-700">
                                 {{ $profile->isSiswa() ? '🏫 Siswa / SMK' : '🎓 Mahasiswa' }}
                             </span>
                         </div>
@@ -28,7 +28,7 @@
                 </div>
             </div>
 
-            <div class="card-body p-3 sm:p-4">
+            <div class="card-body p-3 sm:p-4 bg-white dark:bg-slate-800">
                 <div class="row g-2.5">
                     <div class="col-lg-4 text-center">
                         <div class="mb-3">
@@ -42,14 +42,14 @@
                         </div>
 
                         <div class="d-grid gap-1">
-                            <span class="badge bg-blue-100 text-blue-950 border border-blue-400 rounded-pill py-1 px-2.5 text-xs font-bold shadow-xs">
-                                <i class="bi bi-person-badge me-1 text-blue-700"></i>{{ $profile->participantTypeLabel() }}
+                            <span class="badge profile-type-badge bg-blue-100 dark:bg-blue-950/70 text-blue-950 dark:text-blue-200 border border-blue-400 dark:border-blue-600 rounded-pill py-1.5 px-3 text-xs font-bold shadow-xs">
+                                <i class="bi bi-person-badge me-1 text-blue-700 dark:text-blue-300"></i>{{ $profile->participantTypeLabel() }}
                             </span>
                         </div>
                     </div>
 
                     <div class="col-lg-8">
-                        <ul class="nav nav-tabs mb-2.5 border-bottom text-xs" id="profilTab" role="tablist">
+                        <ul class="nav nav-tabs mb-2.5 border-bottom border-slate-200 dark:border-slate-700 text-xs" id="profilTab" role="tablist">
                             <li class="nav-item" role="presentation">
                                 <button class="nav-link active fw-bold py-1.5 px-3" id="pribadi-tab" data-bs-toggle="tab" data-bs-target="#pribadi" type="button" role="tab" aria-controls="pribadi" aria-selected="true">
                                     <i class="bi bi-person-vcard me-1"></i>Data Pribadi
@@ -72,25 +72,25 @@
                                 <table class="table table-borderless table-striped align-middle text-xs mb-0">
                                     <tbody>
                                         <tr>
-                                            <th style="width: 180px;" class="text-xs font-bold !text-slate-800 dark:!text-slate-200 py-1.5 px-2"><i class="bi bi-person-badge me-1.5 text-primary"></i>NIK</th>
-                                            <td class="fw-semibold py-1.5 px-2 font-monospace">{{ $profile->nik ?? '-' }}</td>
+                                            <th style="width: 180px;" class="text-xs font-bold !text-slate-800 dark:!text-slate-200 py-1.5 px-2"><i class="bi bi-person-badge me-1.5 text-primary dark:text-blue-400"></i>NIK</th>
+                                            <td class="fw-semibold text-slate-800 dark:text-slate-100 py-1.5 px-2 font-monospace">{{ $profile->nik ?? '-' }}</td>
                                         </tr>
                                         <tr>
-                                            <th class="text-xs font-bold !text-slate-800 dark:!text-slate-200 py-1.5 px-2"><i class="bi bi-person me-1.5 text-primary"></i>Nama Lengkap</th>
-                                            <td class="fw-semibold py-1.5 px-2">{{ $profile->nama_lengkap ?? $profile->user?->name ?? '-' }}</td>
+                                            <th class="text-xs font-bold !text-slate-800 dark:!text-slate-200 py-1.5 px-2"><i class="bi bi-person me-1.5 text-primary dark:text-blue-400"></i>Nama Lengkap</th>
+                                            <td class="fw-semibold text-slate-800 dark:text-slate-100 py-1.5 px-2">{{ $profile->nama_lengkap ?? $profile->user?->name ?? '-' }}</td>
                                         </tr>
                                         <tr>
-                                            <th class="text-xs font-bold !text-slate-800 dark:!text-slate-200 py-1.5 px-2"><i class="bi bi-geo-alt me-1.5 text-primary"></i>Tempat, Tanggal Lahir</th>
-                                            <td class="fw-semibold py-1.5 px-2">
+                                            <th class="text-xs font-bold !text-slate-800 dark:!text-slate-200 py-1.5 px-2"><i class="bi bi-geo-alt me-1.5 text-primary dark:text-blue-400"></i>Tempat, Tanggal Lahir</th>
+                                            <td class="fw-semibold text-slate-800 dark:text-slate-100 py-1.5 px-2">
                                                 {{ $profile->tempat_lahir ?? '-' }}
                                                 @if($profile->tanggal_lahir), {{ $profile->tanggal_lahir->translatedFormat('d F Y') }} @endif
                                             </td>
                                         </tr>
                                         <tr>
-                                            <th class="text-xs font-bold !text-slate-800 dark:!text-slate-200 py-1.5 px-2"><i class="bi bi-gender-ambiguous me-1.5 text-primary"></i>Jenis Kelamin</th>
+                                            <th class="text-xs font-bold !text-slate-800 dark:!text-slate-200 py-1.5 px-2"><i class="bi bi-gender-ambiguous me-1.5 text-primary dark:text-blue-400"></i>Jenis Kelamin</th>
                                             <td class="py-1.5 px-2">
                                                 @if($profile->jenis_kelamin)
-                                                    <span class="badge bg-secondary-subtle text-secondary border rounded-pill px-2 py-0.5 text-xs">
+                                                    <span class="badge bg-secondary-subtle text-secondary dark:bg-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-600 rounded-pill px-2.5 py-0.5 text-xs">
                                                         {{ $profile->jenis_kelamin->label() }}
                                                     </span>
                                                 @else
@@ -99,8 +99,8 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <th class="text-xs font-bold !text-slate-800 dark:!text-slate-200 align-baseline py-1.5 px-2"><i class="bi bi-house-door me-1.5 text-primary"></i>Alamat Lengkap</th>
-                                            <td class="fw-semibold py-1.5 px-2">{{ $profile->alamat ?? '-' }}</td>
+                                            <th class="text-xs font-bold !text-slate-800 dark:!text-slate-200 align-baseline py-1.5 px-2"><i class="bi bi-house-door me-1.5 text-primary dark:text-blue-400"></i>Alamat Lengkap</th>
+                                            <td class="fw-semibold text-slate-800 dark:text-slate-100 py-1.5 px-2">{{ $profile->alamat ?? '-' }}</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -111,28 +111,28 @@
                                     <tbody>
                                         <tr>
                                             <th style="width: 180px;" class="text-xs font-bold !text-slate-800 dark:!text-slate-200 py-1.5 px-2">
-                                                <i class="bi bi-building me-1.5 text-primary"></i>{{ $profile->institutionLabel() }}
+                                                <i class="bi bi-building me-1.5 text-primary dark:text-blue-400"></i>{{ $profile->institutionLabel() }}
                                             </th>
-                                            <td class="fw-bold text-primary py-1.5 px-2">{{ $profile->institusi ?? '-' }}</td>
+                                            <td class="fw-bold text-primary dark:text-blue-300 py-1.5 px-2">{{ $profile->institusi ?? '-' }}</td>
                                         </tr>
                                         <tr>
                                             <th class="text-xs font-bold !text-slate-800 dark:!text-slate-200 py-1.5 px-2">
-                                                <i class="bi bi-card-heading me-1.5 text-primary"></i>{{ $profile->numberLabel() }}
+                                                <i class="bi bi-card-heading me-1.5 text-primary dark:text-blue-400"></i>{{ $profile->numberLabel() }}
                                             </th>
-                                            <td class="fw-bold font-monospace py-1.5 px-2"><code class="text-xs text-primary">{{ $profile->numberValue() }}</code></td>
+                                            <td class="fw-bold font-monospace py-1.5 px-2"><code class="text-xs text-primary dark:text-blue-300 bg-slate-100 dark:bg-slate-700 px-1.5 py-0.5 rounded">{{ $profile->numberValue() }}</code></td>
                                         </tr>
                                         <tr>
                                             <th class="text-xs font-bold !text-slate-800 dark:!text-slate-200 py-1.5 px-2">
-                                                <i class="bi bi-diagram-3 me-1.5 text-primary"></i>{{ $profile->majorLabel() }}
+                                                <i class="bi bi-diagram-3 me-1.5 text-primary dark:text-blue-400"></i>{{ $profile->majorLabel() }}
                                             </th>
-                                            <td class="fw-semibold py-1.5 px-2">{{ $profile->jurusan ?? '-' }}</td>
+                                            <td class="fw-semibold text-slate-800 dark:text-slate-100 py-1.5 px-2">{{ $profile->jurusan ?? '-' }}</td>
                                         </tr>
                                         @if($profile->isMahasiswa())
                                             <tr>
-                                                <th class="text-xs font-bold !text-slate-800 dark:!text-slate-200 py-1.5 px-2"><i class="bi bi-award me-1.5 text-primary"></i>Semester</th>
+                                                <th class="text-xs font-bold !text-slate-800 dark:!text-slate-200 py-1.5 px-2"><i class="bi bi-award me-1.5 text-primary dark:text-blue-400"></i>Semester</th>
                                                 <td class="py-1.5 px-2">
                                                     @if($profile->semester)
-                                                        <span class="badge bg-blue-100 text-blue-950 border border-blue-400 rounded-pill px-2.5 py-0.5 text-xs font-bold shadow-xs">
+                                                        <span class="badge profile-type-badge bg-blue-100 dark:bg-blue-950/70 text-blue-950 dark:text-blue-200 border border-blue-400 dark:border-blue-600 rounded-pill px-2.5 py-0.5 text-xs font-bold shadow-xs">
                                                             Semester {{ $profile->semester }}
                                                         </span>
                                                     @else
@@ -142,8 +142,8 @@
                                             </tr>
                                         @endif
                                         <tr>
-                                            <th class="text-xs font-bold !text-slate-800 dark:!text-slate-200 py-1.5 px-2"><i class="bi bi-calendar-check me-1.5 text-primary"></i>Tahun Angkatan</th>
-                                            <td class="fw-semibold py-1.5 px-2">{{ $profile->tahun_angkatan ?? '-' }}</td>
+                                            <th class="text-xs font-bold !text-slate-800 dark:!text-slate-200 py-1.5 px-2"><i class="bi bi-calendar-check me-1.5 text-primary dark:text-blue-400"></i>Tahun Angkatan</th>
+                                            <td class="fw-semibold text-slate-800 dark:text-slate-100 py-1.5 px-2">{{ $profile->tahun_angkatan ?? '-' }}</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -153,12 +153,12 @@
                                 <table class="table table-borderless table-striped align-middle text-xs mb-0">
                                     <tbody>
                                         <tr>
-                                            <th style="width: 180px;" class="text-xs font-bold !text-slate-800 dark:!text-slate-200 py-1.5 px-2"><i class="bi bi-envelope me-1.5 text-primary"></i>Email</th>
-                                            <td class="fw-semibold py-1.5 px-2">{{ $profile->user?->email ?? '-' }}</td>
+                                            <th style="width: 180px;" class="text-xs font-bold !text-slate-800 dark:!text-slate-200 py-1.5 px-2"><i class="bi bi-envelope me-1.5 text-primary dark:text-blue-400"></i>Email</th>
+                                            <td class="fw-semibold text-slate-800 dark:text-slate-100 py-1.5 px-2">{{ $profile->user?->email ?? '-' }}</td>
                                         </tr>
                                         <tr>
-                                            <th class="text-xs font-bold !text-slate-800 dark:!text-slate-200 py-1.5 px-2"><i class="bi bi-whatsapp me-1.5 text-primary"></i>Nomor HP / WhatsApp</th>
-                                            <td class="fw-semibold py-1.5 px-2">{{ $profile->no_telepon ?? '-' }}</td>
+                                            <th class="text-xs font-bold !text-slate-800 dark:!text-slate-200 py-1.5 px-2"><i class="bi bi-whatsapp me-1.5 text-primary dark:text-blue-400"></i>Nomor HP / WhatsApp</th>
+                                            <td class="fw-semibold text-slate-800 dark:text-slate-100 py-1.5 px-2">{{ $profile->no_telepon ?? '-' }}</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -172,3 +172,39 @@
     </div>
 </div>
 @endsection
+
+@push('styles')
+<style>
+    [data-theme="dark"] .profile-type-badge,
+    [data-bs-theme="dark"] .profile-type-badge {
+        background-color: rgba(30, 58, 138, 0.7) !important;
+        color: #bfdbfe !important;
+        border-color: #3b82f6 !important;
+    }
+    [data-theme="dark"] .profile-type-badge i,
+    [data-bs-theme="dark"] .profile-type-badge i {
+        color: #93c5fd !important;
+    }
+    [data-theme="dark"] .profile-header-badge,
+    [data-bs-theme="dark"] .profile-header-badge {
+        background-color: #1e293b !important;
+        color: #93c5fd !important;
+        border-color: #334155 !important;
+    }
+    [data-theme="dark"] .table-striped > tbody > tr:nth-of-type(odd) > * {
+        --bs-table-accent-bg: rgba(255, 255, 255, 0.02) !important;
+        color: #f1f5f9 !important;
+    }
+    [data-theme="dark"] .table-borderless td {
+        color: #f1f5f9 !important;
+    }
+    [data-theme="dark"] .nav-tabs .nav-link {
+        color: #94a3b8 !important;
+    }
+    [data-theme="dark"] .nav-tabs .nav-link.active {
+        background-color: #1e293b !important;
+        color: #60a5fa !important;
+        border-color: #334155 #334155 #1e293b !important;
+    }
+</style>
+@endpush

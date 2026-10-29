@@ -1117,12 +1117,17 @@
 
         /* FAQ Accordion */
         .faq-item {
-            background: var(--sim-surface-card);
-            border: 1px solid var(--sim-border);
+            background-color: #ffffff;
+            border: 1px solid #e2e8f0;
             border-radius: 14px;
             margin-bottom: 14px;
             overflow: hidden;
             transition: all 0.25s ease;
+        }
+
+        html[data-theme="dark"] .faq-item {
+            background-color: rgba(30, 41, 59, 0.9) !important;
+            border-color: rgba(51, 65, 85, 0.8) !important;
         }
 
         .faq-btn {
@@ -1133,35 +1138,59 @@
             text-align: left;
             font-weight: 700;
             font-size: 16px;
-            color: var(--sim-text);
             display: flex;
             justify-content: space-between;
             align-items: center;
             cursor: pointer;
-            transition: color 0.25s ease;
+            transition: all 0.25s ease;
         }
 
         .faq-btn:focus {
             outline: none;
         }
 
+        .faq-btn:not(.collapsed) .bi-chevron-down {
+            transform: rotate(180deg);
+            color: #3b82f6 !important;
+        }
+
+        html[data-theme="dark"] .faq-btn,
+        html[data-theme="dark"] .faq-btn span {
+            color: #f1f5f9 !important;
+        }
+
+        html[data-theme="light"] .faq-btn,
+        html[data-theme="light"] .faq-btn span {
+            color: #0f172a !important;
+        }
+
         .faq-body {
             padding: 0 22px 20px;
             font-size: 14.5px;
-            color: var(--sim-text-muted);
             background: transparent;
             line-height: 1.65;
         }
 
         .faq-item p {
-            color: var(--sim-text-muted);
             opacity: 1;
             visibility: visible;
             background: transparent;
         }
 
-        .faq-item p strong {
-            color: var(--sim-text);
+        html[data-theme="dark"] .faq-item p {
+            color: #cbd5e1 !important;
+        }
+
+        html[data-theme="light"] .faq-item p {
+            color: #475569 !important;
+        }
+
+        html[data-theme="dark"] .faq-btn i {
+            color: #94a3b8 !important;
+        }
+
+        html[data-theme="light"] .faq-btn i {
+            color: #64748b !important;
         }
 
         /* Blog & Guides */
@@ -2188,14 +2217,14 @@
             <div class="row justify-content-center">
                 <div class="col-lg-9">
                     @foreach(\App\Models\LandingContent::getBySection('faq') as $item)
-                        <div class="faq-item bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl mb-3.5 overflow-hidden shadow-sm">
-                            <button class="faq-btn {{ $loop->first ? '' : 'collapsed' }} text-slate-900 dark:text-white font-semibold text-base" type="button" data-toggle="collapse" data-target="#faq-collapse-{{ $item->id }}">
-                                <span>{{ $loop->iteration }}. {{ $item->title }}</span>
-                                <i class="bi bi-chevron-down text-slate-500"></i>
+                        <div class="faq-item bg-white dark:!bg-slate-800/90 border border-slate-200 dark:border-slate-700/80 rounded-2xl mb-4 overflow-hidden shadow-sm hover:shadow-md transition-all duration-200">
+                            <button class="faq-btn {{ $loop->first ? '' : 'collapsed' }} w-full flex items-center justify-between text-left p-5 sm:p-6 text-slate-900 dark:text-slate-100 font-semibold text-base transition-colors duration-200 focus:outline-none" type="button" data-toggle="collapse" data-target="#faq-collapse-{{ $item->id }}">
+                                <span class="text-slate-900 dark:text-slate-100 font-bold text-base leading-snug pr-4">{{ $loop->iteration }}. {{ $item->title }}</span>
+                                <i class="bi bi-chevron-down text-slate-500 dark:text-slate-400 text-lg flex-shrink-0 transition-transform duration-300"></i>
                             </button>
                             <div id="faq-collapse-{{ $item->id }}" class="collapse {{ $loop->first ? 'show' : '' }} bg-transparent">
-                                <div class="px-6 pb-6 pt-0">
-                                    <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed font-medium">
+                                <div class="px-5 pb-5 sm:px-6 sm:pb-6 pt-0">
+                                    <p class="text-slate-600 dark:text-slate-300 text-sm sm:text-base leading-relaxed font-normal">
                                         {{ $item->description }}
                                     </p>
                                 </div>
@@ -2205,6 +2234,7 @@
                 </div>
             </div>
         </div>
+    </section>
     <!--====== PANDUAN & BERITA ======-->
     <section id="blog" class="destination_area py-16 lg:py-20 scroll-mt-24">
         <div class="container">

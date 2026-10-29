@@ -5,8 +5,8 @@
 @section('content')
     <div class="d-flex justify-content-between align-items-center mb-3">
         <div>
-            <h1 class="h3 fw-bold text-slate-800 mb-0.5">Tambah Konten Landing Page</h1>
-            <p class="text-muted small mb-0">Tambahkan poin item baru untuk bagian Tentang, Keunggulan, Alur Pendaftaran, atau FAQ.</p>
+            <h1 class="h3 fw-bold text-slate-800 dark:text-slate-100 mb-0.5">Tambah Konten Landing Page</h1>
+            <p class="text-muted dark:text-slate-400 small mb-0">Tambahkan poin item baru untuk bagian Tentang, Keunggulan, Alur Pendaftaran, atau FAQ.</p>
         </div>
         <a href="{{ route('admin.landing-contents.index') }}" class="btn btn-outline-secondary d-inline-flex align-items-center gap-1.5 py-1.5 px-3 text-xs font-bold rounded-lg shadow-sm">
             <i class="bi bi-arrow-left"></i> Kembali ke Daftar
@@ -26,11 +26,11 @@
         </div>
     @endif
 
-    <div class="card border-0 shadow-sm rounded-xl overflow-hidden mb-3">
+    <div class="card border border-slate-200 dark:border-slate-700 shadow-sm rounded-xl overflow-hidden mb-3 bg-white dark:bg-slate-800">
         <div class="card-header bg-slate-900 text-white py-2.5 px-3.5">
             <h5 class="mb-0 fw-bold fs-6 text-white"><i class="bi bi-plus-circle me-1.5"></i> Form Tambah Item Landing Page</h5>
         </div>
-        <div class="card-body p-3 sm:p-4 bg-white">
+        <div class="card-body p-3 sm:p-4 bg-white dark:bg-slate-800">
             <form action="{{ route('admin.landing-contents.store') }}" method="POST">
                 @csrf
 

@@ -97,13 +97,13 @@
     </div>
 
     {{-- Main Panel: Daftar Anak Bimbing (Ultra-Dense) --}}
-    <div class="card shadow-sm border-0 mb-2.5">
+    <div class="card shadow-sm border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 rounded-lg overflow-hidden mb-2.5 intern-filter-card">
         <form method="GET" action="{{ route('pembimbing.dashboard') }}" id="mentorInternFilterForm" role="search" class="m-0 p-0">
             <button type="submit" class="visually-hidden" aria-hidden="true" tabindex="-1">Submit</button>
-            <div class="px-3 py-2 bg-slate-50/70 border-b border-slate-200/80 flex items-center justify-between gap-2.5 w-full flex-nowrap overflow-x-auto">
+            <div class="px-3 py-2 bg-slate-50/70 dark:bg-slate-800/90 border-b border-slate-200/80 dark:border-slate-700 flex items-center justify-between gap-2.5 w-full flex-nowrap overflow-x-auto intern-filter-bar">
                 <!-- Kiri: Judul Utama (Tetap Sederet & Sejajar) -->
                 <div class="flex items-center gap-2 shrink-0">
-                    <h2 class="text-sm font-bold text-blue-600 tracking-tight whitespace-nowrap mb-0">Daftar Anak Bimbing</h2>
+                    <h2 class="text-sm font-bold text-blue-600 dark:text-blue-400 tracking-tight whitespace-nowrap mb-0">Daftar Anak Bimbing</h2>
                 </div>
 
                 <!-- Kanan: Seluruh Filter + Tombol Reset + Tombol Ekspor PDF (Wajib Sederet 1 Baris) -->
@@ -114,7 +114,7 @@
                         <select
                             id="internPerPage"
                             name="per_page"
-                            class="h-8 px-3 pr-7 min-w-[95px] bg-white border border-slate-300 rounded-md text-xs font-medium text-slate-700 focus:outline-none focus:ring-1 focus:ring-blue-500 cursor-pointer shadow-2xs mentor-filter-control"
+                            class="h-8 px-3 pr-7 min-w-[95px] bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-md text-xs font-medium text-slate-700 dark:text-slate-200 focus:outline-none focus:ring-1 focus:ring-blue-500 cursor-pointer shadow-2xs mentor-filter-control"
                             data-auto-submit-select="1"
                             aria-label="Jumlah baris per halaman"
                             onchange="this.form.submit()">
@@ -135,7 +135,7 @@
                             id="internSearchInput"
                             value="{{ $searchVal }}"
                             placeholder="Cari nama / asal instansi..."
-                            class="h-8 w-full px-3 bg-white border border-slate-300 rounded-md text-xs text-slate-700 focus:outline-none focus:ring-1 focus:ring-blue-500 placeholder:text-slate-400 mentor-filter-control shadow-2xs"
+                            class="h-8 w-full px-3 bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-md text-xs text-slate-700 dark:text-slate-200 focus:outline-none focus:ring-1 focus:ring-blue-500 placeholder:text-slate-400 dark:placeholder:text-slate-400 mentor-filter-control shadow-2xs"
                             data-auto-submit-search="1"
                             autocomplete="off">
                     </div>
@@ -146,7 +146,7 @@
                         <select
                             id="internStatusFilter"
                             name="status"
-                            class="h-8 px-3 pr-7 min-w-[125px] bg-white border border-slate-300 rounded-md text-xs font-medium text-slate-700 focus:outline-none focus:ring-1 focus:ring-blue-500 cursor-pointer shadow-2xs mentor-filter-control"
+                            class="h-8 px-3 pr-7 min-w-[125px] bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-md text-xs font-medium text-slate-700 dark:text-slate-200 focus:outline-none focus:ring-1 focus:ring-blue-500 cursor-pointer shadow-2xs mentor-filter-control"
                             data-auto-submit-select="1"
                             aria-label="Filter status keaktifan"
                             onchange="this.form.submit()">
@@ -162,7 +162,7 @@
                         <select
                             id="internYearFilter"
                             name="year"
-                            class="h-8 px-3 pr-7 min-w-[125px] bg-white border border-slate-300 rounded-md text-xs font-medium text-slate-700 focus:outline-none focus:ring-1 focus:ring-blue-500 cursor-pointer shadow-2xs mentor-filter-control"
+                            class="h-8 px-3 pr-7 min-w-[125px] bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-md text-xs font-medium text-slate-700 dark:text-slate-200 focus:outline-none focus:ring-1 focus:ring-blue-500 cursor-pointer shadow-2xs mentor-filter-control"
                             data-auto-submit-select="1"
                             aria-label="Filter tahun pelaksanaan"
                             onchange="this.form.submit()">
@@ -177,7 +177,7 @@
 
                     <!-- Tombol Reset (Hanya Muncul Jika Ada Filter & Dibuat Ultra-Compact) -->
                     @if($hasSearch || $activeStatus !== 'all' || !empty($year) || $perPageVal !== '10')
-                        <a href="{{ route('pembimbing.dashboard') }}" class="h-8 px-2.5 inline-flex items-center gap-1 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded-md text-xs font-semibold transition-all shrink-0 text-decoration-none shadow-2xs" title="Reset filter">
+                        <a href="{{ route('pembimbing.dashboard') }}" class="h-8 px-2.5 inline-flex items-center gap-1 bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-200 rounded-md text-xs font-semibold transition-all shrink-0 text-decoration-none shadow-2xs" title="Reset filter">
                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
                             Reset
                         </a>
@@ -192,10 +192,10 @@
             </div>
         </form>
 
-        <div class="card-body p-2.5">
+        <div class="card-body p-2.5 bg-white dark:bg-slate-800">
             @if($hasSearch || $activeStatus !== 'all' || $perPageVal !== '10')
                 <div class="mb-2 d-flex flex-wrap align-items-center gap-1.5 text-xs">
-                    <span class="text-muted" style="font-size: 0.72rem;">Filter aktif:</span>
+                    <span class="text-muted dark:text-slate-400" style="font-size: 0.72rem;">Filter aktif:</span>
                     @if($hasSearch)
                         <span class="badge rounded-pill px-2 py-0.5" style="background-color: #e0e7ff !important; color: #3730a3 !important; font-weight: 600; font-size: 0.7rem;">
                             <i class="bi bi-search me-1"></i>Kata kunci: {{ $searchVal }}
@@ -215,8 +215,8 @@
             @endif
 
             <div class="table-responsive">
-                <table class="table table-bordered table-hover align-middle mb-0" style="font-size: 0.8125rem;">
-                    <thead class="table-light">
+                <table class="table table-bordered table-hover align-middle mb-0 intern-table" style="font-size: 0.8125rem;">
+                    <thead class="table-light bg-slate-100/70 dark:bg-slate-700/60 border-b border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-200">
                         <tr>
                             <th class="text-center py-1.5 px-2 text-nowrap" style="width: 45px;">No</th>
                             <th class="py-1.5 px-2" style="width: 32%;">Nama</th>
@@ -225,21 +225,21 @@
                             <th class="text-center py-1.5 px-2 text-nowrap" style="width: 125px;">Absensi</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="divide-y divide-slate-200/80 dark:divide-slate-700 bg-white dark:bg-slate-800">
                         @forelse($interns as $intern)
                             <tr>
-                                <td class="text-center text-muted fw-semibold py-1.5 px-2">
+                                <td class="text-center text-muted dark:text-slate-300 fw-semibold py-1.5 px-2">
                                     {{ $interns->firstItem() + $loop->index }}
                                 </td>
                                 <td class="py-1.5 px-2 text-start">
                                     <div class="d-flex flex-column text-start">
-                                        <div class="fw-semibold text-gray-900 dark:text-white text-truncate" style="color: #0f172a !important; font-size: 0.8125rem; line-height: 1.25;">
+                                        <div class="fw-semibold text-slate-900 dark:text-slate-100 text-truncate intern-name" style="font-size: 0.8125rem; line-height: 1.25;">
                                             {{ $intern->name }}
                                         </div>
-                                        <small class="text-muted text-truncate" style="font-size: 0.7rem; line-height: 1.2;">
+                                        <small class="text-muted dark:text-slate-400 text-truncate intern-meta" style="font-size: 0.7rem; line-height: 1.2;">
                                             {{ $intern->email }}
                                             @if(!empty($intern->user?->profile?->jurusan))
-                                                <span class="mx-1 text-gray-300">•</span>
+                                                <span class="mx-1 text-slate-300 dark:text-slate-500">•</span>
                                                 {{ $intern->user?->profile?->jurusan }}
                                             @endif
                                         </small>
@@ -248,46 +248,46 @@
                                 <td class="py-1.5 px-2">
                                     @if(!empty($intern->institution) && $intern->institution !== '-')
                                         <div class="d-flex flex-column align-items-start text-start">
-                                            <span class="fw-medium d-flex align-items-center gap-1.5 text-truncate" style="color: #0f172a !important; font-size: 0.8125rem; line-height: 1.25;">
-                                                <i class="bi bi-building flex-shrink-0 text-muted" style="font-size: 0.75rem;"></i>
+                                            <span class="fw-medium d-flex align-items-center gap-1.5 text-truncate text-slate-800 dark:text-slate-100 intern-institution" style="font-size: 0.8125rem; line-height: 1.25;">
+                                                <i class="bi bi-building flex-shrink-0 text-muted dark:text-slate-400" style="font-size: 0.75rem;"></i>
                                                 {{ $intern->institution }}
                                             </span>
                                             @if(!empty($intern->periode_label))
-                                                <span class="text-muted d-flex align-items-center gap-1.5 mt-0.5 text-truncate" style="font-size: 0.6875rem; line-height: 1.2;">
+                                                <span class="text-muted dark:text-slate-400 d-flex align-items-center gap-1.5 mt-0.5 text-truncate intern-meta" style="font-size: 0.6875rem; line-height: 1.2;">
                                                     <i class="bi bi-calendar3 flex-shrink-0"></i>
                                                     {{ $intern->periode_label }}
                                                 </span>
                                             @endif
                                         </div>
                                     @else
-                                        <span class="text-muted fst-italic small" style="font-size: 0.75rem;">Tidak ada data instansi</span>
+                                        <span class="text-muted dark:text-slate-400 fst-italic small" style="font-size: 0.75rem;">Tidak ada data instansi</span>
                                     @endif
                                 </td>
                                 <td class="text-center py-1.5 px-2 text-nowrap">
                                     @if($intern->operational_status === 'active')
-                                        <span class="inline-flex items-center px-2.5 py-1 text-xs font-semibold rounded-full bg-emerald-100 text-emerald-800 border border-emerald-200">
+                                        <span class="inline-flex items-center px-2.5 py-1 text-xs font-semibold rounded-full bg-emerald-100 text-emerald-800 border border-emerald-200 dark:bg-emerald-900/40 dark:text-emerald-300 dark:border-emerald-800">
                                             Aktif Magang
                                         </span>
                                     @elseif($intern->operational_status === 'upcoming')
-                                        <span class="inline-flex items-center px-2.5 py-1 text-xs font-semibold rounded-full bg-amber-100 text-amber-800 border border-amber-200">
+                                        <span class="inline-flex items-center px-2.5 py-1 text-xs font-semibold rounded-full bg-amber-100 text-amber-800 border border-amber-200 dark:bg-amber-900/40 dark:text-amber-300 dark:border-amber-800">
                                             Belum Mulai
                                         </span>
                                     @elseif($intern->operational_status === 'terminated' || !empty($intern->is_terminated))
-                                        <span class="inline-flex items-center px-2.5 py-1 text-xs font-semibold rounded-full bg-rose-100 text-rose-800 border border-rose-200">
+                                        <span class="inline-flex items-center px-2.5 py-1 text-xs font-semibold rounded-full bg-rose-100 text-rose-800 border border-rose-200 dark:bg-rose-900/40 dark:text-rose-300 dark:border-rose-800">
                                             Dinonaktifkan / Berhenti
                                         </span>
                                     @elseif($intern->operational_status === 'completed')
                                         @if(!empty($intern->certificate_path))
-                                            <span class="inline-flex items-center px-2.5 py-1 text-xs font-semibold rounded-full bg-emerald-100 text-emerald-800 border border-emerald-200">
+                                            <span class="inline-flex items-center px-2.5 py-1 text-xs font-semibold rounded-full bg-emerald-100 text-emerald-800 border border-emerald-200 dark:bg-emerald-900/40 dark:text-emerald-300 dark:border-emerald-800">
                                                 Selesai &amp; Sertifikat Terbit
                                             </span>
                                         @else
-                                            <span class="inline-flex items-center px-2.5 py-1 text-xs font-semibold rounded-full bg-slate-100 text-slate-800 border border-slate-200">
+                                            <span class="inline-flex items-center px-2.5 py-1 text-xs font-semibold rounded-full bg-slate-100 text-slate-800 border border-slate-200 dark:bg-slate-700 dark:text-slate-200 dark:border-slate-600">
                                                 Selesai
                                             </span>
                                         @endif
                                     @else
-                                        <span class="inline-flex items-center px-2.5 py-1 text-xs font-semibold rounded-full bg-slate-100 text-slate-800 border border-slate-200">
+                                        <span class="inline-flex items-center px-2.5 py-1 text-xs font-semibold rounded-full bg-slate-100 text-slate-800 border border-slate-200 dark:bg-slate-700 dark:text-slate-200 dark:border-slate-600">
                                             {{ $intern->operational_status_label }}
                                         </span>
                                     @endif
@@ -305,8 +305,8 @@
                             <tr>
                                 <td colspan="5" class="text-center py-2.5">
                                     <div class="d-flex flex-column align-items-center gap-1.5">
-                                        <i class="bi bi-inbox fs-2 text-muted"></i>
-                                        <div class="fw-semibold text-muted small" style="font-size: 0.78rem;">
+                                        <i class="bi bi-inbox fs-2 text-muted dark:text-slate-500"></i>
+                                        <div class="fw-semibold text-muted dark:text-slate-400 small" style="font-size: 0.78rem;">
                                             @if($hasSearch || $activeStatus !== 'all' || $perPageVal !== '10')
                                                 Tidak ada anak bimbing yang cocok dengan filter yang diterapkan.
                                             @else
@@ -327,14 +327,14 @@
             </div>
 
             @if($interns->hasPages() && !$isAllPerPage)
-                <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mt-2 pt-2 border-top small">
-                    <div class="text-muted" style="font-size: 0.75rem;">
+                <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mt-2 pt-2 border-top border-slate-200 dark:border-slate-700 small">
+                    <div class="text-muted dark:text-slate-400" style="font-size: 0.75rem;">
                         Menampilkan
-                        <span class="fw-semibold text-gray-900 dark:text-white" style="color: #0f172a !important;">{{ $interns->firstItem() }}</span>
+                        <span class="fw-semibold text-slate-900 dark:text-slate-100">{{ $interns->firstItem() }}</span>
                         s/d
-                        <span class="fw-semibold text-gray-900 dark:text-white" style="color: #0f172a !important;">{{ $interns->lastItem() }}</span>
+                        <span class="fw-semibold text-slate-900 dark:text-slate-100">{{ $interns->lastItem() }}</span>
                         dari total
-                        <span class="fw-semibold text-gray-900 dark:text-white" style="color: #0f172a !important;">{{ $interns->total() }}</span>
+                        <span class="fw-semibold text-slate-900 dark:text-slate-100">{{ $interns->total() }}</span>
                         anak bimbing
                     </div>
                     <div>
@@ -342,12 +342,12 @@
                     </div>
                 </div>
             @elseif($isAllPerPage)
-                <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mt-2 pt-2 border-top small">
-                    <div class="text-muted" style="font-size: 0.75rem;">
+                <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mt-2 pt-2 border-top border-slate-200 dark:border-slate-700 small">
+                    <div class="text-muted dark:text-slate-400" style="font-size: 0.75rem;">
                         Menampilkan
-                        <span class="fw-semibold text-gray-900 dark:text-white" style="color: #0f172a !important;">{{ $interns->total() }}</span>
+                        <span class="fw-semibold text-slate-900 dark:text-slate-100">{{ $interns->total() }}</span>
                         dari total
-                        <span class="fw-semibold text-gray-900 dark:text-white" style="color: #0f172a !important;">{{ $interns->total() }}</span>
+                        <span class="fw-semibold text-slate-900 dark:text-slate-100">{{ $interns->total() }}</span>
                         anak bimbing (Semua data)
                     </div>
                     <div class="text-muted">
@@ -360,6 +360,44 @@
         </div>
     </div>
 </div>
+
+@push('styles')
+<style>
+    [data-theme="dark"] .intern-name,
+    [data-bs-theme="dark"] .intern-name {
+        color: #f8fafc !important;
+    }
+    [data-theme="dark"] .intern-institution,
+    [data-bs-theme="dark"] .intern-institution {
+        color: #f1f5f9 !important;
+    }
+    [data-theme="dark"] .intern-meta,
+    [data-bs-theme="dark"] .intern-meta {
+        color: #94a3b8 !important;
+    }
+    [data-theme="dark"] .intern-table th,
+    [data-theme="dark"] .intern-table td,
+    [data-bs-theme="dark"] .intern-table th,
+    [data-bs-theme="dark"] .intern-table td {
+        border-color: #334155 !important;
+    }
+    [data-theme="dark"] .intern-table thead th,
+    [data-bs-theme="dark"] .intern-table thead th {
+        background-color: #1e293b !important;
+        color: #e2e8f0 !important;
+    }
+    [data-theme="dark"] .intern-filter-card,
+    [data-bs-theme="dark"] .intern-filter-card {
+        background-color: #151f32 !important;
+        border-color: #26334d !important;
+    }
+    [data-theme="dark"] .intern-filter-bar,
+    [data-bs-theme="dark"] .intern-filter-bar {
+        background-color: #1a253c !important;
+        border-color: #26334d !important;
+    }
+</style>
+@endpush
 <script>
 (function () {
     var SEARCH_DEBOUNCE_MS = 350;

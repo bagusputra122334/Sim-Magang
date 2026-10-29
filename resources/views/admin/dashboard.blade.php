@@ -41,96 +41,96 @@
                 {{-- Card 1: Total Posisi Magang --}}
                 <div class="card shadow-sm border border-slate-200 dark:border-slate-700 rounded-lg p-2.5 sm:p-3 flex flex-row items-center justify-between h-full bg-white dark:bg-slate-800" style="flex-direction: row !important;">
                     <div class="d-flex flex-column justify-content-center min-w-0 pe-2">
-                        <span class="text-xs font-extrabold !text-slate-800 dark:!text-slate-100 tracking-wider uppercase text-nowrap truncate" style="color: #1e293b !important;">TOTAL POSISI MAGANG</span>
+                        <span class="text-xs font-extrabold text-slate-800 dark:text-slate-200 tracking-wider uppercase text-nowrap truncate">TOTAL POSISI MAGANG</span>
                         <div class="d-flex align-items-baseline gap-1.5 flex-wrap">
-                            <span class="text-2xl font-black !text-black dark:!text-white my-0.5 block opacity-100 leading-none" style="color: #000000 !important; font-weight: 900 !important;">{{ number_format($stats['total_positions'], 0, ',', '.') }}</span>
-                            <span class="text-xs font-bold !text-slate-700 dark:!text-slate-200 text-nowrap truncate" style="color: #334155 !important;">
-                                (<span class="!text-emerald-700 dark:!text-emerald-400 font-bold" style="color: #047857 !important;">{{ $stats['total_positions_aktif'] }} aktif</span> / {{ $stats['total_positions'] }})
+                            <span class="text-2xl font-black text-slate-900 dark:text-white my-0.5 block opacity-100 leading-none">{{ number_format($stats['total_positions'], 0, ',', '.') }}</span>
+                            <span class="text-xs font-bold text-slate-700 dark:text-slate-300 text-nowrap truncate">
+                                (<span class="text-emerald-700 dark:text-emerald-400 font-bold">{{ $stats['total_positions_aktif'] }} aktif</span> / {{ $stats['total_positions'] }})
                             </span>
                         </div>
                     </div>
-                    <div class="rounded bg-blue-100 dark:bg-blue-900/30 p-2 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 34px; height: 34px;">
-                        <i class="bi bi-briefcase text-primary fs-6"></i>
+                    <div class="rounded bg-blue-100 dark:bg-blue-900/40 p-2 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 34px; height: 34px;">
+                        <i class="bi bi-briefcase text-blue-600 dark:text-blue-400 fs-6"></i>
                     </div>
                 </div>
 
                 {{-- Card 2: Total Pelamar / Peserta --}}
                 <div class="card shadow-sm border border-slate-200 dark:border-slate-700 rounded-lg p-2.5 sm:p-3 flex flex-row items-center justify-between h-full bg-white dark:bg-slate-800" style="flex-direction: row !important;">
                     <div class="d-flex flex-column justify-content-center min-w-0 pe-2">
-                        <span class="text-xs font-extrabold !text-slate-800 dark:!text-slate-100 tracking-wider uppercase text-nowrap truncate" style="color: #1e293b !important;">TOTAL PESERTA TERDAFTAR</span>
+                        <span class="text-xs font-extrabold text-slate-800 dark:text-slate-200 tracking-wider uppercase text-nowrap truncate">TOTAL PESERTA TERDAFTAR</span>
                         <div class="d-flex align-items-baseline gap-1.5 flex-wrap">
-                            <span class="text-2xl font-black !text-black dark:!text-white my-0.5 block opacity-100 leading-none" style="color: #000000 !important; font-weight: 900 !important;">{{ number_format($stats['total_peserta'], 0, ',', '.') }}</span>
-                            <span class="text-xs font-bold !text-slate-700 dark:!text-slate-200 text-nowrap truncate" style="color: #334155 !important;">
-                                (<span class="!text-emerald-700 dark:!text-emerald-400 font-bold" style="color: #047857 !important;">{{ $stats['total_peserta_verified'] }}</span> verifikasi)
+                            <span class="text-2xl font-black text-slate-900 dark:text-white my-0.5 block opacity-100 leading-none">{{ number_format($stats['total_peserta'], 0, ',', '.') }}</span>
+                            <span class="text-xs font-bold text-slate-700 dark:text-slate-300 text-nowrap truncate">
+                                (<span class="text-emerald-700 dark:text-emerald-400 font-bold">{{ $stats['total_peserta_verified'] }}</span> verifikasi)
                             </span>
                         </div>
                     </div>
-                    <div class="rounded bg-emerald-100 dark:bg-emerald-900/30 p-2 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 34px; height: 34px;">
-                        <i class="bi bi-people text-success fs-6"></i>
+                    <div class="rounded bg-emerald-100 dark:bg-emerald-900/40 p-2 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 34px; height: 34px;">
+                        <i class="bi bi-people text-emerald-600 dark:text-emerald-400 fs-6"></i>
                     </div>
                 </div>
 
                 {{-- Card 3: Pending Applications --}}
                 <div class="card shadow-sm border border-slate-200 dark:border-slate-700 rounded-lg p-2.5 sm:p-3 flex flex-row items-center justify-between h-full bg-white dark:bg-slate-800" style="flex-direction: row !important;">
                     <div class="d-flex flex-column justify-content-center min-w-0 pe-2">
-                        <span class="text-xs font-extrabold !text-slate-800 dark:!text-slate-100 tracking-wider uppercase text-nowrap truncate" style="color: #1e293b !important;">PERLU VERIFIKASI</span>
+                        <span class="text-xs font-extrabold text-slate-800 dark:text-slate-200 tracking-wider uppercase text-nowrap truncate">PERLU VERIFIKASI</span>
                         <div class="d-flex align-items-baseline gap-1.5 flex-wrap">
-                            <span class="text-2xl font-black !text-black dark:!text-white my-0.5 block opacity-100 leading-none" style="color: #000000 !important; font-weight: 900 !important;">{{ number_format($stats['verifikasi_pending'], 0, ',', '.') }}</span>
-                            <span class="text-xs font-bold !text-slate-700 dark:!text-slate-200 text-nowrap truncate" style="color: #334155 !important;">
-                                (<span class="!text-amber-700 dark:!text-amber-400 font-bold" style="color: #b45309 !important;">{{ $stats['status_submitted'] }}</span> diajukan)
+                            <span class="text-2xl font-black text-slate-900 dark:text-white my-0.5 block opacity-100 leading-none">{{ number_format($stats['verifikasi_pending'], 0, ',', '.') }}</span>
+                            <span class="text-xs font-bold text-slate-700 dark:text-slate-300 text-nowrap truncate">
+                                (<span class="text-amber-700 dark:text-amber-400 font-bold">{{ $stats['status_submitted'] }}</span> diajukan)
                             </span>
                         </div>
                     </div>
-                    <div class="rounded bg-amber-100 dark:bg-amber-900/30 p-2 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 34px; height: 34px;">
-                        <i class="bi bi-clock-history text-warning fs-6"></i>
+                    <div class="rounded bg-amber-100 dark:bg-amber-900/40 p-2 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 34px; height: 34px;">
+                        <i class="bi bi-clock-history text-amber-600 dark:text-amber-400 fs-6"></i>
                     </div>
                 </div>
 
                 {{-- Card 4: Under Review Applications --}}
                 <div class="card shadow-sm border border-slate-200 dark:border-slate-700 rounded-lg p-2.5 sm:p-3 flex flex-row items-center justify-between h-full bg-white dark:bg-slate-800" style="flex-direction: row !important;">
                     <div class="d-flex flex-column justify-content-center min-w-0 pe-2">
-                        <span class="text-xs font-extrabold !text-slate-800 dark:!text-slate-100 tracking-wider uppercase text-nowrap truncate" style="color: #1e293b !important;">UNDER REVIEW</span>
+                        <span class="text-xs font-extrabold text-slate-800 dark:text-slate-200 tracking-wider uppercase text-nowrap truncate">UNDER REVIEW</span>
                         <div class="d-flex align-items-baseline gap-1.5 flex-wrap">
-                            <span class="text-2xl font-black !text-black dark:!text-white my-0.5 block opacity-100 leading-none" style="color: #000000 !important; font-weight: 900 !important;">{{ number_format($stats['status_under_review'], 0, ',', '.') }}</span>
-                            <span class="text-xs font-bold !text-slate-700 dark:!text-slate-200 text-nowrap truncate" style="color: #334155 !important;">
+                            <span class="text-2xl font-black text-slate-900 dark:text-white my-0.5 block opacity-100 leading-none">{{ number_format($stats['status_under_review'], 0, ',', '.') }}</span>
+                            <span class="text-xs font-bold text-slate-700 dark:text-slate-300 text-nowrap truncate">
                                 (proses verifikasi)
                             </span>
                         </div>
                     </div>
-                    <div class="rounded bg-amber-100 dark:bg-amber-900/30 p-2 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 34px; height: 34px;">
-                        <i class="bi bi-search text-warning fs-6"></i>
+                    <div class="rounded bg-amber-100 dark:bg-amber-900/40 p-2 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 34px; height: 34px;">
+                        <i class="bi bi-search text-amber-600 dark:text-amber-400 fs-6"></i>
                     </div>
                 </div>
 
                 {{-- Card 5: Accepted Applications --}}
                 <div class="card shadow-sm border border-slate-200 dark:border-slate-700 rounded-lg p-2.5 sm:p-3 flex flex-row items-center justify-between h-full bg-white dark:bg-slate-800" style="flex-direction: row !important;">
                     <div class="d-flex flex-column justify-content-center min-w-0 pe-2">
-                        <span class="text-xs font-extrabold !text-slate-800 dark:!text-slate-100 tracking-wider uppercase text-nowrap truncate" style="color: #1e293b !important;">PENDAFTARAN DITERIMA</span>
+                        <span class="text-xs font-extrabold text-slate-800 dark:text-slate-200 tracking-wider uppercase text-nowrap truncate">PENDAFTARAN DITERIMA</span>
                         <div class="d-flex align-items-baseline gap-1.5 flex-wrap">
-                            <span class="text-2xl font-black !text-black dark:!text-white my-0.5 block opacity-100 leading-none" style="color: #000000 !important; font-weight: 900 !important;">{{ number_format($stats['status_accepted'], 0, ',', '.') }}</span>
-                            <span class="text-xs font-bold !text-slate-700 dark:!text-slate-200 text-nowrap truncate" style="color: #334155 !important;">
-                                (<span class="!text-emerald-700 dark:!text-emerald-400 font-bold" style="color: #047857 !important;">{{ $stats['percent_accepted'] }}%</span> diterima)
+                            <span class="text-2xl font-black text-slate-900 dark:text-white my-0.5 block opacity-100 leading-none">{{ number_format($stats['status_accepted'], 0, ',', '.') }}</span>
+                            <span class="text-xs font-bold text-slate-700 dark:text-slate-300 text-nowrap truncate">
+                                (<span class="text-emerald-700 dark:text-emerald-400 font-bold">{{ $stats['percent_accepted'] }}%</span> diterima)
                             </span>
                         </div>
                     </div>
-                    <div class="rounded bg-emerald-100 dark:bg-emerald-900/30 p-2 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 34px; height: 34px;">
-                        <i class="bi bi-check-circle text-success fs-6"></i>
+                    <div class="rounded bg-emerald-100 dark:bg-emerald-900/40 p-2 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 34px; height: 34px;">
+                        <i class="bi bi-check-circle text-emerald-600 dark:text-emerald-400 fs-6"></i>
                     </div>
                 </div>
 
                 {{-- Card 6: Rejected Applications --}}
                 <div class="card shadow-sm border border-slate-200 dark:border-slate-700 rounded-lg p-2.5 sm:p-3 flex flex-row items-center justify-between h-full bg-white dark:bg-slate-800" style="flex-direction: row !important;">
                     <div class="d-flex flex-column justify-content-center min-w-0 pe-2">
-                        <span class="text-xs font-extrabold !text-slate-800 dark:!text-slate-100 tracking-wider uppercase text-nowrap truncate" style="color: #1e293b !important;">PENDAFTARAN DITOLAK</span>
+                        <span class="text-xs font-extrabold text-slate-800 dark:text-slate-200 tracking-wider uppercase text-nowrap truncate">PENDAFTARAN DITOLAK</span>
                         <div class="d-flex align-items-baseline gap-1.5 flex-wrap">
-                            <span class="text-2xl font-black !text-black dark:!text-white my-0.5 block opacity-100 leading-none" style="color: #000000 !important; font-weight: 900 !important;">{{ number_format($stats['status_rejected'], 0, ',', '.') }}</span>
-                            <span class="text-xs font-bold !text-slate-700 dark:!text-slate-200 text-nowrap truncate" style="color: #334155 !important;">
-                                (<span class="!text-rose-700 dark:!text-rose-400 font-bold" style="color: #be123c !important;">{{ $stats['total_registrations'] > 0 ? round(($stats['status_rejected'] / $stats['total_registrations']) * 100, 1) : 0 }}%</span> ditolak)
+                            <span class="text-2xl font-black text-slate-900 dark:text-white my-0.5 block opacity-100 leading-none">{{ number_format($stats['status_rejected'], 0, ',', '.') }}</span>
+                            <span class="text-xs font-bold text-slate-700 dark:text-slate-300 text-nowrap truncate">
+                                (<span class="text-rose-700 dark:text-rose-400 font-bold">{{ $stats['total_registrations'] > 0 ? round(($stats['status_rejected'] / $stats['total_registrations']) * 100, 1) : 0 }}%</span> ditolak)
                             </span>
                         </div>
                     </div>
-                    <div class="rounded bg-rose-100 dark:bg-rose-900/30 p-2 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 34px; height: 34px;">
-                        <i class="bi bi-x-circle text-danger fs-6"></i>
+                    <div class="rounded bg-rose-100 dark:bg-rose-900/40 p-2 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 34px; height: 34px;">
+                        <i class="bi bi-x-circle text-rose-600 dark:text-rose-400 fs-6"></i>
                     </div>
                 </div>
             </section>
@@ -140,8 +140,8 @@
         <div class="lg:w-1/3 flex flex-col">
             <div class="card shadow-sm border border-slate-200 dark:border-slate-700/60 rounded-lg w-100 h-full d-flex flex-column justify-content-between mb-0 bg-white dark:bg-slate-800 p-3" style="padding: 0.75rem !important;">
                 <div class="card-header bg-transparent border-0 p-0 mb-1 d-flex align-items-center justify-content-between">
-                    <h6 class="text-uppercase text-muted fw-bold mb-0" style="font-size: 0.7rem; letter-spacing: 0.5px;">
-                        <i class="bi bi-pie-chart-fill me-1.5 text-primary"></i>Rekap Pendaftaran
+                    <h6 class="text-uppercase text-slate-500 dark:text-slate-400 font-bold mb-0" style="font-size: 0.7rem; letter-spacing: 0.5px;">
+                        <i class="bi bi-pie-chart-fill me-1.5 text-blue-600 dark:text-blue-400"></i>Rekap Pendaftaran
                     </h6>
                 </div>
                 <!-- Padding internal rapat p-3 -->
@@ -151,7 +151,7 @@
                         <canvas id="statusChart"></canvas>
                     </div>
                     <div class="mt-1">
-                        <p class="text-muted mb-0" style="font-size: 0.65rem;">Distribusi status pendaftaran magang.</p>
+                        <p class="text-slate-500 dark:text-slate-400 mb-0" style="font-size: 0.65rem;">Distribusi status pendaftaran magang.</p>
                     </div>
                 </div>
             </div>

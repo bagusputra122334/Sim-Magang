@@ -85,16 +85,18 @@
         </div>
     @endif
 
-    <!-- Top Statistics Row (Ultra-Compact, 6 Columns - Extended with Assignment Stats) -->
-    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-1.5 mb-2">
+    <!-- Top Statistics Row (Ultra-Compact, 6 Columns - Perfectly Aligned & Single-line) -->
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2 mb-2.5">
         <!-- Card 1: Status Profil -->
         <div class="card shadow-sm border-0 h-100">
-            <div class="card-body p-2 sm:p-2.5 d-flex align-items-center justify-content-between">
-                <div>
-                    <p class="text-muted text-uppercase fw-bold mb-0.5" style="font-size: 0.65rem; letter-spacing: 0.5px;">Status Profil</p>
-                    <div class="text-base sm:text-lg mb-0 text-gray-900 dark:text-white font-bold {{ $hasProfile ? 'text-success' : 'text-danger' }}">{{ $hasProfile ? 'Terisi Lengkap' : 'Belum Terisi' }}</div>
+            <div class="card-body p-2 sm:p-2.5 d-flex align-items-center justify-content-between gap-1.5 h-100">
+                <div class="min-w-0 flex-grow-1">
+                    <p class="text-muted dark:text-slate-400 text-uppercase fw-bold mb-1 text-truncate" style="font-size: 0.65rem; letter-spacing: 0.5px; line-height: 1;">Status Profil</p>
+                    <div class="text-sm sm:text-base font-bold leading-tight text-truncate {{ $hasProfile ? 'text-success' : 'text-danger' }}">
+                        {{ $hasProfile ? 'Lengkap' : 'Belum Ada' }}
+                    </div>
                 </div>
-                <div class="{{ $hasProfile ? 'text-success' : 'text-danger' }}">
+                <div class="flex-shrink-0 {{ $hasProfile ? 'text-success' : 'text-danger' }}">
                     <i class="bi {{ $hasProfile ? 'bi-person-check-fill' : 'bi-person-exclamation' }} fs-5"></i>
                 </div>
             </div>
@@ -102,12 +104,14 @@
 
         <!-- Card 2: Total Pendaftaran -->
         <div class="card shadow-sm border-0 h-100">
-            <div class="card-body p-2 sm:p-2.5 d-flex align-items-center justify-content-between">
-                <div>
-                    <p class="text-uppercase fw-bold mb-0.5 text-gray-900 dark:text-white text-dark" style="font-size: 0.65rem; letter-spacing: 0.5px;">Total Pendaftaran</p>
-                    <div class="text-base sm:text-lg mb-0 text-gray-900 dark:text-white font-bold text-dark">{{ $totalRegistrations ?? ($total_pendaftaran ?? 0) }}</div>
+            <div class="card-body p-2 sm:p-2.5 d-flex align-items-center justify-content-between gap-1.5 h-100">
+                <div class="min-w-0 flex-grow-1">
+                    <p class="text-muted dark:text-slate-400 text-uppercase fw-bold mb-1 text-truncate" style="font-size: 0.65rem; letter-spacing: 0.5px; line-height: 1;">Total Pendaftaran</p>
+                    <div class="text-sm sm:text-base font-bold leading-tight text-truncate text-slate-800 dark:text-slate-100">
+                        {{ $totalRegistrations ?? ($total_pendaftaran ?? 0) }}
+                    </div>
                 </div>
-                <div class="text-primary">
+                <div class="flex-shrink-0 text-primary">
                     <i class="bi bi-file-earmark-text-fill fs-5"></i>
                 </div>
             </div>
@@ -115,18 +119,18 @@
 
         <!-- Card 3: Status Terbaru -->
         <div class="card shadow-sm border-0 h-100">
-            <div class="card-body p-2 sm:p-2.5 d-flex align-items-center justify-content-between">
-                <div>
-                    <p class="text-muted text-uppercase fw-bold mb-0.5" style="font-size: 0.65rem; letter-spacing: 0.5px;">Status Terbaru</p>
+            <div class="card-body p-2 sm:p-2.5 d-flex align-items-center justify-content-between gap-1.5 h-100">
+                <div class="min-w-0 flex-grow-1">
+                    <p class="text-muted dark:text-slate-400 text-uppercase fw-bold mb-1 text-truncate" style="font-size: 0.65rem; letter-spacing: 0.5px; line-height: 1;">Status Terbaru</p>
                     @if ($reg !== null)
-                        <div class="text-base sm:text-lg mb-0 text-gray-900 dark:text-white font-bold {{ $reg->is_terminated ? 'text-danger' : ($sv === 'accepted' ? 'text-success' : ($sv === 'rejected' ? 'text-danger' : ($sv === 'under_review' ? 'text-warning' : 'text-primary'))) }}">
+                        <div class="text-sm sm:text-base font-bold leading-tight text-truncate {{ $reg->is_terminated ? 'text-danger' : ($sv === 'accepted' ? 'text-success' : ($sv === 'rejected' ? 'text-danger' : ($sv === 'under_review' ? 'text-warning' : 'text-primary'))) }}">
                             {{ $reg->is_terminated ? 'Dinonaktifkan' : $reg->status->label() }}
                         </div>
                     @else
-                        <div class="text-base sm:text-lg mb-0 text-gray-900 dark:text-white font-bold text-secondary">Belum Ada</div>
+                        <div class="text-sm sm:text-base font-bold leading-tight text-truncate text-secondary">Belum Ada</div>
                     @endif
                 </div>
-                <div class="{{ $reg !== null ? ($reg->is_terminated ? 'text-danger' : ($sv === 'accepted' ? 'text-success' : ($sv === 'rejected' ? 'text-danger' : ($sv === 'under_review' ? 'text-warning' : 'text-primary')))) : 'text-secondary' }}">
+                <div class="flex-shrink-0 {{ $reg !== null ? ($reg->is_terminated ? 'text-danger' : ($sv === 'accepted' ? 'text-success' : ($sv === 'rejected' ? 'text-danger' : ($sv === 'under_review' ? 'text-warning' : 'text-primary')))) : 'text-secondary' }}">
                     <i class="bi {{ $reg !== null ? ($reg->is_terminated || $sv === 'rejected' ? 'bi-x-circle-fill' : ($sv === 'accepted' ? 'bi-check-circle-fill' : ($sv === 'under_review' ? 'bi-clock-fill' : 'bi-info-circle-fill'))) : 'bi-info-circle-fill' }} fs-5"></i>
                 </div>
             </div>
@@ -134,14 +138,14 @@
 
         <!-- Card 4: Surat Balasan -->
         <div class="card shadow-sm border-0 h-100">
-            <div class="card-body p-2 sm:p-2.5 d-flex align-items-center justify-content-between">
-                <div>
-                    <p class="text-muted text-uppercase fw-bold mb-0.5" style="font-size: 0.65rem; letter-spacing: 0.5px;">Surat Balasan</p>
-                    <div class="text-base sm:text-lg mb-0 text-gray-900 dark:text-white font-bold {{ $documentInfo['surat_balasan_exists'] ? 'text-success' : 'text-secondary' }}">
+            <div class="card-body p-2 sm:p-2.5 d-flex align-items-center justify-content-between gap-1.5 h-100">
+                <div class="min-w-0 flex-grow-1">
+                    <p class="text-muted dark:text-slate-400 text-uppercase fw-bold mb-1 text-truncate" style="font-size: 0.65rem; letter-spacing: 0.5px; line-height: 1;">Surat Balasan</p>
+                    <div class="text-sm sm:text-base font-bold leading-tight text-truncate {{ $documentInfo['surat_balasan_exists'] ? 'text-success' : 'text-secondary' }}">
                         {{ $documentInfo['surat_balasan_exists'] ? 'Tersedia' : 'Belum Ada' }}
                     </div>
                 </div>
-                <div class="{{ $documentInfo['surat_balasan_exists'] ? 'text-success' : 'text-secondary' }}">
+                <div class="flex-shrink-0 {{ $documentInfo['surat_balasan_exists'] ? 'text-success' : 'text-secondary' }}">
                     <i class="bi {{ $documentInfo['surat_balasan_exists'] ? 'bi-file-earmark-check-fill' : 'bi-envelope-fill' }} fs-5"></i>
                 </div>
             </div>
@@ -149,12 +153,14 @@
 
         <!-- Card 5: Total Penugasan -->
         <div class="card shadow-sm border-0 h-100">
-            <div class="card-body p-2 sm:p-2.5 d-flex align-items-center justify-content-between">
-                <div>
-                    <p class="text-uppercase fw-bold mb-0.5 text-gray-900 dark:text-white text-dark" style="font-size: 0.65rem; letter-spacing: 0.5px;">Total Penugasan</p>
-                    <div class="text-base sm:text-lg mb-0 text-gray-900 dark:text-white font-bold text-dark">{{ $totalAssignments ?? ($total_penugasan ?? 0) }}</div>
+            <div class="card-body p-2 sm:p-2.5 d-flex align-items-center justify-content-between gap-1.5 h-100">
+                <div class="min-w-0 flex-grow-1">
+                    <p class="text-muted dark:text-slate-400 text-uppercase fw-bold mb-1 text-truncate" style="font-size: 0.65rem; letter-spacing: 0.5px; line-height: 1;">Total Penugasan</p>
+                    <div class="text-sm sm:text-base font-bold leading-tight text-truncate text-slate-800 dark:text-slate-100">
+                        {{ $totalAssignments ?? ($total_penugasan ?? 0) }}
+                    </div>
                 </div>
-                <div class="text-indigo">
+                <div class="flex-shrink-0 text-indigo">
                     <i class="bi bi-list-task fs-5"></i>
                 </div>
             </div>
@@ -162,14 +168,14 @@
 
         <!-- Card 6: Tugas Tertunda -->
         <div class="card shadow-sm border-0 h-100">
-            <div class="card-body p-2 sm:p-2.5 d-flex align-items-center justify-content-between">
-                <div>
-                    <p class="text-muted text-uppercase fw-bold mb-0.5" style="font-size: 0.65rem; letter-spacing: 0.5px;">Tugas Tertunda</p>
-                    <div class="text-base sm:text-lg mb-0 text-gray-900 dark:text-white font-bold {{ $overdueCount > 0 ? 'text-danger' : ($pendingCount > 0 ? 'text-warning' : 'text-success') }}">
+            <div class="card-body p-2 sm:p-2.5 d-flex align-items-center justify-content-between gap-1.5 h-100">
+                <div class="min-w-0 flex-grow-1">
+                    <p class="text-muted dark:text-slate-400 text-uppercase fw-bold mb-1 text-truncate" style="font-size: 0.65rem; letter-spacing: 0.5px; line-height: 1;">Tugas Tertunda</p>
+                    <div class="text-sm sm:text-base font-bold leading-tight text-truncate {{ $overdueCount > 0 ? 'text-danger' : ($pendingCount > 0 ? 'text-warning' : 'text-success') }}">
                         {{ $overdueCount > 0 ? $overdueCount . ' Terlambat' : ($pendingCount > 0 ? $pendingCount . ' Tugas' : 'Selesai') }}
                     </div>
                 </div>
-                <div class="{{ $overdueCount > 0 ? 'text-danger' : ($pendingCount > 0 ? 'text-warning' : 'text-success') }}">
+                <div class="flex-shrink-0 {{ $overdueCount > 0 ? 'text-danger' : ($pendingCount > 0 ? 'text-warning' : 'text-success') }}">
                     <i class="bi {{ $overdueCount > 0 ? 'bi-exclamation-triangle-fill' : ($pendingCount > 0 ? 'bi-clock-history' : 'bi-check2-circle') }} fs-5"></i>
                 </div>
             </div>
@@ -192,16 +198,16 @@
                 </p>
             </div>
             <div class="d-flex gap-1.5 flex-wrap">
-                <span class="badge bg-amber-100 text-amber-950 border border-amber-400 rounded-pill px-2.5 py-1 text-xs font-bold shadow-xs">
-                    <i class="bi bi-clock-history text-amber-700 me-1"></i> Tertunda: {{ $pendingCount }}
+                <span class="badge assignment-badge-amber rounded-pill px-2.5 py-1 text-xs font-bold shadow-xs">
+                    <i class="bi bi-clock-history me-1"></i> Tertunda: {{ $pendingCount }}
                 </span>
                 @if($overdueCount > 0)
-                    <span class="badge bg-rose-100 text-rose-950 border border-rose-400 rounded-pill px-2.5 py-1 text-xs font-bold shadow-xs">
-                        <i class="bi bi-exclamation-triangle-fill text-rose-700 me-1"></i> Terlambat: {{ $overdueCount }}
+                    <span class="badge assignment-badge-rose rounded-pill px-2.5 py-1 text-xs font-bold shadow-xs">
+                        <i class="bi bi-exclamation-triangle-fill me-1"></i> Terlambat: {{ $overdueCount }}
                     </span>
                 @endif
-                <span class="badge bg-emerald-100 text-emerald-950 border border-emerald-400 rounded-pill px-2.5 py-1 text-xs font-bold shadow-xs">
-                    <i class="bi bi-check2-circle text-emerald-700 me-1"></i> Selesai: {{ $doneCount }}
+                <span class="badge assignment-badge-emerald rounded-pill px-2.5 py-1 text-xs font-bold shadow-xs">
+                    <i class="bi bi-check2-circle me-1"></i> Selesai: {{ $doneCount }}
                 </span>
             </div>
         </div>
@@ -256,21 +262,21 @@
                             <div class="d-flex flex-wrap align-items-center gap-2 mb-1">
                                 <h6 class="mb-0 fw-bold text-truncate flex-grow-1">{{ $assignment->title }}</h6>
                                 @if($srcType === 'task')
-                                    <span class="badge bg-blue-100 text-blue-950 border border-blue-400 rounded-pill px-2.5 py-0.5 text-xs font-bold flex-shrink-0">
+                                    <span class="badge assignment-badge-blue rounded-pill px-2.5 py-0.5 text-xs font-bold flex-shrink-0">
                                         Tugas
                                     </span>
                                 @elseif($isTask)
-                                    <span class="badge bg-amber-100 text-amber-950 border border-amber-400 rounded-pill px-2.5 py-0.5 text-xs font-bold flex-shrink-0">
+                                    <span class="badge assignment-badge-amber rounded-pill px-2.5 py-0.5 text-xs font-bold flex-shrink-0">
                                         Tugas
                                     </span>
                                 @else
-                                    <span class="badge bg-blue-100 text-blue-950 border border-blue-400 rounded-pill px-2.5 py-0.5 text-xs font-bold flex-shrink-0">
+                                    <span class="badge assignment-badge-blue rounded-pill px-2.5 py-0.5 text-xs font-bold flex-shrink-0">
                                         Materi
                                     </span>
                                 @endif
                                 @if($isSubmitted)
-                                    <span class="badge bg-emerald-100 text-emerald-950 border border-emerald-400 rounded-pill px-2.5 py-0.5 text-xs font-bold flex-shrink-0">
-                                        <i class="bi bi-check2-circle text-emerald-700 me-1"></i> Sudah Dikumpulkan
+                                    <span class="badge assignment-badge-emerald rounded-pill px-2.5 py-0.5 text-xs font-bold flex-shrink-0">
+                                        <i class="bi bi-check2-circle me-1"></i> Sudah Dikumpulkan
                                     </span>
                                 @endif
                                 {!! $overdueBadge !!}
@@ -464,15 +470,15 @@
                     {{-- Ultra-Dense Sub-Info Grid --}}
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
                         <div>
-                            <div class="p-2.5 bg-light rounded-3">
-                                <span class="text-muted small d-block mb-0.5">Posisi Magang</span>
+                            <div class="p-2.5 bg-light dark:bg-slate-800/60 border border-transparent dark:border-slate-700/60 rounded-3">
+                                <span class="text-muted dark:text-slate-400 small d-block mb-0.5">Posisi Magang</span>
                                 <strong class="fs-6 text-body">{{ $reg->position?->nama_posisi ?? '-' }}</strong>
                             </div>
                         </div>
 
                         <div>
-                            <div class="p-2.5 bg-light rounded-3">
-                                <span class="text-muted small d-block mb-0.5">Periode Magang</span>
+                            <div class="p-2.5 bg-light dark:bg-slate-800/60 border border-transparent dark:border-slate-700/60 rounded-3">
+                                <span class="text-muted dark:text-slate-400 small d-block mb-0.5">Periode Magang</span>
                                 <strong class="fs-6 text-body">
                                     {{ $reg->periode_label ?? ($reg->tanggal_mulai?->translatedFormat('d M Y').' — '.$reg->tanggal_selesai?->translatedFormat('d M Y') ?? '-') }}
                                 </strong>
@@ -480,8 +486,8 @@
                         </div>
 
                         <div>
-                            <div class="p-2.5 bg-light rounded-3">
-                                <span class="text-muted small d-block mb-0.5">Tanggal Pengajuan</span>
+                            <div class="p-2.5 bg-light dark:bg-slate-800/60 border border-transparent dark:border-slate-700/60 rounded-3">
+                                <span class="text-muted dark:text-slate-400 small d-block mb-0.5">Tanggal Pengajuan</span>
                                 <span class="fw-semibold text-body small">
                                     <i class="bi bi-calendar-event me-1"></i>
                                     {{ $reg->tanggal_submit?->translatedFormat('l, d M Y (H:i)') ?? '-' }} WIB
@@ -490,8 +496,8 @@
                         </div>
 
                         <div>
-                            <div class="p-2.5 bg-light rounded-3">
-                                <span class="text-muted small d-block mb-0.5">Status Verifikasi</span>
+                            <div class="p-2.5 bg-light dark:bg-slate-800/60 border border-transparent dark:border-slate-700/60 rounded-3">
+                                <span class="text-muted dark:text-slate-400 small d-block mb-0.5">Status Verifikasi</span>
                                 <span class="fw-semibold text-body small">
                                     <i class="bi bi-shield-check me-1"></i>
                                     {{ $reg->status->label() }}
@@ -608,3 +614,98 @@
         </div>
     </div>
 @endsection
+
+@push('styles')
+<style>
+    /* Assignment Widget Badges in Header & List */
+    .assignment-badge-amber {
+        background-color: #fef3c7 !important;
+        color: #78350f !important;
+        border: 1px solid #f59e0b !important;
+    }
+    .assignment-badge-amber i {
+        color: #b45309 !important;
+    }
+
+    .assignment-badge-emerald {
+        background-color: #d1fae5 !important;
+        color: #064e3b !important;
+        border: 1px solid #10b981 !important;
+    }
+    .assignment-badge-emerald i {
+        color: #047857 !important;
+    }
+
+    .assignment-badge-rose {
+        background-color: #ffe4e6 !important;
+        color: #881337 !important;
+        border: 1px solid #f43f5e !important;
+    }
+    .assignment-badge-rose i {
+        color: #be123c !important;
+    }
+
+    .assignment-badge-blue {
+        background-color: #dbeafe !important;
+        color: #1e3a8a !important;
+        border: 1px solid #3b82f6 !important;
+    }
+    .assignment-badge-blue i {
+        color: #1d4ed8 !important;
+    }
+
+    /* Dark Mode Overrides for Assignment Badges */
+    [data-bs-theme="dark"] .assignment-badge-amber,
+    [data-theme="dark"] .assignment-badge-amber,
+    .dark .assignment-badge-amber {
+        background-color: rgba(120, 53, 15, 0.45) !important;
+        color: #fde68a !important;
+        border: 1px solid #d97706 !important;
+    }
+    [data-bs-theme="dark"] .assignment-badge-amber i,
+    [data-theme="dark"] .assignment-badge-amber i,
+    .dark .assignment-badge-amber i {
+        color: #fbbf24 !important;
+    }
+
+    [data-bs-theme="dark"] .assignment-badge-emerald,
+    [data-theme="dark"] .assignment-badge-emerald,
+    .dark .assignment-badge-emerald {
+        background-color: rgba(6, 78, 59, 0.45) !important;
+        color: #a7f3d0 !important;
+        border: 1px solid #059669 !important;
+    }
+    [data-bs-theme="dark"] .assignment-badge-emerald i,
+    [data-theme="dark"] .assignment-badge-emerald i,
+    .dark .assignment-badge-emerald i {
+        color: #34d399 !important;
+    }
+
+    [data-bs-theme="dark"] .assignment-badge-rose,
+    [data-theme="dark"] .assignment-badge-rose,
+    .dark .assignment-badge-rose {
+        background-color: rgba(136, 19, 55, 0.45) !important;
+        color: #fecdd3 !important;
+        border: 1px solid #e11d48 !important;
+    }
+    [data-bs-theme="dark"] .assignment-badge-rose i,
+    [data-theme="dark"] .assignment-badge-rose i,
+    .dark .assignment-badge-rose i {
+        color: #fb7185 !important;
+    }
+
+    [data-bs-theme="dark"] .assignment-badge-blue,
+    [data-theme="dark"] .assignment-badge-blue,
+    .dark .assignment-badge-blue {
+        background-color: rgba(30, 58, 138, 0.45) !important;
+        color: #bfdbfe !important;
+        border: 1px solid #2563eb !important;
+    }
+    [data-bs-theme="dark"] .assignment-badge-blue i,
+    [data-theme="dark"] .assignment-badge-blue i,
+    .dark .assignment-badge-blue i {
+        color: #60a5fa !important;
+    }
+</style>
+@endpush
+

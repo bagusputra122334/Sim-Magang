@@ -5,11 +5,11 @@
 if (!function_exists('statusBadgeClass')) {
     function statusBadgeClass($statusValue): string {
         return match($statusValue) {
-            'submitted'    => 'bg-blue-100 text-blue-950 border border-blue-400 font-bold',
-            'under_review' => 'bg-amber-100 text-amber-950 border border-amber-400 font-bold',
-            'accepted'     => 'bg-emerald-100 text-emerald-950 border border-emerald-400 font-bold',
-            'rejected'     => 'bg-rose-100 text-rose-950 border border-rose-400 font-bold',
-            default        => 'bg-slate-200 text-slate-900 border border-slate-400 font-bold',
+            'submitted'    => 'bg-blue-100 text-blue-950 border border-blue-400 font-bold dark:bg-blue-900/50 dark:text-blue-200 dark:border-blue-700',
+            'under_review' => 'bg-amber-100 text-amber-950 border border-amber-400 font-bold dark:bg-amber-900/50 dark:text-amber-200 dark:border-amber-700',
+            'accepted'     => 'bg-emerald-100 text-emerald-950 border border-emerald-400 font-bold dark:bg-emerald-900/50 dark:text-emerald-200 dark:border-emerald-700',
+            'rejected'     => 'bg-rose-100 text-rose-950 border border-rose-400 font-bold dark:bg-rose-900/50 dark:text-rose-200 dark:border-rose-700',
+            default        => 'bg-slate-200 text-slate-900 border border-slate-400 font-bold dark:bg-slate-700 dark:text-slate-200 dark:border-slate-600',
         };
     }
 }
@@ -46,10 +46,10 @@ if (!function_exists('statusBadgeIcon')) {
 
         <div class="mb-4 d-md-flex justify-content-between align-items-center gap-3">
             <div>
-                <h2 class="mb-1 fw-bold text-success">
+                <h2 class="mb-1 fw-bold text-success dark:text-emerald-400">
                     <i class="bi bi-journal-text me-2"></i>Riwayat Pendaftaran Magang
                 </h2>
-                <p class="text-muted mb-0"><i class="bi bi-info-circle me-1"></i>Semua riwayat pengajuan pendaftaran magang Anda akan ditampilkan disertai status prosesnya.</p>
+                <p class="text-muted dark:text-slate-400 mb-0"><i class="bi bi-info-circle me-1"></i>Semua riwayat pengajuan pendaftaran magang Anda akan ditampilkan disertai status prosesnya.</p>
             </div>
             <div class="d-flex align-items-center gap-2 mt-3 mt-md-0">
                 <div id="serverTimeTracker" data-server-timestamp="{{ now()->timestamp }}" class="d-none"></div>
@@ -57,11 +57,11 @@ if (!function_exists('statusBadgeIcon')) {
         </div>
 
         @if(!$bisaDaftarBaru && $punyaProfile)
-        <div class="alert alert-info border-2 rounded-4 mb-4 d-flex align-items-start" role="alert">
-            <i class="bi bi-info-circle-fill fs-3 text-info me-3 flex-shrink-0 mt-1"></i>
+        <div class="alert alert-info border-2 rounded-4 mb-4 d-flex align-items-start dark:bg-sky-950/40 dark:border-sky-800" role="alert">
+            <i class="bi bi-info-circle-fill fs-3 text-info dark:text-sky-400 me-3 flex-shrink-0 mt-1"></i>
             <div class="flex-grow-1">
-                <h5 class="alert-heading fw-semibold mb-1">Anda masih memiliki pendaftaran magang yang sedang aktif!</h5>
-                <p class="mb-0">Tunggu proses seleksi atau selesaikan pendaftaran yang sedang berjalan sebelum mengajukan pendaftaran magang baru.</p>
+                <h5 class="alert-heading fw-semibold mb-1 dark:text-sky-200">Anda masih memiliki pendaftaran magang yang sedang aktif!</h5>
+                <p class="mb-0 dark:text-slate-300">Tunggu proses seleksi atau selesaikan pendaftaran yang sedang berjalan sebelum mengajukan pendaftaran magang baru.</p>
             </div>
         </div>
         @endif
@@ -88,11 +88,11 @@ if (!function_exists('statusBadgeIcon')) {
         @else
 
         {{-- Tabel Riwayat Pendaftaran --}}
-        <div class="card shadow-sm border-0 rounded-4 overflow-hidden">
+        <div class="card shadow-sm border border-slate-200 dark:border-slate-700 rounded-4 overflow-hidden bg-white dark:bg-slate-800">
             <div class="card-body p-0">
-                <div class="w-full overflow-x-auto overflow-y-hidden border border-slate-200 rounded-xl table-responsive">
+                <div class="w-full overflow-x-auto overflow-y-hidden border border-slate-200 dark:border-slate-700 rounded-xl table-responsive">
                     <table class="table table-hover align-middle mb-0" id="registrationsTable">
-                        <thead class="table-success border-0">
+                        <thead class="table-success dark:bg-slate-700/80 dark:text-slate-200 border-0">
                             <tr>
                                 @if($registrations->count() > 1)
                                 <th class="px-3 py-3 fw-semibold text-center whitespace-nowrap w-[1%]" title="Pilih pendaftaran">Pilih</th>
@@ -106,7 +106,7 @@ if (!function_exists('statusBadgeIcon')) {
                                 <th class="px-4 py-3 fw-semibold text-end whitespace-nowrap w-[1%]">Aksi</th>
                             </tr>
                         </thead>
-                        <tbody class="border-0">
+                        <tbody class="border-0 divide-y divide-slate-200/80 dark:divide-slate-700 bg-white dark:bg-slate-800">
                             @foreach($registrations as $index => $reg)
                                 @php 
                                     $sv = $reg->status->value; 
@@ -147,39 +147,39 @@ if (!function_exists('statusBadgeIcon')) {
                                     @if($registrations->count() > 1)
                                     <td class="px-3 py-3 text-center whitespace-nowrap">
                                         <input class="form-check-input registration-radio cursor-pointer" 
-                                               type="radio" 
-                                               name="selected_registration" 
-                                               id="reg_radio_{{ $reg->id }}" 
-                                               value="{{ $reg->id }}" 
-                                               {{ $isSelected ? 'checked' : '' }}
-                                               aria-label="Pilih pendaftaran {{ $reg->nomor_pendaftaran }}">
+                                                type="radio" 
+                                                name="selected_registration" 
+                                                id="reg_radio_{{ $reg->id }}" 
+                                                value="{{ $reg->id }}" 
+                                                {{ $isSelected ? 'checked' : '' }}
+                                                aria-label="Pilih pendaftaran {{ $reg->nomor_pendaftaran }}">
                                     </td>
                                     @endif
                                     <td class="px-4 py-3 whitespace-nowrap">
-                                        <div class="fw-bold fs-6 text-emerald-600 font-monospace">
+                                        <div class="fw-bold fs-6 text-emerald-600 dark:text-emerald-400 font-monospace reg-nomor">
                                             <i class="bi bi-ticket-perforated-fill me-1 opacity-75"></i>{{ $reg->nomor_pendaftaran }}
                                         </div>
                                     </td>
                                     <td class="px-4 py-3 whitespace-normal break-words">
-                                        <div class="fw-semibold text-slate-900">{{ $reg->position?->nama_posisi ?? '-' }}</div>
+                                        <div class="fw-semibold text-slate-900 dark:text-slate-100 reg-position">{{ $reg->position?->nama_posisi ?? '-' }}</div>
                                     </td>
                                     <td class="px-4 py-3 whitespace-normal break-words">
-                                        <div class="fw-medium text-slate-800">{!! $reg->periode_label ?? '<span class="text-slate-400">-</span>' !!}</div>
-                                        <div class="small text-slate-500 mt-0.5">
+                                        <div class="fw-medium text-slate-800 dark:text-slate-200 reg-periode">{!! $reg->periode_label ?? '<span class="text-slate-400">-</span>' !!}</div>
+                                        <div class="small text-slate-500 dark:text-slate-400 mt-0.5 reg-meta">
                                             <i class="bi bi-calendar-range me-1"></i>{{ $reg->periode_mulai?->diffInDays($reg->periode_selesai) + 1 ?? 0 }} Hari
                                         </div>
                                         @if($isAccepted)
                                         <div class="period-status-indicator mt-1" data-reg-id="{{ $reg->id }}">
                                             @if($isTerminated)
-                                                <span class="badge bg-danger-subtle text-danger rounded-pill px-2 py-0.5" style="font-size: 0.7rem;">
+                                                <span class="badge bg-danger-subtle text-danger dark:bg-rose-900/50 dark:text-rose-300 dark:border-rose-700 border border-danger-subtle rounded-pill px-2 py-0.5" style="font-size: 0.7rem;">
                                                     <i class="bi bi-x-circle me-1"></i>Dinonaktifkan
                                                 </span>
                                             @elseif($isExpired)
-                                                <span class="badge bg-secondary-subtle text-secondary rounded-pill px-2 py-0.5" style="font-size: 0.7rem;">
+                                                <span class="badge bg-secondary-subtle text-secondary dark:bg-slate-700 dark:text-slate-300 dark:border-slate-600 border border-secondary-subtle rounded-pill px-2 py-0.5" style="font-size: 0.7rem;">
                                                     <i class="bi bi-clock-history me-1"></i>Periode Berakhir
                                                 </span>
                                             @else
-                                                <span class="badge bg-success-subtle text-success rounded-pill px-2 py-0.5" style="font-size: 0.7rem;">
+                                                <span class="badge bg-success-subtle text-success dark:bg-emerald-900/50 dark:text-emerald-300 dark:border-emerald-700 border border-success-subtle rounded-pill px-2 py-0.5" style="font-size: 0.7rem;">
                                                     <i class="bi bi-broadcast me-1"></i>Periode Aktif
                                                 </span>
                                             @endif
@@ -187,17 +187,17 @@ if (!function_exists('statusBadgeIcon')) {
                                         @endif
                                     </td>
                                     <td class="px-4 py-3 whitespace-nowrap">
-                                        <div class="fw-medium text-slate-800">{{ $reg->tanggal_submit?->translatedFormat('d M Y') }}</div>
-                                        <div class="small text-slate-500">{{ $reg->tanggal_submit?->translatedFormat('H:i') }} WIB</div>
+                                        <div class="fw-medium text-slate-800 dark:text-slate-200 reg-date">{{ $reg->tanggal_submit?->translatedFormat('d M Y') }}</div>
+                                        <div class="small text-slate-500 dark:text-slate-400 reg-meta">{{ $reg->tanggal_submit?->translatedFormat('H:i') }} WIB</div>
                                     </td>
                                     <td class="px-4 py-3 text-center whitespace-nowrap">
 
                                         @if($isTerminated)
-                                            <span class="badge border rounded-pill px-3 py-2 fs-6 bg-danger-subtle text-danger-emphasis border-danger-subtle status-badge-cell" data-reg-id="{{ $reg->id }}">
+                                            <span class="badge border rounded-pill px-3 py-2 fs-6 bg-danger-subtle text-danger-emphasis border-danger-subtle dark:bg-rose-900/50 dark:text-rose-300 dark:border-rose-700 status-badge-cell" data-reg-id="{{ $reg->id }}">
                                                 <i class="bi bi-x-circle-fill me-1"></i>Dinonaktifkan
                                             </span>
                                         @elseif($isAccepted && $isExpired)
-                                            <span class="badge border rounded-pill px-3 py-2 fs-6 bg-secondary-subtle text-secondary-emphasis border-secondary-subtle status-badge-cell" data-reg-id="{{ $reg->id }}">
+                                            <span class="badge border rounded-pill px-3 py-2 fs-6 bg-secondary-subtle text-secondary-emphasis border-secondary-subtle dark:bg-slate-700 dark:text-slate-300 dark:border-slate-600 status-badge-cell" data-reg-id="{{ $reg->id }}">
                                                 <i class="bi bi-check-all me-1"></i>Selesai Magang
                                             </span>
                                         @else
@@ -209,36 +209,35 @@ if (!function_exists('statusBadgeIcon')) {
                                     </td>
                                     <td class="px-4 py-3 text-center whitespace-nowrap">
                                         @if($isTerminated || $reg->isRejected())
-                                            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-md bg-rose-100 text-sm font-semibold text-rose-700"
-                                                  style="background-color: #ffe4e6 !important; color: #be123c !important; border: 1px solid #fecdd3 !important;"
+                                            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-md bg-rose-100 dark:bg-rose-900/40 text-sm font-semibold text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-800"
                                                   data-bs-toggle="tooltip"
                                                   title="Pendaftaran {{ $isTerminated ? 'dinonaktifkan' : 'ditolak' }}, Surat Balasan tidak tersedia.">
-                                                <i class="bi bi-x-circle me-1 text-rose-600" style="color: #e11d48 !important;"></i> Tidak Tersedia
+                                                <i class="bi bi-x-circle me-1 text-rose-600 dark:text-rose-400"></i> Tidak Tersedia
                                             </span>
                                         @elseif($isAccepted)
 
                                             @if($hasSurat)
-                                                <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill px-3 py-1.5"
+                                                <span class="badge bg-success-subtle text-success border border-success-subtle dark:bg-emerald-900/50 dark:text-emerald-300 dark:border-emerald-700 rounded-pill px-3 py-1.5"
                                                       data-bs-toggle="tooltip"
                                                       title="Surat Balasan sudah diunggah Admin dan siap diunduh.">
                                                     <i class="bi bi-file-earmark-check-fill me-1"></i> Tersedia
                                                 </span>
                                             @else
-                                                <span class="badge bg-secondary-subtle text-secondary border border-secondary-subtle rounded-pill px-3 py-1.5"
+                                                <span class="badge bg-secondary-subtle text-secondary border border-secondary-subtle dark:bg-slate-700 dark:text-slate-300 dark:border-slate-600 rounded-pill px-3 py-1.5"
                                                       data-bs-toggle="tooltip"
                                                       title="Status diterima, tapi Admin belum mengunggah Surat Balasan.">
                                                     <i class="bi bi-clock-history me-1"></i> Menunggu Upload
                                                 </span>
                                             @endif
                                         @else
-                                            <span class="badge bg-slate-100 text-slate-500 border border-slate-200 rounded-pill px-3 py-1.5">
+                                            <span class="badge bg-slate-100 text-slate-500 border border-slate-200 dark:bg-slate-700 dark:text-slate-400 dark:border-slate-600 rounded-pill px-3 py-1.5">
                                                 -
                                             </span>
                                         @endif
                                     </td>
                                     <td class="px-4 py-3 text-end">
                                         <a href="{{ route('participant.registrations.show', $reg->id) }}"
-                                           class="btn btn-sm btn-outline-success rounded-3 px-3 py-1.5 fw-semibold d-inline-flex align-items-center gap-1.5 shadow-xs"
+                                           class="btn btn-sm btn-outline-success dark:text-emerald-400 dark:border-emerald-500 dark:hover:bg-emerald-600 dark:hover:text-white rounded-3 px-3 py-1.5 fw-semibold d-inline-flex align-items-center gap-1.5 shadow-xs"
                                            title="Lihat Detail Pendaftaran">
                                             <i class="bi bi-eye-fill"></i> Detail
                                         </a>
@@ -250,8 +249,8 @@ if (!function_exists('statusBadgeIcon')) {
                 </div>
 
                 @if($registrations->hasPages())
-                <div class="card-footer bg-body border-top py-4 px-5 d-md-flex justify-content-between align-items-center">
-                    <div class="small text-muted mb-2 mb-md-0">
+                <div class="card-footer bg-body dark:bg-slate-800 border-top border-slate-200 dark:border-slate-700 py-4 px-5 d-md-flex justify-content-between align-items-center">
+                    <div class="small text-muted dark:text-slate-400 mb-2 mb-md-0">
                         Menampilkan {{ $registrations->firstItem() ?? 0 }}–{{ $registrations->lastItem() ?? 0 }} dari total {{ $registrations->total() }} pendaftaran
                     </div>
                     <div>
@@ -276,26 +275,26 @@ if (!function_exists('statusBadgeIcon')) {
             $firstStatusLabel = $firstIsTerminated ? 'Dinonaktifkan' : ($firstIsAccepted && $firstIsExpired ? 'Selesai Magang' : $firstReg?->status->label());
         @endphp
 
-        <div class="card shadow-sm border border-success-subtle rounded-4 mt-4 bg-white overflow-hidden" id="actionSectionCard">
+        <div class="card shadow-sm border border-success-subtle dark:border-slate-700 rounded-4 mt-4 bg-white dark:bg-slate-800 overflow-hidden" id="actionSectionCard">
             <div class="card-body p-4">
                 <div class="d-flex flex-column flex-lg-row align-items-lg-center justify-content-between gap-4">
                     <div class="d-flex align-items-start gap-3">
-                        <div class="p-3 rounded-3 bg-success-subtle text-success flex-shrink-0">
+                        <div class="p-3 rounded-3 bg-success-subtle text-success dark:bg-emerald-900/50 dark:text-emerald-300 flex-shrink-0">
                             <i class="bi bi-ticket-detailed-fill fs-3"></i>
                         </div>
                         <div>
                             <div class="d-flex align-items-center gap-2 mb-1 flex-wrap">
-                                <h5 class="fw-bold mb-0 text-dark">
-                                    Pendaftaran Terpilih: <span class="font-monospace text-success" id="selectedNomorDisplay">{{ $firstReg->nomor_pendaftaran }}</span>
+                                <h5 class="fw-bold mb-0 text-dark dark:text-white">
+                                    Pendaftaran Terpilih: <span class="font-monospace text-success dark:text-emerald-400" id="selectedNomorDisplay">{{ $firstReg->nomor_pendaftaran }}</span>
                                 </h5>
-                                <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill px-3 py-1 small fw-semibold" id="selectedStatusDisplay">
+                                <span class="badge bg-success-subtle text-success dark:bg-emerald-900/50 dark:text-emerald-300 border border-success-subtle dark:border-emerald-700 rounded-pill px-3 py-1 small fw-semibold" id="selectedStatusDisplay">
                                     {{ $firstStatusLabel }}
                                 </span>
                             </div>
-                            <div class="text-secondary small mb-0 d-flex align-items-center gap-2 flex-wrap">
-                                <span><i class="bi bi-briefcase me-1 text-success"></i>Posisi: <strong class="text-dark" id="selectedPositionDisplay">{{ $firstReg->position?->nama_posisi ?? '-' }}</strong></span>
-                                <span class="text-muted">&bull;</span>
-                                <span class="text-muted"><i class="bi bi-info-circle me-1"></i>Klik baris lain pada tabel untuk memilih pendaftaran berbeda</span>
+                            <div class="text-secondary dark:text-slate-300 small mb-0 d-flex align-items-center gap-2 flex-wrap">
+                                <span><i class="bi bi-briefcase me-1 text-success dark:text-emerald-400"></i>Posisi: <strong class="text-dark dark:text-white" id="selectedPositionDisplay">{{ $firstReg->position?->nama_posisi ?? '-' }}</strong></span>
+                                <span class="text-muted dark:text-slate-500">&bull;</span>
+                                <span class="text-muted dark:text-slate-400"><i class="bi bi-info-circle me-1"></i>Klik baris lain pada tabel untuk memilih pendaftaran berbeda</span>
                             </div>
                         </div>
                     </div>
@@ -368,7 +367,8 @@ if (!function_exists('statusBadgeIcon')) {
 .registration-row.table-active {
     --bs-table-accent-bg: rgba(25, 135, 84, 0.08);
 }
-[data-bs-theme="dark"] .registration-row.table-active {
+[data-bs-theme="dark"] .registration-row.table-active,
+[data-theme="dark"] .registration-row.table-active {
     --bs-table-accent-bg: rgba(34, 197, 94, 0.15);
 }
 .registration-row:focus-visible {
@@ -377,6 +377,42 @@ if (!function_exists('statusBadgeIcon')) {
 }
 .me-1\.5 {
     margin-right: 0.375rem !important;
+}
+
+[data-theme="dark"] .reg-nomor,
+[data-bs-theme="dark"] .reg-nomor {
+    color: #34d399 !important;
+}
+[data-theme="dark"] .reg-position,
+[data-bs-theme="dark"] .reg-position {
+    color: #f8fafc !important;
+}
+[data-theme="dark"] .reg-periode,
+[data-bs-theme="dark"] .reg-periode {
+    color: #e2e8f0 !important;
+}
+[data-theme="dark"] .reg-date,
+[data-bs-theme="dark"] .reg-date {
+    color: #e2e8f0 !important;
+}
+[data-theme="dark"] .reg-meta,
+[data-bs-theme="dark"] .reg-meta {
+    color: #94a3b8 !important;
+}
+[data-theme="dark"] #registrationsTable thead th,
+[data-bs-theme="dark"] #registrationsTable thead th {
+    background-color: #1e293b !important;
+    color: #e2e8f0 !important;
+    border-color: #334155 !important;
+}
+[data-theme="dark"] #registrationsTable td,
+[data-bs-theme="dark"] #registrationsTable td {
+    border-color: #334155 !important;
+}
+[data-theme="dark"] #actionSectionCard,
+[data-bs-theme="dark"] #actionSectionCard {
+    background-color: #151f32 !important;
+    border-color: #26334d !important;
 }
 </style>
 @endpush

@@ -64,7 +64,7 @@
                     'valueId' => 'stat-days-total',
                     'value'   => $startOfMonth->daysInMonth,
                     'suffix'  => 'hari',
-                    'valueFg' => '#0f172a',
+                    'valueFg' => 'var(--app-text, #0f172a)',
                 ],
                 [
                     'icon'    => 'bi-check-circle-fill',
@@ -181,9 +181,9 @@
                 </div>
             </div>
 
-            <div class="card shadow-sm border rounded-2 overflow-hidden mb-3">
-                <div class="card-header bg-white border-bottom py-2 px-3 sm:px-4 d-flex flex-wrap align-items-center justify-content-between gap-2">
-                    <h6 class="m-0 fw-bold text-indigo">
+            <div class="card shadow-sm border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 rounded-2 overflow-hidden mb-3">
+                <div class="card-header bg-white dark:bg-slate-800/90 border-bottom border-slate-200 dark:border-slate-700 py-2 px-3 sm:px-4 d-flex flex-wrap align-items-center justify-content-between gap-2">
+                    <h6 class="m-0 fw-bold text-indigo dark:text-indigo-400">
                         <i class="bi bi-clock-history me-1.5"></i>Riwayat Aktivitas Bulan Ini
                     </h6>
                     <span class="badge rounded-pill px-2.5 py-0.5 text-xs fw-bold" id="history-count-badge" style="background-color: #eef2ff !important; color: #3730a3 !important;">
@@ -193,22 +193,22 @@
                 <div class="card-body p-0">
                     <div class="table-responsive" style="max-height: 480px; overflow-y: auto;">
                         <table class="table mb-0 align-middle text-xs" id="dc-history-table">
-                            <thead class="bg-light sticky-top" style="z-index: 1;">
+                            <thead class="bg-light dark:bg-slate-700/80 sticky-top" style="z-index: 1;">
                                 <tr>
-                                    <th class="fw-bold text-uppercase text-muted px-3 py-1.5" style="letter-spacing: 0.05em; width: 18%; font-size: 0.7rem;">Tanggal</th>
-                                    <th class="fw-bold text-uppercase text-muted px-3 py-1.5" style="letter-spacing: 0.05em; font-size: 0.7rem;">Uraian Kegiatan</th>
-                                    <th class="fw-bold text-uppercase text-muted px-3 py-1.5" style="letter-spacing: 0.05em; width: 14%; font-size: 0.7rem;">Status</th>
-                                    <th class="fw-bold text-uppercase text-muted px-3 py-1.5" style="letter-spacing: 0.05em; width: 12%; font-size: 0.7rem;">Jam Submit</th>
+                                    <th class="fw-bold text-uppercase text-muted dark:text-slate-300 px-3 py-1.5" style="letter-spacing: 0.05em; width: 18%; font-size: 0.7rem;">Tanggal</th>
+                                    <th class="fw-bold text-uppercase text-muted dark:text-slate-300 px-3 py-1.5" style="letter-spacing: 0.05em; font-size: 0.7rem;">Uraian Kegiatan</th>
+                                    <th class="fw-bold text-uppercase text-muted dark:text-slate-300 px-3 py-1.5" style="letter-spacing: 0.05em; width: 14%; font-size: 0.7rem;">Status</th>
+                                    <th class="fw-bold text-uppercase text-muted dark:text-slate-300 px-3 py-1.5" style="letter-spacing: 0.05em; width: 12%; font-size: 0.7rem;">Jam Submit</th>
                                 </tr>
                             </thead>
-                            <tbody id="dc-history-tbody">
+                            <tbody id="dc-history-tbody" class="divide-y divide-slate-200/80 dark:divide-slate-700 bg-white dark:bg-slate-800">
                                 @forelse($checkins->sortByDesc('date') as $ci)
-                                    <tr data-date="{{ $ci->date->toDateString() }}" class="border-bottom border-gray-100">
+                                    <tr data-date="{{ $ci->date->toDateString() }}" class="border-bottom border-gray-100 dark:border-slate-700 hover:bg-slate-50/50 dark:hover:bg-slate-700/40">
                                         <td class="px-3 py-1.5">
-                                            <div class="fw-bold text-gray-900">{{ $ci->date->locale('id_ID')->isoFormat('ddd, D MMM YYYY') }}</div>
+                                            <div class="fw-bold text-gray-900 dark:text-slate-100 dc-hist-date">{{ $ci->date->locale('id_ID')->isoFormat('ddd, D MMM YYYY') }}</div>
                                         </td>
                                         <td class="px-3 py-1.5">
-                                            <div class="text-gray-800 lh-base" style="white-space: pre-wrap; word-break: break-word;">{!! nl2br(preg_replace('/(https?:\/\/[^\s]+)/', '<a href="$1" target="_blank" class="text-blue-600 dark:text-blue-400 underline font-semibold hover:text-blue-800 transition-colors" rel="noopener noreferrer">$1</a>', e(\Illuminate\Support\Str::limit($ci->activity, 240)))) !!}</div>
+                                            <div class="text-gray-800 dark:text-slate-200 lh-base dc-hist-act" style="white-space: pre-wrap; word-break: break-word;">{!! nl2br(preg_replace('/(https?:\/\/[^\s]+)/', '<a href="$1" target="_blank" class="text-blue-600 dark:text-blue-400 underline font-semibold hover:text-blue-800 transition-colors" rel="noopener noreferrer">$1</a>', e(\Illuminate\Support\Str::limit($ci->activity, 240)))) !!}</div>
                                         </td>
                                         <td class="px-3 py-1.5">
                                             <span class="d-inline-flex align-items-center px-2 py-0.5 text-xs fw-bold rounded-pill border" style="background-color: #d1fae5 !important; color: #065f46 !important; border-color: #6ee7b7 !important;">
@@ -216,19 +216,19 @@
                                             </span>
                                         </td>
                                         <td class="px-3 py-1.5">
-                                            <div class="d-flex align-items-center gap-1 fw-bold text-gray-700">
-                                                <i class="bi bi-alarm small text-muted"></i>
+                                            <div class="d-flex align-items-center gap-1 fw-bold text-gray-700 dark:text-slate-300 dc-hist-time">
+                                                <i class="bi bi-alarm small text-muted dark:text-slate-400"></i>
                                                 <span>{{ $ci->submitted_at ? $ci->submitted_at->format('H:i') : '—' }}</span>
                                                 @if($ci->submitted_at)
-                                                    <small class="fw-semibold text-muted" style="font-size: 0.72rem; letter-spacing: 0.02em;">WIB</small>
+                                                    <small class="fw-semibold text-muted dark:text-slate-400" style="font-size: 0.72rem; letter-spacing: 0.02em;">WIB</small>
                                                 @endif
                                             </div>
                                         </td>
                                     </tr>
                                 @empty
                                     <tr id="dc-empty-row">
-                                        <td colspan="4" class="px-3 py-4 text-center text-muted">
-                                            <i class="bi bi-inbox fs-2 d-block mb-1 text-gray-300"></i>
+                                        <td colspan="4" class="px-3 py-4 text-center text-muted dark:text-slate-400">
+                                            <i class="bi bi-inbox fs-2 d-block mb-1 text-gray-300 dark:text-slate-600"></i>
                                             Belum ada aktivitas absensi pada bulan ini. Klik tanggal di kalender untuk mulai.
                                         </td>
                                     </tr>
@@ -244,38 +244,38 @@
         {{-- KANAN: FORM URAIAN KEGIATAN (col-lg-4)   --}}
         {{-- ========================================= --}}
         <div class="col-lg-4">
-            <div class="card shadow-sm border rounded-2 overflow-hidden sticky-top" style="top: 1rem;">
-                <div class="card-header bg-white border-bottom py-2 px-3 sm:px-4">
-                    <h6 class="m-0 fw-bold text-success">
+            <div class="card shadow-sm border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 rounded-2 overflow-hidden sticky-top" style="top: 1rem;">
+                <div class="card-header bg-white dark:bg-slate-800/90 border-bottom border-slate-200 dark:border-slate-700 py-2 px-3 sm:px-4">
+                    <h6 class="m-0 fw-bold text-success dark:text-emerald-400">
                         <i class="bi bi-pencil-square me-1.5"></i>Form Uraian Kegiatan
                     </h6>
                 </div>
                 <div class="card-body p-3 sm:p-4">
-                    <div class="mb-2.5 p-2 rounded-2 border" style="background-color: #f8fafc !important; border-color: #e2e8f0 !important;">
+                    <div class="mb-2.5 p-2 rounded-2 border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-700/50">
                         <label class="block text-xs font-bold !text-slate-800 dark:!text-slate-200 uppercase mb-0.5" style="letter-spacing: 0.05em; font-size: 0.68rem;">Tanggal Aktif</label>
                         <div class="d-flex align-items-center gap-1.5">
-                            <i class="bi bi-calendar-date text-primary fs-5 flex-shrink-0"></i>
-                            <h6 class="mb-0 fw-bold text-gray-900" id="dc-active-date-label" style="font-size: 0.95rem !important;">{{ $today->isoFormat('D MMMM YYYY') }}</h6>
+                            <i class="bi bi-calendar-date text-primary dark:text-blue-400 fs-5 flex-shrink-0"></i>
+                            <h6 class="mb-0 fw-bold text-gray-900 dark:text-white" id="dc-active-date-label" style="font-size: 0.95rem !important;">{{ $today->isoFormat('D MMMM YYYY') }}</h6>
                         </div>
                     </div>
 
                     <form id="dc-checkin-form" autocomplete="off" novalidate>
                         <div class="mb-2">
                             <label for="dc-activity" class="form-label block text-xs font-bold !text-slate-800 dark:!text-slate-200 mb-1.5">
-                                <i class="bi bi-list-task me-1 text-indigo"></i>Uraian Kegiatan
+                                <i class="bi bi-list-task me-1 text-indigo dark:text-indigo-400"></i>Uraian Kegiatan
                                 <span class="text-danger ms-1">*</span>
                             </label>
                             <textarea
                                 id="dc-activity"
                                 name="activity"
                                 rows="6"
-                                class="form-control rounded-2 py-1.5 px-2.5 text-xs"
+                                class="form-control bg-white dark:bg-slate-700 text-slate-800 dark:text-slate-100 border-slate-300 dark:border-slate-600 rounded-2 py-1.5 px-2.5 text-xs placeholder:text-slate-400 dark:placeholder:text-slate-400"
                                 required
                                 minlength="5"
                                 maxlength="5000"
                                 placeholder="Jelaskan secara rinci kegiatan magang Anda hari ini (misal: Memperbaiki bug login page, Membuat migration untuk tabel users, dsb.)"></textarea>
                             <div class="d-flex justify-content-between mt-1">
-                                <small class="text-muted" style="font-size: 0.7rem;"><i class="bi bi-info-circle me-1"></i>Min. 5 karakter</small>
+                                <small class="text-muted dark:text-slate-400" style="font-size: 0.7rem;"><i class="bi bi-info-circle me-1"></i>Min. 5 karakter</small>
                                 <small class="fw-semibold" id="dc-char-count" style="color: #64748b !important; font-size: 0.7rem;">0 / 5000</small>
                             </div>
                             <div class="invalid-feedback mt-0.5" id="dc-activity-error" style="font-size: 0.75rem;"></div>
@@ -602,12 +602,12 @@
             .replace(/\r\n|\r|\n/g,'<br>');
 
         var existingTr = els.tbody.querySelector('tr[data-date="'+dateStr+'"]');
-        var htmlRow = '<tr data-date="'+dateStr+'" class="border-bottom border-gray-100">' +
+        var htmlRow = '<tr data-date="'+dateStr+'" class="border-bottom border-gray-100 dark:border-slate-700 hover:bg-slate-50/50 dark:hover:bg-slate-700/40">' +
             '<td class="px-3 py-2">' +
-                '<div class="fw-bold text-gray-900">'+dateLabel+'</div>' +
+                '<div class="fw-bold text-gray-900 dark:text-slate-100 dc-hist-date">'+dateLabel+'</div>' +
             '</td>' +
             '<td class="px-3 py-2">' +
-                '<div class="text-gray-800 lh-base" style="white-space: pre-wrap; word-break: break-word;">'+activityEsc+'</div>' +
+                '<div class="text-gray-800 dark:text-slate-200 lh-base dc-hist-act" style="white-space: pre-wrap; word-break: break-word;">'+activityEsc+'</div>' +
             '</td>' +
             '<td class="px-3 py-2">' +
                 '<span class="d-inline-flex align-items-center px-2.5 py-1 small fw-bold rounded-pill border" style="background-color: #d1fae5 !important; color: #065f46 !important; border-color: #6ee7b7 !important;">' +
@@ -615,8 +615,8 @@
                 '</span>' +
             '</td>' +
             '<td class="px-3 py-2">' +
-                '<div class="d-flex align-items-center gap-1 fw-bold text-gray-700"><i class="bi bi-alarm small text-muted"></i><span>'+jamStr+'</span>' +
-                (submittedAt ? '<small class="fw-semibold text-muted" style="font-size: 0.72rem; letter-spacing: 0.02em;">WIB</small>' : '') +
+                '<div class="d-flex align-items-center gap-1 fw-bold text-gray-700 dark:text-slate-300 dc-hist-time"><i class="bi bi-alarm small text-muted dark:text-slate-400"></i><span>'+jamStr+'</span>' +
+                (submittedAt ? '<small class="fw-semibold text-muted dark:text-slate-400" style="font-size: 0.72rem; letter-spacing: 0.02em;">WIB</small>' : '') +
                 '</div>' +
             '</td>' +
         '</tr>';
@@ -855,4 +855,40 @@
     }
 })();
 </script>
+@endpush
+
+@push('styles')
+<style>
+    [data-theme="dark"] .dc-hist-date,
+    [data-bs-theme="dark"] .dc-hist-date {
+        color: #f8fafc !important;
+    }
+    [data-theme="dark"] .dc-hist-act,
+    [data-bs-theme="dark"] .dc-hist-act {
+        color: #e2e8f0 !important;
+    }
+    [data-theme="dark"] .dc-hist-time,
+    [data-bs-theme="dark"] .dc-hist-time {
+        color: #cbd5e1 !important;
+    }
+    [data-theme="dark"] #stat-days-total,
+    [data-bs-theme="dark"] #stat-days-total {
+        color: #f8fafc !important;
+    }
+    [data-theme="dark"] #dc-history-table th,
+    [data-bs-theme="dark"] #dc-history-table th {
+        background-color: #1e293b !important;
+        color: #e2e8f0 !important;
+        border-color: #334155 !important;
+    }
+    [data-theme="dark"] #dc-history-table td,
+    [data-bs-theme="dark"] #dc-history-table td {
+        border-color: #334155 !important;
+    }
+    [data-theme="dark"] .dc-day-btn:not(.bg-blue-600):not(.bg-emerald-500):not(.bg-red-500),
+    [data-bs-theme="dark"] .dc-day-btn:not(.bg-blue-600):not(.bg-emerald-500):not(.bg-red-500) {
+        background-color: #334155 !important;
+        color: #f1f5f9 !important;
+    }
+</style>
 @endpush
