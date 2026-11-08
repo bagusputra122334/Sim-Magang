@@ -28,6 +28,7 @@ class ReplyLetterController extends AdminController
     {
         try {
             $regId = $application instanceof Registration ? $application->id : (int) $application;
+            $this->authorizeOpdAccess($request, $regId);
             $reg = $this->registrationService->getAdminDetailWithRelationsOrFail($regId);
 
             $fileInfo = $this->registrationService->getSuratBalasanFileInfo($reg);
@@ -55,6 +56,7 @@ class ReplyLetterController extends AdminController
     {
         try {
             $regId = $application instanceof Registration ? $application->id : (int) $application;
+            $this->authorizeOpdAccess($request, $regId);
             $reg = $this->registrationService->getAdminDetailWithRelationsOrFail($regId);
 
             $file = $request->file('surat_balasan');
@@ -132,6 +134,7 @@ class ReplyLetterController extends AdminController
     {
         try {
             $regId = $application instanceof Registration ? $application->id : (int) $application;
+            $this->authorizeOpdAccess($request, $regId);
             $reg = $this->registrationService->getAdminDetailWithRelationsOrFail($regId);
 
             $dl = $this->registrationService->getSuratBalasanForAdminDownload($reg);

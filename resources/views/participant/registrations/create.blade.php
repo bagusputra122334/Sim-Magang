@@ -6,8 +6,7 @@
     <div class="col-lg-11">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <div>
-                <h1 class="h4 fw-bold mb-0.5">Ajukan Pendaftaran Magang Baru</h1>
-                <p class="text-muted small mb-0">Pilih posisi magang dan lengkapi berkas pendaftaran Anda.</p>
+                <h1 class="h4 fw-bold mb-0">Ajukan Pendaftaran Magang Baru</h1>
             </div>
             <a href="{{ route('participant.registrations.index') }}" class="btn bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 rounded-2 font-bold shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md px-3 py-1.5 text-xs">
                 <i class="bi bi-arrow-left me-1"></i> Kembali ke Riwayat
@@ -17,7 +16,7 @@
         <div class="alert alert-primary border rounded-2 mb-3 py-2 px-3 d-flex align-items-center" role="alert">
             <i class="bi bi-info-circle-fill fs-5 text-primary me-2.5 flex-shrink-0"></i>
             <div class="flex-grow-1 text-xs">
-                <strong class="fw-bold d-block mb-0.5">Selamat datang di Form Pendaftaran Magang Diskominfo Tuban!</strong>
+                <strong class="fw-bold d-block mb-0.5">Selamat datang di Form Pendaftaran Magang Pemerintah Kabupaten Tuban!</strong>
                 <p class="mb-0 text-muted">Pastikan Anda memilih posisi magang yang sesuai dengan kompetensi, minat & jurusan akademik Anda. Lengkapi seluruh kolom dan lampirkan dokumen yang valid sebelum menekan tombol Submit.</p>
             </div>
         </div>
@@ -68,7 +67,20 @@ document.addEventListener('DOMContentLoaded', function () {
             }
 
             const posChecked = form.querySelector('input[name="position_id"]:checked');
-            const posLabel = posChecked ? (posChecked.closest('label')?.querySelector('.fw-bold')?.textContent?.trim() || 'Posisi Terpilih') : '—';
+            if (!posChecked) {
+                const errEl = document.getElementById('positionIdErrorMsg');
+                if (errEl) {
+                    errEl.classList.remove('d-none');
+                    errEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                } else {
+                    alert('Silakan pilih salah satu OPD dan formasi magang terlebih dahulu.');
+                }
+                return;
+            }
+
+            const posName = posChecked.getAttribute('data-pos-name') || 'Posisi Magang';
+            const opdName = posChecked.getAttribute('data-opd-name') || 'Pemerintah Kabupaten Tuban';
+            const posLabel = posName + ' (' + opdName + ')';
             const cvFile = form.querySelector('input[name="cv"]')?.files[0]?.name || 'Berkas CV Terunggah';
             const spFile = form.querySelector('input[name="surat_pengantar"]')?.files[0]?.name || 'Berkas Surat Pengantar';
 

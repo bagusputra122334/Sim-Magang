@@ -1,12 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Artisan;
-
-// Temporary cache clearing
-Artisan::call('route:clear');
-Artisan::call('config:clear');
-Artisan::call('cache:clear');
 
 /*
 |--------------------------------------------------------------------------
@@ -16,19 +10,43 @@ Artisan::call('cache:clear');
 
 Route::get('/', function () {
     $search = request('search');
+    $opdId = request('opd_id');
+
     $positions = \App\Models\Position::query()
+        ->with('opd')
         ->where('status', \App\Enums\PositionStatus::Aktif)
         ->when($search, function ($query, $search) {
             $query->where(function ($q) use ($search) {
                 $q->where('nama_posisi', 'like', "%{$search}%")
                   ->orWhere('deskripsi', 'like', "%{$search}%")
-                  ->orWhere('kualifikasi', 'like', "%{$search}%");
+                  ->orWhere('kualifikasi', 'like', "%{$search}%")
+                  ->orWhereHas('opd', function ($oq) use ($search) {
+                      $oq->where('name', 'like', "%{$search}%")
+                         ->orWhere('code', 'like', "%{$search}%");
+                  });
             });
+        })
+        ->when($opdId, function ($query, $opdId) {
+            $query->where('opd_id', $opdId);
         })
         ->latest('created_at')
         ->get();
 
-    return view('welcome', compact('positions'));
+    $opds = \App\Models\Opd::active()
+        ->when($opdId, function ($query, $opdId) {
+            $query->where('id', $opdId);
+        })
+        ->with(['positions' => function ($q) {
+            $q->where('status', \App\Enums\PositionStatus::Aktif)->latest('created_at');
+        }, 'divisions'])
+        ->withCount(['positions' => function ($q) {
+            $q->where('status', \App\Enums\PositionStatus::Aktif);
+        }])
+        ->orderByDesc('positions_count')
+        ->orderBy('name')
+        ->get();
+
+    return view('welcome', compact('positions', 'opds'));
 });
 
 Route::post('/contact', [App\Http\Controllers\ContactController::class, 'send'])
@@ -40,6 +58,7 @@ Route::post('/surveys', [\App\Http\Controllers\FrontendSurveyController::class, 
     ->name('surveys.store');
 Route::get('/panduan', [App\Http\Controllers\GuideController::class, 'index'])->name('guides.index');
 Route::get('/panduan/{slug}', [App\Http\Controllers\GuideController::class, 'show'])->name('guides.show');
+Route::get('/search', [App\Http\Controllers\GlobalSearchController::class, 'publicSearch'])->name('public.search');
 
 /*
 |--------------------------------------------------------------------------

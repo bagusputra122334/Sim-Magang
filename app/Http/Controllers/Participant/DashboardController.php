@@ -178,6 +178,18 @@ class DashboardController extends ParticipantController
             }
         }
 
+        $targetOpdId = $user->opd_id ?? $acceptedRegistration?->opd_id ?? $acceptedRegistration?->position?->opd_id;
+        if (! empty($targetOpdId) && ! empty($pembimbingIds)) {
+            $filteredIds = User::whereIn('id', $pembimbingIds)
+                ->where(function ($q) use ($targetOpdId) {
+                    $q->where('opd_id', $targetOpdId)
+                      ->orWhereNull('opd_id');
+                })
+                ->pluck('id')
+                ->toArray();
+            $pembimbingIds = $filteredIds;
+        }
+
         return array_values(array_unique(array_filter($pembimbingIds, static fn ($v): bool => is_int($v) || ctype_digit((string) $v))));
     }
 

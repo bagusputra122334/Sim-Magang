@@ -13,7 +13,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                \App\Console\Commands\SmtpTestCommand::class,
+            ]);
+        }
     }
 
     /**
@@ -27,15 +31,16 @@ class AppServiceProvider extends ServiceProvider
 
         \Illuminate\Pagination\Paginator::useBootstrapFive();
 
-        // Global Mail Interceptor for Resend Testing Target
-        $testingTarget = 'bagusdwijunior@gmail.com';
-        \Illuminate\Support\Facades\Mail::alwaysTo($testingTarget);
-        \Illuminate\Support\Facades\Event::listen(
-            \Illuminate\Mail\Events\MessageSending::class,
-            function (\Illuminate\Mail\Events\MessageSending $event) use ($testingTarget) {
-                $event->message->to($testingTarget);
-            }
-        );
+        // Global Mail Interceptor (Only active if MAIL_INTERCEPT_ALL_TO is explicitly set in .env)
+        if ($interceptTo = env('MAIL_INTERCEPT_ALL_TO')) {
+            \Illuminate\Support\Facades\Mail::alwaysTo($interceptTo);
+            \Illuminate\Support\Facades\Event::listen(
+                \Illuminate\Mail\Events\MessageSending::class,
+                function (\Illuminate\Mail\Events\MessageSending $event) use ($interceptTo) {
+                    $event->message->to($interceptTo);
+                }
+            );
+        }
 
 
 
@@ -59,6 +64,19 @@ class AppServiceProvider extends ServiceProvider
             }
 
             return '/';
+        });
+
+        // Kustomisasi Notifikasi Email Verifikasi Resmi SIMAGANG Pemkab Tuban (Bahasa Indonesia)
+        \Illuminate\Auth\Notifications\VerifyEmail::toMailUsing(function ($notifiable, $url) {
+            return (new \Illuminate\Notifications\Messages\MailMessage)
+                ->subject('[SIMAGANG] ✉️ Verifikasi Alamat Email Pendaftar Magang')
+                ->greeting('Halo, ' . $notifiable->name . '!')
+                ->line('Terima kasih telah mendaftar di SIMAGANG (Sistem Informasi Manajemen Magang Pemerintah Kabupaten Tuban).')
+                ->line('Silakan klik tombol di bawah ini untuk memverifikasi alamat email Anda agar dapat mengajukan formasi magang.')
+                ->action('Verifikasi Alamat Email', $url)
+                ->line('Tautan verifikasi ini berlaku selama 60 menit.')
+                ->line('Jika Anda tidak merasa mendaftar akun di SIMAGANG, silakan abaikan email ini.')
+                ->salutation("Salam hangat,\nTim Pengelola SIMAGANG Pemerintah Kabupaten Tuban");
         });
     }
 

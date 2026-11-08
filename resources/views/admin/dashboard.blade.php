@@ -12,25 +12,51 @@
 @section('title', 'Dashboard')
 
 @section('content')
-    @if(auth()->check() && (auth()->user()->is_default_password || auth()->user()->hasDefaultPassword() || \Illuminate\Support\Facades\Hash::check('password', auth()->user()->password)))
-        <div class="alert alert-danger bg-red-100 border border-red-400 text-red-700 dark:bg-red-900/40 dark:text-red-200 dark:border-red-700 px-3 py-1.5 rounded-lg relative mb-2 d-flex align-items-center justify-content-between gap-2.5 shadow-sm" role="alert">
-            <div class="d-flex align-items-center gap-2">
-                <i class="bi bi-shield-exclamation-fill fs-5 text-red-600 flex-shrink-0"></i>
-                <span class="fw-semibold text-xs sm:text-sm">Peringatan Keamanan: Anda masih menggunakan password default. Harap segera ganti password Anda di menu Pengaturan Akun.</span>
-            </div>
-            <a href="{{ route('profile.edit') }}" class="btn btn-sm btn-danger text-nowrap flex-shrink-0 font-medium py-1 px-2.5 text-xs">Ganti Password</a>
-        </div>
-    @endif
-
     {{-- Header / Greeting --}}
     <div class="page-heading mb-2 py-0" style="margin-bottom: 0.5rem !important; padding-bottom: 0 !important;">
         <div class="page-heading-copy py-0" style="padding: 0 !important;">
-            <h1 class="h4 mb-0.5 fw-bold text-gray-900 dark:text-white" style="line-height: 1.15; margin-bottom: 0.15rem !important;">Dashboard Administrator</h1>
-            <p class="text-muted text-xs mb-0" style="line-height: 1.25; margin-top: 0 !important;">
-                Selamat datang, <strong>{{ auth()->user()->name }}</strong> — Monitoring pendaftaran magang Diskominfo SP Kabupaten Tuban.
-            </p>
+            <h1 class="h4 mb-0 fw-bold text-gray-900 dark:text-white" style="line-height: 1.15;">
+                @if((auth()->user()->role instanceof \App\Enums\UserRole ? auth()->user()->role->value : auth()->user()->role) === 'super_admin')
+                    Dashboard Super Admin Tuban
+                @elseif(auth()->user()->isAdminOpd() && auth()->user()->opd)
+                    Dashboard Admin {{ auth()->user()->opd->name }}
+                @else
+                    Dashboard Administrator
+                @endif
+            </h1>
         </div>
     </div>
+
+    @if(!empty($isSuperAdmin))
+        <div class="card border border-slate-200 dark:border-slate-700/60 shadow-xs mb-2.5 bg-white dark:bg-slate-800 p-2.5 rounded-lg">
+            <form method="GET" action="{{ route('admin.dashboard') }}" class="flex flex-col sm:flex-row items-center gap-2 w-full text-xs">
+                <span class="font-bold text-slate-800 dark:text-slate-200 flex items-center gap-1.5 whitespace-nowrap shrink-0">
+                    <i class="bi bi-funnel-fill text-blue-600 dark:text-blue-400"></i>
+                    Filter Wilayah OPD:
+                </span>
+                <select name="opd_id" class="form-select form-select-sm py-1.5 px-3 text-xs font-semibold rounded border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 flex-1 min-w-0 w-full" onchange="this.form.submit()">
+                    <option value="">Semua OPD (Agregat Kabupaten Tuban)</option>
+                    @foreach($opds as $opdItem)
+                        <option value="{{ $opdItem->id }}" {{ (string)$selectedOpdId === (string)$opdItem->id ? 'selected' : '' }}>
+                            {{ $opdItem->name }} ({{ $opdItem->code }})
+                        </option>
+                    @endforeach
+                </select>
+                <div class="shrink-0 w-full sm:w-auto">
+                    @if($selectedOpdId)
+                        <a href="{{ route('admin.dashboard') }}" class="btn btn-sm btn-outline-danger py-1.5 px-3 text-xs font-semibold inline-flex items-center justify-center gap-1.5 rounded shadow-xs hover:bg-rose-50 dark:hover:bg-rose-950/30 transition-colors w-full sm:w-auto" title="Reset ke tampilan Super Admin murni (Semua OPD)">
+                            <i class="bi bi-arrow-counterclockwise"></i> Reset
+                        </a>
+                    @else
+                        <button type="button" disabled class="btn btn-sm py-1.5 px-3 text-xs font-semibold inline-flex items-center justify-center gap-1.5 rounded bg-slate-100 text-slate-400 dark:bg-slate-700/50 dark:text-slate-500 border border-slate-200 dark:border-slate-700 cursor-not-allowed opacity-60 w-full sm:w-auto" title="Mode Super Admin aktif (Semua OPD)">
+                            <i class="bi bi-arrow-counterclockwise"></i> Reset
+                        </button>
+                    @endif
+                </div>
+            </form>
+        </div>
+    @endif
+
 
     <!-- TOP ROW: Stat Cards & Chart -->
     <div class="flex flex-col lg:flex-row items-stretch gap-2.5 lg:gap-3 mb-2.5" style="margin-top: 0 !important;">
@@ -65,8 +91,8 @@
                             </span>
                         </div>
                     </div>
-                    <div class="rounded bg-emerald-100 dark:bg-emerald-900/40 p-2 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 34px; height: 34px;">
-                        <i class="bi bi-people text-emerald-600 dark:text-emerald-400 fs-6"></i>
+                    <div class="rounded bg-blue-100 dark:bg-blue-900/40 p-2 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 34px; height: 34px;">
+                        <i class="bi bi-people text-blue-600 dark:text-blue-400 fs-6"></i>
                     </div>
                 </div>
 
@@ -81,8 +107,8 @@
                             </span>
                         </div>
                     </div>
-                    <div class="rounded bg-amber-100 dark:bg-amber-900/40 p-2 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 34px; height: 34px;">
-                        <i class="bi bi-clock-history text-amber-600 dark:text-amber-400 fs-6"></i>
+                    <div class="rounded bg-blue-100 dark:bg-blue-900/40 p-2 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 34px; height: 34px;">
+                        <i class="bi bi-clock-history text-blue-600 dark:text-blue-400 fs-6"></i>
                     </div>
                 </div>
 
@@ -97,8 +123,8 @@
                             </span>
                         </div>
                     </div>
-                    <div class="rounded bg-amber-100 dark:bg-amber-900/40 p-2 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 34px; height: 34px;">
-                        <i class="bi bi-search text-amber-600 dark:text-amber-400 fs-6"></i>
+                    <div class="rounded bg-blue-100 dark:bg-blue-900/40 p-2 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 34px; height: 34px;">
+                        <i class="bi bi-search text-blue-600 dark:text-blue-400 fs-6"></i>
                     </div>
                 </div>
 
@@ -113,8 +139,8 @@
                             </span>
                         </div>
                     </div>
-                    <div class="rounded bg-emerald-100 dark:bg-emerald-900/40 p-2 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 34px; height: 34px;">
-                        <i class="bi bi-check-circle text-emerald-600 dark:text-emerald-400 fs-6"></i>
+                    <div class="rounded bg-blue-100 dark:bg-blue-900/40 p-2 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 34px; height: 34px;">
+                        <i class="bi bi-check-circle text-blue-600 dark:text-blue-400 fs-6"></i>
                     </div>
                 </div>
 
@@ -129,8 +155,8 @@
                             </span>
                         </div>
                     </div>
-                    <div class="rounded bg-rose-100 dark:bg-rose-900/40 p-2 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 34px; height: 34px;">
-                        <i class="bi bi-x-circle text-rose-600 dark:text-rose-400 fs-6"></i>
+                    <div class="rounded bg-blue-100 dark:bg-blue-900/40 p-2 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 34px; height: 34px;">
+                        <i class="bi bi-x-circle text-blue-600 dark:text-blue-400 fs-6"></i>
                     </div>
                 </div>
             </section>
@@ -158,21 +184,90 @@
         </div>
     </div>
 
-    <!-- BOTTOM ROW: Full-Width Recent Registrations Table -->
-    <div class="row">
-        <div class="col-12">
-            <section class="panel p-3.5 shadow-sm border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800" style="padding: 0.875rem !important;">
-                <div class="panel-header flex flex-row justify-between items-center flex-nowrap d-flex justify-content-between align-items-center flex-nowrap w-full w-100 gap-2.5 mb-2.5 pb-2" style="padding-bottom: 0.5rem !important; margin-bottom: 0.625rem !important;">
-                    <div class="flex-grow-1 min-w-0">
-                        <h2 class="h6 mb-0 section-title text-sm sm:text-base font-bold whitespace-nowrap text-nowrap truncate flex items-center">
-                            <i class="bi bi-journal-text me-1.5 flex-shrink-0 text-primary" aria-hidden="true"></i>
-                            <span class="whitespace-nowrap text-nowrap truncate">Pendaftaran Magang Terbaru</span>
-                        </h2>
-                    </div>
-                    <a class="btn btn-outline-secondary bg-white hover:bg-slate-50 text-slate-700 border border-slate-300 rounded-lg py-1 px-2 text-xs font-semibold shadow-sm hover:shadow-md transition-all duration-200 w-auto text-center flex-shrink-0 whitespace-nowrap text-nowrap" href="{{ route('admin.applications.index') }}">
-                        <i class="bi bi-eye me-1" aria-hidden="true"></i> Lihat Semua Pendaftaran
-                    </a>
+    @if(!empty($isSuperAdmin) && empty($selectedOpdId))
+        {{-- Khusus Super Admin (Mode Agregat Semua OPD): Langsung tampilkan Ringkasan Formasi & Pendaftar per OPD --}}
+        @if($opdSummaries->isNotEmpty())
+            <div class="row">
+                <div class="col-12">
+                    <section class="panel p-3.5 shadow-sm border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800">
+                        <div class="panel-header d-flex justify-content-between align-items-center mb-2.5 pb-2 border-b border-slate-200 dark:border-slate-700">
+                            <div>
+                                <h2 class="h6 mb-0 text-sm sm:text-base font-bold text-slate-900 dark:text-slate-100 flex items-center">
+                                    <i class="bi bi-buildings me-1.5 text-primary"></i>
+                                    Ringkasan Formasi dan Pendaftar per OPD di Kabupaten Tuban
+                                </h2>
+                            </div>
+                            <a href="{{ route('admin.opds.index') }}" class="btn btn-outline-secondary py-1 px-2.5 text-xs font-semibold rounded-lg">
+                                <i class="bi bi-gear me-1"></i> Kelola Master OPD
+                            </a>
+                        </div>
+
+                        <div class="w-full overflow-x-auto">
+                            <table class="table table-hover align-middle mb-0 w-full text-xs">
+                                <thead class="bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-200 uppercase font-bold">
+                                    <tr>
+                                        <th class="ps-2.5 py-2">Nama OPD</th>
+                                        <th class="text-center py-2">Formasi Aktif</th>
+                                        <th class="text-center py-2">Total Pendaftar</th>
+                                        <th class="text-center py-2">Diterima</th>
+                                        <th class="text-center py-2">Perlu Verifikasi</th>
+                                        <th class="text-end pe-2.5 py-2">Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-100 dark:divide-slate-700">
+                                    @foreach($opdSummaries as $summary)
+                                        <tr class="hover:bg-slate-50 dark:hover:bg-slate-700/50">
+                                            <td class="ps-2.5 py-2">
+                                                <span class="font-bold text-slate-900 dark:text-slate-100">{{ $summary->name }}</span>
+                                                <span class="badge bg-slate-100 text-slate-700 dark:bg-slate-700 dark:text-slate-300 border border-slate-300 dark:border-slate-600 font-mono ms-1 text-[10px]">{{ $summary->code }}</span>
+                                            </td>
+                                            <td class="text-center py-2">
+                                                <span class="font-semibold text-slate-800 dark:text-slate-200">{{ $summary->active_positions_count }}</span>
+                                                <span class="text-slate-400 text-[11px]">/ {{ $summary->positions_count }}</span>
+                                            </td>
+                                            <td class="text-center py-2 font-bold text-slate-900 dark:text-slate-100">
+                                                {{ $summary->registrations_count }}
+                                            </td>
+                                            <td class="text-center py-2">
+                                                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">
+                                                    {{ $summary->accepted_count }}
+                                                </span>
+                                            </td>
+                                            <td class="text-center py-2">
+                                                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold {{ $summary->pending_count > 0 ? 'bg-amber-50 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300 border border-amber-200 dark:border-amber-800' : 'bg-slate-50 text-slate-600 dark:bg-slate-700 dark:text-slate-400' }}">
+                                                    {{ $summary->pending_count }}
+                                                </span>
+                                            </td>
+                                            <td class="text-end pe-2.5 py-2">
+                                                <a href="{{ route('admin.dashboard', ['opd_id' => $summary->id]) }}" class="btn btn-sm btn-light bg-slate-100 hover:bg-slate-200 text-blue-600 border border-slate-200 rounded py-0.5 px-2 text-xs font-semibold">
+                                                    <i class="bi bi-funnel me-1"></i> Filter OPD
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
                 </div>
+            </div>
+        @endif
+    @else
+        <!-- BOTTOM ROW: Full-Width Recent Registrations Table -->
+        <div class="row">
+            <div class="col-12">
+                <section class="panel p-3.5 shadow-sm border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800" style="padding: 0.875rem !important;">
+                    <div class="panel-header flex flex-row justify-between items-center flex-nowrap d-flex justify-content-between align-items-center flex-nowrap w-full w-100 gap-2.5 mb-2.5 pb-2" style="padding-bottom: 0.5rem !important; margin-bottom: 0.625rem !important;">
+                        <div class="flex-grow-1 min-w-0">
+                            <h2 class="h6 mb-0 section-title text-sm sm:text-base font-bold whitespace-nowrap text-nowrap truncate flex items-center">
+                                <i class="bi bi-journal-text me-1.5 flex-shrink-0 text-primary" aria-hidden="true"></i>
+                                <span class="whitespace-nowrap text-nowrap truncate">Pendaftaran Magang Terbaru</span>
+                            </h2>
+                        </div>
+                        <a class="btn btn-outline-secondary bg-white hover:bg-slate-50 text-slate-700 border border-slate-300 rounded-lg py-1 px-2 text-xs font-semibold shadow-sm hover:shadow-md transition-all duration-200 w-auto text-center flex-shrink-0 whitespace-nowrap text-nowrap" href="{{ route('admin.applications.index', $selectedOpdId ? ['opd_id' => $selectedOpdId] : []) }}">
+                            <i class="bi bi-eye me-1" aria-hidden="true"></i> Lihat Semua Pendaftaran
+                        </a>
+                    </div>
 
                 <div class="w-full overflow-x-auto overflow-y-hidden border border-slate-200 dark:border-slate-700 rounded-lg table-responsive">
                     <table class="table table-hover align-middle mb-0 w-full text-xs sm:text-sm">
@@ -211,6 +306,9 @@
                                     </td>
                                     <td class="whitespace-normal break-words px-2.5 py-1.5">
                                         <span class="font-semibold !text-slate-800 dark:!text-slate-200 text-xs">{{ $reg->position?->nama_posisi ?? '-' }}</span>
+                                        @if($reg->opd ?? $reg->position?->opd)
+                                            <div class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5"><i class="bi bi-building me-1"></i>{{ $reg->opd?->name ?? $reg->position?->opd?->name }}</div>
+                                        @endif
                                     </td>
                                     <td class="whitespace-nowrap px-2.5 py-1.5">
                                         <div class="font-medium !text-slate-700 dark:!text-slate-300 text-xs">{{ $reg->tanggal_submit?->translatedFormat('d M Y') ?? '-' }}</div>
@@ -249,6 +347,8 @@
             </section>
         </div>
     </div>
+    @endif
+
 @endsection
 
 @push('scripts')

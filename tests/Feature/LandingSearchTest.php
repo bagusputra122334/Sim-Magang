@@ -33,4 +33,28 @@ class LandingSearchTest extends TestCase
         $response->assertSee('Laravel Developer SPBE');
         $response->assertDontSee('Desainer Grafis Humas');
     }
+
+    public function test_landing_page_renders_interactive_qualification_placeholder_and_buttons(): void
+    {
+        $opd = \App\Models\Opd::factory()->create(['name' => 'Dinas Uji Coba']);
+
+        $position = Position::create([
+            'opd_id' => $opd->id,
+            'nama_posisi' => 'Fullstack Web Engineer',
+            'slug' => 'fullstack-web-engineer',
+            'deskripsi' => 'Pengembangan portal terpadu',
+            'tipe_pendaftar' => 'all',
+            'kualifikasi_siswa' => 'Siswa SMK RPL semester akhir',
+            'kualifikasi_mahasiswa' => 'Mahasiswa Teknik Informatika S1',
+            'status' => PositionStatus::Open,
+        ]);
+
+        $response = $this->get('/');
+
+        $response->assertOk();
+        $response->assertSee('btn-qual-siswa-' . $position->id);
+        $response->assertSee('btn-qual-mhs-' . $position->id);
+        $response->assertSee('qual-placeholder-' . $position->id);
+        $response->assertSee('Silakan Pilih Jenjang di Atas');
+    }
 }

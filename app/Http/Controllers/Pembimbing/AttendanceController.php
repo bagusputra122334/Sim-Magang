@@ -51,6 +51,7 @@ class AttendanceController extends Controller
             'rows'            => $rows,
             'mentorName'      => $mentor->name,
             'mentorNip'       => $mentor->nip ?? '-',
+            'opd'             => $shared['registration']->opd ?? $shared['registration']->position?->opd ?? $mentor->opd,
         ];
 
         $filename = sprintf(
@@ -74,10 +75,15 @@ class AttendanceController extends Controller
      */
     private function loadAttendanceData(Registration $registration): array
     {
-        $registration->loadMissing(['user.profile', 'user.division', 'position']);
+        $registration->loadMissing(['user.profile', 'user.division', 'position', 'opd', 'position.opd']);
 
         $user = Auth::user();
         abort_unless(optional($registration->user)->division_id === $user->division_id, 403);
+
+        $targetOpdId = $registration->opd_id ?? $registration->position?->opd_id ?? $registration->user?->opd_id;
+        if (! empty($user->opd_id) && ! empty($targetOpdId) && $targetOpdId !== $user->opd_id) {
+            abort(403, 'Akses ditolak: Peserta magang bukan dari OPD Anda.');
+        }
 
         $today = Carbon::now();
         $start = $registration->periode_mulai

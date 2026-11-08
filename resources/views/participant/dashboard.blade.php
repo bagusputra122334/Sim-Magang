@@ -30,25 +30,30 @@
 @section('title', 'Dashboard')
 
 @section('content')
-    @if(auth()->check() && (auth()->user()->is_default_password || auth()->user()->hasDefaultPassword() || \Illuminate\Support\Facades\Hash::check('password', auth()->user()->password)))
-        <div class="alert alert-danger bg-red-100 border border-red-400 text-red-700 dark:bg-red-900/40 dark:text-red-200 dark:border-red-700 px-3 py-1.5 rounded-lg relative mb-2 d-flex align-items-center justify-content-between gap-2.5 shadow-sm" role="alert">
-            <div class="d-flex align-items-center gap-2">
-                <i class="bi bi-shield-exclamation-fill fs-5 text-red-600 flex-shrink-0"></i>
-                <span class="fw-semibold text-xs sm:text-sm">Peringatan Keamanan: Kata sandi yang Anda gunakan saat ini sangat berisiko. Harap segera perbarui kata sandi Anda di menu Pengaturan Akun.</span>
-            </div>
-            <a href="{{ route('profile.edit') }}" class="btn btn-sm btn-danger text-nowrap flex-shrink-0 font-medium py-1 px-2.5 text-xs">Ganti Password</a>
-        </div>
-    @endif
-
     {{-- Header --}}
     <div class="page-heading mb-2">
         <div class="page-heading-copy">
-            <h1 class="h4 mb-0.5">Selamat Datang, {{ $user->name }}!</h1>
-            <p class="text-muted small mb-0">
-                Pantau status pendaftaran magang Anda di Dinas Komunikasi dan Informatika, Statistik dan Persandian Kabupaten Tuban.
-            </p>
+            <h1 class="h4 mb-0">Dashboard Peserta Magang</h1>
         </div>
     </div>
+
+    @if(auth()->check() && ! auth()->user()->hasVerifiedEmail())
+        <div class="alert alert-warning border border-amber-300 bg-amber-50 dark:bg-amber-950/40 text-amber-900 dark:text-amber-200 rounded-lg p-2.5 mb-2.5 d-flex align-items-center justify-content-between flex-wrap gap-2 shadow-xs" role="alert">
+            <div class="d-flex align-items-center gap-2">
+                <i class="bi bi-envelope-exclamation-fill text-amber-600 fs-5 flex-shrink-0"></i>
+                <div class="text-xs">
+                    <strong class="d-block mb-0.5">Alamat email Anda ({{ auth()->user()->email }}) belum diverifikasi.</strong>
+                    <span class="text-slate-600 dark:text-slate-300">Mohon periksa kotak masuk atau spam email Anda dan klik tautan verifikasi agar Anda dapat mengajukan pendaftaran magang.</span>
+                </div>
+            </div>
+            <form method="POST" action="{{ route('verification.send') }}" class="m-0">
+                @csrf
+                <button type="submit" class="btn btn-sm btn-warning font-semibold text-xs py-1 px-3 rounded shadow-xs text-nowrap">
+                    <i class="bi bi-send me-1"></i> Kirim Ulang Email Verifikasi
+                </button>
+            </form>
+        </div>
+    @endif
 
     @if($reg !== null && $reg->is_terminated)
         <div class="alert alert-danger border-2 rounded-3 mb-2 p-3 d-flex align-items-start" role="alert">
@@ -88,22 +93,22 @@
     <!-- Top Statistics Row (Ultra-Compact, 6 Columns - Perfectly Aligned & Single-line) -->
     <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2 mb-2.5">
         <!-- Card 1: Status Profil -->
-        <div class="card shadow-sm border-0 h-100">
+        <div class="card shadow-sm border border-slate-200 dark:border-slate-700 h-100 bg-white dark:bg-slate-800 rounded-lg">
             <div class="card-body p-2 sm:p-2.5 d-flex align-items-center justify-content-between gap-1.5 h-100">
                 <div class="min-w-0 flex-grow-1">
                     <p class="text-muted dark:text-slate-400 text-uppercase fw-bold mb-1 text-truncate" style="font-size: 0.65rem; letter-spacing: 0.5px; line-height: 1;">Status Profil</p>
-                    <div class="text-sm sm:text-base font-bold leading-tight text-truncate {{ $hasProfile ? 'text-success' : 'text-danger' }}">
+                    <div class="text-sm sm:text-base font-bold leading-tight text-truncate text-slate-800 dark:text-slate-100">
                         {{ $hasProfile ? 'Lengkap' : 'Belum Ada' }}
                     </div>
                 </div>
-                <div class="flex-shrink-0 {{ $hasProfile ? 'text-success' : 'text-danger' }}">
-                    <i class="bi {{ $hasProfile ? 'bi-person-check-fill' : 'bi-person-exclamation' }} fs-5"></i>
+                <div class="flex-shrink-0 rounded bg-blue-50 dark:bg-blue-900/30 p-1.5 text-primary d-flex align-items-center justify-content-center" style="width: 32px; height: 32px;">
+                    <i class="bi {{ $hasProfile ? 'bi-person-check-fill' : 'bi-person-exclamation' }} text-base"></i>
                 </div>
             </div>
         </div>
 
         <!-- Card 2: Total Pendaftaran -->
-        <div class="card shadow-sm border-0 h-100">
+        <div class="card shadow-sm border border-slate-200 dark:border-slate-700 h-100 bg-white dark:bg-slate-800 rounded-lg">
             <div class="card-body p-2 sm:p-2.5 d-flex align-items-center justify-content-between gap-1.5 h-100">
                 <div class="min-w-0 flex-grow-1">
                     <p class="text-muted dark:text-slate-400 text-uppercase fw-bold mb-1 text-truncate" style="font-size: 0.65rem; letter-spacing: 0.5px; line-height: 1;">Total Pendaftaran</p>
@@ -111,48 +116,48 @@
                         {{ $totalRegistrations ?? ($total_pendaftaran ?? 0) }}
                     </div>
                 </div>
-                <div class="flex-shrink-0 text-primary">
-                    <i class="bi bi-file-earmark-text-fill fs-5"></i>
+                <div class="flex-shrink-0 rounded bg-blue-50 dark:bg-blue-900/30 p-1.5 text-primary d-flex align-items-center justify-content-center" style="width: 32px; height: 32px;">
+                    <i class="bi bi-file-earmark-text-fill text-base"></i>
                 </div>
             </div>
         </div>
 
         <!-- Card 3: Status Terbaru -->
-        <div class="card shadow-sm border-0 h-100">
+        <div class="card shadow-sm border border-slate-200 dark:border-slate-700 h-100 bg-white dark:bg-slate-800 rounded-lg">
             <div class="card-body p-2 sm:p-2.5 d-flex align-items-center justify-content-between gap-1.5 h-100">
                 <div class="min-w-0 flex-grow-1">
                     <p class="text-muted dark:text-slate-400 text-uppercase fw-bold mb-1 text-truncate" style="font-size: 0.65rem; letter-spacing: 0.5px; line-height: 1;">Status Terbaru</p>
                     @if ($reg !== null)
-                        <div class="text-sm sm:text-base font-bold leading-tight text-truncate {{ $reg->is_terminated ? 'text-danger' : ($sv === 'accepted' ? 'text-success' : ($sv === 'rejected' ? 'text-danger' : ($sv === 'under_review' ? 'text-warning' : 'text-primary'))) }}">
+                        <div class="text-sm sm:text-base font-bold leading-tight text-truncate text-slate-800 dark:text-slate-100">
                             {{ $reg->is_terminated ? 'Dinonaktifkan' : $reg->status->label() }}
                         </div>
                     @else
-                        <div class="text-sm sm:text-base font-bold leading-tight text-truncate text-secondary">Belum Ada</div>
+                        <div class="text-sm sm:text-base font-bold leading-tight text-truncate text-slate-800 dark:text-slate-100">Belum Ada</div>
                     @endif
                 </div>
-                <div class="flex-shrink-0 {{ $reg !== null ? ($reg->is_terminated ? 'text-danger' : ($sv === 'accepted' ? 'text-success' : ($sv === 'rejected' ? 'text-danger' : ($sv === 'under_review' ? 'text-warning' : 'text-primary')))) : 'text-secondary' }}">
-                    <i class="bi {{ $reg !== null ? ($reg->is_terminated || $sv === 'rejected' ? 'bi-x-circle-fill' : ($sv === 'accepted' ? 'bi-check-circle-fill' : ($sv === 'under_review' ? 'bi-clock-fill' : 'bi-info-circle-fill'))) : 'bi-info-circle-fill' }} fs-5"></i>
+                <div class="flex-shrink-0 rounded bg-blue-50 dark:bg-blue-900/30 p-1.5 text-primary d-flex align-items-center justify-content-center" style="width: 32px; height: 32px;">
+                    <i class="bi {{ $reg !== null ? ($reg->is_terminated || $sv === 'rejected' ? 'bi-x-circle-fill' : ($sv === 'accepted' ? 'bi-check-circle-fill' : ($sv === 'under_review' ? 'bi-clock-fill' : 'bi-info-circle-fill'))) : 'bi-info-circle-fill' }} text-base"></i>
                 </div>
             </div>
         </div>
 
         <!-- Card 4: Surat Balasan -->
-        <div class="card shadow-sm border-0 h-100">
+        <div class="card shadow-sm border border-slate-200 dark:border-slate-700 h-100 bg-white dark:bg-slate-800 rounded-lg">
             <div class="card-body p-2 sm:p-2.5 d-flex align-items-center justify-content-between gap-1.5 h-100">
                 <div class="min-w-0 flex-grow-1">
                     <p class="text-muted dark:text-slate-400 text-uppercase fw-bold mb-1 text-truncate" style="font-size: 0.65rem; letter-spacing: 0.5px; line-height: 1;">Surat Balasan</p>
-                    <div class="text-sm sm:text-base font-bold leading-tight text-truncate {{ $documentInfo['surat_balasan_exists'] ? 'text-success' : 'text-secondary' }}">
+                    <div class="text-sm sm:text-base font-bold leading-tight text-truncate text-slate-800 dark:text-slate-100">
                         {{ $documentInfo['surat_balasan_exists'] ? 'Tersedia' : 'Belum Ada' }}
                     </div>
                 </div>
-                <div class="flex-shrink-0 {{ $documentInfo['surat_balasan_exists'] ? 'text-success' : 'text-secondary' }}">
-                    <i class="bi {{ $documentInfo['surat_balasan_exists'] ? 'bi-file-earmark-check-fill' : 'bi-envelope-fill' }} fs-5"></i>
+                <div class="flex-shrink-0 rounded bg-blue-50 dark:bg-blue-900/30 p-1.5 text-primary d-flex align-items-center justify-content-center" style="width: 32px; height: 32px;">
+                    <i class="bi {{ $documentInfo['surat_balasan_exists'] ? 'bi-file-earmark-check-fill' : 'bi-envelope-fill' }} text-base"></i>
                 </div>
             </div>
         </div>
 
         <!-- Card 5: Total Penugasan -->
-        <div class="card shadow-sm border-0 h-100">
+        <div class="card shadow-sm border border-slate-200 dark:border-slate-700 h-100 bg-white dark:bg-slate-800 rounded-lg">
             <div class="card-body p-2 sm:p-2.5 d-flex align-items-center justify-content-between gap-1.5 h-100">
                 <div class="min-w-0 flex-grow-1">
                     <p class="text-muted dark:text-slate-400 text-uppercase fw-bold mb-1 text-truncate" style="font-size: 0.65rem; letter-spacing: 0.5px; line-height: 1;">Total Penugasan</p>
@@ -160,23 +165,23 @@
                         {{ $totalAssignments ?? ($total_penugasan ?? 0) }}
                     </div>
                 </div>
-                <div class="flex-shrink-0 text-indigo">
-                    <i class="bi bi-list-task fs-5"></i>
+                <div class="flex-shrink-0 rounded bg-blue-50 dark:bg-blue-900/30 p-1.5 text-primary d-flex align-items-center justify-content-center" style="width: 32px; height: 32px;">
+                    <i class="bi bi-list-task text-base"></i>
                 </div>
             </div>
         </div>
 
         <!-- Card 6: Tugas Tertunda -->
-        <div class="card shadow-sm border-0 h-100">
+        <div class="card shadow-sm border border-slate-200 dark:border-slate-700 h-100 bg-white dark:bg-slate-800 rounded-lg">
             <div class="card-body p-2 sm:p-2.5 d-flex align-items-center justify-content-between gap-1.5 h-100">
                 <div class="min-w-0 flex-grow-1">
                     <p class="text-muted dark:text-slate-400 text-uppercase fw-bold mb-1 text-truncate" style="font-size: 0.65rem; letter-spacing: 0.5px; line-height: 1;">Tugas Tertunda</p>
-                    <div class="text-sm sm:text-base font-bold leading-tight text-truncate {{ $overdueCount > 0 ? 'text-danger' : ($pendingCount > 0 ? 'text-warning' : 'text-success') }}">
+                    <div class="text-sm sm:text-base font-bold leading-tight text-truncate text-slate-800 dark:text-slate-100">
                         {{ $overdueCount > 0 ? $overdueCount . ' Terlambat' : ($pendingCount > 0 ? $pendingCount . ' Tugas' : 'Selesai') }}
                     </div>
                 </div>
-                <div class="flex-shrink-0 {{ $overdueCount > 0 ? 'text-danger' : ($pendingCount > 0 ? 'text-warning' : 'text-success') }}">
-                    <i class="bi {{ $overdueCount > 0 ? 'bi-exclamation-triangle-fill' : ($pendingCount > 0 ? 'bi-clock-history' : 'bi-check2-circle') }} fs-5"></i>
+                <div class="flex-shrink-0 rounded bg-blue-50 dark:bg-blue-900/30 p-1.5 text-primary d-flex align-items-center justify-content-center" style="width: 32px; height: 32px;">
+                    <i class="bi {{ $overdueCount > 0 ? 'bi-exclamation-triangle-fill' : ($pendingCount > 0 ? 'bi-clock-history' : 'bi-check2-circle') }} text-base"></i>
                 </div>
             </div>
         </div>
@@ -187,7 +192,7 @@
         <div class="panel-header border-bottom pb-2 mb-2.5 d-flex flex-wrap align-items-center justify-content-between gap-2">
             <div>
                 <h2 class="h5 mb-1 section-title">
-                    <i class="bi bi-clipboard-check" aria-hidden="true"></i>
+                    <i class="bi bi-clipboard-check text-primary" aria-hidden="true"></i>
                     <span>Penugasan Aktif</span>
                 </h2>
                 <p class="text-muted small mb-0">
@@ -333,15 +338,15 @@
     </div>
 
     {{-- Container Utama: Kolom Kiri & Kolom Kanan (Ultra-Dense Grid) --}}
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-3.5 mt-0">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-3.5 mt-0 items-stretch">
         {{-- Left Column: Personal Information & Admin Notes --}}
-        <div class="lg:col-span-4 space-y-3">
+        <div class="lg:col-span-4 flex flex-col gap-3.5">
             {{-- Personal Information Panel --}}
-            <div class="panel p-3.5 mb-3">
+            <div class="panel p-3.5 mb-0">
                 <div class="panel-header border-bottom pb-2 mb-2.5">
                     <div>
                         <h2 class="h5 mb-1 section-title">
-                            <i class="bi bi-person-vcard" aria-hidden="true"></i>
+                            <i class="bi bi-person-vcard text-primary" aria-hidden="true"></i>
                             <span>Informasi Pribadi</span>
                         </h2>
                         <p class="text-muted small mb-0">Data akun & biodata peserta.</p>
@@ -412,14 +417,14 @@
 
             {{-- Admin Notes (If Rejected / Available) --}}
             @if ($reg !== null && !empty(trim($reg->catatan_admin ?? '')))
-                <div class="panel border-info p-3.5 mb-3">
-                    <div class="panel-header border-bottom pb-2 mb-2">
+                <div class="panel border-info p-3 mb-0 flex-1 d-flex flex-column justify-content-between">
+                    <div class="panel-header border-bottom pb-1.5 mb-2">
                         <h2 class="h6 mb-0 text-info section-title">
                             <i class="bi bi-chat-left-dots" aria-hidden="true"></i>
                             <span>Catatan Admin</span>
                         </h2>
                     </div>
-                    <div class="alert alert-info mb-0 p-2.5">
+                    <div class="alert alert-info mb-0 p-2.5 flex-1 d-flex align-items-center">
                         <p class="mb-0 small fst-italic">"{{ $reg->catatan_admin }}"</p>
                     </div>
                 </div>
@@ -427,7 +432,7 @@
         </div>
 
         {{-- Right Column: Application Details or Empty State --}}
-        <div class="lg:col-span-8 space-y-3">
+        <div class="lg:col-span-8 flex flex-col gap-3.5">
             @if ($reg === null)
                 {{-- PROFESSIONAL EMPTY STATE --}}
                 <div class="panel text-center py-4 px-3.5 mb-3">
@@ -451,11 +456,11 @@
 
             @else
                 {{-- APPLICATION DETAILS CARD --}}
-                <div class="panel p-3.5 mb-3">
+                <div class="panel p-3.5 mb-0">
                     <div class="panel-header border-bottom pb-2 mb-2.5 d-flex flex-wrap align-items-center justify-content-between gap-2">
                         <div>
                             <h2 class="h5 mb-1 section-title">
-                                <i class="bi bi-file-earmark-text" aria-hidden="true"></i>
+                                <i class="bi bi-file-earmark-text text-primary" aria-hidden="true"></i>
                                 <span>Informasi Pendaftaran Magang</span>
                             </h2>
                             <p class="text-muted small mb-0">Kode Pendaftaran: <strong class="font-monospace text-primary">{{ $reg->nomor_pendaftaran }}</strong></p>
@@ -507,37 +512,37 @@
                     </div>
                 </div>
 
-                {{-- UPLOADED DOCUMENTS PANEL --}}
-                <div class="panel p-3.5 mb-3">
-                    <div class="panel-header border-bottom pb-2 mb-2.5">
+                {{-- UPLOADED DOCUMENTS PANEL (Compact & Aligned with Catatan Admin) --}}
+                <div class="panel p-2.5 sm:p-3 mb-0 flex-1 d-flex flex-column justify-content-between">
+                    <div class="panel-header border-bottom pb-1.5 mb-2 d-flex flex-wrap align-items-center justify-content-between gap-1">
                         <div>
-                            <h2 class="h5 mb-1 section-title">
-                                <i class="bi bi-folder2-open" aria-hidden="true"></i>
+                            <h2 class="h6 mb-0 section-title font-bold d-flex align-items-center gap-1.5 text-slate-800 dark:text-slate-100">
+                                <i class="bi bi-folder2-open text-primary" aria-hidden="true"></i>
                                 <span>Dokumen & Berkas Magang</span>
                             </h2>
-                            <p class="text-muted small mb-0">Berkas administrasi pendaftaran magang.</p>
                         </div>
+                        <span class="text-muted text-[11px]">Berkas administrasi pendaftaran magang.</span>
                     </div>
 
-                    {{-- 4 Sub-card Dokumen (Ultra-Dense Grid) --}}
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5">
+                    {{-- 5 Sub-card Dokumen (Ultra-Dense Grid) --}}
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2 flex-1 items-stretch">
                         {{-- Document 1: CV --}}
                         <div>
-                            <div class="p-2.5 border rounded-3 text-center h-100 d-flex flex-column justify-content-between">
+                            <div class="p-2 border rounded-3 text-center h-100 d-flex flex-column justify-content-between bg-white dark:bg-slate-800 {{ $documentInfo['cv_exists'] ? 'border-primary-subtle' : 'border-slate-200' }}">
                                 <div>
-                                    <i class="bi bi-file-earmark-person fs-2 {{ $documentInfo['cv_exists'] ? 'text-primary' : 'text-muted' }}"></i>
-                                    <h4 class="h6 fw-bold mt-1.5 mb-0.5">CV / Riwayat Hidup</h4>
-                                    <small class="text-muted d-block mb-2">
-                                        {{ $documentInfo['cv_exists'] ? 'File Terunggah' : 'Belum Ada File' }}
+                                    <i class="bi bi-file-earmark-person fs-3 {{ $documentInfo['cv_exists'] ? 'text-primary' : 'text-muted' }}"></i>
+                                    <h4 class="text-xs fw-bold mt-1 mb-0.5 leading-tight" title="CV / Riwayat Hidup">CV / Riwayat Hidup</h4>
+                                    <small class="text-muted d-block mb-1 text-[11px] leading-tight">
+                                        {{ $documentInfo['cv_exists'] ? 'File Terunggah' : 'Belum Ada' }}
                                     </small>
                                 </div>
                                 <div>
                                     @if ($documentInfo['cv_exists'])
-                                        <a href="{{ $documentInfo['cv_url'] }}" target="_blank" class="btn btn-outline-primary btn-sm w-100 py-1 text-xs">
-                                            <i class="bi bi-download me-1"></i> Unduh CV
+                                        <a href="{{ $documentInfo['cv_url'] }}" target="_blank" class="btn btn-outline-primary btn-sm w-100 py-1 px-1 text-xs text-nowrap font-medium" title="Unduh CV">
+                                            <i class="bi bi-download me-1"></i> Unduh
                                         </a>
                                     @else
-                                        <span class="badge bg-secondary w-100 py-1.5">Tidak Ada</span>
+                                        <span class="badge bg-secondary w-100 py-1 text-xs">Belum Ada</span>
                                     @endif
                                 </div>
                             </div>
@@ -545,21 +550,21 @@
 
                         {{-- Document 2: Surat Pengantar --}}
                         <div>
-                            <div class="p-2.5 border rounded-3 text-center h-100 d-flex flex-column justify-content-between">
+                            <div class="p-2 border rounded-3 text-center h-100 d-flex flex-column justify-content-between bg-white dark:bg-slate-800 {{ $documentInfo['surat_pengantar_exists'] ? 'border-success-subtle' : 'border-slate-200' }}">
                                 <div>
-                                    <i class="bi bi-envelope-paper fs-2 {{ $documentInfo['surat_pengantar_exists'] ? 'text-success' : 'text-muted' }}"></i>
-                                    <h4 class="h6 fw-bold mt-1.5 mb-0.5">Surat Pengantar</h4>
-                                    <small class="text-muted d-block mb-2">
-                                        {{ $documentInfo['surat_pengantar_exists'] ? 'File Terunggah' : 'Belum Ada File' }}
+                                    <i class="bi bi-envelope-paper fs-3 {{ $documentInfo['surat_pengantar_exists'] ? 'text-success' : 'text-muted' }}"></i>
+                                    <h4 class="text-xs fw-bold mt-1 mb-0.5 leading-tight" title="Surat Pengantar">Surat Pengantar</h4>
+                                    <small class="text-muted d-block mb-1 text-[11px] leading-tight">
+                                        {{ $documentInfo['surat_pengantar_exists'] ? 'File Terunggah' : 'Belum Ada' }}
                                     </small>
                                 </div>
                                 <div>
                                     @if ($documentInfo['surat_pengantar_exists'])
-                                        <a href="{{ $documentInfo['surat_pengantar_url'] }}" target="_blank" class="btn btn-outline-success btn-sm w-100 py-1 text-xs">
-                                            <i class="bi bi-download me-1"></i> Unduh Surat
+                                        <a href="{{ $documentInfo['surat_pengantar_url'] }}" target="_blank" class="btn btn-outline-success btn-sm w-100 py-1 px-1 text-xs text-nowrap font-medium" title="Unduh Surat Pengantar">
+                                            <i class="bi bi-download me-1"></i> Unduh
                                         </a>
                                     @else
-                                        <span class="badge bg-secondary w-100 py-1.5">Tidak Ada</span>
+                                        <span class="badge bg-secondary w-100 py-1 text-xs">Belum Ada</span>
                                     @endif
                                 </div>
                             </div>
@@ -567,21 +572,21 @@
 
                         {{-- Document 3: Proposal Magang --}}
                         <div>
-                            <div class="p-2.5 border rounded-3 text-center h-100 d-flex flex-column justify-content-between">
+                            <div class="p-2 border rounded-3 text-center h-100 d-flex flex-column justify-content-between bg-white dark:bg-slate-800 {{ $documentInfo['proposal_magang_exists'] ? 'border-info-subtle' : 'border-slate-200' }}">
                                 <div>
-                                    <i class="bi bi-file-earmark-pdf fs-2 {{ $documentInfo['proposal_magang_exists'] ? 'text-info' : 'text-muted' }}"></i>
-                                    <h4 class="h6 fw-bold mt-1.5 mb-0.5">Proposal Magang</h4>
-                                    <small class="text-muted d-block mb-2">
-                                        {{ $documentInfo['proposal_magang_exists'] ? 'File Terunggah' : 'Belum Ada File' }}
+                                    <i class="bi bi-file-earmark-pdf fs-3 {{ $documentInfo['proposal_magang_exists'] ? 'text-info' : 'text-muted' }}"></i>
+                                    <h4 class="text-xs fw-bold mt-1 mb-0.5 leading-tight" title="Proposal Magang">Proposal Magang</h4>
+                                    <small class="text-muted d-block mb-1 text-[11px] leading-tight">
+                                        {{ $documentInfo['proposal_magang_exists'] ? 'File Terunggah' : 'Belum Ada' }}
                                     </small>
                                 </div>
                                 <div>
                                     @if ($documentInfo['proposal_magang_exists'])
-                                        <a href="{{ $documentInfo['proposal_magang_url'] }}" target="_blank" class="btn btn-outline-info btn-sm w-100 py-1 text-xs">
-                                            <i class="bi bi-download me-1"></i> Unduh Proposal
+                                        <a href="{{ $documentInfo['proposal_magang_url'] }}" target="_blank" class="btn btn-outline-info btn-sm w-100 py-1 px-1 text-xs text-nowrap font-medium" title="Unduh Proposal Magang">
+                                            <i class="bi bi-download me-1"></i> Unduh
                                         </a>
                                     @else
-                                        <span class="badge bg-secondary w-100 py-1.5">Tidak Ada</span>
+                                        <span class="badge bg-secondary w-100 py-1 text-xs">Belum Ada</span>
                                     @endif
                                 </div>
                             </div>
@@ -589,21 +594,56 @@
 
                         {{-- Document 4: Surat Balasan (If Available) --}}
                         <div>
-                            <div class="p-2.5 border rounded-3 text-center h-100 d-flex flex-column justify-content-between {{ $documentInfo['surat_balasan_exists'] ? 'border-success bg-success bg-opacity-10' : '' }}">
+                            <div class="p-2 border rounded-3 text-center h-100 d-flex flex-column justify-content-between bg-white dark:bg-slate-800 {{ $documentInfo['surat_balasan_exists'] ? 'border-success bg-success bg-opacity-10' : 'border-slate-200' }}">
                                 <div>
-                                    <i class="bi bi-file-earmark-check fs-2 {{ $documentInfo['surat_balasan_exists'] ? 'text-success' : 'text-muted' }}"></i>
-                                    <h4 class="h6 fw-bold mt-1.5 mb-0.5">Surat Balasan (Admin)</h4>
-                                    <small class="text-muted d-block mb-2">
+                                    <i class="bi bi-file-earmark-check fs-3 {{ $documentInfo['surat_balasan_exists'] ? 'text-success' : 'text-muted' }}"></i>
+                                    <h4 class="text-xs fw-bold mt-1 mb-0.5 leading-tight" title="Surat Balasan (Admin)">Surat Balasan (Admin)</h4>
+                                    <small class="text-muted d-block mb-1 text-[11px] leading-tight">
                                         {{ $documentInfo['surat_balasan_exists'] ? 'Resmi Diterbitkan' : 'Belum Diterbitkan' }}
                                     </small>
                                 </div>
                                 <div>
                                     @if ($documentInfo['surat_balasan_exists'])
-                                        <a href="{{ $documentInfo['surat_balasan_download_route'] }}" class="btn btn-success btn-sm w-100 fw-bold py-1 text-xs">
-                                            <i class="bi bi-download me-1"></i> Unduh Surat Balasan
+                                        <a href="{{ $documentInfo['surat_balasan_download_route'] }}" class="btn btn-success btn-sm w-100 fw-bold py-1 px-1 text-xs text-nowrap shadow-xs" title="Unduh Surat Balasan">
+                                            <i class="bi bi-download me-1"></i> Unduh
                                         </a>
                                     @else
-                                        <span class="badge bg-secondary w-100 py-1.5">Belum Tersedia</span>
+                                        <span class="badge bg-secondary w-100 py-1 text-xs">Belum Tersedia</span>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+
+                        {{-- Document 5: Sertifikat Kelulusan Magang --}}
+                        <div>
+                            @php
+                                $certExists = !empty($reg->certificate_path) && \Illuminate\Support\Facades\Storage::disk('public')->exists($reg->certificate_path);
+                                $isGraduationReached = $reg && $reg->isGraduationEligible();
+                            @endphp
+                            <div class="p-2 border rounded-3 text-center h-100 d-flex flex-column justify-content-between {{ $certExists ? 'border-success bg-success bg-opacity-10 shadow-xs' : 'bg-body-secondary bg-opacity-40 border-slate-200' }}">
+                                <div>
+                                    <i class="bi bi-award fs-3 {{ $certExists ? 'text-success' : 'text-muted opacity-50' }}"></i>
+                                    <h4 class="text-xs fw-bold mt-1 mb-0.5 leading-tight" title="Sertifikat Kelulusan">Sertifikat Kelulusan</h4>
+                                    <small class="text-muted d-block mb-1 text-[11px] leading-tight">
+                                        @if($certExists)
+                                            <span class="text-success fw-bold"><i class="bi bi-patch-check-fill me-0.5"></i>Resmi Diterbitkan</span>
+                                        @elseif($isGraduationReached)
+                                            <span class="text-warning-emphasis fw-semibold"><i class="bi bi-clock-history me-0.5"></i>Proses Terbit</span>
+                                        @else
+                                            <span class="text-muted"><i class="bi bi-lock-fill me-0.5"></i>Periode Berjalan</span>
+                                        @endif
+                                    </small>
+                                </div>
+                                <div>
+                                    @if ($certExists)
+                                        <a href="{{ route('participant.certificates.download', $reg->id) }}" class="btn btn-success btn-sm w-100 fw-bold py-1 px-1 text-xs text-nowrap shadow-xs" title="Unduh Sertifikat Kelulusan">
+                                            <i class="bi bi-download me-1"></i> Unduh
+                                        </a>
+                                    @else
+                                        <button type="button" class="btn btn-secondary btn-sm w-100 py-1 px-1 text-xs text-nowrap opacity-50 cursor-not-allowed" disabled
+                                                title="{{ !$isGraduationReached ? 'Sertifikat baru dapat diunduh setelah masa magang selesai (' . ($reg->periode_selesai?->translatedFormat('d M Y') ?? 'akhir periode') . ')' : 'Masa magang selesai, menunggu penerbitan oleh Admin OPD' }}">
+                                            <i class="bi bi-lock-fill me-1"></i> Unduh
+                                        </button>
                                     @endif
                                 </div>
                             </div>

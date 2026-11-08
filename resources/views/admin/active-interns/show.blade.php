@@ -45,31 +45,33 @@
                             @endif
                         </div>
                     </div>
-                    <div>
-                        @if(!$intern->is_terminated)
-                            <button type="button" class="btn btn-danger-subtle text-danger border border-danger-subtle rounded-2 px-3 py-1.5 text-xs font-semibold shadow-sm hover-btn-danger transition-all d-inline-flex align-items-center gap-1.5" data-bs-toggle="modal" data-bs-target="#deactivateModal">
-                                <i class="bi bi-person-x-fill"></i>
-                                <span>Nonaktifkan Magang Peserta</span>
-                            </button>
-                        @else
-                            <form method="POST" action="{{ route('admin.active-interns.toggle-status', $intern->id) }}" class="d-inline">
-                                @csrf
-                                @method('PATCH')
-                                <button type="button"
-                                        class="btn btn-success-subtle text-success border border-success-subtle rounded-2 px-3 py-1.5 text-xs font-semibold shadow-sm hover-btn-success transition-all d-inline-flex align-items-center gap-1.5"
-                                        data-simang-confirm="<div class='row g-1'><div class='col-4 text-slate-500 font-semibold'>Nama Peserta</div><div class='col-8 fw-bold text-slate-900'>{{ addslashes($intern->user?->name ?? '—') }}</div><div class='col-4 text-slate-500 font-semibold'>No. Pendaftaran</div><div class='col-8 font-monospace'>{{ $intern->nomor_pendaftaran }}</div></div>"
-                                        data-simang-title="Aktifkan Kembali Magang"
-                                        data-simang-icon="bi-check-circle-fill"
-                                        data-simang-theme="emerald"
-                                        data-simang-alert="Status operasional magang peserta ini akan diaktifkan kembali. Peserta dapat mengakses kembali absensi dan materi penugasan."
-                                        data-simang-btn-text="Ya, Aktifkan Kembali"
-                                        data-simang-btn-icon="bi-check-circle-fill">
-                                    <i class="bi bi-check-circle-fill"></i>
-                                    <span>Aktifkan Kembali Magang</span>
+                    @if(empty($isSuperAdmin))
+                        <div>
+                            @if(!$intern->is_terminated)
+                                <button type="button" class="btn btn-danger-subtle text-danger border border-danger-subtle rounded-2 px-3 py-1.5 text-xs font-semibold shadow-sm hover-btn-danger transition-all d-inline-flex align-items-center gap-1.5" data-bs-toggle="modal" data-bs-target="#deactivateModal">
+                                    <i class="bi bi-person-x-fill"></i>
+                                    <span>Nonaktifkan Magang Peserta</span>
                                 </button>
-                            </form>
-                        @endif
-                    </div>
+                            @else
+                                <form method="POST" action="{{ route('admin.active-interns.toggle-status', $intern->id) }}" class="d-inline">
+                                    @csrf
+                                    @method('PATCH')
+                                    <button type="button"
+                                            class="btn btn-success-subtle text-success border border-success-subtle rounded-2 px-3 py-1.5 text-xs font-semibold shadow-sm hover-btn-success transition-all d-inline-flex align-items-center gap-1.5"
+                                            data-simang-confirm="<div class='row g-1'><div class='col-4 text-slate-500 font-semibold'>Nama Peserta</div><div class='col-8 fw-bold text-slate-900'>{{ addslashes($intern->user?->name ?? '—') }}</div><div class='col-4 text-slate-500 font-semibold'>No. Pendaftaran</div><div class='col-8 font-monospace'>{{ $intern->nomor_pendaftaran }}</div></div>"
+                                            data-simang-title="Aktifkan Kembali Magang"
+                                            data-simang-icon="bi-check-circle-fill"
+                                            data-simang-theme="emerald"
+                                            data-simang-alert="Status operasional magang peserta ini akan diaktifkan kembali. Peserta dapat mengakses kembali absensi dan materi penugasan."
+                                            data-simang-btn-text="Ya, Aktifkan Kembali"
+                                            data-simang-btn-icon="bi-check-circle-fill">
+                                        <i class="bi bi-check-circle-fill"></i>
+                                        <span>Aktifkan Kembali Magang</span>
+                                    </button>
+                                </form>
+                            @endif
+                        </div>
+                    @endif
                 </div>
                 @if($intern->is_terminated && $intern->catatan_penonaktifan)
                     <div class="card-footer bg-danger-subtle border-top border-danger-subtle p-2.5 text-xs">
@@ -182,22 +184,26 @@
                                    class="btn btn-secondary btn-sm px-2.5 py-1 text-xs shadow-sm font-semibold d-inline-flex align-items-center gap-1">
                                     <i class="bi bi-download"></i> Download
                                 </a>
+                                <a href="{{ route('admin.certificates.index', ['search' => $intern->nomor_pendaftaran]) }}"
+                                   class="btn btn-primary btn-sm px-2.5 py-1 text-xs shadow-sm font-semibold d-inline-flex align-items-center gap-1">
+                                    <i class="bi bi-gear-fill"></i> Kelola di Menu Sertifikat
+                                </a>
                             </div>
                             <span class="text-xs text-muted d-inline-flex align-items-center gap-1">
-                                <i class="bi bi-shield-check text-emerald-600"></i> Diunggah oleh Pembimbing Lapangan
+                                <i class="bi bi-shield-check text-emerald-600"></i> Diterbitkan secara resmi oleh Administrator OPD
                             </span>
                         </div>
                     </div>
                 </div>
             @else
-                {{-- KONDISI AWAL: BELUM DIUNGGAH OLEH PEMBIMBING (STATUS SUPERVISOR / MONITORING ONLY) --}}
+                {{-- KONDISI AWAL: BELUM DITERBITKAN OLEH ADMIN OPD --}}
                 <div class="card shadow-sm border border-slate-300 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-900/20 mb-3 rounded-2 overflow-hidden">
                     <div class="card-header bg-slate-100/80 dark:bg-slate-800/60 border-bottom border-slate-200 dark:border-slate-700 py-2 px-3 d-flex align-items-center justify-content-between flex-wrap gap-2">
                         <h5 class="text-xs font-bold !text-slate-900 dark:!text-slate-100 uppercase tracking-wider mb-0 d-flex align-items-center gap-1.5">
                             <i class="bi bi-award text-slate-500"></i>SERTIFIKAT KELULUSAN MAGANG
                         </h5>
                         <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-950 border border-amber-300 shadow-sm" style="color: #451a03 !important; background-color: #fef3c7 !important;">
-                            <i class="bi bi-clock-history text-amber-700"></i> Belum Diunggah Pembimbing
+                            <i class="bi bi-clock-history text-amber-700"></i> Belum Diterbitkan
                         </span>
                     </div>
                     <div class="card-body p-3 sm:p-4 text-xs">
@@ -209,15 +215,20 @@
                                 <div class="d-flex align-items-center gap-2 flex-wrap mb-1">
                                     <h6 class="text-xs font-bold !text-slate-900 dark:!text-slate-100 uppercase mb-0">Status Penerbitan Sertifikat</h6>
                                     <span class="inline-block px-2.5 py-0.5 rounded-md text-[11px] font-bold bg-slate-200 text-slate-900 border border-slate-300" style="color: #0f172a !important; background-color: #e2e8f0 !important;">
-                                        Supervisor / View Only
+                                        Wewenang Admin OPD
                                     </span>
                                 </div>
                                 <p class="text-slate-600 dark:text-slate-400 text-xs mb-2">
-                                    Sertifikat kelulusan magang digital untuk peserta ini belum diunggah oleh <strong>Pembimbing Lapangan ({{ $intern->position?->mentor_name ?? 'Pembimbing Divisi Terkait' }})</strong>.
+                                    Sertifikat kelulusan magang digital untuk peserta ini belum diterbitkan. Penerbitan dan pengelolaan sertifikat kini dipusatkan penuh kepada Administrator OPD.
                                 </p>
-                                <div class="inline-flex items-center gap-2 px-2.5 py-1.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-xs text-slate-600 dark:text-slate-300">
-                                    <i class="bi bi-info-circle text-primary"></i>
-                                    <span>Hak akses penerbitan dan unggah sertifikat menjadi wewenang penuh pembimbing lapangan pada menu <em>Sertifikat Magang</em>. Admin bertindak sebagai supervisor pemantau status.</span>
+                                <div class="d-flex flex-wrap align-items-center gap-2">
+                                    <a href="{{ route('admin.certificates.index', ['search' => $intern->nomor_pendaftaran]) }}"
+                                       class="btn btn-primary btn-sm px-3 py-1.5 text-xs font-semibold shadow-sm d-inline-flex align-items-center gap-1.5 rounded-lg">
+                                        <i class="bi bi-award"></i> Buka Menu Sertifikat Magang
+                                    </a>
+                                    <span class="text-slate-500 dark:text-slate-400 text-xs">
+                                        <i class="bi bi-info-circle text-primary me-1"></i>Kelola dan unggah sertifikat terpusat per OPD
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -273,7 +284,7 @@
     </div>
 
     {{-- Deactivation Modal --}}
-    @if(!$intern->is_terminated)
+    @if(empty($isSuperAdmin) && !$intern->is_terminated)
         <div class="modal fade" id="deactivateModal" tabindex="-1" aria-labelledby="deactivateModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content border border-slate-200 dark:border-slate-800 shadow-2xl rounded-2xl overflow-hidden bg-white dark:bg-slate-900">

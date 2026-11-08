@@ -65,9 +65,23 @@
 <body>
 
 <div class="kop-center">
-    <div class="kop-title">DINAS KOMUNIKASI DAN INFORMATIKA</div>
-    <div class="kop-title">KABUPATEN TUBAN</div>
-    <div class="kop-sub">Jl. Pemuda No. 1, Tuban, Jawa Timur 62311 &bull; Telp. (0356) 123-456 &bull; Email: kominfo@tubankab.go.id</div>
+    @php
+        $resolvedOpd = $opd ?? (auth()->check() ? auth()->user()->opd ?? auth()->user()->division?->opd : null);
+        if ($resolvedOpd) {
+            $opdName = strtoupper($resolvedOpd->name);
+            $opdAddress = $resolvedOpd->address ?: 'Kabupaten Tuban, Jawa Timur';
+            $opdPhone = $resolvedOpd->phone ?: '-';
+            $opdEmail = $resolvedOpd->email ?: '-';
+        } else {
+            $opdName = 'PEMERINTAH KABUPATEN TUBAN';
+            $opdAddress = 'Jl. Kartini No. 2, Kutorejo, Kec. Tuban, Kabupaten Tuban, Jawa Timur 62311';
+            $opdPhone = '(0356) 321001';
+            $opdEmail = 'pemkab@tubankab.go.id';
+        }
+    @endphp
+    <div class="kop-title" style="font-size: 11pt; color: #475569;">PEMERINTAH KABUPATEN TUBAN</div>
+    <div class="kop-title">{{ $opdName }}</div>
+    <div class="kop-sub">{{ $opdAddress }} &bull; Telp. {{ $opdPhone }} &bull; Email: {{ $opdEmail }}</div>
     <div class="kop-line"></div>
     <div class="doc-title">Laporan Rekap Absensi &amp; Aktivitas Harian Peserta Magang</div>
     <div class="doc-period">Periode: {{ $start->translatedFormat('d F Y') }} &mdash; {{ $end->translatedFormat('d F Y') }}</div>

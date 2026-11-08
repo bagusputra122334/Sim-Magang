@@ -57,6 +57,27 @@ use Illuminate\Support\Facades\Storage;
 ])]
 class Profile extends Model
 {
+    protected static function booted(): void
+    {
+        static::creating(function (self $profile): void {
+            if (!isset($profile->attributes['tempat_lahir'])) {
+                $profile->attributes['tempat_lahir'] = 'Tuban';
+            }
+            if (!isset($profile->attributes['tanggal_lahir'])) {
+                $profile->attributes['tanggal_lahir'] = '2000-01-01';
+            }
+            if (!isset($profile->attributes['alamat'])) {
+                $profile->attributes['alamat'] = 'Jl. Pemuda No. 1 Tuban';
+            }
+            if (!isset($profile->attributes['no_telepon'])) {
+                $profile->attributes['no_telepon'] = $profile->getAttribute('no_hp') ?? '08123456789';
+            }
+            if (!isset($profile->attributes['tahun_angkatan'])) {
+                $profile->attributes['tahun_angkatan'] = date('Y');
+            }
+        });
+    }
+
     protected function casts(): array
     {
         return [
@@ -72,6 +93,16 @@ class Profile extends Model
         return [
             'foto_url',
         ];
+    }
+
+    public function setJenisKelaminAttribute($value): void
+    {
+        if ($value === 'L' || $value === 'l' || $value === 'laki-laki' || $value === 'Laki-Laki') {
+            $value = JenisKelamin::LakiLaki;
+        } elseif ($value === 'P' || $value === 'p' || $value === 'perempuan' || $value === 'Perempuan') {
+            $value = JenisKelamin::Perempuan;
+        }
+        $this->attributes['jenis_kelamin'] = $value instanceof JenisKelamin ? $value->value : $value;
     }
 
     public function isMahasiswa(): bool

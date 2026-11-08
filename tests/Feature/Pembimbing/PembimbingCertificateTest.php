@@ -221,33 +221,25 @@ class PembimbingCertificateTest extends TestCase
         $response->assertForbidden();
     }
 
-    public function test_pembimbing_can_access_certificates_index_and_sees_only_own_division_mentees(): void
-    {
-        $response = $this->actingAs($this->mentorDivision1)
-            ->get(route('pembimbing.certificates.index'));
-
-        $response->assertOk();
-        $response->assertSee('Sertifikat Kelulusan Magang Digital');
-        $response->assertSee('Budi Santoso TI');
-        $response->assertSee('Citra Lestari TI');
-        // Mentees from division 2 must NOT be seen
-        $response->assertDontSee('Dedi Kusuma IKP');
-    }
-
-    public function test_sidebar_contains_sertifikat_magang_menu_for_pembimbing(): void
+    public function test_sidebar_does_not_contain_sertifikat_magang_menu_for_pembimbing(): void
     {
         $response = $this->actingAs($this->mentorDivision1)
             ->get(route('pembimbing.dashboard'));
 
         $response->assertOk();
-        $response->assertSee('Sertifikat Magang');
-        $response->assertSee(route('pembimbing.certificates.index'));
+        $response->assertDontSee('pembimbing/certificates');
     }
 
-    public function test_pembimbing_can_upload_pdf_certificate_when_intern_reaches_or_passed_end_date(): void
+    public function test_pembimbing_is_forbidden_from_certificates_index(): void
     {
-        Mail::fake();
+        $response = $this->actingAs($this->mentorDivision1)
+            ->get(route('pembimbing.certificates.index'));
 
+        $response->assertForbidden();
+    }
+
+    public function test_pembimbing_is_forbidden_from_uploading_certificate(): void
+    {
         $fakePdf = UploadedFile::fake()->create('sertifikat_budi.pdf', 1024, 'application/pdf');
 
         $response = $this->actingAs($this->mentorDivision1)
@@ -255,181 +247,22 @@ class PembimbingCertificateTest extends TestCase
                 'certificate' => $fakePdf,
             ]);
 
-        $response->assertSessionHasNoErrors();
-        $response->assertRedirect();
-        $response->assertSessionHas('success');
-
-        $this->regEligible->refresh();
-        $this->assertNotEmpty($this->regEligible->certificate_path);
-        $this->assertNotNull($this->regEligible->certificate_issued_at);
-        $this->assertTrue(Storage::disk('public')->exists($this->regEligible->certificate_path));
-
-        // Mail notification must be sent
-        Mail::assertSent(CertificateIssuedMail::class, function ($mail) {
-            return $mail->hasTo($this->internDivision1->email)
-                && $mail->application->id === $this->regEligible->id
-                && $mail->isReplacing === false;
-        });
+        $response->assertForbidden();
     }
 
-    public function test_pembimbing_CANNOT_upload_certificate_before_end_date_time_gated(): void
+    public function test_pembimbing_is_forbidden_from_deleting_certificate(): void
     {
-        Mail::fake();
-
-        $fakePdf = UploadedFile::fake()->create('sertifikat_citra.pdf', 1024, 'application/pdf');
-
         $response = $this->actingAs($this->mentorDivision1)
-            ->post(route('pembimbing.certificates.upload', $this->regNotEligible->id), [
-                'certificate' => $fakePdf,
-            ]);
-
-        $response->assertRedirect();
-        $response->assertSessionHas('error');
-
-        $this->regNotEligible->refresh();
-        $this->assertNull($this->regNotEligible->certificate_path);
-        $this->assertNull($this->regNotEligible->certificate_issued_at);
-
-        Mail::assertNothingSent();
-    }
-
-    public function test_pembimbing_cannot_upload_certificate_for_mentee_in_different_division(): void
-    {
-        $fakePdf = UploadedFile::fake()->create('sertifikat_dedi.pdf', 1024, 'application/pdf');
-
-        $response = $this->actingAs($this->mentorDivision1)
-            ->post(route('pembimbing.certificates.upload', $this->regOtherDivision->id), [
-                'certificate' => $fakePdf,
-            ]);
+            ->delete(route('pembimbing.certificates.delete', $this->regEligible->id));
 
         $response->assertForbidden();
     }
 
-    public function test_upload_validates_mimes_and_max_size(): void
-    {
-        // 1. Non PDF file
-        $fakeTxt = UploadedFile::fake()->create('dokumen.txt', 500, 'text/plain');
-        $response = $this->actingAs($this->mentorDivision1)
-            ->post(route('pembimbing.certificates.upload', $this->regEligible->id), [
-                'certificate' => $fakeTxt,
-            ]);
-        $response->assertSessionHasErrors('certificate');
-
-        // 2. Oversized PDF (> 5MB)
-        $largePdf = UploadedFile::fake()->create('huge.pdf', 6000, 'application/pdf');
-        $response2 = $this->actingAs($this->mentorDivision1)
-            ->post(route('pembimbing.certificates.upload', $this->regEligible->id), [
-                'certificate' => $largePdf,
-            ]);
-        $response2->assertSessionHasErrors('certificate');
-    }
-
-    public function test_pembimbing_can_replace_certificate_and_overwrites_old_file(): void
-    {
-        Mail::fake();
-
-        // Initial certificate
-        $oldPdf = UploadedFile::fake()->create('sertifikat_lama.pdf', 400, 'application/pdf');
-        $oldPath = $oldPdf->store('certificates', 'public');
-        $this->regEligible->update([
-            'certificate_path'      => $oldPath,
-            'certificate_issued_at' => now()->subDays(2),
-        ]);
-
-        $this->assertTrue(Storage::disk('public')->exists($oldPath));
-
-        // Replace with new certificate
-        $newPdf = UploadedFile::fake()->create('sertifikat_revisi.pdf', 600, 'application/pdf');
-        $response = $this->actingAs($this->mentorDivision1)
-            ->post(route('pembimbing.certificates.upload', $this->regEligible->id), [
-                'certificate' => $newPdf,
-            ]);
-
-        $response->assertSessionHasNoErrors();
-        $response->assertRedirect();
-        $response->assertSessionHas('success');
-
-        $this->regEligible->refresh();
-
-        // Old file must be deleted
-        $this->assertFalse(Storage::disk('public')->exists($oldPath));
-        // New file must exist
-        $this->assertTrue(Storage::disk('public')->exists($this->regEligible->certificate_path));
-
-        // Mail notification must be sent with isReplacing = true
-        Mail::assertSent(CertificateIssuedMail::class, function ($mail) {
-            return $mail->hasTo($this->internDivision1->email)
-                && $mail->isReplacing === true;
-        });
-    }
-
-    public function test_pembimbing_can_download_and_preview_certificate(): void
-    {
-        $fakePdf = UploadedFile::fake()->create('sertifikat_final.pdf', 300, 'application/pdf');
-        $storedPath = $fakePdf->store('certificates', 'public');
-
-        $this->regEligible->update([
-            'certificate_path'      => $storedPath,
-            'certificate_issued_at' => now(),
-        ]);
-
-        // Preview (View)
-        $viewResponse = $this->actingAs($this->mentorDivision1)
-            ->get(route('pembimbing.certificates.view', $this->regEligible->id));
-        $viewResponse->assertOk();
-        $viewResponse->assertHeader('Content-Type', 'application/pdf');
-
-        // Download
-        $downloadResponse = $this->actingAs($this->mentorDivision1)
-            ->get(route('pembimbing.certificates.download', $this->regEligible->id));
-        $downloadResponse->assertOk();
-    }
-
-    public function test_pembimbing_view_renders_locked_indicator_for_intern_before_end_date(): void
+    public function test_pembimbing_is_forbidden_from_exporting_pdf_certificates(): void
     {
         $response = $this->actingAs($this->mentorDivision1)
-            ->get(route('pembimbing.certificates.index'));
+            ->get(route('pembimbing.certificates.export-pdf'));
 
-        $response->assertOk();
-
-        // Eligible intern should have active Unggah Sertifikat modal/button
-        $response->assertSee('Unggah Sertifikat');
-
-        // Not yet eligible intern should display locked indicator
-        $response->assertSee('Belum Waktunya Kelulusan');
-    }
-
-    public function test_pembimbing_can_filter_and_search_certificates(): void
-    {
-        // 1. Search by name "Citra"
-        $searchResponse = $this->actingAs($this->mentorDivision1)
-            ->get(route('pembimbing.certificates.index', ['search' => 'Citra']));
-
-        $searchResponse->assertOk();
-        $searchResponse->assertSee('Citra Lestari TI');
-        $searchResponse->assertDontSee('Budi Santoso TI');
-
-        // 2. Filter by status completed
-        $completedResponse = $this->actingAs($this->mentorDivision1)
-            ->get(route('pembimbing.certificates.index', ['status' => 'completed']));
-
-        $completedResponse->assertOk();
-        $completedResponse->assertSee('Budi Santoso TI');
-        $completedResponse->assertDontSee('Citra Lestari TI');
-
-        // 3. Filter by status active (ongoing)
-        $activeResponse = $this->actingAs($this->mentorDivision1)
-            ->get(route('pembimbing.certificates.index', ['status' => 'active']));
-
-        $activeResponse->assertOk();
-        $activeResponse->assertSee('Citra Lestari TI');
-        $activeResponse->assertDontSee('Budi Santoso TI');
-
-        // 4. Per page parameter (5, 10, 15, 25, 50)
-        $perPageResponse = $this->actingAs($this->mentorDivision1)
-            ->get(route('pembimbing.certificates.index', ['per_page' => 5]));
-
-        $perPageResponse->assertOk();
-        $perPageResponse->assertSee('5 baris / hal');
+        $response->assertForbidden();
     }
 }

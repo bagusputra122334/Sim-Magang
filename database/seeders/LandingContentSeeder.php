@@ -55,7 +55,7 @@ class LandingContentSeeder extends Seeder
             [
                 'section'     => 'advantage',
                 'title'       => 'Sertifikat Magang Resmi',
-                'description' => 'Mendapatkan sertifikat resmi dari Diskominfo SP Kabupaten Tuban sebagai penunjang karir dan akademik.',
+                'description' => 'Mendapatkan sertifikat resmi dari Pemerintah Kabupaten Tuban melalui instansi OPD penempatan sebagai penunjang karir dan akademik.',
                 'icon'        => 'bi-award',
                 'order'       => 2,
                 'is_active'   => true,

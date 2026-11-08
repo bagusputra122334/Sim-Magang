@@ -16,7 +16,7 @@ class SettingSeeder extends Seeder
             // Global Settings
             [
                 'key'   => 'site_title',
-                'value' => 'SIMAGANG — Dinas Komunikasi dan Informatika, Statistik dan Persandian Kabupaten Tuban',
+                'value' => 'SIMAGANG — Sistem Informasi Magang Pemerintah Kabupaten Tuban',
                 'type'  => 'text',
                 'group' => 'global',
             ],
@@ -28,7 +28,7 @@ class SettingSeeder extends Seeder
             ],
             [
                 'key'   => 'institution_name',
-                'value' => 'Diskominfo SP Kab. Tuban',
+                'value' => 'Sistem Informasi Magang Kabupaten Tuban',
                 'type'  => 'text',
                 'group' => 'global',
             ],
@@ -40,7 +40,7 @@ class SettingSeeder extends Seeder
             ],
             [
                 'key'   => 'meta_description',
-                'value' => 'Portal Resmi Pendaftaran Magang Diskominfo SP Kab. Tuban. Daftarkan dirimu secara digital!',
+                'value' => 'Portal Resmi Pendaftaran Magang Seluruh Instansi Organisasi Perangkat Daerah (OPD) di Lingkungan Pemerintah Kabupaten Tuban. Daftarkan dirimu secara digital!',
                 'type'  => 'text',
                 'group' => 'global',
             ],
@@ -48,7 +48,7 @@ class SettingSeeder extends Seeder
             // Landing Page Settings
             [
                 'key'   => 'hero_badge',
-                'value' => 'Portal Resmi Pendaftaran Magang',
+                'value' => 'Portal Resmi Pendaftaran Magang Pemerintah Kabupaten Tuban',
                 'type'  => 'text',
                 'group' => 'landing_page',
             ],
@@ -60,7 +60,7 @@ class SettingSeeder extends Seeder
             ],
             [
                 'key'   => 'hero_description',
-                'value' => 'SIMAGANG (Sistem Informasi Magang) merupakan portal resmi Diskominfo SP Kabupaten Tuban untuk memfasilitasi pendaftaran dan pengelolaan magang secara digital. Dapatkan pengalaman kerja nyata dan kembangkan kompetensimu melalui proses rekrutmen yang transparan, terintegrasi, dan 100% paperless.',
+                'value' => 'SIMAGANG (Sistem Informasi Magang) merupakan portal resmi Pemerintah Kabupaten Tuban untuk memfasilitasi pendaftaran dan pengelolaan magang terintegrasi di seluruh Instansi Organisasi Perangkat Daerah (OPD). Dapatkan pengalaman kerja nyata dan kembangkan kompetensimu melalui proses rekrutmen yang transparan, terintegrasi, dan 100% paperless.',
                 'type'  => 'text',
                 'group' => 'landing_page',
             ],
@@ -72,13 +72,13 @@ class SettingSeeder extends Seeder
             ],
             [
                 'key'   => 'about_title',
-                'value' => 'SIMAGANG Diskominfo SP',
+                'value' => 'SIMAGANG <span>Kabupaten Tuban</span>',
                 'type'  => 'text',
                 'group' => 'landing_page',
             ],
             [
                 'key'   => 'about_description',
-                'value' => 'Platform pendaftaran magang resmi untuk Mahasiswa dan Siswa SMK. Seluruh proses dilakukan 100% secara digital, terstruktur, dan transparan.',
+                'value' => 'Portal pendaftaran magang resmi terpadu untuk Mahasiswa dan Siswa SMK di seluruh instansi Organisasi Perangkat Daerah (OPD) Pemerintah Kabupaten Tuban. Seluruh proses dilakukan 100% secara digital, terstruktur, dan transparan.',
                 'type'  => 'text',
                 'group' => 'landing_page',
             ],
@@ -87,6 +87,13 @@ class SettingSeeder extends Seeder
                 'value' => 'traveland/images/2.png',
                 'type'  => 'image',
                 'group' => 'landing_page',
+            ],
+
+            [
+                'key'   => 'footer_copyright',
+                'value' => 'SIMAGANG — Sistem Informasi Magang Pemerintah Kabupaten Tuban',
+                'type'  => 'text',
+                'group' => 'global',
             ],
 
             // Contact Settings
@@ -162,5 +169,7 @@ class SettingSeeder extends Seeder
                 ]
             );
         }
+
+        \Illuminate\Support\Facades\Cache::forget('global_app_settings');
     }
 }

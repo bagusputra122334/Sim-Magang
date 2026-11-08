@@ -29,10 +29,17 @@ class AdminWorkflowAndSecurityTest extends TestCase
 
     private function createAdmin(): User
     {
+        $opd = \App\Models\Opd::first() ?? \App\Models\Opd::factory()->create([
+            'name'      => 'Dinas Komunikasi dan Informatika Tuban',
+            'code'      => 'DISKOMINFO',
+            'is_active' => true,
+        ]);
+
         return User::factory()->create([
-            'name'  => 'Admin Diskominfo',
-            'email' => 'admin@tubankab.go.id',
-            'role'  => UserRole::Admin,
+            'name'   => 'Admin Diskominfo',
+            'email'  => 'admin@tubankab.go.id',
+            'role'   => UserRole::Admin,
+            'opd_id' => $opd->id,
         ]);
     }
 
@@ -67,11 +74,14 @@ class AdminWorkflowAndSecurityTest extends TestCase
 
     private function createPosition(string $name = 'Web Developer SPBE'): Position
     {
+        $opd = \App\Models\Opd::first() ?? \App\Models\Opd::factory()->create();
+
         return Position::create([
             'nama_posisi'   => $name,
             'slug'          => 'web-developer-spbe-' . rand(1000, 9999),
             'deskripsi'     => 'Deskripsi posisi magang',
             'kuota'         => 5,
+            'opd_id'        => $opd->id,
             'status'        => PositionStatus::Aktif,
         ]);
     }
@@ -267,6 +277,7 @@ class AdminWorkflowAndSecurityTest extends TestCase
             'deskripsi'     => 'Deskripsi Data Analyst Test',
             'kualifikasi'   => 'Kualifikasi Test',
             'kuota'         => 5,
+            'opd_id'        => $admin->opd_id,
             'status'        => PositionStatus::Aktif,
         ]);
 

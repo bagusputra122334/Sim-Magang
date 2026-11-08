@@ -19,9 +19,14 @@
             <div class="flex items-center gap-2 text-xs text-slate-700 w-full sm:w-auto flex-wrap sm:flex-nowrap">
                 <span>Tampilkan</span>
                 <select name="perPage" class="h-8 px-2.5 pr-7 bg-white border border-slate-300 rounded text-xs font-medium text-slate-700 focus:outline-none focus:ring-1 focus:ring-blue-500 cursor-pointer shadow-xs" onchange="this.form.submit()">
-                    <option value="10" @selected((string)request('perPage', 10) === '10')>10</option>
-                    <option value="25" @selected((string)request('perPage') === '25')>25</option>
-                    <option value="50" @selected((string)request('perPage') === '50')>50</option>
+                    <option value="5" @selected((string)request('perPage', request('per_page', 10)) === '5')>5</option>
+                    <option value="10" @selected((string)request('perPage', request('per_page', 10)) === '10')>10</option>
+                    <option value="15" @selected((string)request('perPage', request('per_page', 10)) === '15')>15</option>
+                    <option value="20" @selected((string)request('perPage', request('per_page', 10)) === '20')>20</option>
+                    <option value="25" @selected((string)request('perPage', request('per_page', 10)) === '25')>25</option>
+                    <option value="50" @selected((string)request('perPage', request('per_page', 10)) === '50')>50</option>
+                    <option value="100" @selected((string)request('perPage', request('per_page', 10)) === '100')>100</option>
+                    <option value="all" @selected((string)request('perPage', request('per_page')) === 'all' || (int)request('perPage', request('per_page')) >= 1000)>Semua (All)</option>
                 </select>
                 <span>entri</span>
 

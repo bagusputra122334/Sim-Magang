@@ -160,7 +160,7 @@ class DigitalGraduationCertificateTest extends TestCase
 
         $response->assertOk();
         $response->assertSee('SERTIFIKAT KELULUSAN MAGANG');
-        $response->assertSee('Belum Diunggah Pembimbing');
+        $response->assertSee('Belum Diterbitkan');
         $response->assertDontSee('Kirim / Upload Sertifikat');
         $response->assertDontSee('Ganti Sertifikat');
         $response->assertDontSee('Hapus Sertifikat');
@@ -214,6 +214,13 @@ class DigitalGraduationCertificateTest extends TestCase
         $response->assertOk();
         $response->assertSee('SERTIFIKAT KELULUSAN RESMI');
         $response->assertSee('Unduh Sertifikat Magang (PDF)');
+
+        // Participant Dashboard also shows active download button
+        $dashResponse = $this->actingAs($this->peserta)->get(route('participant.dashboard'));
+        $dashResponse->assertOk();
+        $dashResponse->assertSee('Sertifikat Kelulusan');
+        $dashResponse->assertSee('Resmi Diterbitkan');
+        $dashResponse->assertSee(route('participant.certificates.download', $this->registration->id));
     }
 
     public function test_participant_can_view_and_download_own_certificate(): void

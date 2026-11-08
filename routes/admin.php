@@ -77,6 +77,8 @@ Route::prefix('applications')
 
         Route::get('/export-pdf', [ApplicationReviewController::class, 'exportPdf'])
             ->name('export_pdf');
+        Route::get('/pdf', [ApplicationReviewController::class, 'exportPdf'])
+            ->name('pdf');
 
         Route::get('{application}', [ApplicationReviewController::class, 'show'])
             ->name('show')
@@ -138,6 +140,9 @@ Route::prefix('active-interns')
         Route::get('export_active', [\App\Http\Controllers\Admin\ActiveInternController::class, 'exportPdf'])
             ->name('export_active');
 
+        Route::get('pdf', [\App\Http\Controllers\Admin\ActiveInternController::class, 'exportPdf'])
+            ->name('pdf');
+
         Route::get('{id}', [\App\Http\Controllers\Admin\ActiveInternController::class, 'show'])
             ->name('show');
 
@@ -161,6 +166,21 @@ Route::prefix('active-interns')
         Route::get('{id}/certificate/view', [\App\Http\Controllers\Admin\ApplicationController::class, 'viewCertificate'])
             ->name('certificate.view');
     });
+
+/*
+|--------------------------------------------------------------------------
+| ADMIN KELOLA SERTIFIKAT MAGANG (CertificateController)
+|--------------------------------------------------------------------------
+*/
+Route::prefix('certificates')->name('certificates.')->group(function (): void {
+    Route::get('/', [\App\Http\Controllers\Admin\CertificateController::class, 'index'])->name('index');
+    Route::get('/export-pdf', [\App\Http\Controllers\Admin\CertificateController::class, 'exportPdf'])->name('export-pdf');
+    Route::get('/export_pdf', [\App\Http\Controllers\Admin\CertificateController::class, 'exportPdf'])->name('export_pdf');
+    Route::post('/{registration}/upload', [\App\Http\Controllers\Admin\CertificateController::class, 'upload'])->name('upload');
+    Route::delete('/{registration}', [\App\Http\Controllers\Admin\CertificateController::class, 'delete'])->name('delete');
+    Route::get('/{registration}/download', [\App\Http\Controllers\Admin\CertificateController::class, 'download'])->name('download');
+    Route::get('/{registration}/view', [\App\Http\Controllers\Admin\CertificateController::class, 'view'])->name('view');
+});
 
 /*
 |--------------------------------------------------------------------------
@@ -197,5 +217,23 @@ Route::resource('landing-contents', \App\Http\Controllers\Admin\LandingContentCo
 | ADMIN KELOLA PEMBIMBING (PembimbingController)
 |--------------------------------------------------------------------------
 */
+Route::get('pembimbing/export-pdf', [\App\Http\Controllers\Admin\PembimbingController::class, 'exportPdf'])
+    ->name('pembimbing.export-pdf');
 Route::resource('pembimbing', \App\Http\Controllers\Admin\PembimbingController::class)
     ->names('pembimbing');
+
+/*
+|--------------------------------------------------------------------------
+| SUPER ADMIN OPD & ADMIN OPD MANAGEMENT (OpdController & OpdAdminController)
+|--------------------------------------------------------------------------
+*/
+Route::get('opds/export-pdf', [\App\Http\Controllers\Admin\OpdController::class, 'exportPdf'])
+    ->name('opds.export_pdf');
+Route::get('opds/{opd}/toggle-status', [\App\Http\Controllers\Admin\OpdController::class, 'toggleStatus'])
+    ->name('opds.toggle-status');
+Route::resource('opds', \App\Http\Controllers\Admin\OpdController::class)
+    ->names('opds');
+
+Route::resource('opd-admins', \App\Http\Controllers\Admin\OpdAdminController::class)
+    ->names('opd-admins');
+

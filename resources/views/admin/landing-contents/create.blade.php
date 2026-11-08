@@ -5,8 +5,7 @@
 @section('content')
     <div class="d-flex justify-content-between align-items-center mb-3">
         <div>
-            <h1 class="h3 fw-bold text-slate-800 dark:text-slate-100 mb-0.5">Tambah Konten Landing Page</h1>
-            <p class="text-muted dark:text-slate-400 small mb-0">Tambahkan poin item baru untuk bagian Tentang, Keunggulan, Alur Pendaftaran, atau FAQ.</p>
+            <h1 class="h3 fw-bold text-slate-800 dark:text-slate-100 mb-0">Tambah Konten Landing Page</h1>
         </div>
         <a href="{{ route('admin.landing-contents.index') }}" class="btn btn-outline-secondary d-inline-flex align-items-center gap-1.5 py-1.5 px-3 text-xs font-bold rounded-lg shadow-sm">
             <i class="bi bi-arrow-left"></i> Kembali ke Daftar

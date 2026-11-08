@@ -4,6 +4,7 @@ namespace App\Enums;
 
 enum UserRole: string
 {
+    case SuperAdmin = 'super_admin';
     case Admin = 'admin';
     case Peserta = 'peserta';
     case Pembimbing = 'pembimbing';
@@ -12,6 +13,7 @@ enum UserRole: string
     public function label(): string
     {
         return match ($this) {
+            self::SuperAdmin => 'Super Admin',
             self::Admin => 'Admin',
             self::Peserta => 'Peserta',
             self::Pembimbing => 'Pembimbing',
@@ -21,7 +23,12 @@ enum UserRole: string
 
     public function isAdmin(): bool
     {
-        return $this === self::Admin;
+        return $this === self::Admin || $this === self::SuperAdmin;
+    }
+
+    public function isSuperAdmin(): bool
+    {
+        return $this === self::SuperAdmin;
     }
 
     public function isPeserta(): bool

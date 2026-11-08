@@ -12,10 +12,23 @@ use Illuminate\View\View;
 class SettingController extends Controller
 {
     /**
+     * Pastikan hanya Super Admin yang dapat mengakses & mengubah Pengaturan Global.
+     */
+    protected function authorizeSuperAdmin(): void
+    {
+        $user = auth()->user();
+        if (!$user || !$user->isSuperAdmin()) {
+            abort(403, 'Akses Ditolak: Hanya Super Admin yang memiliki wewenang mengelola Pengaturan Global.');
+        }
+    }
+
+    /**
      * Display global settings management form grouped by category.
      */
     public function index(): View
     {
+        $this->authorizeSuperAdmin();
+
         $settings = Setting::all()->groupBy('group');
 
         return view('admin.settings.index', compact('settings'));
@@ -26,6 +39,8 @@ class SettingController extends Controller
      */
     public function update(Request $request): RedirectResponse
     {
+        $this->authorizeSuperAdmin();
+
         $inputs = $request->except(['_token', '_method']);
 
         foreach ($inputs as $key => $value) {

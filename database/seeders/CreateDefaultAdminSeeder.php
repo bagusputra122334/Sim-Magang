@@ -36,13 +36,16 @@ class CreateDefaultAdminSeeder extends Seeder
             return;
         }
 
-        $admin = User::withoutEvents(static function () use ($email, $password, $nama): User {
+        $defaultOpdId = \App\Models\Opd::where('code', 'diskominfo-sp')->value('id');
+
+        $admin = User::withoutEvents(static function () use ($email, $password, $nama, $defaultOpdId): User {
             return User::query()->create([
                 'name'              => $nama,
                 'email'             => $email,
                 'password'          => bcrypt($password),
                 'email_verified_at' => now(),
                 'role'              => UserRole::Admin,
+                'opd_id'            => $defaultOpdId,
             ]);
         });
 

@@ -25,6 +25,10 @@ class ApplicationController extends AdminController
      */
     public function uploadCertificate(Request $request, $id): RedirectResponse
     {
+        if ($request->user()?->isSuperAdmin()) {
+            abort(403, 'Akses Ditolak: Super Admin hanya memiliki hak akses pemantauan (View Only) pada sertifikat magang.');
+        }
+
         $request->validate([
             'certificate' => ['required', 'file', 'mimes:pdf', 'max:5120'], // Max 5MB (5120 KB)
         ], [
@@ -35,7 +39,8 @@ class ApplicationController extends AdminController
         ]);
 
         $appId = $id instanceof Registration || $id instanceof Application ? $id->id : (int) $id;
-        $application = Registration::find($appId) ?? Application::find($appId);
+        $this->authorizeOpdAccess($request, $appId);
+        $application = Registration::withoutGlobalScopes()->find($appId) ?? Application::withoutGlobalScopes()->find($appId);
 
         if (! $application) {
             return back()->with('error', 'Data pendaftaran magang tidak ditemukan.');
@@ -85,13 +90,19 @@ class ApplicationController extends AdminController
     /**
      * Hapus file fisik sertifikat kelulusan dan kosongkan kolom database.
      *
+     * @param Request $request
      * @param int|Registration|Application $id
      * @return RedirectResponse
      */
-    public function deleteCertificate($id): RedirectResponse
+    public function deleteCertificate(Request $request, $id): RedirectResponse
     {
+        if ($request->user()?->isSuperAdmin()) {
+            abort(403, 'Akses Ditolak: Super Admin hanya memiliki hak akses pemantauan (View Only) pada sertifikat magang.');
+        }
+
         $appId = $id instanceof Registration || $id instanceof Application ? $id->id : (int) $id;
-        $application = Registration::find($appId) ?? Application::find($appId);
+        $this->authorizeOpdAccess($request, $appId);
+        $application = Registration::withoutGlobalScopes()->find($appId) ?? Application::withoutGlobalScopes()->find($appId);
 
         if (! $application) {
             return back()->with('error', 'Data pendaftaran magang tidak ditemukan.');
@@ -113,13 +124,15 @@ class ApplicationController extends AdminController
     /**
      * Unduh file sertifikat kelulusan (Admin / Pembimbing).
      *
+     * @param Request $request
      * @param int|Registration|Application $id
      * @return StreamedResponse|RedirectResponse
      */
-    public function downloadCertificate($id)
+    public function downloadCertificate(Request $request, $id)
     {
         $appId = $id instanceof Registration || $id instanceof Application ? $id->id : (int) $id;
-        $application = Registration::find($appId) ?? Application::findOrFail($appId);
+        $this->authorizeOpdAccess($request, $appId);
+        $application = Registration::withoutGlobalScopes()->find($appId) ?? Application::withoutGlobalScopes()->findOrFail($appId);
 
         if (empty($application->certificate_path) || ! Storage::disk('public')->exists($application->certificate_path)) {
             return back()->with('error', 'File sertifikat belum tersedia di sistem penyimpanan.');
@@ -134,13 +147,15 @@ class ApplicationController extends AdminController
     /**
      * Preview file sertifikat kelulusan di browser tab baru.
      *
+     * @param Request $request
      * @param int|Registration|Application $id
      * @return BinaryFileResponse|RedirectResponse
      */
-    public function viewCertificate($id)
+    public function viewCertificate(Request $request, $id)
     {
         $appId = $id instanceof Registration || $id instanceof Application ? $id->id : (int) $id;
-        $application = Registration::find($appId) ?? Application::findOrFail($appId);
+        $this->authorizeOpdAccess($request, $appId);
+        $application = Registration::withoutGlobalScopes()->find($appId) ?? Application::withoutGlobalScopes()->findOrFail($appId);
 
         if (empty($application->certificate_path) || ! Storage::disk('public')->exists($application->certificate_path)) {
             return back()->with('error', 'File sertifikat belum tersedia di sistem penyimpanan.');

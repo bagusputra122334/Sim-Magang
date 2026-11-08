@@ -146,4 +146,44 @@ class PositionValidationAndNumberingTest extends TestCase
         $this->assertEquals(11, $paginatorPage2->firstItem());
         $this->assertEquals(15, $paginatorPage2->lastItem());
     }
+
+    public function test_can_create_position_with_split_qualifications_for_siswa_and_mahasiswa(): void
+    {
+        $opd = \App\Models\Opd::create([
+            'name'        => 'Dinas Komunikasi Tuban',
+            'code'        => 'diskominfo',
+            'is_active'   => true,
+            'description' => 'Dinas Kominfo Tuban',
+        ]);
+        $this->admin->update(['opd_id' => $opd->id]);
+
+        $response = $this->actingAs($this->admin)
+            ->post(route('admin.positions.store'), [
+                'nama_posisi'           => 'Spesialis Jaringan',
+                'slug'                  => 'spesialis-jaringan',
+                'deskripsi'             => 'Kelola infrastruktur LAN dan WAN',
+                'tipe_pendaftar'        => 'all',
+                'kualifikasi_siswa'     => 'Siswa SMK Jurusan TKJ dengan pemahaman IP Addressing',
+                'kualifikasi_mahasiswa' => 'Mahasiswa S1 Teknik Informatika minimal semester 5',
+                'kuota'                 => 2,
+                'status'                => PositionStatus::Aktif->value,
+            ]);
+
+        $response->assertSessionHasNoErrors();
+        $response->assertRedirect(route('admin.positions.index'));
+
+        $this->assertDatabaseHas('positions', [
+            'nama_posisi'           => 'Spesialis Jaringan',
+            'tipe_pendaftar'        => 'all',
+            'kualifikasi_siswa'     => 'Siswa SMK Jurusan TKJ dengan pemahaman IP Addressing',
+            'kualifikasi_mahasiswa' => 'Mahasiswa S1 Teknik Informatika minimal semester 5',
+        ]);
+
+        // Verifikasi landing page menampilkan switch kualifikasi
+        $welcomeResp = $this->get('/');
+        $welcomeResp->assertOk();
+        $welcomeResp->assertSee('Siswa SMK Jurusan TKJ dengan pemahaman IP Addressing');
+        $welcomeResp->assertSee('Mahasiswa S1 Teknik Informatika minimal semester 5');
+        $welcomeResp->assertSee('switchKualifikasi');
+    }
 }

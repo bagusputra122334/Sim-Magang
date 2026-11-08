@@ -27,7 +27,7 @@
                                 {{ $totalPenugasan ?? 0 }}
                             </div>
                         </div>
-                        <div class="text-slate-400 dark:text-slate-500 flex-shrink-0">
+                        <div class="text-blue-600 dark:text-blue-400 flex-shrink-0">
                             <i class="bi bi-journal-bookmark text-lg"></i>
                         </div>
                     </div>
@@ -47,7 +47,7 @@
                                 {{ $statsTotalInterns ?? 0 }}
                             </div>
                         </div>
-                        <div class="text-slate-400 dark:text-slate-500 flex-shrink-0">
+                        <div class="text-blue-600 dark:text-blue-400 flex-shrink-0">
                             <i class="bi bi-people text-lg"></i>
                         </div>
                     </div>
@@ -56,18 +56,18 @@
         </div>
 
         <div class="col-6 col-sm-6 col-lg-2">
-            <div class="card shadow-sm border border-emerald-200 dark:border-emerald-900/60 rounded-lg bg-white dark:bg-slate-900 h-100">
+            <div class="card shadow-sm border border-slate-200 dark:border-slate-800 rounded-lg bg-white dark:bg-slate-900 h-100">
                 <div class="card-body p-3">
                     <div class="d-flex align-items-center justify-content-between gap-2">
                         <div class="min-w-0">
-                            <div class="text-uppercase fw-bold mb-0.5 text-emerald-800 dark:text-emerald-400" style="font-size: 0.65rem; letter-spacing: 0.05em;">
+                            <div class="text-uppercase fw-bold mb-0.5 text-slate-600 dark:text-slate-400" style="font-size: 0.65rem; letter-spacing: 0.05em;">
                                 Aktif
                             </div>
-                            <div class="h6 mb-0 fw-bold text-emerald-900 dark:text-emerald-300" style="font-size: 1.05rem; line-height: 1.2;">
+                            <div class="h6 mb-0 fw-bold text-slate-800 dark:text-slate-100" style="font-size: 1.05rem; line-height: 1.2;">
                                 {{ $statsActiveInterns ?? 0 }}
                             </div>
                         </div>
-                        <div class="text-emerald-600 dark:text-emerald-400 flex-shrink-0">
+                        <div class="text-blue-600 dark:text-blue-400 flex-shrink-0">
                             <i class="bi bi-person-check text-lg"></i>
                         </div>
                     </div>
@@ -76,18 +76,18 @@
         </div>
 
         <div class="col-6 col-sm-6 col-lg-2">
-            <div class="card shadow-sm border border-rose-200 dark:border-rose-900/60 rounded-lg bg-white dark:bg-slate-900 h-100">
+            <div class="card shadow-sm border border-slate-200 dark:border-slate-800 rounded-lg bg-white dark:bg-slate-900 h-100">
                 <div class="card-body p-3">
                     <div class="d-flex align-items-center justify-content-between gap-2">
                         <div class="min-w-0">
-                            <div class="text-uppercase fw-bold mb-0.5 text-rose-800 dark:text-rose-400" style="font-size: 0.65rem; letter-spacing: 0.05em;">
+                            <div class="text-uppercase fw-bold mb-0.5 text-slate-600 dark:text-slate-400" style="font-size: 0.65rem; letter-spacing: 0.05em;">
                                 Nonaktif
                             </div>
-                            <div class="h6 mb-0 fw-bold text-rose-900 dark:text-rose-300" style="font-size: 1.05rem; line-height: 1.2;">
+                            <div class="h6 mb-0 fw-bold text-slate-800 dark:text-slate-100" style="font-size: 1.05rem; line-height: 1.2;">
                                 {{ $statsInactiveInterns ?? 0 }}
                             </div>
                         </div>
-                        <div class="text-rose-600 dark:text-rose-400 flex-shrink-0">
+                        <div class="text-blue-600 dark:text-blue-400 flex-shrink-0">
                             <i class="bi bi-person-x text-lg"></i>
                         </div>
                     </div>
@@ -118,11 +118,14 @@
                             data-auto-submit-select="1"
                             aria-label="Jumlah baris per halaman"
                             onchange="this.form.submit()">
+                            <option value="5" @selected((string)request('per_page', $perPageVal ?? 10) === '5')>5 data</option>
                             <option value="10" @selected((string)request('per_page', $perPageVal ?? 10) === '10')>10 data</option>
+                            <option value="15" @selected((string)request('per_page', $perPageVal ?? 10) === '15')>15 data</option>
                             <option value="20" @selected((string)request('per_page', $perPageVal ?? 10) === '20')>20 data</option>
                             <option value="25" @selected((string)request('per_page', $perPageVal ?? 10) === '25')>25 data</option>
                             <option value="50" @selected((string)request('per_page', $perPageVal ?? 10) === '50')>50 data</option>
-                            <option value="all" @selected((string)request('per_page', $perPageVal ?? 10) === 'all')>Semua</option>
+                            <option value="100" @selected((string)request('per_page', $perPageVal ?? 10) === '100')>100 data</option>
+                            <option value="all" @selected((string)request('per_page', $perPageVal ?? 10) === 'all')>Semua (All)</option>
                         </select>
                     </div>
 
@@ -235,6 +238,9 @@
                                     <div class="d-flex flex-column text-start">
                                         <div class="fw-semibold text-slate-900 dark:text-slate-100 text-truncate intern-name" style="font-size: 0.8125rem; line-height: 1.25;">
                                             {{ $intern->name }}
+                                            @if(!empty($intern->nomor_pendaftaran))
+                                                <span class="badge bg-slate-100 text-slate-600 dark:bg-slate-700 dark:text-slate-300 font-mono text-[10px] ms-1">{{ $intern->nomor_pendaftaran }}</span>
+                                            @endif
                                         </div>
                                         <small class="text-muted dark:text-slate-400 text-truncate intern-meta" style="font-size: 0.7rem; line-height: 1.2;">
                                             {{ $intern->email }}

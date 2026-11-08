@@ -5,8 +5,7 @@
 @section('content')
     <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-3 gap-3">
         <div>
-            <h1 class="h3 fw-bold text-slate-800 dark:text-slate-100 mb-1">Kelola Konten Landing Page</h1>
-            <p class="text-muted dark:text-slate-400 mb-0">Kelola daftar item dinamis untuk bagian Tentang, Keunggulan, Alur Pendaftaran, dan FAQ.</p>
+            <h1 class="h3 fw-bold text-slate-800 dark:text-slate-100 mb-0">Kelola Konten Landing Page</h1>
         </div>
         <a href="{{ route('admin.landing-contents.create') }}" class="btn btn-primary d-inline-flex align-items-center gap-2 rounded-lg px-3 py-2 shadow-sm font-medium">
             <i class="bi bi-plus-lg"></i> Tambah Konten Baru
@@ -46,7 +45,7 @@
                         <p class="text-muted dark:text-slate-400 text-uppercase fw-bold mb-1" style="font-size: 0.65rem; letter-spacing: 0.5px;">Status Aktif</p>
                         <h5 class="fw-bold mb-0 text-slate-900 dark:text-white">{{ $statistics['active'] ?? $statusAktif ?? 0 }}</h5>
                     </div>
-                    <div class="text-success dark:text-emerald-400">
+                    <div class="text-primary dark:text-blue-400">
                         <i class="bi bi-check-circle-fill fs-5"></i>
                     </div>
                 </div>
@@ -61,7 +60,7 @@
                         <p class="text-muted dark:text-slate-400 text-uppercase fw-bold mb-1" style="font-size: 0.65rem; letter-spacing: 0.5px;">Alur</p>
                         <h5 class="fw-bold mb-0 text-slate-900 dark:text-white">{{ $statistics['workflow'] ?? $alur ?? 0 }}</h5>
                     </div>
-                    <div class="text-info dark:text-cyan-400">
+                    <div class="text-primary dark:text-blue-400">
                         <i class="bi bi-diagram-3-fill fs-5"></i>
                     </div>
                 </div>
@@ -76,7 +75,7 @@
                         <p class="text-muted dark:text-slate-400 text-uppercase fw-bold mb-1" style="font-size: 0.65rem; letter-spacing: 0.5px;">FAQ</p>
                         <h5 class="fw-bold mb-0 text-slate-900 dark:text-white">{{ $statistics['faq'] ?? $faq ?? 0 }}</h5>
                     </div>
-                    <div class="text-purple-600 dark:text-purple-400">
+                    <div class="text-primary dark:text-blue-400">
                         <i class="bi bi-question-circle-fill fs-5"></i>
                     </div>
                 </div>
@@ -115,7 +114,10 @@
                         <option value="10" {{ request('per_page', 10) == '10' ? 'selected' : '' }}>10 data per halaman</option>
                         <option value="15" {{ request('per_page') == '15' ? 'selected' : '' }}>15 data per halaman</option>
                         <option value="20" {{ request('per_page') == '20' ? 'selected' : '' }}>20 data per halaman</option>
+                        <option value="25" {{ request('per_page') == '25' ? 'selected' : '' }}>25 data per halaman</option>
                         <option value="50" {{ request('per_page') == '50' ? 'selected' : '' }}>50 data per halaman</option>
+                        <option value="100" {{ request('per_page') == '100' ? 'selected' : '' }}>100 data per halaman</option>
+                        <option value="all" {{ request('per_page') == 'all' || (int)request('per_page') >= 1000 ? 'selected' : '' }}>Semua (All)</option>
                     </select>
                 </div>
             </form>

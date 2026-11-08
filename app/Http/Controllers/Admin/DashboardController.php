@@ -4,25 +4,68 @@ namespace App\Http\Controllers\Admin;
 
 use App\Enums\RegistrationStatus;
 use App\Enums\UserRole;
+use App\Models\Opd;
 use App\Models\Position;
 use App\Models\Registration;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class DashboardController extends AdminController
 {
-    public function index(): View
+    public function index(Request $request): View
     {
-        $stats = $this->getDashboardStatistics();
+        $user = auth()->user();
+        $isSuperAdmin = $user && $user->isSuperAdmin();
 
-        $recentApplications = Registration::query()
+        $selectedOpdId = null;
+        $selectedOpd = null;
+        $opds = collect();
+        $opdSummaries = collect();
+
+        if ($isSuperAdmin) {
+            $opds = Opd::active()->orderBy('name')->get();
+            if ($request->filled('opd_id') && is_numeric($request->input('opd_id'))) {
+                $selectedOpdId = (int) $request->input('opd_id');
+                $selectedOpd = $opds->firstWhere('id', $selectedOpdId) ?? Opd::find($selectedOpdId);
+            }
+
+            // Ringkasan per OPD khusus Super Admin
+            $opdSummaries = Opd::query()
+                ->where('is_active', true)
+                ->withCount([
+                    'positions',
+                    'positions as active_positions_count' => fn ($q) => $q->where('status', \App\Enums\PositionStatus::Aktif),
+                    'registrations',
+                    'registrations as accepted_count' => fn ($q) => $q->where('status', RegistrationStatus::Accepted),
+                    'registrations as pending_count' => fn ($q) => $q->whereIn('status', [RegistrationStatus::Submitted, RegistrationStatus::UnderReview]),
+                ])
+                ->orderBy('name')
+                ->get();
+        }
+
+        $stats = $this->getDashboardStatistics($selectedOpdId);
+
+        $recentQuery = Registration::query()
             ->latest('tanggal_submit')
             ->latest('id')
-            ->with(['user:id,name,email', 'position:id,nama_posisi'])
-            ->limit(10)
-            ->get();
+            ->with(['user:id,name,email', 'position:id,nama_posisi,opd_id', 'opd:id,name,code']);
 
-        return view($this->viewPrefix.'.dashboard', compact('stats', 'recentApplications'));
+        if ($selectedOpdId) {
+            $recentQuery->where('opd_id', $selectedOpdId);
+        }
+
+        $recentApplications = $recentQuery->limit(10)->get();
+
+        return view($this->viewPrefix.'.dashboard', compact(
+            'stats',
+            'recentApplications',
+            'isSuperAdmin',
+            'opds',
+            'selectedOpdId',
+            'selectedOpd',
+            'opdSummaries'
+        ));
     }
 
     /**
@@ -44,31 +87,47 @@ class DashboardController extends AdminController
      *     verifikasi_pending:int
      * }
      */
-    protected function getDashboardStatistics(): array
+    protected function getDashboardStatistics(?int $opdId = null): array
     {
-        $totalPositions     = (int) Position::query()->count();
-        $totalPositionsAktif = (int) Position::query()
+        $user = auth()->user();
+
+        $posQuery = Position::query();
+        $regQuery = Registration::query();
+
+        if ($opdId) {
+            $posQuery->where('opd_id', $opdId);
+            $regQuery->where('opd_id', $opdId);
+        }
+
+        $totalPositions     = (int) (clone $posQuery)->count();
+        $totalPositionsAktif = (int) (clone $posQuery)
             ->where('status', \App\Enums\PositionStatus::Aktif)
             ->count();
 
-        $totalPeserta       = (int) User::query()->where('role', UserRole::Peserta)->count();
-        $totalPesertaVerified = (int) User::query()
-            ->where('role', UserRole::Peserta)
+        $userQuery = User::query()->where('role', UserRole::Peserta);
+        if ($opdId) {
+            $userQuery->whereHas('registrations', fn ($q) => $q->where('opd_id', $opdId));
+        } elseif ($user && $user->isAdminOpd()) {
+            $userQuery->whereHas('registrations', fn ($q) => $q->where('opd_id', $user->opd_id));
+        }
+
+        $totalPeserta       = (int) (clone $userQuery)->count();
+        $totalPesertaVerified = (int) (clone $userQuery)
             ->whereNotNull('email_verified_at')
             ->count();
 
-        $totalRegistrations = (int) Registration::query()->count();
+        $totalRegistrations = (int) (clone $regQuery)->count();
 
-        $statusSubmitted    = (int) Registration::query()
+        $statusSubmitted    = (int) (clone $regQuery)
             ->where('status', RegistrationStatus::Submitted)->count();
-        $statusUnderReview  = (int) Registration::query()
+        $statusUnderReview  = (int) (clone $regQuery)
             ->where('status', RegistrationStatus::UnderReview)->count();
-        $statusAccepted     = (int) Registration::query()
+        $statusAccepted     = (int) (clone $regQuery)
             ->where('status', RegistrationStatus::Accepted)->count();
-        $statusRejected     = (int) Registration::query()
+        $statusRejected     = (int) (clone $regQuery)
             ->where('status', RegistrationStatus::Rejected)->count();
 
-        $totalSuratBalasan = (int) Registration::query()
+        $totalSuratBalasan = (int) (clone $regQuery)
             ->where('status', RegistrationStatus::Accepted)
             ->whereNotNull('surat_balasan_path')
             ->count();

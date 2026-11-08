@@ -8,7 +8,7 @@
     <meta name="description" content="{{ $guide['summary'] }} — SIMAGANG Dinas Komunikasi dan Informatika, Statistik dan Persandian Kabupaten Tuban.">
 
     <!--====== Title ======-->
-    <title>{{ $guide['title'] }} — SIMAGANG Diskominfo SP Tuban</title>
+    <title>{{ $guide['title'] }} — SIMAGANG Pemerintah Kabupaten Tuban</title>
 
     <!--====== Favicon Icon ======-->
     <!-- Favicon -->
@@ -625,8 +625,8 @@
                 <a class="navbar-brand flex-shrink-0 mr-xl-3" href="{{ url('/') }}">
                     <img src="{{ asset('traveland/images/logo.png') }}" alt="SIMAGANG Logo" class="brand-logo-img">
                     <div>
-                        <span class="brand-text d-block">SIMAGANG</span>
-                        <span class="brand-sub d-block">Diskominfo SP Kab. Tuban</span>
+                        <span class="brand-text d-block leading-none mb-1">SIMAGANG</span>
+                        <span class="brand-sub d-block leading-tight">Sistem Informasi Magang<br>Kabupaten Tuban</span>
                     </div>
                 </a>
 
@@ -909,7 +909,7 @@
                     <div class="guide-cta-card">
                         <i class="bi bi-mortarboard-fill" style="font-size: 38px; color: #ffffff;"></i>
                         <h4 class="mt-2">Siap Bergabung?</h4>
-                        <p>Kembangkan potensi dan kompetensi digital Anda bersama praktisi ASN di Diskominfo SP Kabupaten Tuban.</p>
+                        <p>Kembangkan potensi dan kompetensi Anda bersama praktisi ASN di seluruh instansi Organisasi Perangkat Daerah (OPD) Pemerintah Kabupaten Tuban.</p>
                         @auth
                             <a href="{{ route('participant.dashboard') }}" class="btn btn-light btn-block font-weight-bold text-primary py-2.5">
                                 Buka Dashboard Saya
@@ -926,7 +926,7 @@
                         <h4 class="guide-sidebar-title">
                             <i class="bi bi-headset text-primary"></i> Butuh Bantuan?
                         </h4>
-                        <p class="small text-muted mb-2">Hubungi layanan informasi resmi Diskominfo SP Tuban pada jam operasional:</p>
+                        <p class="small text-muted mb-2">Hubungi layanan informasi resmi SIMAGANG Pemerintah Kabupaten Tuban pada jam operasional:</p>
                         <p class="small font-weight-bold mb-1"><i class="bi bi-telephone-fill text-primary mr-1"></i> (0356) 321000</p>
                         <p class="small font-weight-bold mb-3"><i class="bi bi-envelope-fill text-primary mr-1"></i> diskominfo@tubankab.go.id</p>
                         <a href="{{ url('/#contact') }}" class="btn btn-sm btn-outline-primary btn-block">

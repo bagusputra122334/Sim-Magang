@@ -41,7 +41,7 @@
                                 {{ $stats['total'] ?? 0 }}
                             </div>
                         </div>
-                        <div class="text-slate-400 dark:text-slate-500 flex-shrink-0">
+                        <div class="text-blue-600 dark:text-blue-400 flex-shrink-0">
                             <i class="bi bi-people text-lg"></i>
                         </div>
                     </div>
@@ -50,18 +50,18 @@
         </div>
 
         <div class="col-6 col-md-3">
-            <div class="card shadow-sm border border-emerald-200 dark:border-emerald-900/60 rounded-lg bg-white dark:bg-slate-900 h-100 overflow-hidden">
+            <div class="card shadow-sm border border-slate-200 dark:border-slate-800 rounded-lg bg-white dark:bg-slate-900 h-100 overflow-hidden">
                 <div class="card-body p-3">
                     <div class="d-flex align-items-center justify-content-between gap-1.5">
                         <div class="min-w-0">
-                            <div class="text-uppercase fw-bold mb-0.5 text-[10px] text-emerald-800 dark:text-emerald-400 tracking-wider">
+                            <div class="text-uppercase fw-bold mb-0.5 text-[10px] text-slate-600 dark:text-slate-400 tracking-wider">
                                 Sertifikat Terbit
                             </div>
-                            <div class="h5 mb-0 fw-bold text-emerald-900 dark:text-emerald-300">
+                            <div class="h5 mb-0 fw-bold text-slate-800 dark:text-slate-100">
                                 {{ $stats['issued'] ?? 0 }}
                             </div>
                         </div>
-                        <div class="text-emerald-600 dark:text-emerald-400 flex-shrink-0">
+                        <div class="text-blue-600 dark:text-blue-400 flex-shrink-0">
                             <i class="bi bi-patch-check text-lg"></i>
                         </div>
                     </div>
@@ -81,7 +81,7 @@
                                 {{ $stats['ready_to_issue'] ?? 0 }}
                             </div>
                         </div>
-                        <div class="text-slate-400 dark:text-slate-500 flex-shrink-0">
+                        <div class="text-blue-600 dark:text-blue-400 flex-shrink-0">
                             <i class="bi bi-clock-history text-lg"></i>
                         </div>
                     </div>
@@ -101,7 +101,7 @@
                                 {{ $stats['in_progress'] ?? 0 }}
                             </div>
                         </div>
-                        <div class="text-slate-400 dark:text-slate-500 flex-shrink-0">
+                        <div class="text-blue-600 dark:text-blue-400 flex-shrink-0">
                             <i class="bi bi-hourglass-split text-lg"></i>
                         </div>
                     </div>
@@ -128,8 +128,11 @@
                             <option value="5" @selected($perPageVal === 5)>5 baris / hal</option>
                             <option value="10" @selected($perPageVal === 10)>10 baris / hal</option>
                             <option value="15" @selected($perPageVal === 15)>15 baris / hal</option>
+                            <option value="20" @selected($perPageVal === 20)>20 baris / hal</option>
                             <option value="25" @selected($perPageVal === 25)>25 baris / hal</option>
                             <option value="50" @selected($perPageVal === 50)>50 baris / hal</option>
+                            <option value="100" @selected($perPageVal === 100)>100 baris / hal</option>
+                            <option value="all" @selected(request('per_page') === 'all' || $perPageVal >= 1000)>Semua (All)</option>
                         </select>
                     </div>
 

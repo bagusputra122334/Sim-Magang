@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>404 — Halaman Tidak Ditemukan | SIMAGANG Diskominfo SP Tuban</title>
+    <title>404 — Halaman Tidak Ditemukan | SIMAGANG Pemerintah Kabupaten Tuban</title>
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="{{ asset('traveland/images/logo.png') }}">
@@ -37,7 +37,7 @@
                 <img src="{{ asset('traveland/images/logo.png') }}" alt="SIMAGANG Logo" class="h-10 w-auto group-hover:scale-105 transition-transform duration-200">
                 <div class="flex flex-col">
                     <span class="font-bold text-lg text-slate-900 dark:text-white leading-tight tracking-tight">SIMAGANG</span>
-                    <span class="text-xs text-slate-500 dark:text-slate-400 font-medium">Diskominfo SP Kab. Tuban</span>
+                    <span class="text-xs text-slate-500 dark:text-slate-400 font-medium">Pemerintah Kab. Tuban</span>
                 </div>
             </a>
             <a href="{{ url('/') }}" class="inline-flex items-center gap-2 text-sm font-medium text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors">
@@ -90,7 +90,7 @@
 
     <!-- Footer -->
     <footer class="w-full py-4 text-center border-t border-slate-200/80 dark:border-slate-800/80 bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm text-xs text-slate-500 dark:text-slate-400">
-        <p>&copy; {{ date('Y') }} SIMAGANG — Diskominfo SP Kabupaten Tuban. All rights reserved.</p>
+        <p>&copy; {{ date('Y') }} SIMAGANG — Pemerintah Kabupaten Tuban. All rights reserved.</p>
     </footer>
 
 </body>

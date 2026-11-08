@@ -40,7 +40,7 @@
         <div class="col-lg-6 mb-4">
             <div class="card shadow mb-4">
                 <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-success">Tugas Mendatang</h6>
+                    <h6 class="m-0 font-weight-bold text-primary">Tugas Mendatang</h6>
                 </div>
                 <div class="card-body">
                     <ul class="list-group list-group-flush">
@@ -55,11 +55,11 @@
                                     <small class="text-danger"><i class="bi bi-clock"></i> {{ $task->deadline->format('d M Y H:i') }}</small>
                                 </div>
                                 @if($isSubmitted)
-                                    <a href="{{ route('intern.lms.task', $task->id) }}" class="btn btn-sm btn-outline-success">
+                                    <a href="{{ route('intern.lms.task', $task->id) }}" class="btn btn-sm btn-outline-primary">
                                         Lihat Status
                                     </a>
                                 @else
-                                    <a href="{{ route('intern.lms.task', $task->id) }}" class="btn btn-sm btn-success">
+                                    <a href="{{ route('intern.lms.task', $task->id) }}" class="btn btn-sm btn-primary">
                                         Kerjakan
                                     </a>
                                 @endif

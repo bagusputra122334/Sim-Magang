@@ -68,7 +68,7 @@
                     <p class="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-0.5 truncate">Posisi Aktif</p>
                     <span class="text-xl font-bold text-slate-800 dark:text-white opacity-100 block my-0 leading-none">{{ $statistics['aktif'] ?? $posisiAktif ?? 0 }}</span>
                 </div>
-                <div class="text-success rounded-lg bg-emerald-50 dark:bg-emerald-900/30 p-1.5 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 32px; height: 32px;">
+                <div class="text-primary rounded-lg bg-blue-50 dark:bg-blue-900/30 p-1.5 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 32px; height: 32px;">
                     <i class="bi bi-check-circle-fill text-base"></i>
                 </div>
             </div>
@@ -81,7 +81,7 @@
                     <p class="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-0.5 truncate">Posisi Nonaktif</p>
                     <span class="text-xl font-bold text-slate-800 dark:text-white opacity-100 block my-0 leading-none">{{ $statistics['nonaktif'] ?? $posisiNonaktif ?? 0 }}</span>
                 </div>
-                <div class="text-secondary rounded-lg bg-slate-100 dark:bg-slate-700/60 p-1.5 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 32px; height: 32px;">
+                <div class="text-primary rounded-lg bg-blue-50 dark:bg-blue-900/30 p-1.5 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 32px; height: 32px;">
                     <i class="bi bi-dash-circle-fill text-base"></i>
                 </div>
             </div>
@@ -113,6 +113,7 @@
                                 <option value="25" {{ request('per_page', $filters['per_page'] ?? '') == '25' ? 'selected' : '' }}>25 data</option>
                                 <option value="50" {{ request('per_page', $filters['per_page'] ?? '') == '50' ? 'selected' : '' }}>50 data</option>
                                 <option value="100" {{ request('per_page', $filters['per_page'] ?? '') == '100' ? 'selected' : '' }}>100 data</option>
+                                <option value="all" {{ request('per_page') == 'all' || (int)request('per_page') >= 1000 ? 'selected' : '' }}>Semua (All)</option>
                             </select>
                         </div>
                     </div>
@@ -154,7 +155,12 @@
                         <tr>
                             <td class="ps-2.5 py-1.5 px-2.5 font-medium text-slate-500 whitespace-nowrap text-xs">{{ ($positions->firstItem() ?? 1) + $loop->index }}</td>
                             <td class="py-1.5 px-2.5 text-xs" style="min-width: 300px;">
-                                <div class="text-slate-900 dark:text-slate-100 font-bold text-xs sm:text-sm mb-0.5">{{ $position->nama_posisi }}</div>
+                                <div class="d-flex align-items-center gap-1.5 flex-wrap mb-1">
+                                    <span class="text-slate-900 dark:text-slate-100 font-bold text-xs sm:text-sm">{{ $position->nama_posisi }}</span>
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-bold shadow-2xs" style="background-color: #e0f2fe !important; color: #0369a1 !important; border: 1px solid #bae6fd !important;">
+                                        <i class="bi bi-mortarboard-fill me-1" style="color: #0284c7 !important;"></i> {{ $position->target_jenjang_label }}
+                                    </span>
+                                </div>
                                 @if(!empty($position->mentor_name))
                                     <div class="d-flex align-items-center gap-1.5 p-1.5 bg-slate-50 dark:bg-slate-700/50 border border-slate-200 dark:border-slate-600 rounded text-xs text-slate-600 dark:text-slate-300">
                                         <i class="bi bi-person-badge text-indigo-600"></i>

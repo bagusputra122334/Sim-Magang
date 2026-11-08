@@ -17,7 +17,7 @@
                     <i class="bi bi-person-lines-fill text-primary me-1.5"></i>Lengkapi Biodata Peserta
                 </h1>
                 <p class="text-muted text-xs mb-0">
-                    Isi formulir profil secara lengkap agar Anda dapat mengajukan pendaftaran magang di Diskominfo Tuban.
+                    Isi formulir profil secara lengkap agar Anda dapat mengajukan pendaftaran magang di lingkungan Pemerintah Kabupaten Tuban.
                 </p>
             </div>
         </div>

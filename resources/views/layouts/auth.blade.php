@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta name="description" content="SIMAGANG - Sistem Informasi Magang Dinas Komunikasi dan Informatika, Statistik dan Persandian Kabupaten Tuban">
+    <meta name="description" content="SIMAGANG - Sistem Informasi Magang Pemerintah Kabupaten Tuban">
 
-    <title>@yield('title', 'Login') — SIMAGANG Diskominfo SP Tuban</title>
+    <title>@yield('title', 'Login') — SIMAGANG Pemerintah Kabupaten Tuban</title>
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="{{ asset('traveland/images/logo.png') }}">
@@ -62,8 +62,8 @@
         <div class="d-flex flex-row align-items-center justify-content-center gap-3 mb-2" style="z-index: 10;">
             <img src="{{ asset('traveland/images/logo.png') }}" alt="Logo Tuban" style="height: 48px; width: auto;">
             <div class="text-start">
-                <h4 class="text-white mb-0 fw-bold" style="font-size: 1.25rem;">Sistem Informasi Magang</h4>
-                <p class="text-white-50 mb-0" style="font-size: 0.875rem;">Diskominfo SP Tuban</p>
+                <h4 class="text-white mb-0 fw-bold" style="font-size: 1.25rem;">SIMAGANG</h4>
+                <p class="text-white-50 mb-0" style="font-size: 0.875rem;">Pemerintah Kabupaten Tuban</p>
             </div>
         </div>
         

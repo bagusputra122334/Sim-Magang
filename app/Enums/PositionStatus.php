@@ -7,6 +7,8 @@ enum PositionStatus: string
     case Aktif = 'aktif';
     case TidakAktif = 'tidak_aktif';
 
+    public const Open = self::Aktif;
+
     public function label(): string
     {
         return match ($this) {

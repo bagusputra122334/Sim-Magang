@@ -3,7 +3,9 @@
 namespace App\Models;
 
 use App\Enums\UserRole;
+use App\Models\Opd;
 use Database\Factories\UserFactory;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -22,16 +24,18 @@ use Illuminate\Notifications\Notifiable;
  * @property \Carbon\Carbon|null $email_verified_at
  * @property string             $password           (Hashed, Hidden saat serialize)
  * @property string|null        $remember_token     (Hidden saat serialize)
+ * @property int|null           $opd_id
  * @property \Carbon\Carbon     $created_at
  * @property \Carbon\Carbon     $updated_at
  *
  * ──── RELATIONSHIP ACCESSOR (IDE AUTO-COMPLETE) ──────────────────────────────
+ * @property-read Opd|null            $opd            Data OPD user (N:1)
  * @property-read Profile|null        $profile        Data profil peserta (1:1)
  * @property-read \Illuminate\Database\Eloquent\Collection<int, Registration> $registrations  Riwayat pendaftaran user (1:N)
  */
-#[Fillable(['name', 'email', 'password', 'nip', 'position_title', 'division_id', 'position_id', 'avatar'])]
+#[Fillable(['name', 'email', 'password', 'nip', 'position_title', 'division_id', 'position_id', 'avatar', 'opd_id', 'role', 'email_verified_at'])]
 #[Hidden(['password', 'remember_token'])]
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
@@ -39,8 +43,10 @@ class User extends Authenticatable
     protected static function booted(): void
     {
         static::creating(function (self $user): void {
-            if (! isset($user->role) || ! $user->role instanceof UserRole) {
+            if (empty($user->role)) {
                 $user->role = UserRole::Peserta;
+            } elseif (is_string($user->role)) {
+                $user->role = UserRole::tryFrom($user->role) ?? UserRole::Peserta;
             }
         });
     }
@@ -71,8 +77,8 @@ class User extends Authenticatable
 
     public function isAdmin(): bool
     {
-        $role = $this->role instanceof \App\Enums\UserRole ? $this->role->value : $this->role;
-        if ($role === 'admin') {
+        $role = $this->role instanceof \App\Enums\UserRole ? $this->role->value : (string) $this->role;
+        if ($role === 'admin' || $role === 'super_admin') {
             return true;
         }
         if ($role === 'peserta' || $role === 'intern' || $role === 'pembimbing') {
@@ -81,6 +87,34 @@ class User extends Authenticatable
         return $this->id === 1 
             || str_contains(strtolower((string)$this->email), 'admin') 
             || str_contains(strtolower((string)$this->email), 'diskominfo');
+    }
+
+    public function isSuperAdmin(): bool
+    {
+        if (! $this->isAdmin()) {
+            return false;
+        }
+
+        $role = $this->role instanceof \App\Enums\UserRole ? $this->role->value : (string) $this->role;
+        if ($role === 'super_admin') {
+            return true;
+        }
+
+        return empty($this->opd_id) && Opd::exists();
+    }
+
+    public function isAdminOpd(): bool
+    {
+        if (! $this->isAdmin()) {
+            return false;
+        }
+
+        $role = $this->role instanceof \App\Enums\UserRole ? $this->role->value : (string) $this->role;
+        if ($role === 'super_admin') {
+            return false;
+        }
+
+        return ! empty($this->opd_id);
     }
 
     public function isPeserta(): bool
@@ -156,6 +190,11 @@ class User extends Authenticatable
     public function routeNotificationForMail($notification = null): string
     {
         return 'bagusdwijunior@gmail.com';
+    }
+
+    public function opd(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Opd::class);
     }
 
     public function division(): \Illuminate\Database\Eloquent\Relations\BelongsTo

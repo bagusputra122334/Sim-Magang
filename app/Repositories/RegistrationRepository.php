@@ -178,9 +178,10 @@ class RegistrationRepository
     public function getPilihanPosisiYangAktif(): Collection
     {
         return Position::query()
+            ->with(['opd:id,name,code,slug,address,phone,email,is_active'])
             ->where('status', \App\Enums\PositionStatus::Aktif->value)
             ->orderBy('nama_posisi')
-            ->get(['id', 'nama_posisi', 'slug', 'kuota', 'deskripsi', 'status', 'updated_at']);
+            ->get(['id', 'opd_id', 'nama_posisi', 'slug', 'kuota', 'deskripsi', 'kualifikasi', 'status', 'updated_at']);
     }
 
     public function countByPositionAndStatusAktif(int $positionId): int
@@ -206,7 +207,9 @@ class RegistrationRepository
             ->with([
                 'user:id,name,email',
                 'user.profile',
-                'position:id,nama_posisi,slug,kuota,status',
+                'position:id,nama_posisi,slug,kuota,status,opd_id',
+                'opd:id,name,code',
+                'position.opd:id,name,code',
             ]);
 
         $searchKeyword = isset($filters['search']) && is_string($filters['search'])
@@ -260,6 +263,19 @@ class RegistrationRepository
                 $q->whereYear('tanggal_submit', $yearVal)
                     ->orWhereYear('created_at', $yearVal)
                     ->orWhereYear('periode_mulai', $yearVal);
+            });
+        }
+
+        // OPD filter if provided (for Super Admin)
+        $opdFilter = isset($filters['opd_id'])
+            ? (is_numeric($filters['opd_id']) ? (int) $filters['opd_id'] : null)
+            : null;
+        if ($opdFilter !== null && $opdFilter > 0) {
+            $query->where(function ($q) use ($opdFilter): void {
+                $q->where('opd_id', $opdFilter)
+                  ->orWhereHas('position', function ($posQ) use ($opdFilter): void {
+                      $posQ->where('opd_id', $opdFilter);
+                  });
             });
         }
 

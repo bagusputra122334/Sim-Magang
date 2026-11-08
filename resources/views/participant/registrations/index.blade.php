@@ -46,10 +46,9 @@ if (!function_exists('statusBadgeIcon')) {
 
         <div class="mb-4 d-md-flex justify-content-between align-items-center gap-3">
             <div>
-                <h2 class="mb-1 fw-bold text-success dark:text-emerald-400">
+                <h2 class="mb-0 fw-bold text-primary dark:text-blue-400">
                     <i class="bi bi-journal-text me-2"></i>Riwayat Pendaftaran Magang
                 </h2>
-                <p class="text-muted dark:text-slate-400 mb-0"><i class="bi bi-info-circle me-1"></i>Semua riwayat pengajuan pendaftaran magang Anda akan ditampilkan disertai status prosesnya.</p>
             </div>
             <div class="d-flex align-items-center gap-2 mt-3 mt-md-0">
                 <div id="serverTimeTracker" data-server-timestamp="{{ now()->timestamp }}" class="d-none"></div>
@@ -70,12 +69,12 @@ if (!function_exists('statusBadgeIcon')) {
             <div class="card border-0 shadow-sm rounded-4 text-center py-6 px-4">
                 <div class="card-body py-5">
                     <div class="display-1 text-light mb-4">
-                        <i class="bi bi-folder2-open text-success opacity-25"></i>
+                        <i class="bi bi-folder2-open text-primary opacity-25"></i>
                     </div>
                     <h4 class="fw-semibold mb-2">Belum Ada Riwayat Pendaftaran</h4>
                     <p class="text-muted mb-4">Anda belum pernah mengajukan pendaftaran magang. Klik tombol di bawah untuk mulai mendaftar posisi magang yang tersedia.</p>
                     @if($bisaDaftarBaru)
-                    <a href="{{ route('participant.registrations.create') }}" class="btn btn-success btn-lg fw-semibold shadow-sm">
+                    <a href="{{ route('participant.registrations.create') }}" class="btn btn-primary btn-lg fw-semibold shadow-sm">
                         <i class="bi bi-send-plus-fill me-2"></i>Ajukan Pendaftaran Pertama
                     </a>
                     @elseif(!$punyaProfile)
@@ -92,7 +91,7 @@ if (!function_exists('statusBadgeIcon')) {
             <div class="card-body p-0">
                 <div class="w-full overflow-x-auto overflow-y-hidden border border-slate-200 dark:border-slate-700 rounded-xl table-responsive">
                     <table class="table table-hover align-middle mb-0" id="registrationsTable">
-                        <thead class="table-success dark:bg-slate-700/80 dark:text-slate-200 border-0">
+                        <thead class="table-light dark:bg-slate-700/80 dark:text-slate-200 border-0">
                             <tr>
                                 @if($registrations->count() > 1)
                                 <th class="px-3 py-3 fw-semibold text-center whitespace-nowrap w-[1%]" title="Pilih pendaftaran">Pilih</th>
@@ -162,6 +161,9 @@ if (!function_exists('statusBadgeIcon')) {
                                     </td>
                                     <td class="px-4 py-3 whitespace-normal break-words">
                                         <div class="fw-semibold text-slate-900 dark:text-slate-100 reg-position">{{ $reg->position?->nama_posisi ?? '-' }}</div>
+                                        <div class="text-[11px] text-blue-700 dark:text-blue-400 font-medium mt-0.5">
+                                            <i class="bi bi-building me-1"></i>{{ $reg->opd?->name ?? $reg->position?->opd?->name ?? 'Dinas Komunikasi dan Informatika, Statistik dan Persandian' }}
+                                        </div>
                                     </td>
                                     <td class="px-4 py-3 whitespace-normal break-words">
                                         <div class="fw-medium text-slate-800 dark:text-slate-200 reg-periode">{!! $reg->periode_label ?? '<span class="text-slate-400">-</span>' !!}</div>

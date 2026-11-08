@@ -333,9 +333,15 @@
                 <i class="bi bi-arrow-left me-1"></i> Kembali ke Daftar
             </a>
             @if (! $reg->isAccepted() && ! $reg->isRejected())
-                <a href="{{ route('admin.applications.review', $reg->id) }}" class="btn bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white rounded-lg font-bold shadow-sm transition-all px-3 py-1.5 text-xs">
-                    <i class="bi bi-pencil-square me-1"></i> Berikan Keputusan (Review)
-                </a>
+                @if (auth()->user()->isSuperAdmin())
+                    <span class="badge bg-purple-50 text-purple-700 border border-purple-200 px-3 py-1.5 text-xs font-semibold rounded-lg d-inline-flex align-items-center gap-1 shadow-xs">
+                        <i class="bi bi-shield-check text-purple-600"></i> Mode Monitoring Super Admin (Wewenang Keputusan di Admin OPD)
+                    </span>
+                @else
+                    <a href="{{ route('admin.applications.review', $reg->id) }}" class="btn bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white rounded-lg font-bold shadow-sm transition-all px-3 py-1.5 text-xs">
+                        <i class="bi bi-pencil-square me-1"></i> Berikan Keputusan (Review)
+                    </a>
+                @endif
             @endif
         </div>
     </div>
@@ -378,6 +384,13 @@
                         <dt class="col-sm-4 text-xs font-bold !text-slate-800 dark:!text-slate-200">Posisi Magang</dt>
                         <dd class="col-sm-8 fw-semibold mb-0 text-xs">
                             {{ $reg->position?->nama_posisi ?? '—' }}
+                        </dd>
+
+                        <dt class="col-sm-4 text-xs font-bold !text-slate-800 dark:!text-slate-200">Instansi / Wilayah OPD</dt>
+                        <dd class="col-sm-8 fw-semibold mb-0 text-xs">
+                            <span class="badge bg-blue-50 text-blue-700 border border-blue-200 text-xs px-2 py-0.5 rounded">
+                                <i class="bi bi-building me-1"></i>{{ $reg->opd?->name ?? $reg->position?->opd?->name ?? 'Dinas Komunikasi dan Informatika, Statistik dan Persandian' }}
+                            </span>
                         </dd>
 
                         <dt class="col-sm-4 text-xs font-bold !text-slate-800 dark:!text-slate-200">Pembimbing Lapangan</dt>

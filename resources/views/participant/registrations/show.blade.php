@@ -213,7 +213,7 @@
                             {{ $reg->position?->nama_posisi ?? 'Detail Pendaftaran Magang' }}
                         </h1>
                         <p class="text-muted mb-0 text-xs">
-                            <i class="bi bi-geo-alt me-1"></i>Dinas Komunikasi dan Informatika, Statistik dan Persandian Kab. Tuban
+                            <i class="bi bi-geo-alt me-1"></i>{{ $reg->opd?->name ?? $reg->position?->opd?->name ?? 'Dinas Komunikasi dan Informatika, Statistik dan Persandian' }} Kab. Tuban
                         </p>
                     </div>
                     <div class="col-md-4 text-md-end">
@@ -629,12 +629,25 @@
                             </a>
                         @endif
 
-                        @if(!empty($reg->certificate_path) && \Illuminate\Support\Facades\Storage::disk('public')->exists($reg->certificate_path))
-                            <a href="{{ route('participant.applications.certificate.view', $reg->id) }}" target="_blank"
-                               class="btn btn-primary fw-bold d-inline-flex align-items-center justify-content-center shadow-sm py-1.5 px-3 text-xs rounded-2 bg-blue-600 hover:bg-blue-700 text-white"
-                               style="min-height: 34px;">
-                                <i class="bi bi-award-fill me-1.5 fs-6"></i>Unduh Sertifikat Magang
-                            </a>
+                        @if($reg->isAccepted())
+                            @php
+                                $certExists = !empty($reg->certificate_path) && \Illuminate\Support\Facades\Storage::disk('public')->exists($reg->certificate_path);
+                                $isGraduationReached = $reg->isGraduationEligible();
+                            @endphp
+                            @if($certExists)
+                                <a href="{{ route('participant.applications.certificate.view', $reg->id) }}" target="_blank"
+                                   class="btn btn-primary fw-bold d-inline-flex align-items-center justify-content-center shadow-sm py-1.5 px-3 text-xs rounded-2 bg-blue-600 hover:bg-blue-700 text-white"
+                                   style="min-height: 34px;">
+                                    <i class="bi bi-award-fill me-1.5 fs-6"></i>Unduh Sertifikat Magang
+                                </a>
+                            @else
+                                <button type="button" class="btn btn-secondary fw-semibold d-inline-flex align-items-center justify-content-center py-1.5 px-3 text-xs rounded-2 opacity-50 cursor-not-allowed"
+                                        disabled
+                                        title="{{ !$isGraduationReached ? 'Sertifikat baru tersedia setelah periode magang selesai (' . ($reg->periode_selesai?->translatedFormat('d M Y') ?? 'akhir periode') . ')' : 'Masa magang selesai, menunggu penerbitan oleh Admin OPD' }}"
+                                        style="min-height: 34px;">
+                                    <i class="bi bi-lock-fill me-1.5 fs-6 text-amber-300"></i>Unduh Sertifikat ({{ !$isGraduationReached ? 'Belum Waktunya' : 'Menunggu Terbit' }})
+                                </button>
+                            @endif
                         @endif
 
                         @if($reg->dapatDiubah())

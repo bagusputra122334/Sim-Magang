@@ -32,10 +32,24 @@
     </style>
 
     {{-- Kop Surat: hanya muncul di print / PDF --}}
+    @php
+        $resolvedPrintOpd = $registration->opd ?? $registration->position?->opd ?? (auth()->check() ? auth()->user()->opd ?? auth()->user()->division?->opd : null);
+        if ($resolvedPrintOpd) {
+            $printOpdName = strtoupper($resolvedPrintOpd->name);
+            $printOpdAddress = $resolvedPrintOpd->address ?: 'Kabupaten Tuban, Jawa Timur';
+            $printOpdPhone = $resolvedPrintOpd->phone ?: '-';
+            $printOpdEmail = $resolvedPrintOpd->email ?: '-';
+        } else {
+            $printOpdName = 'PEMERINTAH KABUPATEN TUBAN';
+            $printOpdAddress = 'Jl. Kartini No. 2, Kutorejo, Kec. Tuban, Kabupaten Tuban, Jawa Timur 62311';
+            $printOpdPhone = '(0356) 321001';
+            $printOpdEmail = 'pemkab@tubankab.go.id';
+        }
+    @endphp
     <div class="print-only mb-4 text-center">
-        <div style="font-weight: 700; font-size: 14pt; letter-spacing: 0.03em;">DINAS KOMUNIKASI DAN INFORMATIKA</div>
-        <div style="font-weight: 700; font-size: 13pt; letter-spacing: 0.03em;">KABUPATEN TUBAN</div>
-        <div style="font-size: 9pt; margin-top: 2px; color: #333;">Jl. Pemuda No. 1, Tuban, Jawa Timur 62311 &bull; Telp. (0356) 123-456</div>
+        <div style="font-weight: 700; font-size: 13pt; letter-spacing: 0.03em;">PEMERINTAH KABUPATEN TUBAN</div>
+        <div style="font-weight: 700; font-size: 14pt; letter-spacing: 0.03em;">{{ $printOpdName }}</div>
+        <div style="font-size: 9pt; margin-top: 2px; color: #333;">{{ $printOpdAddress }} &bull; Telp. {{ $printOpdPhone }} &bull; Email: {{ $printOpdEmail }}</div>
         <div style="border-bottom: 2px solid #000; margin-top: 8px; margin-bottom: 14px;"></div>
         <div style="font-weight: 700; font-size: 12pt; text-transform: uppercase;">Laporan Rekap Absensi &amp; Aktivitas Harian Peserta Magang</div>
         <div style="margin-top: 2px; font-size: 10pt;">Periode: {{ $start->translatedFormat('d F Y') }} &mdash; {{ $end->translatedFormat('d F Y') }}</div>

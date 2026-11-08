@@ -22,7 +22,7 @@ class GlobalSearchController extends Controller
         $rawQuery = (string) $request->query('q', '');
         $query = trim($rawQuery);
 
-        if (mb_strlen($query) < 1) {
+        if (mb_strlen($query) < 1 && ! $request->filled('opd_id')) {
             return response()->json([
                 'query'   => '',
                 'count'   => 0,
@@ -53,7 +53,7 @@ class GlobalSearchController extends Controller
 
         if ($user->isAdmin()) {
             // ADMIN SEARCH: Scope across all registrations & positions
-            $registrations = Registration::with(['user.profile', 'position'])
+            $registrations = Registration::with(['user.profile', 'position.opd', 'opd'])
                 ->where(function ($q) use ($query, $matchedStatuses) {
                     $q->where('nomor_pendaftaran', 'LIKE', "%{$query}%")
                         ->orWhereHas('user', function ($uq) use ($query) {
@@ -68,6 +68,10 @@ class GlobalSearchController extends Controller
                         })
                         ->orWhereHas('position', function ($posQ) use ($query) {
                             $posQ->where('nama_posisi', 'LIKE', "%{$query}%");
+                        })
+                        ->orWhereHas('opd', function ($opdQ) use ($query) {
+                            $opdQ->where('name', 'LIKE', "%{$query}%")
+                                 ->orWhere('code', 'LIKE', "%{$query}%");
                         });
 
                     if (!empty($matchedStatuses)) {
@@ -80,13 +84,16 @@ class GlobalSearchController extends Controller
 
             foreach ($registrations as $reg) {
                 $name = $reg->user?->profile?->nama_lengkap ?? $reg->user?->name ?? 'Pendaftar';
+                $opdName = $reg->opd?->name ?? $reg->position?->opd?->name ?? 'Dinas Komunikasi dan Informatika, Statistik dan Persandian';
                 $results[] = [
                     'type'         => 'registration',
                     'id'           => $reg->id,
+                    'title'        => $name,
                     'name'         => $name,
                     'email'        => $reg->user?->email,
                     'code'         => $reg->nomor_pendaftaran,
                     'position'     => $reg->position?->nama_posisi ?? 'Posisi Tidak Ditemukan',
+                    'opd_name'     => $opdName,
                     'status'       => $reg->status->value,
                     'status_label' => $reg->status->label(),
                     'url'          => route('admin.applications.show', $reg->id),
@@ -94,20 +101,30 @@ class GlobalSearchController extends Controller
             }
 
             // Positions search
-            $positions = Position::where('nama_posisi', 'LIKE', "%{$query}%")
-                ->orWhere('deskripsi', 'LIKE', "%{$query}%")
+            $positions = Position::with('opd')
+                ->where(function ($posQ) use ($query) {
+                    $posQ->where('nama_posisi', 'LIKE', "%{$query}%")
+                         ->orWhere('deskripsi', 'LIKE', "%{$query}%")
+                         ->orWhereHas('opd', function ($opdQ) use ($query) {
+                             $opdQ->where('name', 'LIKE', "%{$query}%")
+                                  ->orWhere('code', 'LIKE', "%{$query}%");
+                         });
+                })
                 ->latest('id')
                 ->limit(4)
                 ->get();
 
             foreach ($positions as $pos) {
+                $opdName = $pos->opd?->name ?? 'Dinas Komunikasi dan Informatika, Statistik dan Persandian';
                 $results[] = [
                     'type'         => 'position',
                     'id'           => $pos->id,
+                    'title'        => $pos->nama_posisi,
                     'name'         => $pos->nama_posisi,
                     'email'        => null,
                     'code'         => 'KUOTA: ' . $pos->kuota . ' ORANG',
                     'position'     => 'Formasi / Lowongan Magang',
+                    'opd_name'     => $opdName,
                     'status'       => $pos->status->value ?? 'aktif',
                     'status_label' => $pos->status->label() ?? 'Aktif',
                     'url'          => route('admin.positions.index', ['search' => $pos->nama_posisi]),
@@ -115,12 +132,16 @@ class GlobalSearchController extends Controller
             }
         } else {
             // PARTICIPANT SEARCH: Only own registrations & available positions
-            $registrations = Registration::with(['position'])
+            $registrations = Registration::with(['position.opd', 'opd'])
                 ->where('user_id', $user->id)
                 ->where(function ($q) use ($query, $matchedStatuses) {
                     $q->where('nomor_pendaftaran', 'LIKE', "%{$query}%")
                         ->orWhereHas('position', function ($posQ) use ($query) {
                             $posQ->where('nama_posisi', 'LIKE', "%{$query}%");
+                        })
+                        ->orWhereHas('opd', function ($opdQ) use ($query) {
+                            $opdQ->where('name', 'LIKE', "%{$query}%")
+                                 ->orWhere('code', 'LIKE', "%{$query}%");
                         });
 
                     if (!empty($matchedStatuses)) {
@@ -133,6 +154,7 @@ class GlobalSearchController extends Controller
 
             foreach ($registrations as $reg) {
                 $name = $user->profile?->nama_lengkap ?? $user->name;
+                $opdName = $reg->opd?->name ?? $reg->position?->opd?->name ?? 'Dinas Komunikasi dan Informatika, Statistik dan Persandian';
                 $results[] = [
                     'type'         => 'registration',
                     'id'           => $reg->id,
@@ -140,6 +162,7 @@ class GlobalSearchController extends Controller
                     'email'        => $user->email,
                     'code'         => $reg->nomor_pendaftaran,
                     'position'     => $reg->position?->nama_posisi ?? 'Posisi Magang',
+                    'opd_name'     => $opdName,
                     'status'       => $reg->status->value,
                     'status_label' => $reg->status->label(),
                     'url'          => route('participant.registrations.show', $reg->id),
@@ -147,24 +170,105 @@ class GlobalSearchController extends Controller
             }
 
             // Positions search for participant
-            $positions = Position::where('nama_posisi', 'LIKE', "%{$query}%")
-                ->latest('id')
+            $posQuery = Position::with('opd');
+            if ($request->filled('opd_id')) {
+                $posQuery->where('opd_id', $request->input('opd_id'));
+            }
+
+            if (mb_strlen($query) >= 1) {
+                $posQuery->where(function ($posQ) use ($query) {
+                    $posQ->where('nama_posisi', 'LIKE', "%{$query}%")
+                         ->orWhere('deskripsi', 'LIKE', "%{$query}%")
+                         ->orWhereHas('opd', function ($opdQ) use ($query) {
+                             $opdQ->where('name', 'LIKE', "%{$query}%")
+                                  ->orWhere('code', 'LIKE', "%{$query}%");
+                         });
+                });
+            }
+
+            $positions = $posQuery->latest('id')
                 ->limit(4)
                 ->get();
 
             foreach ($positions as $pos) {
+                $opdName = $pos->opd?->name ?? 'Dinas Komunikasi dan Informatika, Statistik dan Persandian';
                 $results[] = [
                     'type'         => 'position',
                     'id'           => $pos->id,
+                    'title'        => $pos->nama_posisi,
                     'name'         => $pos->nama_posisi,
                     'email'        => null,
                     'code'         => 'Formasi Tersedia',
                     'position'     => 'Kuota: ' . $pos->kuota . ' Peserta',
+                    'opd_name'     => $opdName,
                     'status'       => 'aktif',
                     'status_label' => 'Buka',
                     'url'          => route('participant.registrations.create', ['posisi' => $pos->id]),
                 ];
             }
+        }
+
+        return response()->json([
+            'query'   => $query,
+            'count'   => count($results),
+            'results' => $results,
+        ]);
+    }
+
+    /**
+     * Public search endpoint for positions & OPD filtering without authentication.
+     */
+    public function publicSearch(Request $request): JsonResponse
+    {
+        $rawQuery = (string) $request->query('q', '');
+        $query = trim($rawQuery);
+
+        if (mb_strlen($query) < 1 && ! $request->filled('opd_id')) {
+            return response()->json([
+                'query'   => '',
+                'count'   => 0,
+                'results' => [],
+            ]);
+        }
+
+        $posQuery = Position::with('opd')
+            ->where('status', \App\Enums\PositionStatus::Aktif);
+
+        if ($request->filled('opd_id')) {
+            $posQuery->where('opd_id', $request->input('opd_id'));
+        }
+
+        if (mb_strlen($query) >= 1) {
+            $posQuery->where(function ($posQ) use ($query) {
+                $posQ->where('nama_posisi', 'LIKE', "%{$query}%")
+                     ->orWhere('deskripsi', 'LIKE', "%{$query}%")
+                     ->orWhereHas('opd', function ($opdQ) use ($query) {
+                         $opdQ->where('name', 'LIKE', "%{$query}%")
+                              ->orWhere('code', 'LIKE', "%{$query}%");
+                     });
+            });
+        }
+
+        $positions = $posQuery->latest('id')
+            ->limit(10)
+            ->get();
+
+        $results = [];
+        foreach ($positions as $pos) {
+            $opdName = $pos->opd?->name ?? 'Dinas Komunikasi dan Informatika, Statistik dan Persandian';
+            $results[] = [
+                'type'         => 'position',
+                'id'           => $pos->id,
+                'title'        => $pos->nama_posisi,
+                'name'         => $pos->nama_posisi,
+                'email'        => null,
+                'code'         => 'KUOTA: ' . $pos->kuota . ' ORANG',
+                'position'     => 'Formasi / Lowongan Magang',
+                'opd_name'     => $opdName,
+                'status'       => 'aktif',
+                'status_label' => 'Buka',
+                'url'          => route('participant.registrations.create', ['posisi' => $pos->id]),
+            ];
         }
 
         return response()->json([

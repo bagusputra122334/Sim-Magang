@@ -10,13 +10,31 @@ use Illuminate\View\View;
 class SurveyController extends Controller
 {
     /**
+     * Pastikan hanya Super Admin yang dapat mengakses laporan Survei Kepuasan.
+     */
+    protected function authorizeSuperAdmin(): void
+    {
+        $user = auth()->user();
+        if (!$user || !$user->isSuperAdmin()) {
+            abort(403, 'Akses Ditolak: Hanya Super Admin yang memiliki wewenang mengakses Survei Kepuasan.');
+        }
+    }
+
+    /**
      * Display a listing of satisfaction survey submissions.
      */
     public function index(Request $request): View
     {
-        $perPage = (int) $request->input('per_page', 10);
-        if (! in_array($perPage, [5, 10, 25, 50], true)) {
-            $perPage = 10;
+        $this->authorizeSuperAdmin();
+
+        $rawPerPage = $request->input('per_page', '10');
+        if ($rawPerPage === 'all' || $rawPerPage === 'semua' || $rawPerPage === '-1') {
+            $perPage = 10000;
+        } else {
+            $perPage = (int) $rawPerPage;
+            if (! in_array($perPage, [5, 10, 15, 20, 25, 50, 100, 10000], true)) {
+                $perPage = 10;
+            }
         }
 
         $query = Survey::query()
@@ -59,6 +77,8 @@ class SurveyController extends Controller
      */
     public function exportPdf(Request $request)
     {
+        $this->authorizeSuperAdmin();
+
         $year = $request->input('year');
 
         $query = Survey::query()
@@ -87,8 +107,10 @@ class SurveyController extends Controller
         ];
 
         $printedAt = now()->translatedFormat('d F Y H:i').' WIB';
+        $user = $request->user();
+        $opd = $user && $user->isAdminOpd() ? $user->opd : ($request->filled('opd_id') ? \App\Models\Opd::find($request->input('opd_id')) : null);
 
-        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('admin.surveys.pdf', compact('surveys', 'statistics', 'printedAt', 'year'));
+        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('admin.surveys.pdf', compact('surveys', 'statistics', 'printedAt', 'year', 'opd'));
         return $pdf->download('Laporan_IKM_SIM_MAGANG_Tuban.pdf');
     }
 }

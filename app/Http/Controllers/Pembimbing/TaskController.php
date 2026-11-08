@@ -11,10 +11,13 @@ class TaskController extends Controller
 {
     public function index(Request $request)
     {
-        $perPage = (int) $request->input('perPage', 10);
-        if (!in_array($perPage, [10, 25, 50])) {
-            $perPage = 10;
+        $perPageRaw = trim((string) $request->input('perPage', $request->input('per_page', '10')));
+        $allowedPerPage = ['5', '10', '15', '20', '25', '50', '100', 'all'];
+        if (! in_array($perPageRaw, $allowedPerPage, true)) {
+            $perPageRaw = '10';
         }
+        $isAllPerPage = $perPageRaw === 'all';
+        $perPage = $isAllPerPage ? 10000 : (int) $perPageRaw;
 
         $tasks = Task::where('pembimbing_id', Auth::id())
             ->when($request->filled('search'), function ($q) use ($request) {

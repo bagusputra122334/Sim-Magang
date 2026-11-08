@@ -8,7 +8,6 @@
 
     <div class="mb-2 text-center text-md-start">
         <h1 class="h4 mb-0 fw-bold">Daftar Akun Baru</h1>
-        <p class="text-muted small mb-0">Buat akun baru SIMAGANG Diskominfo Tuban.</p>
     </div>
 
     <!-- Nama Lengkap -->

@@ -18,6 +18,20 @@
     </style>
 </head>
 <body>
+    @php
+        $resolvedOpd = $opd ?? (isset($applications) ? ($applications->first()?->opd ?? $applications->first()?->position?->opd) : null);
+        if ($resolvedOpd) {
+            $opdName = strtoupper($resolvedOpd->name);
+            $opdAddress = $resolvedOpd->address ?: 'Kabupaten Tuban, Jawa Timur';
+            $opdEmail = $resolvedOpd->email ?: '-';
+            $opdPhone = $resolvedOpd->phone ?: '-';
+        } else {
+            $opdName = 'SELURUH ORGANISASI PERANGKAT DAERAH (OPD) KABUPATEN TUBAN';
+            $opdAddress = 'Jl. Kartini No. 2, Kutorejo, Kec. Tuban, Kabupaten Tuban, Jawa Timur 62311';
+            $opdEmail = 'pemkab@tubankab.go.id';
+            $opdPhone = '(0356) 321001';
+        }
+    @endphp
     <table style="width: 100%; border-collapse: collapse; border: none; margin-bottom: 2px;">
         <tr>
             <!-- LOGO COLUMN -->
@@ -27,24 +41,24 @@
             <!-- TEXT COLUMN -->
             <td style="width: 85%; text-align: center; vertical-align: middle; border: none; padding: 0; padding-right: 15%;">
                 <h3 style="margin: 0; font-size: 16px; font-weight: normal; line-height: 1.3;">PEMERINTAH KABUPATEN TUBAN</h3>
-                <h2 style="margin: 0; font-size: 18px; font-weight: bold; line-height: 1.3;">DINAS KOMUNIKASI DAN INFORMATIKA, STATISTIK DAN PERSANDIAN</h2>
-                <p style="margin: 0; font-size: 12px; line-height: 1.3;">Jl. Mastrip No. 5 A, Sidorejo, Kec. Tuban, Kabupaten Tuban, Jawa Timur 62315</p>
-                <p style="margin: 0; font-size: 12px; line-height: 1.3;">Email: diskominfo@tubankab.go.id | Telp: (0356) 8832697 | Website: diskominfo.tubankab.go.id</p>
+                <h2 style="margin: 0; font-size: 18px; font-weight: bold; line-height: 1.3;">{{ $opdName }}</h2>
+                <p style="margin: 0; font-size: 12px; line-height: 1.3;">{{ $opdAddress }}</p>
+                <p style="margin: 0; font-size: 12px; line-height: 1.3;">Email: {{ $opdEmail }} | Telp: {{ $opdPhone }}</p>
             </td>
         </tr>
     </table>
     <div style="border-top: 3px solid black; margin-top: 10px; margin-bottom: 2px;"></div>
     <div style="border-top: 1px solid black; margin-top: 0; margin-bottom: 20px;"></div>
-    <h4 class="title">Data Verifikasi Pendaftaran Peserta Magang</h4>
+    <h4 class="title">Data Rekapitulasi Pendaftaran Peserta Magang</h4>
     <table>
         <thead>
             <tr>
-                <th style="width: 5%;">No</th>
-                <th style="width: 15%;">No. Pendaftaran</th>
-                <th style="width: 25%;">Nama Peserta & Kontak</th>
-                <th style="width: 25%;">Instansi / Sekolah</th>
-                <th style="width: 15%;">Posisi Dilamar</th>
-                <th style="width: 15%;">Status</th>
+                <th style="width: 4%;">No</th>
+                <th style="width: 14%;">No. Pendaftaran</th>
+                <th style="width: 22%;">Nama Peserta & Kontak</th>
+                <th style="width: 20%;">Instansi / Sekolah</th>
+                <th style="width: 24%;">Posisi & OPD Tujuan</th>
+                <th style="width: 16%;">Status</th>
             </tr>
         </thead>
         <tbody>
@@ -57,7 +71,15 @@
                     <span style="font-size: 10px; color: #555;">{{ $app->email ?? $app->user?->email ?? '-' }}</span>
                 </td>
                 <td>{{ $app->institution ?? $app->user?->profile?->institusi ?? '-' }}</td>
-                <td>{{ $app->position->name ?? $app->position?->nama_posisi ?? '-' }}</td>
+                <td>
+                    <strong>{{ $app->position->name ?? $app->position?->nama_posisi ?? '-' }}</strong>
+                    @php
+                        $targetOpd = $app->opd ?? $app->position?->opd;
+                    @endphp
+                    @if($targetOpd)
+                        <br><span style="font-size: 10px; color: #0284c7;">{{ $targetOpd->name }}</span>
+                    @endif
+                </td>
                 <td style="text-align: center;">{{ strtoupper(is_object($app->status) ? ($app->status->value ?? $app->status->label()) : ($app->status ?? '-')) }}</td>
             </tr>
             @endforeach

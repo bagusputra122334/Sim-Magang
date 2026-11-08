@@ -69,22 +69,22 @@
                 [
                     'icon'    => 'bi-check-circle-fill',
                     'label'   => 'Sudah Absen',
-                    'iconBg'  => '#d1fae5',
-                    'iconFg'  => '#065f46',
+                    'iconBg'  => '#dbeafe',
+                    'iconFg'  => '#1d4ed8',
                     'valueId' => 'stat-days-done',
                     'value'   => $checkins->count(),
                     'suffix'  => 'hari',
-                    'valueFg' => '#059669',
+                    'valueFg' => 'var(--app-text, #0f172a)',
                 ],
                 [
                     'icon'    => 'bi-x-circle-fill',
                     'label'   => 'Belum Absen',
-                    'iconBg'  => '#fee2e2',
-                    'iconFg'  => '#991b1b',
+                    'iconBg'  => '#dbeafe',
+                    'iconFg'  => '#1d4ed8',
                     'valueId' => 'stat-days-miss',
                     'value'   => max(0, $startOfMonth->daysInMonth - $checkins->count()),
                     'suffix'  => 'hari',
-                    'valueFg' => '#dc2626',
+                    'valueFg' => 'var(--app-text, #0f172a)',
                 ],
             ];
             $_progressPct = $startOfMonth->daysInMonth > 0 ? (int) round(($checkins->count() / $startOfMonth->daysInMonth) * 100) : 0;
@@ -117,18 +117,18 @@
                 <div class="card-body py-2 px-3 px-lg-3">
                     <div class="d-flex align-items-center justify-content-between gap-2 flex-nowrap mb-1">
                         <div class="d-flex align-items-center gap-2 min-w-0 flex-grow-1">
-                            <div class="d-flex align-items-center justify-content-center rounded-2 flex-shrink-0" style="width: 1.75rem; height: 1.75rem; background-color: #ede9fe !important;">
-                                <i class="bi bi-percent" style="font-size: 0.9rem !important; color: #5b21b6 !important;"></i>
+                            <div class="d-flex align-items-center justify-content-center rounded-2 flex-shrink-0" style="width: 1.75rem; height: 1.75rem; background-color: #dbeafe !important;">
+                                <i class="bi bi-percent" style="font-size: 0.9rem !important; color: #1d4ed8 !important;"></i>
                             </div>
                             <small class="text-muted fw-semibold text-uppercase text-truncate" style="letter-spacing: 0.04em; font-size: 0.6875rem;">Progres</small>
                         </div>
                         <div class="d-flex align-items-baseline gap-0.5 flex-shrink-0">
-                            <span class="mb-0 fw-bold d-inline-block" id="stat-percent" style="font-size: 1.25rem !important; line-height: 1 !important; color: #6d28d9 !important;">{{ $_progressPct }}</span>
+                            <span class="mb-0 fw-bold d-inline-block" id="stat-percent" style="font-size: 1.25rem !important; line-height: 1 !important; color: var(--app-text, #0f172a) !important;">{{ $_progressPct }}</span>
                             <small class="text-muted fw-medium" style="font-size: 0.7rem !important; line-height: 1;">%</small>
                         </div>
                     </div>
                     <div class="progress rounded-pill" style="height: 3px !important; background-color: #e5e7eb !important;">
-                        <div id="stat-progress-bar" class="progress-bar rounded-pill" role="progressbar" style="width: {{ $_progressPct }}%; background-color: #6d28d9 !important;"></div>
+                        <div id="stat-progress-bar" class="progress-bar rounded-pill" role="progressbar" style="width: {{ $_progressPct }}%; background-color: #2563eb !important;"></div>
                     </div>
                 </div>
             </div>

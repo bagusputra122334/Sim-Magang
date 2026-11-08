@@ -8,7 +8,11 @@
     <div>
         <h1 class="h4 mb-0 fw-bold text-slate-800 dark:text-slate-100 flex items-center gap-2" style="line-height: 1.2;">
             <svg class="w-5 h-5 text-blue-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-            Monitoring Status Magang
+            @if(!empty($isSuperAdmin))
+                Monitoring Status Magang Seluruh Tuban
+            @else
+                Monitoring Status Magang
+            @endif
         </h1>
     </div>
     
@@ -43,7 +47,7 @@
                     <p class="text-[11px] font-bold !text-slate-600 dark:!text-slate-300 uppercase tracking-wider mb-0.5 truncate">AKTIF MAGANG</p>
                     <span class="text-lg lg:text-xl font-extrabold !text-gray-900 dark:!text-white opacity-100 block my-0 leading-none">{{ $statistics['active'] ?? $aktifMagang ?? 0 }}</span>
                 </div>
-                <div class="text-success rounded-lg bg-emerald-50 dark:bg-emerald-900/30 p-1.5 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 32px; height: 32px;">
+                <div class="text-primary rounded-lg bg-blue-50 dark:bg-blue-900/30 p-1.5 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 32px; height: 32px;">
                     <i class="bi bi-play-circle-fill text-base"></i>
                 </div>
             </div>
@@ -56,7 +60,7 @@
                     <p class="text-[11px] font-bold !text-slate-600 dark:!text-slate-300 uppercase tracking-wider mb-0.5 truncate">SELESAI MAGANG</p>
                     <span class="text-lg lg:text-xl font-extrabold !text-gray-900 dark:!text-white opacity-100 block my-0 leading-none">{{ $statistics['completed'] ?? $selesaiMagang ?? 0 }}</span>
                 </div>
-                <div class="text-secondary rounded-lg bg-slate-100 dark:bg-slate-700/60 p-1.5 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 32px; height: 32px;">
+                <div class="text-primary rounded-lg bg-blue-50 dark:bg-blue-900/30 p-1.5 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 32px; height: 32px;">
                     <i class="bi bi-check-circle-fill text-base"></i>
                 </div>
             </div>
@@ -69,19 +73,24 @@
                     <p class="text-[11px] font-bold !text-slate-600 dark:!text-slate-300 uppercase tracking-wider mb-0.5 truncate">DINONAKTIFKAN</p>
                     <span class="text-lg lg:text-xl font-extrabold !text-gray-900 dark:!text-white opacity-100 block my-0 leading-none">{{ $statistics['terminated'] ?? $dinonaktifkan ?? 0 }}</span>
                 </div>
-                <div class="text-danger rounded-lg bg-rose-50 dark:bg-rose-900/30 p-1.5 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 32px; height: 32px;">
+                <div class="text-primary rounded-lg bg-blue-50 dark:bg-blue-900/30 p-1.5 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 32px; height: 32px;">
                     <i class="bi bi-x-circle-fill text-base"></i>
                 </div>
             </div>
         </div>
     </div>
 
-    {{-- Filter Bar --}}
+    {{-- Filter Bar (5 Filter Presisi Segaris 1 Baris di Layar Desktop) --}}
     <div class="card border border-slate-200 dark:border-slate-700 shadow-sm rounded-lg mb-2.5 bg-white dark:bg-slate-800">
         <div class="card-body p-2.5">
-            <form method="GET" action="{{ route('admin.active-interns.index') }}" class="row g-2 align-items-end">
-                <div class="col-12 col-md-4">
-                    <label for="search" class="form-label mb-0.5 text-xs font-bold text-slate-700 dark:text-slate-300">
+            <form method="GET" action="{{ route('admin.active-interns.index') }}" class="row g-2 align-items-end text-xs">
+                @php
+                    $hasFilter = request('search') || request('op_status') || request('year') || (request('opd_id') && !empty($isSuperAdmin));
+                @endphp
+
+                {{-- Filter 1: Cari --}}
+                <div class="{{ !empty($isSuperAdmin) ? 'col-12 col-sm-6 col-lg-3' : 'col-12 col-sm-6 col-lg-4' }}">
+                    <label for="search" class="form-label mb-0.5 text-xs font-bold text-slate-700 dark:text-slate-300 text-truncate d-block">
                         <i class="bi bi-search me-1"></i> Cari (Nama / Instansi / Posisi)
                     </label>
                     <div class="input-group">
@@ -91,44 +100,76 @@
                             id="search"
                             class="form-control form-control-sm text-xs py-1.5 px-2.5"
                             value="{{ request('search', $search) }}"
-                            placeholder="Ketik nama peserta, instansi, atau posisi magang...">
+                            placeholder="Ketik nama, instansi...">
                         <button type="submit" class="btn btn-sm btn-primary py-1.5 px-2.5 text-xs font-semibold" title="Cari Peserta">
                             <i class="bi bi-search"></i>
                         </button>
+                        @if($hasFilter)
+                            <a href="{{ route('admin.active-interns.index') }}" class="btn btn-sm btn-outline-danger py-1.5 px-2 text-xs font-semibold" title="Reset Semua Filter">
+                                <i class="bi bi-arrow-counterclockwise"></i>
+                            </a>
+                        @endif
                     </div>
                 </div>
-                <div class="col-6 col-md-3">
-                    <label for="op_status" class="form-label mb-0.5 text-xs font-bold text-slate-700 dark:text-slate-300">
+
+                {{-- Filter 2: Wilayah OPD (Khusus Super Admin) --}}
+                @if(!empty($isSuperAdmin))
+                    <div class="col-12 col-sm-6 col-lg-3">
+                        <label for="opd_id" class="form-label mb-0.5 text-xs font-bold text-slate-700 dark:text-slate-300 text-truncate d-block">
+                            <i class="bi bi-buildings me-1"></i> Wilayah OPD
+                        </label>
+                        <select name="opd_id" id="opd_id" class="form-select form-select-sm text-xs py-1.5 px-2 font-semibold text-primary w-100" style="text-overflow: ellipsis;" onchange="this.form.submit()">
+                            <option value="">-- Pilih Wilayah OPD --</option>
+                            <option value="all" @selected((string)request('opd_id', $selectedOpdId ?? '') === 'all')>Semua Wilayah OPD (Agregat Tuban)</option>
+                            @foreach ($opds as $opdItem)
+                                <option value="{{ $opdItem->id }}" @selected((string)request('opd_id', $selectedOpdId ?? '') === (string)$opdItem->id)>
+                                    {{ $opdItem->name }} ({{ $opdItem->code }})
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                @endif
+
+                {{-- Filter 3: Status Operasional --}}
+                <div class="{{ !empty($isSuperAdmin) ? 'col-6 col-sm-4 col-lg-2' : 'col-12 col-sm-6 col-lg-4' }}">
+                    <label for="op_status" class="form-label mb-0.5 text-xs font-bold text-slate-700 dark:text-slate-300 text-truncate d-block">
                         <i class="bi bi-funnel me-1"></i> Status Operasional
                     </label>
-                    <select name="op_status" id="op_status" class="form-select form-select-sm text-xs py-1.5 px-2.5" onchange="this.form.submit()">
+                    <select name="op_status" id="op_status" class="form-select form-select-sm text-xs py-1.5 px-2 w-100" style="text-overflow: ellipsis;" onchange="this.form.submit()">
                         <option value="">Semua Status Operasional</option>
                         <option value="active" @selected(request('op_status', $opStatus) === 'active')>Aktif Magang</option>
                         <option value="completed" @selected(request('op_status', $opStatus) === 'completed')>Selesai Magang</option>
                         <option value="terminated" @selected(request('op_status', $opStatus) === 'terminated')>Dinonaktifkan / Berhenti</option>
                     </select>
                 </div>
-                <div class="col-6 col-md-3">
-                    <label for="year" class="form-label mb-0.5 text-xs font-bold text-slate-700 dark:text-slate-300">
+
+                {{-- Filter 4: Filter Tahun --}}
+                <div class="col-6 col-sm-4 col-lg-2">
+                    <label for="year" class="form-label mb-0.5 text-xs font-bold text-slate-700 dark:text-slate-300 text-truncate d-block">
                         <i class="bi bi-calendar-event me-1"></i> Filter Tahun
                     </label>
-                    <select name="year" id="year" class="form-select form-select-sm text-xs py-1.5 px-2.5" onchange="this.form.submit()">
+                    <select name="year" id="year" class="form-select form-select-sm text-xs py-1.5 px-2 w-100" style="text-overflow: ellipsis;" onchange="this.form.submit()">
                         <option value="">Semua Tahun</option>
                         @foreach($availableYears ?? [] as $y)
                             <option value="{{ $y }}" @selected((string)request('year', $year ?? '') === (string)$y)>Tahun {{ $y }}</option>
                         @endforeach
                     </select>
                 </div>
-                <div class="col-12 col-md-2">
-                    <label for="per_page" class="form-label mb-0.5 text-xs font-bold text-slate-700 dark:text-slate-300">
-                        <i class="bi bi-list-ol me-1"></i> Per Halaman
+
+                {{-- Filter 5: Baris Per Halaman --}}
+                <div class="col-12 col-sm-4 col-lg-2">
+                    <label for="per_page" class="form-label mb-0.5 text-xs font-bold text-slate-700 dark:text-slate-300 text-truncate d-block">
+                        <i class="bi bi-list-ol me-1"></i> Baris
                     </label>
-                    <select name="per_page" id="per_page" class="form-select form-select-sm text-xs py-1.5 px-2.5" onchange="this.form.submit()">
-                        <option value="5" @selected((string)request('per_page', $perPage) === '5')>5 data</option>
-                        <option value="10" @selected((string)request('per_page', $perPage) === '10')>10 data</option>
-                        <option value="15" @selected((string)request('per_page', $perPage) === '15')>15 data</option>
-                        <option value="25" @selected((string)request('per_page', $perPage) === '25')>25 data</option>
-                        <option value="50" @selected((string)request('per_page', $perPage) === '50')>50 data</option>
+                    <select name="per_page" id="per_page" class="form-select form-select-sm text-xs py-1.5 px-2 w-100" onchange="this.form.submit()">
+                        <option value="5" @selected((string)request('per_page', $perPage) === '5')>5 baris</option>
+                        <option value="10" @selected((string)request('per_page', $perPage) === '10')>10 baris</option>
+                        <option value="15" @selected((string)request('per_page', $perPage) === '15')>15 baris</option>
+                        <option value="20" @selected((string)request('per_page', $perPage) === '20')>20 baris</option>
+                        <option value="25" @selected((string)request('per_page', $perPage) === '25')>25 baris</option>
+                        <option value="50" @selected((string)request('per_page', $perPage) === '50')>50 baris</option>
+                        <option value="100" @selected((string)request('per_page', $perPage) === '100')>100 baris</option>
+                        <option value="all" @selected((string)request('per_page') === 'all' || (int)request('per_page') >= 1000 || (int)$perPage >= 1000)>Semua (All)</option>
                     </select>
                 </div>
             </form>
@@ -180,6 +221,16 @@
                                     <div class="text-xs text-slate-500 dark:text-slate-400 truncate" title="Pembimbing: {{ $intern->position?->mentor_name ?? 'Belum ditentukan' }}">
                                         <i class="bi bi-person-badge text-indigo-500 me-1"></i>{{ $intern->position?->mentor_name ?? 'Belum ada mentor' }}
                                     </div>
+                                    @php
+                                        $targetOpd = $intern->opd ?? $intern->position?->opd;
+                                    @endphp
+                                    @if($targetOpd)
+                                        <div class="mt-1 d-inline-flex align-items-center gap-1">
+                                            <span class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded font-medium bg-blue-50 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300 border border-blue-200 dark:border-blue-800 text-[10px]">
+                                                <i class="bi bi-buildings"></i> {{ $targetOpd->name }}
+                                            </span>
+                                        </div>
+                                    @endif
                                 </div>
                             </td>
                             <td class="py-2.5 px-3 text-xs whitespace-nowrap">
@@ -210,13 +261,23 @@
                                 @endif
                             </td>
                             <td class="text-end pe-3 py-2.5 px-3 whitespace-nowrap" onclick="event.stopPropagation();">
-                                <a href="{{ route('admin.active-interns.show', $intern->id) }}"
-                                   class="btn btn-sm btn-outline-secondary py-1 px-2.5 rounded-lg text-xs hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors inline-flex items-center gap-1.5"
-                                   onclick="event.stopPropagation();"
-                                   title="Buka Halaman Manajemen Peserta">
-                                    <i class="bi bi-arrow-up-right-square"></i>
-                                    <span>Kelola</span>
-                                </a>
+                                @if(!empty($isSuperAdmin))
+                                    <a href="{{ route('admin.active-interns.show', $intern->id) }}"
+                                       class="btn btn-sm btn-outline-primary py-1 px-2.5 rounded-lg text-xs hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors inline-flex items-center gap-1.5"
+                                       onclick="event.stopPropagation();"
+                                       title="Lihat Detail Peserta Magang">
+                                        <i class="bi bi-eye"></i>
+                                        <span>Detail</span>
+                                    </a>
+                                @else
+                                    <a href="{{ route('admin.active-interns.show', $intern->id) }}"
+                                       class="btn btn-sm btn-outline-secondary py-1 px-2.5 rounded-lg text-xs hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors inline-flex items-center gap-1.5"
+                                       onclick="event.stopPropagation();"
+                                       title="Buka Halaman Manajemen Peserta">
+                                        <i class="bi bi-arrow-up-right-square"></i>
+                                        <span>Kelola</span>
+                                    </a>
+                                @endif
                             </td>
                         </tr>
 
@@ -309,12 +370,20 @@
                         </div>
                     @empty
                         <tr>
-                            <td colspan="6" class="text-center py-4 text-muted">
-                                <i class="bi bi-people fs-2 d-block mb-1 opacity-50"></i>
-                                <p class="mb-0.5 text-xs font-semibold">Tidak ada data peserta magang yang cocok dengan kriteria pencarian.</p>
-                                <a href="{{ route('admin.active-interns.index') }}" class="btn btn-link btn-sm py-0 text-xs">
-                                    Lihat seluruh status magang
-                                </a>
+                            <td colspan="6" class="text-center py-5">
+                                @if(!empty($isSuperAdmin) && empty($selectedOpdId))
+                                    <div class="d-inline-flex p-3 rounded-circle bg-blue-50 dark:bg-blue-900/30 text-blue-600 mb-2">
+                                        <i class="bi bi-buildings fs-2"></i>
+                                    </div>
+                                    <h6 class="fw-bold text-slate-800 dark:text-slate-100 mb-1 text-sm">Pilih Wilayah OPD Terlebih Dahulu</h6>
+                                    <p class="text-xs text-muted mb-0 max-w-md mx-auto">Silakan pilih salah satu Organisasi Perangkat Daerah (OPD) pada filter di atas untuk memantau status peserta magang aktif.</p>
+                                @else
+                                    <i class="bi bi-people fs-2 d-block mb-1 opacity-50 text-muted"></i>
+                                    <p class="mb-0.5 text-xs font-semibold text-muted">Tidak ada data peserta magang yang cocok dengan kriteria pencarian.</p>
+                                    <a href="{{ route('admin.active-interns.index') }}" class="btn btn-link btn-sm py-0 text-xs">
+                                        Lihat seluruh status magang
+                                    </a>
+                                @endif
                             </td>
                         </tr>
                     @endforelse

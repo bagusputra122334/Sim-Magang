@@ -74,24 +74,135 @@
             @enderror
         </div>
 
-        {{-- Kualifikasi --}}
-        <div class="mb-3">
-            <label for="kualifikasi" class="form-label text-xs font-bold !text-slate-800 dark:!text-slate-200">Kualifikasi & Persyaratan</label>
-            <textarea
-                name="kualifikasi"
-                id="kualifikasi"
-                rows="5"
-                maxlength="5000"
-                class="form-control py-1.5 px-2.5 text-xs @error('kualifikasi') is-invalid @enderror"
-                placeholder="Persyaratan: - Mahasiswa Semester 5+, - Menguasai HTML, CSS, JS, dll..."
-            >{{ old('kualifikasi', $position->kualifikasi ?? '') }}</textarea>
-            <div class="form-text d-flex justify-content-between">
-                <span>Opsional. Maksimal 5000 karakter.</span>
-                <span class="text-muted small"><span id="kualifikasi_count">0</span>/5000</span>
+        {{-- Target Pendaftar & Kualifikasi Berdasarkan Jenjang --}}
+        <div class="card border border-slate-200 dark:border-slate-700 rounded-xl mb-3 shadow-2xs overflow-hidden">
+            <div class="card-header bg-slate-50 dark:bg-slate-800/80 border-b border-slate-200 dark:border-slate-700 py-2.5 px-3">
+                <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+                    <h6 class="fw-bold mb-0 text-slate-800 dark:text-slate-100 text-xs text-uppercase d-flex align-items-center gap-1.5">
+                        <i class="bi bi-mortarboard-fill text-primary"></i> Target Pendaftar &amp; Kualifikasi Jenjang
+                    </h6>
+                    <div class="d-flex align-items-center gap-2">
+                        <label for="tipe_pendaftar" class="text-xs text-slate-600 dark:text-slate-300 font-bold mb-0">Terbuka Untuk:</label>
+                        <select name="tipe_pendaftar" id="tipe_pendaftar" class="form-select form-select-sm py-1.5 ps-2.5 pe-4 text-xs font-bold text-blue-700 bg-white border border-blue-300 dark:bg-slate-800 dark:text-blue-300 dark:border-blue-600 rounded-md shadow-2xs" style="width: auto; min-width: 210px;">
+                            <option value="all" {{ old('tipe_pendaftar', $position->tipe_pendaftar ?? 'all') === 'all' ? 'selected' : '' }}>Mahasiswa &amp; Siswa SMK</option>
+                            <option value="mahasiswa" {{ old('tipe_pendaftar', $position->tipe_pendaftar ?? 'all') === 'mahasiswa' ? 'selected' : '' }}>Khusus Mahasiswa</option>
+                            <option value="siswa" {{ old('tipe_pendaftar', $position->tipe_pendaftar ?? 'all') === 'siswa' ? 'selected' : '' }}>Khusus Siswa (SMK)</option>
+                        </select>
+                    </div>
+                </div>
             </div>
-            @error('kualifikasi')
-                <div class="invalid-feedback d-block"><i class="bi bi-x-circle me-1"></i> {{ $message }}</div>
-            @enderror
+            <div class="card-body p-3">
+                <!-- Nav Tabs untuk Kualifikasi Siswa & Mahasiswa -->
+                <style>
+                    #kualifikasiTabs .nav-link {
+                        color: #334155 !important;
+                        background-color: #ffffff !important;
+                        border: 1px solid #cbd5e1 !important;
+                        font-weight: 700 !important;
+                        transition: all 0.2s ease !important;
+                    }
+                    #kualifikasiTabs .nav-link:hover {
+                        color: #1d4ed8 !important;
+                        background-color: #eff6ff !important;
+                        border-color: #93c5fd !important;
+                    }
+                    #kualifikasiTabs .nav-link.active {
+                        color: #ffffff !important;
+                        background-color: #2563eb !important;
+                        border-color: #2563eb !important;
+                        box-shadow: 0 1px 3px rgba(0,0,0,0.15) !important;
+                    }
+                    html[data-theme="dark"] #kualifikasiTabs .nav-link {
+                        color: #e2e8f0 !important;
+                        background-color: #1e293b !important;
+                        border-color: #475569 !important;
+                    }
+                    html[data-theme="dark"] #kualifikasiTabs .nav-link.active {
+                        color: #ffffff !important;
+                        background-color: #3b82f6 !important;
+                        border-color: #3b82f6 !important;
+                    }
+                </style>
+                <ul class="nav nav-pills nav-fill gap-2 mb-3 bg-slate-100 dark:bg-slate-700/50 p-1.5 rounded-xl text-xs border border-slate-200 dark:border-slate-600" id="kualifikasiTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active py-2 px-3 rounded-lg fw-bold d-flex align-items-center justify-content-center gap-1.5" id="tab-mahasiswa-btn" data-bs-toggle="pill" data-bs-target="#tab-mahasiswa" type="button" role="tab" aria-controls="tab-mahasiswa" aria-selected="true">
+                            <i class="bi bi-mortarboard-fill"></i>
+                            <span>Kualifikasi Mahasiswa</span>
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link py-2 px-3 rounded-lg fw-bold d-flex align-items-center justify-content-center gap-1.5" id="tab-siswa-btn" data-bs-toggle="pill" data-bs-target="#tab-siswa" type="button" role="tab" aria-controls="tab-siswa" aria-selected="false">
+                            <i class="bi bi-backpack-fill"></i>
+                            <span>Kualifikasi Siswa (SMK)</span>
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link py-2 px-3 rounded-lg fw-bold d-flex align-items-center justify-content-center gap-1.5" id="tab-umum-btn" data-bs-toggle="pill" data-bs-target="#tab-umum" type="button" role="tab" aria-controls="tab-umum" aria-selected="false">
+                            <i class="bi bi-card-text"></i>
+                            <span>Umum / Tambahan</span>
+                        </button>
+                    </li>
+                </ul>
+
+                <div class="tab-content" id="kualifikasiTabsContent">
+                    <!-- Tab 1: Kualifikasi Mahasiswa -->
+                    <div class="tab-pane fade show active" id="tab-mahasiswa" role="tabpanel" aria-labelledby="tab-mahasiswa-btn">
+                        <label for="kualifikasi_mahasiswa" class="form-label text-xs font-bold !text-slate-800 dark:!text-slate-200 d-flex align-items-center gap-1 mb-1">
+                            <i class="bi bi-mortarboard text-primary"></i> Persyaratan Khusus Mahasiswa (D3 / D4 / S1)
+                        </label>
+                        <textarea
+                            name="kualifikasi_mahasiswa"
+                            id="kualifikasi_mahasiswa"
+                            rows="4"
+                            maxlength="5000"
+                            class="form-control py-1.5 px-2.5 text-xs @error('kualifikasi_mahasiswa') is-invalid @enderror"
+                            placeholder="Contoh:&#10;- Mahasiswa aktif minimal Semester 5&#10;- Jurusan Teknik Informatika, Sistem Informasi, atau serumpun&#10;- Menguasai dasar pemrograman web (PHP / Laravel / JS)&#10;- Memiliki portofolio atau projek yang pernah dibuat"
+                        >{{ old('kualifikasi_mahasiswa', $position->kualifikasi_mahasiswa ?? '') }}</textarea>
+                        <div class="form-text text-[11px] text-slate-500">Tuliskan persyaratan akademik, semester, dan kompetensi teknis bagi mahasiswa.</div>
+                        @error('kualifikasi_mahasiswa')
+                            <div class="invalid-feedback d-block"><i class="bi bi-x-circle me-1"></i> {{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <!-- Tab 2: Kualifikasi Siswa SMK -->
+                    <div class="tab-pane fade" id="tab-siswa" role="tabpanel" aria-labelledby="tab-siswa-btn">
+                        <label for="kualifikasi_siswa" class="form-label text-xs font-bold !text-slate-800 dark:!text-slate-200 d-flex align-items-center gap-1 mb-1">
+                            <i class="bi bi-backpack text-primary"></i> Persyaratan Khusus Siswa (SMK)
+                        </label>
+                        <textarea
+                            name="kualifikasi_siswa"
+                            id="kualifikasi_siswa"
+                            rows="4"
+                            maxlength="5000"
+                            class="form-control py-1.5 px-2.5 text-xs @error('kualifikasi_siswa') is-invalid @enderror"
+                            placeholder="Contoh:&#10;- Siswa aktif SMK Kelas XI atau XII&#10;- Kompetensi Keahlian: Rekayasa Perangkat Lunak (RPL) / TKJ / Multimedia&#10;- Membawa surat permohonan PKL / Magang dari pihak sekolah&#10;- Memiliki motivasi belajar dan disiplin tinggi"
+                        >{{ old('kualifikasi_siswa', $position->kualifikasi_siswa ?? '') }}</textarea>
+                        <div class="form-text text-[11px] text-slate-500">Tuliskan kualifikasi jurusan SMK, tingkatan kelas, dan berkas dari sekolah.</div>
+                        @error('kualifikasi_siswa')
+                            <div class="invalid-feedback d-block"><i class="bi bi-x-circle me-1"></i> {{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <!-- Tab 3: Umum / Cadangan -->
+                    <div class="tab-pane fade" id="tab-umum" role="tabpanel" aria-labelledby="tab-umum-btn">
+                        <label for="kualifikasi" class="form-label text-xs font-bold !text-slate-800 dark:!text-slate-200 d-flex align-items-center gap-1 mb-1">
+                            <i class="bi bi-card-text text-primary"></i> Catatan Persyaratan Umum (Opsional)
+                        </label>
+                        <textarea
+                            name="kualifikasi"
+                            id="kualifikasi"
+                            rows="4"
+                            maxlength="5000"
+                            class="form-control py-1.5 px-2.5 text-xs @error('kualifikasi') is-invalid @enderror"
+                            placeholder="Syarat umum yang berlaku untuk semua pendaftar, misal: sehat jasmani rohani, mematuhi tata tertib OPD, dll..."
+                        >{{ old('kualifikasi', $position->kualifikasi ?? '') }}</textarea>
+                        <div class="form-text text-[11px] text-slate-500">Jika tab Mahasiswa / Siswa diisi, sistem akan otomatis merangkum persyaratan ini.</div>
+                        @error('kualifikasi')
+                            <div class="invalid-feedback d-block"><i class="bi bi-x-circle me-1"></i> {{ $message }}</div>
+                        @enderror
+                    </div>
+                </div>
+            </div>
         </div>
 
         {{-- Pembimbing Lapangan --}}

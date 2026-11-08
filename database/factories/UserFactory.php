@@ -34,6 +34,16 @@ class UserFactory extends Factory
     }
 
     /**
+     * Indicate that the model belongs to a specific OPD.
+     */
+    public function forOpd(\App\Models\Opd $opd): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'opd_id' => $opd->id,
+        ]);
+    }
+
+    /**
      * Indicate that the model's email address should be unverified.
      */
     public function unverified(): static

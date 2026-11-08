@@ -217,10 +217,11 @@
                 '<strong class="text-body fw-bold text-truncate" style="max-width: 260px;">' + escapeHtml(item.name) + '</strong>' +
                 getStatusBadge(item.status, item.status_label) +
               '</div>' +
-              '<div class="d-flex align-items-center justify-content-between gap-2 small text-muted">' +
+              '<div class="d-flex align-items-center justify-content-between gap-2 small text-muted mb-0.5">' +
                 '<span class="font-monospace text-primary fw-semibold"><i class="bi bi-ticket-perforated me-1"></i>' + escapeHtml(item.code) + '</span>' +
                 '<span class="text-truncate" style="max-width: 220px;"><i class="bi bi-briefcase me-1"></i>' + escapeHtml(item.position) + '</span>' +
               '</div>' +
+              (item.opd_name ? '<div class="small text-muted text-truncate" style="font-size: 0.7rem;"><i class="bi bi-building me-1"></i>' + escapeHtml(item.opd_name) + '</div>' : '') +
             '</a>';
           });
         }
@@ -233,7 +234,10 @@
                 '<strong class="text-body fw-bold text-truncate"><i class="bi bi-briefcase-fill text-primary me-1.5"></i>' + escapeHtml(item.name) + '</strong>' +
                 '<span class="badge bg-primary-subtle text-primary border rounded-pill px-2 py-0.5 small">' + escapeHtml(item.code) + '</span>' +
               '</div>' +
-              '<div class="small text-muted">' + escapeHtml(item.position) + '</div>' +
+              '<div class="d-flex align-items-center justify-content-between gap-2 small text-muted">' +
+                '<span>' + escapeHtml(item.position) + '</span>' +
+                (item.opd_name ? '<span class="text-truncate" style="max-width: 200px; font-size: 0.7rem;"><i class="bi bi-building me-1"></i>' + escapeHtml(item.opd_name) + '</span>' : '') +
+              '</div>' +
             '</a>';
           });
         }

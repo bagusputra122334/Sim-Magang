@@ -32,12 +32,14 @@ class RegistrationController extends ParticipantController implements HasMiddlew
     public function index(Request $request): View
     {
         $user = $request->user();
-        $perPage = (int) $request->input('per_page', 10);
-        if ($perPage < 5) {
-            $perPage = 5;
-        }
-        if ($perPage > 50) {
-            $perPage = 50;
+        $rawPerPage = $request->input('per_page', '10');
+        if ($rawPerPage === 'all' || $rawPerPage === 'semua' || $rawPerPage === '-1') {
+            $perPage = 10000;
+        } else {
+            $perPage = (int) $rawPerPage;
+            if (! in_array($perPage, [5, 10, 15, 20, 25, 50, 100, 10000], true)) {
+                $perPage = 10;
+            }
         }
 
         $registrations = $this->registrationService->getRiwayatPendaftaran($user->id, $perPage);
@@ -60,6 +62,11 @@ class RegistrationController extends ParticipantController implements HasMiddlew
     {
         $user = $request->user();
 
+        if (! $user->hasVerifiedEmail()) {
+            return redirect()->route('participant.dashboard')
+                ->with('warning', 'Alamat email Anda (' . $user->email . ') belum diverifikasi. Silakan periksa kotak masuk atau folder spam email Anda dan klik tautan verifikasi sebelum mengajukan pendaftaran magang baru.');
+        }
+
         try {
             $this->registrationService->ensureUserBisaMendaftar($user);
         } catch (\DomainException $e) {
@@ -81,6 +88,11 @@ class RegistrationController extends ParticipantController implements HasMiddlew
     {
         $validated = $request->validated();
         $user = $request->user();
+
+        if (! $user->hasVerifiedEmail()) {
+            return redirect()->route('participant.dashboard')
+                ->with('warning', 'Alamat email Anda (' . $user->email . ') belum diverifikasi. Silakan periksa kotak masuk atau folder spam email Anda dan klik tautan verifikasi sebelum mengajukan pendaftaran magang baru.');
+        }
 
         $position = Position::findOrFail($validated['position_id']);
 

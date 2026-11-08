@@ -8,20 +8,20 @@
     <meta name="description" content="SIMAGANG - Sistem Informasi Magang Resmi Dinas Komunikasi dan Informatika, Statistik dan Persandian Kabupaten Tuban. Layanan pendaftaran magang digital yang transparan, profesional, dan terpadu.">
 
     <!-- Primary Meta Tags -->
-    <meta name="title" content="{{ get_setting('site_title', 'SIMAGANG - Diskominfo SP Kab. Tuban') }}">
+    <meta name="title" content="{{ get_setting('site_title', 'SIMAGANG — Sistem Informasi Magang Pemerintah Kabupaten Tuban') }}">
 
     <!-- Open Graph / Facebook / WhatsApp -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ url('/') }}">
-    <meta property="og:title" content="{{ get_setting('site_title', 'SIMAGANG - Diskominfo SP Kab. Tuban') }}">
-    <meta property="og:description" content="{{ get_setting('meta_description', 'Portal Resmi Pendaftaran Magang Diskominfo SP Kab. Tuban. Daftarkan dirimu secara digital!') }}">
+    <meta property="og:title" content="{{ get_setting('site_title', 'SIMAGANG — Sistem Informasi Magang Pemerintah Kabupaten Tuban') }}">
+    <meta property="og:description" content="{{ get_setting('meta_description', 'Portal Resmi Pendaftaran Magang Seluruh Instansi Organisasi Perangkat Daerah (OPD) di Lingkungan Pemerintah Kabupaten Tuban.') }}">
     <meta property="og:image" content="{{ asset(get_setting('site_logo', 'traveland/images/logo.png')) }}">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="{{ url('/') }}">
-    <meta property="twitter:title" content="{{ get_setting('site_title', 'SIMAGANG - Diskominfo SP Kab. Tuban') }}">
-    <meta property="twitter:description" content="{{ get_setting('meta_description', 'Portal Resmi Pendaftaran Magang Diskominfo SP Kab. Tuban. Daftarkan dirimu secara digital!') }}">
+    <meta property="twitter:title" content="{{ get_setting('site_title', 'SIMAGANG — Sistem Informasi Magang Pemerintah Kabupaten Tuban') }}">
+    <meta property="twitter:description" content="{{ get_setting('meta_description', 'Portal Resmi Pendaftaran Magang Seluruh Instansi Organisasi Perangkat Daerah (OPD) di Lingkungan Pemerintah Kabupaten Tuban.') }}">
     <meta property="twitter:image" content="{{ asset(get_setting('site_logo', 'traveland/images/logo.png')) }}">
 
     <!--====== Title ======-->
@@ -43,6 +43,11 @@
                 if (t === 'dark' || t === 'light') {
                     document.documentElement.setAttribute('data-theme', t);
                     document.documentElement.setAttribute('data-bs-theme', t);
+                    if (t === 'dark') {
+                        document.documentElement.classList.add('dark');
+                    } else {
+                        document.documentElement.classList.remove('dark');
+                    }
                 }
             } catch(e) {}
         })();
@@ -844,7 +849,7 @@
             transition: color 0.3s ease;
         }
 
-        /* About Section & Value Cards */
+        /* About Section & Narrative */
         .about_area {
             background-color: var(--sim-surface);
             transition: background-color 0.3s ease;
@@ -856,6 +861,47 @@
             overflow: hidden;
             box-shadow: var(--sim-shadow-lg);
             border: 1px solid var(--sim-border);
+        }
+
+        .about-narrative p {
+            font-size: 15px;
+            line-height: 1.8;
+            color: var(--sim-text-muted);
+            margin-bottom: 16px;
+        }
+
+        html[data-theme="dark"] .about-narrative p {
+            color: #cbd5e1 !important;
+        }
+
+        html[data-theme="dark"] .about-narrative strong {
+            color: #ffffff !important;
+        }
+
+        .about-feature-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            font-size: 14.5px;
+            font-weight: 500;
+            color: var(--sim-text);
+            margin-bottom: 12px;
+            line-height: 1.5;
+        }
+
+        html[data-theme="dark"] .about-feature-item {
+            color: #e2e8f0 !important;
+        }
+
+        .about-feature-icon {
+            color: #0d6efd;
+            font-size: 18px;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        html[data-theme="dark"] .about-feature-icon {
+            color: #3b82f6 !important;
         }
 
         .about-value-card {
@@ -968,6 +1014,111 @@
             transition: color 0.3s ease;
         }
 
+        /* Dark / Light Theme Explicit Styles for OPD & Position Cards */
+        html[data-theme="dark"] .position-card {
+            background-color: #121d33 !important;
+            border-color: #1f3052 !important;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5) !important;
+        }
+
+        html[data-theme="dark"] .position-card .position-title {
+            color: #ffffff !important;
+        }
+
+        html[data-theme="dark"] .position-card .position-desc {
+            color: #94a3b8 !important;
+        }
+
+        html[data-theme="dark"] .opd-preview-box {
+            background-color: rgba(10, 16, 30, 0.75) !important;
+            border-color: #1e2e4a !important;
+        }
+
+        html[data-theme="dark"] .opd-preview-heading {
+            color: #cbd5e1 !important;
+        }
+
+        html[data-theme="dark"] .opd-division-chip {
+            background-color: #1a2744 !important;
+            color: #e2e8f0 !important;
+            border-color: #2b3d63 !important;
+        }
+
+        html[data-theme="dark"] .opd-badge-inactive {
+            background-color: rgba(30, 41, 59, 0.7) !important;
+            color: #94a3b8 !important;
+            border-color: #334155 !important;
+        }
+
+        html[data-theme="dark"] #pos-carousel-prev,
+        html[data-theme="dark"] #pos-carousel-next {
+            background-color: #162238 !important;
+            color: #f1f5f9 !important;
+            border-color: #233554 !important;
+        }
+
+        html[data-theme="dark"] #pos-carousel-prev:hover,
+        html[data-theme="dark"] #pos-carousel-next:hover {
+            background-color: #2563eb !important;
+            color: #ffffff !important;
+            border-color: #2563eb !important;
+        }
+
+        /* Qualification Pill Switcher Buttons */
+        .qual-btn-siswa, .qual-btn-mhs {
+            cursor: pointer !important;
+            transition: all 0.18s ease-in-out !important;
+            outline: none !important;
+            user-select: none !important;
+        }
+        .qual-btn-siswa:hover, .qual-btn-mhs:hover {
+            transform: translateY(-1px);
+        }
+        .qual-btn-siswa:active, .qual-btn-mhs:active {
+            transform: translateY(0px) scale(0.97);
+        }
+
+        /* Modal Dark Theme */
+        html[data-theme="dark"] .modal-content {
+            background-color: #0f172a !important;
+            color: #f8fafc !important;
+            border: 1px solid #1e293b !important;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.75) !important;
+        }
+
+        html[data-theme="dark"] .modal-header,
+        html[data-theme="dark"] .modal-footer {
+            background-color: #162032 !important;
+            border-color: #223048 !important;
+        }
+
+        html[data-theme="dark"] .modal-title {
+            color: #ffffff !important;
+        }
+
+        html[data-theme="dark"] .modal-position-card {
+            background-color: #152238 !important;
+            border-color: #233554 !important;
+        }
+
+        html[data-theme="dark"] .modal-position-card h6 {
+            color: #ffffff !important;
+        }
+
+        html[data-theme="dark"] .modal-position-card .text-muted {
+            color: #94a3b8 !important;
+        }
+
+        html[data-theme="dark"] .qualification-box {
+            background-color: #0c1424 !important;
+            border-color: #1a2a44 !important;
+            color: #cbd5e1 !important;
+        }
+
+        html[data-theme="dark"] .qualification-box strong {
+            color: #f1f5f9 !important;
+        }
+
         .position-meta {
             border-top: 1px solid var(--sim-border);
             padding-top: 16px;
@@ -1028,51 +1179,79 @@
         .single_service {
             background: var(--sim-surface-card);
             border: 1px solid var(--sim-border);
-            border-radius: 16px;
-            padding: 32px 24px;
+            border-radius: 14px;
+            padding: 22px 18px 20px;
             text-align: center;
-            box-shadow: var(--sim-shadow-sm);
-            transition: all 0.25s ease;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.04);
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
             height: 100%;
+            position: relative;
         }
 
         .single_service:hover {
             border-color: var(--sim-primary);
-            box-shadow: var(--sim-shadow-lg);
-            transform: translateY(-6px);
+            box-shadow: 0 10px 25px -5px rgba(37, 99, 235, 0.12), 0 8px 10px -6px rgba(37, 99, 235, 0.08);
+            transform: translateY(-4px);
+        }
+
+        .single_service .services_icon {
+            margin-bottom: 14px;
+            flex-shrink: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .single_service .services_icon i {
-            width: 70px;
-            height: 70px;
-            border-radius: 16px;
-            border: 2px solid var(--sim-primary);
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            border: 1.5px solid var(--sim-primary);
             background: var(--sim-primary-subtle);
             color: var(--sim-primary);
-            line-height: 66px;
-            font-size: 30px;
-            display: inline-block;
-            margin-bottom: 20px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            line-height: 1;
+            margin-bottom: 0;
             transition: all 0.25s ease;
         }
 
         .single_service:hover .services_icon i {
             background: var(--sim-primary);
             color: #ffffff;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
         }
 
         .single_service .title {
-            font-size: 18px;
+            font-size: 15px;
             font-weight: 700;
             color: var(--sim-text);
-            margin-bottom: 12px;
+            margin-bottom: 8px;
+            line-height: 1.35;
+            min-height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
             transition: color 0.3s ease;
         }
 
         .single_service p {
-            font-size: 14px;
+            font-size: 12.5px;
             color: var(--sim-text-muted);
-            line-height: 1.6;
+            line-height: 1.55;
+            margin-bottom: 0;
+            flex-grow: 1;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            text-align: center;
             transition: color 0.3s ease;
         }
 
@@ -1080,13 +1259,16 @@
         .step-box {
             background: var(--sim-surface-card);
             border: 1px solid var(--sim-border);
-            border-radius: 16px;
-            box-shadow: var(--sim-shadow-sm);
-            padding: 30px 22px;
+            border-radius: 14px;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.04);
+            padding: 24px 18px 22px;
             text-align: center;
             height: 100%;
             transition: all 0.25s ease;
             position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .step-box:hover {
@@ -1098,20 +1280,24 @@
         .step-box .title {
             color: var(--sim-text);
             transition: color 0.3s ease;
+            min-height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .step-badge {
-            width: 48px;
-            height: 48px;
+            width: 44px;
+            height: 44px;
             border-radius: 50%;
             background: var(--sim-primary);
             color: #ffffff;
-            font-size: 19px;
+            font-size: 17px;
             font-weight: 800;
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 18px;
+            margin-bottom: 14px;
             box-shadow: 0 4px 12px rgba(13, 110, 253, 0.3);
         }
 
@@ -1609,7 +1795,7 @@
             $search = request('search');
             $searchLower = strtolower(trim($search ?? ''));
             $staticSections = [
-                ['title' => 'Tentang', 'url' => url('/') . '#about', 'desc' => 'Informasi umum program SIMAGANG Diskominfo SP Tuban.'],
+                ['title' => 'Tentang', 'url' => url('/') . '#about', 'desc' => 'Informasi umum program SIMAGANG Pemerintah Kabupaten Tuban.'],
                 ['title' => 'Keunggulan', 'url' => url('/') . '#services', 'desc' => 'Keunggulan dan manfaat program magang.'],
                 ['title' => 'Alur', 'url' => url('/') . '#alur', 'desc' => 'Alur dan tata cara pendaftaran magang.'],
                 ['title' => 'FAQ', 'url' => url('/') . '#faq', 'desc' => 'Pertanyaan yang sering diajukan seputar magang.'],
@@ -1651,7 +1837,7 @@
                 <marquee scrollamount="4" onmouseover="this.stop();" onmouseout="this.start();" class="flex items-center space-x-4 whitespace-nowrap text-[10px] sm:text-xs md:text-sm">
                     <a href="https://tubankab.go.id/" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors">Pemerintah Kabupaten Tuban</a>
                     <span class="mx-2">•</span>
-                    <a href="https://diskominfo.tubankab.go.id/" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors">Dinas Komunikasi dan Informatika, Statistik dan Persandian</a>
+                    <span>Portal Magang Terpadu Seluruh Instansi Organisasi Perangkat Daerah (OPD)</span>
                     <span class="mx-2">•</span>
                     <a href="https://maps.google.com/?q=Jl.+Mastrip+No.+5+A,+Tuban" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors inline-flex items-center">
                         <svg class="w-3.5 h-3.5 inline mr-1 text-primary" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
@@ -1677,8 +1863,8 @@
                             <a class="navbar-brand flex-shrink-0 mr-xl-3" href="{{ url('/') }}">
                                 <img src="{{ asset(get_setting('site_logo', 'traveland/images/logo.png')) }}" alt="SIMAGANG Logo" class="brand-logo-img">
                                 <div>
-                                    <span class="brand-text d-block">{{ get_setting('app_name', 'SIMAGANG') }}</span>
-                                    <span class="brand-sub d-block">{{ get_setting('institution_name', 'Diskominfo SP Kab. Tuban') }}</span>
+                                    <span class="brand-text d-block leading-none mb-1">{{ get_setting('app_name', 'SIMAGANG') }}</span>
+                                    <span class="brand-sub d-block leading-tight">Sistem Informasi Magang<br>Kabupaten Tuban</span>
                                 </div>
                             </a>
 
@@ -1771,7 +1957,7 @@
                         </h1>
 
                         <p class="hero_desc wow fadeInLeft" data-wow-duration="1.2s" data-wow-delay="0.5s">
-                            {{ get_setting('hero_description', 'SIMAGANG (Sistem Informasi Magang) merupakan portal resmi Diskominfo SP Kabupaten Tuban untuk memfasilitasi pendaftaran dan pengelolaan magang secara digital. Dapatkan pengalaman kerja nyata dan kembangkan kompetensimu melalui proses rekrutmen yang transparan, terintegrasi, dan 100% paperless.') }}
+                            {{ get_setting('hero_description', 'SIMAGANG (Sistem Informasi Magang) merupakan portal resmi Pemerintah Kabupaten Tuban untuk memfasilitasi pendaftaran dan pengelolaan magang terintegrasi di seluruh Instansi Organisasi Perangkat Daerah (OPD). Dapatkan pengalaman kerja nyata dan kembangkan kompetensimu melalui proses rekrutmen yang transparan, terintegrasi, dan 100% paperless.') }}
                         </p>
 
                         <div class="d-flex flex-wrap align-items-center gap-3 wow fadeInLeft" data-wow-duration="1.2s" data-wow-delay="0.7s">
@@ -1798,7 +1984,7 @@
 
                     <div class="col-lg-5 text-center wow fadeInRight" data-wow-duration="1.2s" data-wow-delay="0.4s">
                         <div class="hero-preview-frame">
-                            <img src="{{ asset(get_setting('hero_image', 'traveland/images/1.png')) }}" alt="SIMAGANG Diskominfo Tuban Command Center" class="img-fluid w-100" style="height: auto; object-fit: contain;">
+                            <img src="{{ asset(get_setting('hero_image', 'traveland/images/1.png')) }}" alt="SIMAGANG Pemerintah Kabupaten Tuban" class="img-fluid w-100" style="height: auto; object-fit: contain;">
                         </div>
                     </div>
                 </div>
@@ -1807,45 +1993,52 @@
     </section>
 
     <!--====== ABOUT & INSTITUTIONAL VALUES (TENTANG PROGRAM) ======-->
-    <section id="about" class="about_area w-full bg-white py-16 lg:py-24 scroll-mt-24 border-t border-slate-100">
+    <section id="about" class="about_area w-full py-16 lg:py-24 scroll-mt-24 border-t border-slate-100 dark:border-slate-800">
         <div class="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="row align-items-center">
                 <div class="col-lg-6 mb-4 mb-lg-0 wow fadeInLeft" data-wow-duration="1.2s">
                     <div class="about_image_box">
-                        <img src="{{ asset(get_setting('about_image', 'traveland/images/2.png')) }}" alt="Mentoring Magang Diskominfo Tuban" class="img-fluid w-100" style="height: 440px; object-fit: cover;">
+                        <img src="{{ asset(get_setting('about_image', 'traveland/images/2.png')) }}" alt="Mentoring Magang Pemerintah Kabupaten Tuban" class="img-fluid w-100" style="height: 480px; object-fit: cover;">
                     </div>
                 </div>
 
                 <div class="col-lg-6 wow fadeInRight" data-wow-duration="1.2s">
                     <div class="section_title mb-4">
-                        <h2 class="title text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">{!! get_setting('about_title', 'SIMAGANG <span>Diskominfo SP</span>') !!}</h2>
-                        <p class="text-left mx-0 leading-relaxed">
-                            {{ get_setting('about_description', 'Platform pendaftaran magang resmi untuk Mahasiswa dan Siswa SMK. Seluruh proses dilakukan 100% secara digital, terstruktur, dan transparan.') }}
-                        </p>
+                        <h2 class="title text-3xl md:text-4xl font-extrabold mb-3" style="color: var(--sim-text);">{!! get_setting('about_title', 'SIMAGANG <span>Kabupaten Tuban</span>') !!}</h2>
                     </div>
 
-                    <div class="row">
-                        @foreach(\App\Models\LandingContent::getBySection('about') as $item)
-                            <div class="col-sm-6 mb-3">
-                                <div class="about-value-card">
-                                    @if($item->icon)
-                                        <div class="about-value-icon">
-                                            @if(str_starts_with($item->icon, 'bi-'))
-                                                <i class="bi {{ $item->icon }}"></i>
-                                            @elseif(str_starts_with($item->icon, 'lni-'))
-                                                <i class="lni {{ $item->icon }}"></i>
-                                            @else
-                                                <i class="bi bi-check-circle"></i>
-                                            @endif
-                                        </div>
-                                    @endif
-                                    <div>
-                                        <h5 class="about-value-title">{{ $item->title }}</h5>
-                                        <p class="about-value-desc">{{ $item->description }}</p>
-                                    </div>
-                                </div>
+                    <div class="about-narrative">
+                        <p class="leading-relaxed">
+                            <strong>SIMAGANG (Sistem Informasi Magang)</strong> adalah portal resmi terpadu Pemerintah Kabupaten Tuban yang memfasilitasi mahasiswa dan siswa SMK untuk mendapatkan pengalaman kerja nyata di seluruh Organisasi Perangkat Daerah (OPD) se-Kabupaten Tuban.
+                        </p>
+
+                        <p class="leading-relaxed">
+                            Seluruh tahapan diselenggarakan <strong>100% digital dan paperless</strong>—mulai dari pengajuan berkas, pemantauan seleksi secara <em>real-time</em>, bimbingan intensif bersama mentor ASN, hingga penerbitan sertifikat kelulusan digital resmi ber-QR Code.
+                        </p>
+
+                        <div class="pt-1 mb-4">
+                            <div class="about-feature-item">
+                                <i class="bi bi-check-circle-fill about-feature-icon"></i>
+                                <span>Pendaftaran dan verifikasi berkas daring cepat tanpa dokumen fisik.</span>
                             </div>
-                        @endforeach
+                            <div class="about-feature-item">
+                                <i class="bi bi-check-circle-fill about-feature-icon"></i>
+                                <span>Pendampingan intensif oleh praktisi ASN pada proyek nyata daerah.</span>
+                            </div>
+                            <div class="about-feature-item">
+                                <i class="bi bi-check-circle-fill about-feature-icon"></i>
+                                <span>Penerbitan Surat Balasan Resmi dan Sertifikat Digital terverifikasi.</span>
+                            </div>
+                        </div>
+
+                        <div class="d-flex align-items-center gap-3 pt-2 flex-wrap">
+                            <a href="#positions" class="main-btn page-scroll d-inline-flex align-items-center gap-2 text-sm font-bold py-2.5 px-4 rounded-xl">
+                                <i class="bi bi-briefcase-fill"></i> Lihat Pilihan Formasi
+                            </a>
+                            <a href="#alur" class="main-btn-outline page-scroll d-inline-flex align-items-center gap-2 text-sm font-bold py-2.5 px-4 rounded-xl">
+                                <i class="bi bi-diagram-3"></i> Pelajari Alur Magang
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1952,119 +2145,115 @@
                     @endif
                 @endif
             @else
-                <div id="formasi-subtitle-trigger" class="w-full flex items-center justify-between mb-6 mt-4">
-                    <h3 class="text-lg sm:text-xl font-bold flex items-center gap-2" style="color: var(--sim-text);">
-                        <i class="bi bi-briefcase-fill" style="color: var(--sim-text);"></i> Formasi magang yang tersedia
-                    </h3>
+                <div id="formasi-subtitle-trigger" class="w-full flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 mt-4">
+                    <div>
+                        <h3 class="text-lg sm:text-xl font-bold flex items-center gap-2 mb-1" style="color: var(--sim-text);">
+                            <i class="bi bi-buildings-fill text-indigo-600 dark:text-indigo-400"></i> Instansi OPD Penyelenggara Magang
+                        </h3>
+                        <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mb-0">
+                            Arahkan kursor atau klik kartu instansi untuk melihat pilihan posisi / bidang magang yang tersedia.
+                        </p>
+                    </div>
                     <!-- Carousel Navigation Controls -->
-                    <div class="flex items-center gap-2.5">
-                        <button id="pos-carousel-prev" type="button" aria-label="Sebelumnya" title="Geser ke kiri" class="w-11 h-11 rounded-full bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 hover:bg-blue-600 hover:text-white dark:hover:bg-blue-600 hover:border-blue-600 hover:scale-105 active:scale-95 flex items-center justify-center transition-all duration-200 shadow-md disabled:opacity-30 disabled:pointer-events-none disabled:scale-100 cursor-pointer">
-                            <i class="bi bi-chevron-left text-lg"></i>
+                    <div class="flex items-center gap-2.5 self-end sm:self-auto">
+                        <button id="pos-carousel-prev" type="button" aria-label="Sebelumnya" title="Geser ke kiri" class="w-10 h-10 rounded-full bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 hover:bg-blue-600 hover:text-white dark:hover:bg-blue-600 hover:border-blue-600 hover:scale-105 active:scale-95 flex items-center justify-center transition-all duration-200 shadow-sm cursor-pointer">
+                            <i class="bi bi-chevron-left text-base"></i>
                         </button>
-                        <button id="pos-carousel-next" type="button" aria-label="Selanjutnya" title="Geser ke kanan" class="w-11 h-11 rounded-full bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 hover:bg-blue-600 hover:text-white dark:hover:bg-blue-600 hover:border-blue-600 hover:scale-105 active:scale-95 flex items-center justify-center transition-all duration-200 shadow-md disabled:opacity-30 disabled:pointer-events-none disabled:scale-100 cursor-pointer">
-                            <i class="bi bi-chevron-right text-lg"></i>
+                        <button id="pos-carousel-next" type="button" aria-label="Selanjutnya" title="Geser ke kanan" class="w-10 h-10 rounded-full bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 hover:bg-blue-600 hover:text-white dark:hover:bg-blue-600 hover:border-blue-600 hover:scale-105 active:scale-95 flex items-center justify-center transition-all duration-200 shadow-sm cursor-pointer">
+                            <i class="bi bi-chevron-right text-base"></i>
                         </button>
                     </div>
                 </div>
 
-                {{-- Dynamic Positions Horizontal Carousel --}}
+                @php
+                    $carouselOpds = collect();
+                    if (isset($opds) && $opds->isNotEmpty()) {
+                        $repeats = max(1, (int) ceil(6 / max(1, $opds->count())));
+                        for ($r = 0; $r < $repeats; $r++) {
+                            $carouselOpds = $carouselOpds->concat($opds);
+                        }
+                    }
+                @endphp
+
+                {{-- Dynamic OPDs Horizontal Carousel (Card Berjalan) --}}
                 <div class="relative w-full overflow-hidden p-3 -m-3">
                     <div id="positions-carousel" class="flex overflow-x-auto no-scrollbar gap-5 sm:gap-6 pb-4 pt-2 w-full cursor-grab active:cursor-grabbing select-none" style="scrollbar-width: none; -ms-overflow-style: none;">
-                        @if($positions->isNotEmpty())
-                            @foreach($positions as $pos)
+                        @if($carouselOpds->isNotEmpty())
+                            @foreach($carouselOpds as $opd)
                                 <div class="snap-start flex-shrink-0 w-[84%] sm:w-[47%] lg:w-[30.5%] flex flex-col">
-                                    <div class="position-card flex flex-col h-full w-full rounded-2xl shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6">
-                                        <div class="flex-grow flex flex-col">
-                                            <div class="mb-2">
+                                    <div class="position-card opd-card-trigger flex flex-col h-full w-full rounded-2xl shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 border p-6 cursor-pointer relative group"
+                                         data-toggle="modal"
+                                         data-target="#opdModal{{ $opd->id }}"
+                                         data-bs-toggle="modal"
+                                         data-bs-target="#opdModal{{ $opd->id }}"
+                                         data-opd-target="#opdModal{{ $opd->id }}">
+                                        <div class="flex-grow flex flex-col pointer-events-none">
+                                            <div class="mb-3 flex items-center justify-between gap-2 flex-wrap">
                                                 <span class="position-badge">
-                                                    <i class="bi bi-mortarboard-fill"></i> Mahasiswa & SMK
+                                                    <i class="bi bi-buildings-fill"></i> Instansi OPD
                                                 </span>
-                                            </div>
-                                            <h4 class="position-title" style="color: black;">{{ $pos->nama_posisi }}</h4>
-                                            <p class="position-desc">{{ Str::limit($pos->deskripsi, 130) }}</p>
-                                        </div>
-                                        <div class="mt-auto">
-                                            @auth
-                                                @if(auth()->user()->isAdmin() || auth()->user()->role === 'admin' || auth()->user()->is_admin)
-                                                    <div class="position-meta">
-                                                        <div class="d-flex justify-content-between">
-                                                            <span>Terakhir Diperbarui:</span>
-                                                            <strong style="color: black;">{{ $pos->updated_at?->locale('id')->translatedFormat('d M Y') ?? '-' }}</strong>
-                                                        </div>
-                                                    </div>
-                                                @endif
-                                            @endauth
-                                            @auth
-                                                @if(auth()->user()->isPeserta())
-                                                    <a href="{{ route('participant.registrations.create', ['position_id' => $pos->id]) }}" class="main-btn w-100 justify-content-center">
-                                                        Daftar Formasi Ini
-                                                    </a>
+                                                @if($opd->positions_count > 0)
+                                                    <span class="text-xs font-bold px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">
+                                                        <i class="bi bi-briefcase-fill me-1"></i>{{ $opd->positions_count }} Posisi / Bidang
+                                                    </span>
                                                 @else
-                                                    <a href="{{ route('admin.positions.show', $pos->id) }}" class="main-btn w-100 justify-content-center">
-                                                        Kelola Formasi
-                                                    </a>
+                                                    <span class="opd-badge-inactive text-xs font-semibold px-2 py-0.5 rounded-full border">
+                                                        Belum Buka
+                                                    </span>
                                                 @endif
-                                            @else
-                                                <a href="{{ route('register') }}" class="main-btn w-100 justify-content-center">
-                                                    Daftar Sekarang
-                                                </a>
-                                            @endauth
+                                            </div>
+
+                                            <h4 class="position-title mb-2 group-hover:text-blue-500 transition-colors">
+                                                {{ $opd->name }}
+                                            </h4>
+                                            <p class="position-desc mb-3">
+                                                {{ $opd->address ?? 'Pemerintah Kabupaten Tuban' }}
+                                            </p>
+
+                                            {{-- Preview Posisi / Bidang Popover on Hover --}}
+                                            <div class="opd-preview-box mt-2 mb-3 p-2.5 rounded-xl border text-xs">
+                                                <div class="opd-preview-heading font-bold mb-1.5 flex items-center gap-1.5">
+                                                    <i class="bi bi-grid-fill text-indigo-500"></i> Posisi / Bidang:
+                                                </div>
+                                                @if($opd->positions->isNotEmpty())
+                                                    <div class="flex flex-wrap gap-1">
+                                                        @foreach($opd->positions->take(3) as $pos)
+                                                            <span class="opd-division-chip inline-block px-2 py-0.5 rounded-md text-[11px] font-medium border text-truncate max-w-[150px]">
+                                                                {{ $pos->nama_posisi }}
+                                                            </span>
+                                                        @endforeach
+                                                        @if($opd->positions->count() > 3)
+                                                            <span class="inline-block px-1.5 py-0.5 rounded-md text-[10.5px] font-semibold text-blue-600 bg-blue-50 dark:bg-blue-900/40 dark:text-blue-300">
+                                                                +{{ $opd->positions->count() - 3 }} lainnya
+                                                            </span>
+                                                        @endif
+                                                    </div>
+                                                @else
+                                                    <span class="text-slate-400 text-[11px] italic">Belum ada posisi / bidang dibuka</span>
+                                                @endif
+                                            </div>
+                                        </div>
+
+                                        <div class="mt-auto pt-3 border-t border-slate-100 dark:border-slate-800">
+                                            <button type="button" class="main-btn w-100 justify-content-center py-2 text-xs font-bold gap-1.5"
+                                                    data-toggle="modal"
+                                                    data-target="#opdModal{{ $opd->id }}"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#opdModal{{ $opd->id }}"
+                                                    data-opd-target="#opdModal{{ $opd->id }}">
+                                                <i class="bi bi-eye-fill"></i> Lihat Posisi / Bidang
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
                             @endforeach
                         @else
-                            {{-- Default Positions sample --}}
-                            <div class="snap-start flex-shrink-0 w-[84%] sm:w-[47%] lg:w-[30.5%] flex flex-col">
-                                <div class="position-card flex flex-col h-full w-full rounded-2xl shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
-                                    <div class="flex-grow flex flex-col">
-                                        <span class="position-badge"><i class="bi bi-mortarboard-fill"></i> Mahasiswa & SMK</span>
-                                        <h4 class="position-title" style="color: black;">Pengembangan Web & Aplikasi SPBE</h4>
-                                        <p class="position-desc">Pengembangan dan integrasi sistem informasi web pemerintah daerah berbasis Laravel, API SPBE, dan manajemen database MySQL.</p>
-                                    </div>
-                                    <div class="mt-auto">
-                                        <div class="position-meta">
-                                            <div class="d-flex justify-content-between mb-1"><span>Bidang:</span><strong style="color: black;">Aplikasi & Informatika</strong></div>
-                                            <div class="d-flex justify-content-between"><span>Peserta:</span><strong style="color: black;">Mahasiswa / SMK</strong></div>
-                                        </div>
-                                        <a href="{{ route('register') }}" class="main-btn w-100 justify-content-center">Daftar Sekarang</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="snap-start flex-shrink-0 w-[84%] sm:w-[47%] lg:w-[30.5%] flex flex-col">
-                                <div class="position-card flex flex-col h-full w-full rounded-2xl shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
-                                    <div class="flex-grow flex flex-col">
-                                        <span class="position-badge"><i class="bi bi-mortarboard-fill"></i> Mahasiswa & SMK</span>
-                                        <h4 class="position-title" style="color: black;">Media Sosial & Konten Kreatif</h4>
-                                        <p class="position-desc">Produksi konten visual publikasi daerah, desain grafis, fotografi, liputan berita, dan pengelolaan media sosial resmi Pemkab Tuban.</p>
-                                    </div>
-                                    <div class="mt-auto">
-                                        <div class="position-meta">
-                                            <div class="d-flex justify-content-between mb-1"><span>Bidang:</span><strong style="color: black;">Komunikasi & Informasi Publik</strong></div>
-                                            <div class="d-flex justify-content-between"><span>Peserta:</span><strong style="color: black;">Mahasiswa / SMK</strong></div>
-                                        </div>
-                                        <a href="{{ route('register') }}" class="main-btn w-100 justify-content-center">Daftar Sekarang</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="snap-start flex-shrink-0 w-[84%] sm:w-[47%] lg:w-[30.5%] flex flex-col">
-                                <div class="position-card flex flex-col h-full w-full rounded-2xl shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
-                                    <div class="flex-grow flex flex-col">
-                                        <span class="position-badge"><i class="bi bi-mortarboard-fill"></i> Mahasiswa & SMK</span>
-                                        <h4 class="position-title" style="color: black;">Jaringan & Keamanan Informasi</h4>
-                                        <p class="position-desc">Pemeliharaan infrastruktur jaringan fiber optik, server intranet dinas, dan monitoring pengamanan informasi persandian.</p>
-                                    </div>
-                                    <div class="mt-auto">
-                                        <div class="position-meta">
-                                            <div class="d-flex justify-content-between mb-1"><span>Bidang:</span><strong style="color: black;">Persandian & Jaringan</strong></div>
-                                            <div class="d-flex justify-content-between"><span>Peserta:</span><strong style="color: black;">Mahasiswa / SMK</strong></div>
-                                        </div>
-                                        <a href="{{ route('register') }}" class="main-btn w-100 justify-content-center">Daftar Sekarang</a>
-                                    </div>
-                                </div>
+                            <div class="p-6 text-center text-slate-500 w-full">
+                                Belum ada data instansi OPD yang aktif.
                             </div>
                         @endif
                     </div>
+                </div>
             </div>
             @endif
         </div>
@@ -2078,6 +2267,10 @@
             let direction = 1; // 1 = moving right, -1 = moving left
             let speed = 1.0; // Adjust for scroll speed (pixels per frame)
             let isPaused = false;
+
+            window.setCarouselPaused = function(val) {
+                isPaused = !!val;
+            };
 
             // Pause on hover or touch so users can click the buttons
             carousel.addEventListener('mouseenter', () => isPaused = true);
@@ -2135,19 +2328,19 @@
 
     <!--====== KEUNGGULAN & FASILITAS ======-->
     <section id="services" class="services_area py-16 lg:py-20 scroll-mt-24">
-        <div class="container">
+        <div class="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="row justify-content-center">
                 <div class="col-lg-8">
-                    <div class="section_title text-center mb-12">
-                        <h2 class="title">Mengapa Memilih Magang di <br><span>Diskominfo SP Tuban?</span></h2>
+                    <div class="section_title text-center mb-8 md:mb-10">
+                        <h2 class="title">Mengapa Memilih Magang di <br><span>Pemerintah Kabupaten Tuban?</span></h2>
                     </div>
                 </div>
             </div>
 
-            <div class="row">
+            <div class="row g-3 g-md-4">
                 @foreach(\App\Models\LandingContent::getBySection('advantage') as $item)
-                    <div class="col-lg-3 col-sm-6 mb-4">
-                        <div class="single_service wow fadeInUp" data-wow-duration="1.2s">
+                    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 d-flex mb-3 mb-md-4">
+                        <div class="single_service wow fadeInUp w-100" data-wow-duration="1.2s">
                             @if($item->icon)
                                 <div class="services_icon">
                                     @if(str_starts_with($item->icon, 'bi-'))
@@ -2170,19 +2363,19 @@
 
     <!--====== ALUR PENDAFTARAN ======-->
     <section id="alur" class="destination_area py-16 lg:py-20 scroll-mt-24">
-        <div class="container">
+        <div class="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="row justify-content-center">
                 <div class="col-lg-8">
-                    <div class="section_title text-center mb-12">
+                    <div class="section_title text-center mb-8 md:mb-10">
                         <h2 class="title">Alur Pendaftaran <br> 4 Langkah Mudah <span>Menjadi Peserta</span></h2>
                     </div>
                 </div>
             </div>
 
-            <div class="row">
+            <div class="row g-3 g-md-4">
                 @foreach(\App\Models\LandingContent::getBySection('workflow') as $item)
-                    <div class="col-lg-3 col-sm-6 mb-4">
-                        <div class="step-box wow fadeInUp" data-wow-duration="1.2s">
+                    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 d-flex mb-3 mb-md-4">
+                        <div class="step-box wow fadeInUp w-100" data-wow-duration="1.2s">
                             <div class="step-badge">
                                 @if($item->icon && str_starts_with($item->icon, 'bi-'))
                                     <i class="bi {{ $item->icon }}"></i>
@@ -2194,8 +2387,8 @@
                                     {{ $loop->iteration }}
                                 @endif
                             </div>
-                            <h4 class="title mb-2" style="font-size: 17px; font-weight: 700;">{{ $item->title }}</h4>
-                            <p class="text-muted small">{{ $item->description }}</p>
+                            <h4 class="title mb-2" style="font-size: 16px; font-weight: 700;">{{ $item->title }}</h4>
+                            <p class="text-muted small mb-0">{{ $item->description }}</p>
                         </div>
                     </div>
                 @endforeach
@@ -2256,7 +2449,7 @@
                         </div>
                         <div class="blog_content">
                             <div class="blog_meta">
-                                <span><i class="bi bi-person mr-1"></i> Admin Diskominfo</span>
+                                <span><i class="bi bi-person mr-1"></i> Admin Pemkab Tuban</span>
                                 <span><i class="bi bi-bookmark-check mr-1"></i> Panduan Resmi</span>
                             </div>
                             <h4 class="blog_title">Panduan Lengkap Pendaftaran & Upload Berkas Magang</h4>
@@ -2448,7 +2641,7 @@
             <!-- COPYRIGHT SECTION -->
             <div class="border-t border-slate-800/40 py-4 text-center text-xs text-slate-400">
                 <p class="mb-0 leading-relaxed">
-                    &copy; {{ date('Y') }} {{ get_setting('footer_copyright', 'SIMAGANG Diskominfo SP Kabupaten Tuban') }}
+                    &copy; {{ date('Y') }} {{ get_setting('footer_copyright', 'SIMAGANG — Sistem Informasi Magang Pemerintah Kabupaten Tuban') }}
                 </p>
             </div>
         </div>
@@ -2482,7 +2675,7 @@
                 </div>
                 <div>
                     <h3 class="text-lg font-bold text-gray-900 leading-tight">Hubungi Kami</h3>
-                    <p class="text-xs text-gray-500">Tim Diskominfo SP Tuban siap menjawab pertanyaan Anda.</p>
+                    <p class="text-xs text-gray-500">Tim Admin SIMAGANG Pemerintah Kabupaten Tuban siap menjawab pertanyaan Anda.</p>
                 </div>
             </div>
 
@@ -2581,6 +2774,213 @@
         </div>
     </div>
 
+    {{-- Modals Pop-up Posisi / Bidang per OPD (Root Level for Bootstrap 4/5 Compatibility) --}}
+    @if(isset($opds) && $opds->isNotEmpty())
+        @foreach($opds as $opdModalItem)
+            <div class="modal fade" id="opdModal{{ $opdModalItem->id }}" tabindex="-1" role="dialog" aria-labelledby="opdModalLabel{{ $opdModalItem->id }}" aria-hidden="true" style="z-index: 1060;">
+                <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable" role="document">
+                    <div class="modal-content rounded-2xl border-0 shadow-2xl overflow-hidden">
+                        {{-- Header --}}
+                        <div class="modal-header border-b px-5 py-4 d-flex align-items-center justify-content-between">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="w-11 h-11 rounded-xl bg-blue-600 text-white flex items-center justify-center text-xl flex-shrink-0 shadow-sm">
+                                    <i class="bi bi-buildings"></i>
+                                </div>
+                                <div>
+                                    <div class="d-flex align-items-center gap-2 flex-wrap mb-0.5">
+                                        <span class="badge bg-blue-100 text-blue-800 dark:bg-blue-900/60 dark:text-blue-200 text-xs px-2.5 py-0.5 rounded-full font-semibold">
+                                            {{ $opdModalItem->code }}
+                                        </span>
+                                        <span class="badge {{ $opdModalItem->positions_count > 0 ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/60 dark:text-emerald-200' : 'bg-slate-200 text-slate-700' }} text-xs px-2.5 py-0.5 rounded-full font-bold">
+                                            {{ $opdModalItem->positions_count }} Posisi / Bidang Aktif
+                                        </span>
+                                    </div>
+                                    <h5 class="modal-title font-extrabold text-base sm:text-lg mb-0" id="opdModalLabel{{ $opdModalItem->id }}">
+                                        {{ $opdModalItem->name }}
+                                    </h5>
+                                </div>
+                            </div>
+                            <button type="button" class="close text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 border-0 bg-transparent p-0 m-0" data-dismiss="modal" data-bs-dismiss="modal" aria-label="Close" style="font-size: 28px; line-height: 1; opacity: 0.8; outline: none; cursor: pointer;">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+
+                        {{-- Body --}}
+                        <div class="modal-body p-4 sm:p-5">
+                            @if($opdModalItem->positions->isNotEmpty())
+                                <div class="alert alert-info bg-blue-50 dark:bg-blue-950/40 text-blue-900 dark:text-blue-200 border border-blue-200 dark:border-blue-800 rounded-xl py-2.5 px-3.5 text-xs mb-4 d-flex align-items-center gap-2 shadow-xs">
+                                    <i class="bi bi-info-circle-fill fs-5 text-blue-600 flex-shrink-0"></i>
+                                    <span>Pilih salah satu posisi / bidang magang di bawah ini untuk memulai pengajuan pendaftaran daring Anda.</span>
+                                </div>
+
+                                <div class="row g-3">
+                                    @foreach($opdModalItem->positions as $pos)
+                                        <div class="col-12 col-md-6 mb-3">
+                                            <div class="modal-position-card p-4 rounded-xl border h-100 d-flex flex-column justify-content-between hover:border-blue-400 transition-all duration-200">
+                                                <div>
+                                                    <div class="d-flex align-items-center justify-content-between gap-1 mb-2">
+                                                        <span class="badge bg-blue-50 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300 border border-blue-200 dark:border-blue-800 text-[11px] font-bold">
+                                                            @if(($pos->tipe_pendaftar ?? 'all') === 'siswa')
+                                                                <i class="bi bi-backpack-fill me-1"></i> Khusus Siswa (SMK)
+                                                            @elseif(($pos->tipe_pendaftar ?? 'all') === 'mahasiswa')
+                                                                <i class="bi bi-mortarboard-fill me-1"></i> Khusus Mahasiswa
+                                                            @else
+                                                                <i class="bi bi-people-fill me-1"></i> Mahasiswa &amp; SMK
+                                                            @endif
+                                                        </span>
+                                                        @if($pos->kuota)
+                                                            <span class="badge bg-white dark:bg-slate-700 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-600 text-[11px]">
+                                                                Kuota: {{ $pos->kuota }}
+                                                            </span>
+                                                        @endif
+                                                    </div>
+                                                    <h6 class="fw-bold text-base mb-1.5 leading-snug">
+                                                        {{ $pos->nama_posisi }}
+                                                    </h6>
+                                                    <p class="text-muted small mb-2 line-clamp-2 leading-relaxed">
+                                                        {{ $pos->deskripsi ?? 'Tidak ada deskripsi rinci.' }}
+                                                    </p>
+
+                                                    {{-- Box Kualifikasi Interaktif (Siswa vs Mahasiswa) --}}
+                                                    @php
+                                                        $tipePendaftar = $pos->tipe_pendaftar ?? 'all';
+                                                        $kualSiswa = trim((string)($pos->kualifikasi_siswa ?? ''));
+                                                        $kualMahasiswa = trim((string)($pos->kualifikasi_mahasiswa ?? ''));
+                                                        $kualUmum = trim((string)($pos->kualifikasi ?? ''));
+                                                    @endphp
+
+                                                    <div class="qualification-box text-[11.5px] mb-3 p-2.5 rounded-xl border bg-slate-50/70 dark:bg-slate-800/60 border-slate-200 dark:border-slate-700">
+                                                        @if($tipePendaftar === 'siswa')
+                                                            {{-- Khusus Siswa --}}
+                                                            <div class="d-flex align-items-center justify-content-between mb-1">
+                                                                <strong class="text-slate-700 dark:text-slate-200 text-xs">
+                                                                    <i class="bi bi-backpack text-primary me-1"></i> Kualifikasi Siswa (SMK):
+                                                                </strong>
+                                                            </div>
+                                                            <div class="text-slate-600 dark:text-slate-300 text-[11px] leading-relaxed">
+                                                                {!! nl2br(e($kualSiswa ?: ($kualUmum ?: 'Siswa aktif SMK jurusan terkait.'))) !!}
+                                                            </div>
+                                                        @elseif($tipePendaftar === 'mahasiswa')
+                                                            {{-- Khusus Mahasiswa --}}
+                                                            <div class="d-flex align-items-center justify-content-between mb-1">
+                                                                <strong class="text-slate-700 dark:text-slate-200 text-xs">
+                                                                    <i class="bi bi-mortarboard text-primary me-1"></i> Kualifikasi Mahasiswa:
+                                                                </strong>
+                                                            </div>
+                                                            <div class="text-slate-600 dark:text-slate-300 text-[11px] leading-relaxed">
+                                                                {!! nl2br(e($kualMahasiswa ?: ($kualUmum ?: 'Mahasiswa aktif D3/D4/S1 bidang terkait.'))) !!}
+                                                            </div>
+                                                        @else
+                                                            {{-- Switch Interaktif: Siswa vs Mahasiswa --}}
+                                                            <div class="d-flex align-items-center justify-content-between gap-1 mb-2 flex-wrap">
+                                                                <strong class="text-slate-800 dark:text-slate-100 text-xs d-flex align-items-center gap-1 font-bold">
+                                                                    <i class="bi bi-ui-checks-grid text-blue-600 fs-6"></i>
+                                                                    <span>Kualifikasi:</span>
+                                                                    <span class="badge bg-amber-100 text-amber-800 dark:bg-amber-900/60 dark:text-amber-200 border border-amber-300 dark:border-amber-700 text-[9.5px] px-1.5 py-0.5 rounded font-bold ms-0.5">
+                                                                        <i class="bi bi-hand-index-thumb-fill me-0.5"></i> Klik Pilihan
+                                                                    </span>
+                                                                </strong>
+                                                                <div class="d-inline-flex p-1 bg-slate-100 dark:bg-slate-800 rounded-lg border border-slate-300 dark:border-slate-600 shadow-2xs gap-1.5 qual-switch-group-{{ $pos->id }}">
+                                                                    <button type="button"
+                                                                            id="btn-qual-siswa-{{ $pos->id }}"
+                                                                            class="btn btn-xs py-1 px-2.5 rounded-md font-bold text-[11px] transition-all bg-white dark:bg-slate-700 text-slate-800 dark:text-slate-100 border border-slate-300 dark:border-slate-500 shadow-2xs hover:bg-blue-50 dark:hover:bg-slate-600 hover:text-blue-600 hover:border-blue-400 qual-btn-siswa cursor-pointer d-inline-flex align-items-center gap-1"
+                                                                            onclick="window.switchKualifikasi('{{ $pos->id }}', 'siswa', this)"
+                                                                            title="Klik untuk melihat persyaratan Siswa SMK">
+                                                                        <i class="bi bi-backpack-fill text-blue-600 qual-icon"></i>
+                                                                        <span>Siswa</span>
+                                                                    </button>
+                                                                    <button type="button"
+                                                                            id="btn-qual-mhs-{{ $pos->id }}"
+                                                                            class="btn btn-xs py-1 px-2.5 rounded-md font-bold text-[11px] transition-all bg-white dark:bg-slate-700 text-slate-800 dark:text-slate-100 border border-slate-300 dark:border-slate-500 shadow-2xs hover:bg-indigo-50 dark:hover:bg-slate-600 hover:text-indigo-600 hover:border-indigo-400 qual-btn-mhs cursor-pointer d-inline-flex align-items-center gap-1"
+                                                                            onclick="window.switchKualifikasi('{{ $pos->id }}', 'mahasiswa', this)"
+                                                                            title="Klik untuk melihat persyaratan Mahasiswa">
+                                                                        <i class="bi bi-mortarboard-fill text-indigo-600 qual-icon"></i>
+                                                                        <span>Mahasiswa</span>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+
+                                                            {{-- Placeholder / Instruksi Awal (Sebelum tombol diklik) --}}
+                                                            <div id="qual-placeholder-{{ $pos->id }}" class="py-2.5 px-3 rounded-xl border border-dashed border-blue-300 dark:border-blue-700/80 bg-blue-50/70 dark:bg-blue-950/40 text-center transition-all">
+                                                                <div class="text-blue-800 dark:text-blue-300 font-bold text-[11.5px] d-flex align-items-center justify-content-center gap-1.5 mb-0.5">
+                                                                    <i class="bi bi-hand-index-thumb-fill text-blue-600"></i>
+                                                                    <span>Silakan Pilih Jenjang di Atas</span>
+                                                                </div>
+                                                                <div class="text-slate-600 dark:text-slate-400 text-[11px] leading-snug">
+                                                                    Klik tombol <span class="badge bg-white dark:bg-slate-800 text-blue-700 dark:text-blue-300 border border-blue-300 dark:border-blue-600 font-bold px-1.5 py-0.5">Siswa</span> atau <span class="badge bg-white dark:bg-slate-800 text-indigo-700 dark:text-indigo-300 border border-indigo-300 dark:border-indigo-600 font-bold px-1.5 py-0.5">Mahasiswa</span> untuk melihat rincian syarat kualifikasi.
+                                                                </div>
+                                                            </div>
+
+                                                            {{-- Konten Kualifikasi Siswa (Awalnya Tersembunyi) --}}
+                                                            <div id="qual-siswa-{{ $pos->id }}" class="p-2.5 rounded-xl border border-blue-200 dark:border-blue-900/60 bg-blue-50/50 dark:bg-blue-950/30 text-slate-700 dark:text-slate-300 text-xs leading-relaxed transition-all" style="display: none;">
+                                                                <div class="d-flex align-items-center justify-content-between mb-1 text-blue-900 dark:text-blue-300 font-bold text-[11px]">
+                                                                    <span><i class="bi bi-backpack-fill text-blue-600 me-1"></i> Syarat Kualifikasi Siswa (SMK):</span>
+                                                                    <span class="badge bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 text-[9.5px]">SMK Aktif</span>
+                                                                </div>
+                                                                <div class="text-slate-700 dark:text-slate-300 text-[11.5px] leading-relaxed">
+                                                                    {!! nl2br(e($kualSiswa ?: ($kualUmum ?: 'Siswa aktif SMK jurusan terkait dengan surat pengantar resmi sekolah.'))) !!}
+                                                                </div>
+                                                            </div>
+
+                                                            {{-- Konten Kualifikasi Mahasiswa (Awalnya Tersembunyi) --}}
+                                                            <div id="qual-mahasiswa-{{ $pos->id }}" class="p-2.5 rounded-xl border border-indigo-200 dark:border-indigo-900/60 bg-indigo-50/50 dark:bg-indigo-950/30 text-slate-700 dark:text-slate-300 text-xs leading-relaxed transition-all" style="display: none;">
+                                                                <div class="d-flex align-items-center justify-content-between mb-1 text-indigo-900 dark:text-indigo-300 font-bold text-[11px]">
+                                                                    <span><i class="bi bi-mortarboard-fill text-indigo-600 me-1"></i> Syarat Kualifikasi Mahasiswa:</span>
+                                                                    <span class="badge bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-200 text-[9.5px]">D3 / D4 / S1</span>
+                                                                </div>
+                                                                <div class="text-slate-700 dark:text-slate-300 text-[11.5px] leading-relaxed">
+                                                                    {!! nl2br(e($kualMahasiswa ?: ($kualUmum ?: 'Mahasiswa aktif program D3/D4/S1 jurusan terkait.'))) !!}
+                                                                </div>
+                                                            </div>
+                                                        @endif
+                                                    </div>
+                                                </div>
+                                                <div class="pt-2 border-top border-slate-200/80 dark:border-slate-700/60">
+                                                    @auth
+                                                        @if(auth()->user()->isPeserta())
+                                                            <a href="{{ route('participant.registrations.create', ['position_id' => $pos->id]) }}" class="main-btn w-100 justify-content-center py-2 text-xs font-bold">
+                                                                Daftar Posisi Ini <i class="bi bi-arrow-right ms-1"></i>
+                                                            </a>
+                                                        @else
+                                                            <a href="{{ route('admin.positions.show', $pos->id) }}" class="main-btn w-100 justify-content-center py-2 text-xs font-bold">
+                                                                Kelola Posisi <i class="bi bi-arrow-right ms-1"></i>
+                                                            </a>
+                                                        @endif
+                                                    @else
+                                                        <a href="{{ route('register', ['position' => $pos->id]) }}" class="main-btn w-100 justify-content-center py-2 text-xs font-bold">
+                                                            Daftar Sekarang <i class="bi bi-arrow-right ms-1"></i>
+                                                        </a>
+                                                    @endauth
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            @else
+                                <div class="text-center py-8">
+                                    <div class="w-16 h-16 mx-auto mb-3 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-400 text-3xl">
+                                        <i class="bi bi-inbox"></i>
+                                    </div>
+                                    <h6 class="fw-bold mb-1">
+                                        Belum Ada Posisi / Bidang Terbuka di {{ $opdModalItem->name }}
+                                    </h6>
+                                    <p class="text-muted small mb-0">
+                                        Saat ini instansi ini belum membuka lowongan magang baru. Silakan pilih instansi OPD lainnya pada daftar kartu.
+                                    </p>
+                                </div>
+                            @endif
+                        </div>
+
+                        {{-- Footer --}}
+                        <div class="modal-footer border-t px-5 py-3">
+                            <button type="button" class="btn btn-secondary btn-sm px-4 rounded-xl" data-dismiss="modal" data-bs-dismiss="modal">Tutup</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endforeach
+    @endif
+
 
     <!--====== JavaScript Dependencies ======-->
     <script src="{{ asset('traveland/js/vendor/jquery-1.12.4.min.js') }}"></script>
@@ -2596,11 +2996,124 @@
     <script src="{{ asset('traveland/js/main.js') }}"></script>
 
     <script>
+        // Interactive Kualifikasi Switcher (Siswa vs Mahasiswa)
+        window.switchKualifikasi = function(posId, type, btnEl) {
+            var placeholderEl = document.getElementById('qual-placeholder-' + posId);
+            var siswaEl = document.getElementById('qual-siswa-' + posId);
+            var mhsEl = document.getElementById('qual-mahasiswa-' + posId);
+
+            var btnSiswa = document.getElementById('btn-qual-siswa-' + posId);
+            var btnMhs = document.getElementById('btn-qual-mhs-' + posId);
+
+            // Sembunyikan instruksi awal
+            if (placeholderEl) {
+                placeholderEl.style.display = 'none';
+            }
+
+            var inactiveClass = 'btn btn-xs py-1 px-2.5 rounded-md font-bold text-[11px] transition-all bg-white dark:bg-slate-700 text-slate-800 dark:text-slate-100 border border-slate-300 dark:border-slate-500 shadow-2xs hover:bg-slate-100 dark:hover:bg-slate-600 cursor-pointer d-inline-flex align-items-center gap-1';
+
+            if (type === 'siswa') {
+                if (siswaEl) siswaEl.style.display = 'block';
+                if (mhsEl) mhsEl.style.display = 'none';
+
+                if (btnSiswa) {
+                    btnSiswa.className = 'btn btn-xs py-1 px-2.5 rounded-md font-bold text-[11px] transition-all bg-blue-600 text-white border border-blue-600 shadow-xs qual-btn-siswa cursor-pointer d-inline-flex align-items-center gap-1';
+                    var iconS = btnSiswa.querySelector('.qual-icon');
+                    if (iconS) iconS.className = 'bi bi-backpack-fill text-white qual-icon';
+                }
+                if (btnMhs) {
+                    btnMhs.className = inactiveClass + ' qual-btn-mhs';
+                    var iconM = btnMhs.querySelector('.qual-icon');
+                    if (iconM) iconM.className = 'bi bi-mortarboard-fill text-indigo-600 qual-icon';
+                }
+            } else {
+                if (siswaEl) siswaEl.style.display = 'none';
+                if (mhsEl) mhsEl.style.display = 'block';
+
+                if (btnMhs) {
+                    btnMhs.className = 'btn btn-xs py-1 px-2.5 rounded-md font-bold text-[11px] transition-all bg-indigo-600 text-white border border-indigo-600 shadow-xs qual-btn-mhs cursor-pointer d-inline-flex align-items-center gap-1';
+                    var iconM = btnMhs.querySelector('.qual-icon');
+                    if (iconM) iconM.className = 'bi bi-mortarboard-fill text-white qual-icon';
+                }
+                if (btnSiswa) {
+                    btnSiswa.className = inactiveClass + ' qual-btn-siswa';
+                    var iconS = btnSiswa.querySelector('.qual-icon');
+                    if (iconS) iconS.className = 'bi bi-backpack-fill text-blue-600 qual-icon';
+                }
+            }
+        };
+
+        // Modal Trigger & Carousel Control (Bootstrap 4 & 5 Compatible)
+        (function() {
+            function triggerOpdModal(targetId) {
+                if (!targetId) return;
+                var cleanId = targetId.startsWith('#') ? targetId.slice(1) : targetId;
+                if (window.jQuery && typeof window.jQuery.fn.modal === 'function') {
+                    window.jQuery('#' + cleanId).modal('show');
+                } else {
+                    var el = document.getElementById(cleanId);
+                    if (el) {
+                        el.classList.add('show');
+                        el.style.display = 'block';
+                        document.body.classList.add('modal-open');
+                    }
+                }
+            }
+
+            document.addEventListener('click', function(e) {
+                var trigger = e.target.closest('.opd-card-trigger, [data-opd-target]');
+                if (trigger) {
+                    // Do not hijack clicks on inner anchors (links to register, etc.)
+                    if (e.target.closest('a') && !e.target.closest('.opd-card-trigger')) return;
+                    var target = trigger.getAttribute('data-target') || trigger.getAttribute('data-bs-target') || trigger.getAttribute('data-opd-target');
+                    if (target) {
+                        e.preventDefault();
+                        triggerOpdModal(target);
+                    }
+                }
+
+                var dismissBtn = e.target.closest('[data-dismiss="modal"], [data-bs-dismiss="modal"]');
+                if (dismissBtn) {
+                    var modal = dismissBtn.closest('.modal');
+                    if (modal) {
+                        if (window.jQuery && typeof window.jQuery.fn.modal === 'function') {
+                            window.jQuery(modal).modal('hide');
+                        } else {
+                            modal.classList.remove('show');
+                            modal.style.display = 'none';
+                            document.body.classList.remove('modal-open');
+                        }
+                    }
+                }
+            });
+
+            // If jQuery is available, pause carousel when any modal opens
+            if (window.jQuery) {
+                window.jQuery(document).on('show.bs.modal', '.modal', function() {
+                    if (typeof window.setCarouselPaused === 'function') {
+                        window.setCarouselPaused(true);
+                    }
+                });
+                window.jQuery(document).on('hidden.bs.modal', '.modal', function() {
+                    if (typeof window.setCarouselPaused === 'function') {
+                        window.setCarouselPaused(false);
+                    }
+                });
+            }
+        })();
+    </script>
+
+    <script>
         // Dark / Light Mode Toggle Logic
         (function() {
             function updateTheme(theme) {
                 document.documentElement.setAttribute('data-theme', theme);
                 document.documentElement.setAttribute('data-bs-theme', theme);
+                if (theme === 'dark') {
+                    document.documentElement.classList.add('dark');
+                } else {
+                    document.documentElement.classList.remove('dark');
+                }
                 localStorage.setItem('adminHMD.colorTheme', theme);
                 
                 var icon = document.getElementById('themeIcon');
@@ -2610,6 +3123,11 @@
             }
 
             var currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+            if (currentTheme === 'dark') {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
             var icon = document.getElementById('themeIcon');
             if (icon) {
                 icon.className = currentTheme === 'dark' ? 'bi bi-sun-fill' : 'bi bi-moon-stars';

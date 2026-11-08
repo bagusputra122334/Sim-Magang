@@ -43,7 +43,7 @@
                     <p class="text-[11px] font-bold !text-slate-600 dark:!text-slate-300 uppercase tracking-wider mb-0.5 truncate">AKTIF MAGANG</p>
                     <span class="text-lg lg:text-xl font-extrabold !text-gray-900 dark:!text-white opacity-100 block my-0 leading-none">{{ $statistics['active'] ?? $aktifMagang ?? 0 }}</span>
                 </div>
-                <div class="text-success rounded-lg bg-emerald-50 dark:bg-emerald-900/30 p-1.5 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 32px; height: 32px;">
+                <div class="text-primary rounded-lg bg-blue-50 dark:bg-blue-900/30 p-1.5 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 32px; height: 32px;">
                     <i class="bi bi-play-circle-fill text-base"></i>
                 </div>
             </div>
@@ -56,7 +56,7 @@
                     <p class="text-[11px] font-bold !text-slate-600 dark:!text-slate-300 uppercase tracking-wider mb-0.5 truncate">SELESAI MAGANG</p>
                     <span class="text-lg lg:text-xl font-extrabold !text-gray-900 dark:!text-white opacity-100 block my-0 leading-none">{{ $statistics['completed'] ?? $selesaiMagang ?? 0 }}</span>
                 </div>
-                <div class="text-secondary rounded-lg bg-slate-100 dark:bg-slate-700/60 p-1.5 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 32px; height: 32px;">
+                <div class="text-primary rounded-lg bg-blue-50 dark:bg-blue-900/30 p-1.5 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 32px; height: 32px;">
                     <i class="bi bi-check-circle-fill text-base"></i>
                 </div>
             </div>
@@ -69,7 +69,7 @@
                     <p class="text-[11px] font-bold !text-slate-600 dark:!text-slate-300 uppercase tracking-wider mb-0.5 truncate">DINONAKTIFKAN</p>
                     <span class="text-lg lg:text-xl font-extrabold !text-gray-900 dark:!text-white opacity-100 block my-0 leading-none">{{ $statistics['terminated'] ?? $dinonaktifkan ?? 0 }}</span>
                 </div>
-                <div class="text-danger rounded-lg bg-rose-50 dark:bg-rose-900/30 p-1.5 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 32px; height: 32px;">
+                <div class="text-primary rounded-lg bg-blue-50 dark:bg-blue-900/30 p-1.5 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 32px; height: 32px;">
                     <i class="bi bi-x-circle-fill text-base"></i>
                 </div>
             </div>
@@ -134,8 +134,11 @@
                         <option value="5" @selected((string)request('per_page', $perPage) === '5')>5 data</option>
                         <option value="10" @selected((string)request('per_page', $perPage) === '10')>10 data</option>
                         <option value="15" @selected((string)request('per_page', $perPage) === '15')>15 data</option>
+                        <option value="20" @selected((string)request('per_page', $perPage) === '20')>20 data</option>
                         <option value="25" @selected((string)request('per_page', $perPage) === '25')>25 data</option>
                         <option value="50" @selected((string)request('per_page', $perPage) === '50')>50 data</option>
+                        <option value="100" @selected((string)request('per_page', $perPage) === '100')>100 data</option>
+                        <option value="all" @selected((string)request('per_page') === 'all' || (int)request('per_page') >= 1000 || (int)$perPage >= 1000)>Semua (All)</option>
                     </select>
                 </div>
             </form>

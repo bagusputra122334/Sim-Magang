@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\RegistrationStatus;
+use App\Models\Concerns\BelongsToOpd;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -22,13 +23,15 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string|null         $surat_balasan_path     Path file Surat Balasan PDF (null hingga accepted & diupload)
  * @property \Carbon\Carbon      $tanggal_submit         Cast: datetime, default CURRENT_TIMESTAMP
  * @property \Carbon\Carbon|null $periode_mulai          Cast: date — Tanggal mulai magang
+ * @property int|null             $opd_id                 FK → opds.id
  * @property \Carbon\Carbon|null $periode_selesai        Cast: date — Tanggal selesai magang
  * @property \Carbon\Carbon      $created_at
  * @property \Carbon\Carbon      $updated_at
  *
  * ──── RELATIONSHIP ACCESSOR ───────────────────────────────────────────────────
- * @property-read User     $user       Pemilik pendaftaran (belongsTo User)
- * @property-read Position $position   Posisi yang didaftar (belongsTo Position)
+ * @property-read Opd|null  $opd        Data OPD pendaftaran (belongsTo Opd)
+ * @property-read User      $user       Pemilik pendaftaran (belongsTo User)
+ * @property-read Position  $position   Posisi yang didaftar (belongsTo Position)
  * ──── APPENDED ACCESSOR ─────────────────────────────────────────────────────
  * @property-read string|null $periode_label
  */
@@ -36,6 +39,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
     'nomor_pendaftaran',
     'user_id',
     'position_id',
+    'opd_id',
     'cv_path',
     'surat_pengantar_path',
     'proposal_magang_path',
@@ -53,10 +57,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 ])]
 class Registration extends Model
 {
+    use BelongsToOpd;
     protected $fillable = [
         'nomor_pendaftaran',
         'user_id',
         'position_id',
+        'opd_id',
         'cv_path',
         'surat_pengantar_path',
         'proposal_magang_path',
@@ -72,6 +78,46 @@ class Registration extends Model
         'certificate_path',
         'certificate_issued_at',
     ];
+
+    protected static function booted(): void
+    {
+        static::creating(function (self $registration): void {
+            if (empty($registration->position_id)) {
+                $pos = null;
+                if (!empty($registration->opd_id)) {
+                    $pos = Position::where('opd_id', $registration->opd_id)->first();
+                }
+                if (!$pos) {
+                    $pos = Position::first();
+                }
+                if (!$pos) {
+                    $pos = Position::create([
+                        'nama_posisi' => 'Posisi Magang Umum',
+                        'deskripsi'   => 'Posisi magang umum',
+                        'tipe'        => 'magang',
+                        'kuota'       => 10,
+                        'status'      => \App\Enums\PositionStatus::Aktif,
+                        'opd_id'      => $registration->opd_id,
+                    ]);
+                }
+                $registration->position_id = $pos->id;
+            }
+
+            if (empty($registration->cv_path)) {
+                $registration->cv_path = 'cv/default.pdf';
+            }
+            if (empty($registration->surat_pengantar_path)) {
+                $registration->surat_pengantar_path = 'surat/default.pdf';
+            }
+
+            if (empty($registration->opd_id) && !empty($registration->position_id)) {
+                $pos = Position::find($registration->position_id);
+                if ($pos && !empty($pos->opd_id)) {
+                    $registration->opd_id = $pos->opd_id;
+                }
+            }
+        });
+    }
 
     protected function casts(): array
     {
@@ -213,6 +259,11 @@ class Registration extends Model
         return $this->belongsTo(Position::class);
     }
 
+    public function opd(): BelongsTo
+    {
+        return $this->belongsTo(Opd::class);
+    }
+
     public function isSubmitted(): bool
     {
         return $this->status->isSubmitted();
@@ -256,5 +307,14 @@ class Registration extends Model
         $nomorUrut = $latest ? (int) substr($latest->nomor_pendaftaran, -4) + 1 : 1;
 
         return $prefix.str_pad((string) $nomorUrut, 4, '0', STR_PAD_LEFT);
+    }
+
+    /**
+     * Retrieve the model for a bound value without global tenancy scope
+     * so that controllers can enforce explicit 403 Forbidden IDOR checks.
+     */
+    public function resolveRouteBindingQuery($query, $value, $field = null)
+    {
+        return parent::resolveRouteBindingQuery($query->withoutGlobalScope('opd_tenant'), $value, $field);
     }
 }

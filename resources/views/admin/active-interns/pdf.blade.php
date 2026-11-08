@@ -143,6 +143,22 @@
     </style>
 </head>
 <body>
+    @php
+        $resolvedOpd = $opd ?? (isset($interns) ? ($interns->first()?->opd ?? $interns->first()?->position?->opd) : null);
+        if ($resolvedOpd) {
+            $opdName = strtoupper($resolvedOpd->name);
+            $opdAddress = $resolvedOpd->address ?: 'Kabupaten Tuban, Jawa Timur';
+            $opdEmail = $resolvedOpd->email ?: '-';
+            $opdPhone = $resolvedOpd->phone ?: '-';
+        } else {
+            $opdName = 'PEMERINTAH KABUPATEN TUBAN';
+            $opdAddress = 'Jl. Kartini No. 2, Kutorejo, Kec. Tuban, Kabupaten Tuban, Jawa Timur 62311';
+            $opdEmail = 'pemkab@tubankab.go.id';
+            $opdPhone = '(0356) 321001';
+        }
+        $headName = $resolvedOpd?->head_of_office_name ?? null;
+        $headNip = $resolvedOpd?->head_of_office_nip ?? null;
+    @endphp
 
     <!-- KOP SURAT INSTANSI -->
     <table style="width: 100%; border-collapse: collapse; border: none; margin-bottom: 2px;">
@@ -154,9 +170,9 @@
             <!-- TEXT COLUMN -->
             <td style="width: 85%; text-align: center; vertical-align: middle; border: none; padding: 0; padding-right: 15%;">
                 <h3 style="margin: 0; font-size: 16px; font-weight: normal; line-height: 1.3;">PEMERINTAH KABUPATEN TUBAN</h3>
-                <h2 style="margin: 0; font-size: 18px; font-weight: bold; line-height: 1.3;">DINAS KOMUNIKASI DAN INFORMATIKA, STATISTIK DAN PERSANDIAN</h2>
-                <p style="margin: 0; font-size: 12px; line-height: 1.3;">Jl. Mastrip No. 5 A, Sidorejo, Kec. Tuban, Kabupaten Tuban, Jawa Timur 62315</p>
-                <p style="margin: 0; font-size: 12px; line-height: 1.3;">Email: diskominfo@tubankab.go.id | Telp: (0356) 8832697 | Website: diskominfo.tubankab.go.id</p>
+                <h2 style="margin: 0; font-size: 18px; font-weight: bold; line-height: 1.3;">{{ $opdName }}</h2>
+                <p style="margin: 0; font-size: 12px; line-height: 1.3;">{{ $opdAddress }}</p>
+                <p style="margin: 0; font-size: 12px; line-height: 1.3;">Email: {{ $opdEmail }} | Telp: {{ $opdPhone }}</p>
             </td>
         </tr>
     </table>
@@ -268,10 +284,15 @@
                 <td style="width: 35%; text-align: center;">
                     <p>Tuban, {{ date('d F Y') }}</p>
                     <p><strong>Pengelola Magang Terpadu</strong></p>
-                    <p>Diskominfo SP Kabupaten Tuban</p>
+                    <p>{{ $resolvedOpd?->name ?? 'Pemerintah Kabupaten Tuban' }}</p>
                     <br><br><br>
-                    <p><strong><u>Tim Administrator SPBE</u></strong></p>
-                    <p style="font-size: 8px; color: #64748b;">Laporan Resmi SIMAGANG</p>
+                    @if($headName)
+                        <p><strong><u>{{ $headName }}</u></strong></p>
+                        @if($headNip)<p style="font-size: 8px; color: #64748b;">NIP. {{ $headNip }}</p>@endif
+                    @else
+                        <p><strong><u>Tim Administrator SPBE</u></strong></p>
+                        <p style="font-size: 8px; color: #64748b;">Laporan Resmi SIMAGANG</p>
+                    @endif
                 </td>
             </tr>
         </table>

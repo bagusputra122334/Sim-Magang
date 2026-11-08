@@ -27,10 +27,19 @@ class PendingCertificateInternSeeder extends Seeder
      */
     public function run(): void
     {
+        // 0. DEFAULT OPD: Diskominfo
+        $defaultOpd = \App\Models\Opd::first();
+        $opdId = $defaultOpd?->id;
+
         // 1. DIVISI: Aplikasi dan Informatika
         $division = Division::firstOrCreate(
-            ['nama_divisi' => 'Aplikasi dan Informatika']
+            ['nama_divisi' => 'Aplikasi dan Informatika'],
+            ['opd_id' => $opdId]
         );
+        if ($opdId && ! $division->opd_id) {
+            $division->opd_id = $opdId;
+            $division->save();
+        }
 
         // 2. POSISI: Aplikasi dan Informatika
         $position = Position::where('nama_posisi', 'Aplikasi dan Informatika')->first();
@@ -44,7 +53,13 @@ class PendingCertificateInternSeeder extends Seeder
                 'status'       => PositionStatus::Aktif,
                 'mentor_name'  => 'Bambang Sudarsono, S.Kom',
                 'mentor_nip'   => '198503152010011008',
+                'opd_id'       => $opdId,
+                'division_id'  => $division->id,
             ]);
+        } elseif ($opdId && ! $position->opd_id) {
+            $position->opd_id = $opdId;
+            $position->division_id = $division->id;
+            $position->save();
         }
 
         // 3. USER PESERTA UJI COBA (HANYA PESERTA, TANPA MENYENTUH ADMIN)
@@ -59,6 +74,7 @@ class PendingCertificateInternSeeder extends Seeder
         $user->name = 'Peserta Menunggu Sertifikat';
         $user->password = Hash::make('password');
         $user->role = UserRole::Peserta;
+        $user->opd_id = $opdId;
         $user->division_id = $division->id;
         $user->position_id = $position->id;
         $user->email_verified_at = now();
@@ -118,6 +134,7 @@ class PendingCertificateInternSeeder extends Seeder
         }
 
         $registration->position_id = $position->id;
+        $registration->opd_id = $opdId;
         $registration->status = RegistrationStatus::Accepted;
         $registration->cv_path = $cvPath;
         $registration->surat_pengantar_path = $spPath;

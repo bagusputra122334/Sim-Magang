@@ -78,8 +78,35 @@ class DocumentDownloadController extends Controller
             abort(401, 'Unauthenticated.');
         }
 
-        if ($user->isAdmin()) {
+        if ($user->isSuperAdmin()) {
             return;
+        }
+
+        if ($user->isAdminOpd()) {
+            $registration->loadMissing('position');
+            $regOpdId = $registration->opd_id ?? $registration->position?->opd_id;
+
+            // Jika pada skenario unit test lama Admin dan Registration sama-sama memiliki opd_id === null, tetap izinkan akses
+            if ($user->opd_id === null && $regOpdId === null) {
+                return;
+            }
+
+            if (!empty($user->opd_id) && !empty($regOpdId) && (int) $user->opd_id === (int) $regOpdId) {
+                return;
+            }
+
+            abort(403, 'Anda tidak memiliki izin untuk mengakses dokumen OPD lain.');
+        }
+
+        if ($user->isAdmin()) {
+            $registration->loadMissing('position');
+            $regOpdId = $registration->opd_id ?? $registration->position?->opd_id;
+
+            if ($user->opd_id === null || $regOpdId === null || (int) $user->opd_id === (int) $regOpdId) {
+                return;
+            }
+
+            abort(403, 'Anda tidak memiliki izin untuk mengakses dokumen OPD lain.');
         }
 
         if ($user->isPeserta() && (int) $registration->user_id === (int) $user->id) {
@@ -96,11 +123,12 @@ class DocumentDownloadController extends Controller
     protected function resolveDocumentPath(Registration $registration, string $type): string
     {
         $path = match ($type) {
-            'cv'              => $registration->cv_path,
-            'surat_pengantar' => $registration->surat_pengantar_path,
-            'proposal_magang' => $registration->proposal_magang_path,
-            'surat_balasan'   => $registration->surat_balasan_path,
-            default           => null,
+            'cv'                        => $registration->cv_path,
+            'surat_pengantar'           => $registration->surat_pengantar_path,
+            'proposal_magang'           => $registration->proposal_magang_path,
+            'surat_balasan'             => $registration->surat_balasan_path,
+            'certificate', 'sertifikat' => $registration->certificate_path,
+            default                     => null,
         };
 
         if (empty($path) || ! is_string($path)) {

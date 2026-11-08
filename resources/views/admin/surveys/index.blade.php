@@ -54,7 +54,7 @@
                             <span class="text-muted small" style="font-size: 0.75rem;">/ 5.0</span>
                         </div>
                     </div>
-                    <div class="text-warning">
+                    <div class="text-primary">
                         <i class="bi bi-star-fill fs-5"></i>
                     </div>
                 </div>
@@ -69,7 +69,7 @@
                         <p class="text-muted text-uppercase fw-bold mb-1" style="font-size: 0.65rem; letter-spacing: 0.5px;">Sangat Puas (5★)</p>
                         <h5 class="fw-bold mb-0 text-dark">{{ $sangatPuas }}</h5>
                     </div>
-                    <div class="text-success">
+                    <div class="text-primary">
                         <i class="bi bi-emoji-smile-fill fs-5"></i>
                     </div>
                 </div>
@@ -84,7 +84,7 @@
                         <p class="text-muted text-uppercase fw-bold mb-1" style="font-size: 0.65rem; letter-spacing: 0.5px;">Ulasan Perbaikan</p>
                         <h5 class="fw-bold mb-0 text-dark">{{ $ulasanPerbaikan }}</h5>
                     </div>
-                    <div class="text-info">
+                    <div class="text-primary">
                         <i class="bi bi-chat-left-text-fill fs-5"></i>
                     </div>
                 </div>
@@ -101,8 +101,12 @@
                 <select name="per_page" class="h-8 px-2.5 pr-7 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded text-xs font-medium text-slate-700 dark:text-slate-200 focus:outline-none focus:ring-1 focus:ring-blue-500 cursor-pointer shadow-xs" onchange="this.form.submit()">
                     <option value="5" @selected((int)request('per_page', $perPage ?? 10) === 5)>5</option>
                     <option value="10" @selected((int)request('per_page', $perPage ?? 10) === 10)>10</option>
+                    <option value="15" @selected((int)request('per_page', $perPage ?? 10) === 15)>15</option>
+                    <option value="20" @selected((int)request('per_page', $perPage ?? 10) === 20)>20</option>
                     <option value="25" @selected((int)request('per_page', $perPage ?? 10) === 25)>25</option>
                     <option value="50" @selected((int)request('per_page', $perPage ?? 10) === 50)>50</option>
+                    <option value="100" @selected((int)request('per_page', $perPage ?? 10) === 100)>100</option>
+                    <option value="all" @selected((string)request('per_page') === 'all' || (int)($perPage ?? 10) >= 1000)>Semua (All)</option>
                 </select>
                 <span>entri</span>
 

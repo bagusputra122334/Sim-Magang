@@ -59,6 +59,8 @@ final class AuditLogger
     public const ACT_EMAIL_SENT_OK = 'notification.email.sent_ok';
     public const ACT_EMAIL_SENT_FAIL = 'notification.email.sent_failed';
 
+    public const ACT_SECURITY_LOCKOUT = 'security.auth.lockout';
+
     /**
      * Main Log Writer — FORMAT KONSISTEN.
      *
@@ -161,6 +163,19 @@ final class AuditLogger
                 'error_class'     => $error !== null ? $error::class : null,
                 'error_message'   => $error?->getMessage(),
             ],
+        );
+    }
+
+    public static function lockout(string $email, string $ip, ?string $userAgent = null): void
+    {
+        self::write(
+            activity: self::ACT_SECURITY_LOCKOUT,
+            detail: [
+                'target_email' => $email,
+                'ip_address'   => $ip,
+                'user_agent'   => $userAgent ?? Request::userAgent() ?? 'unknown',
+                'locked_at'    => now()->toIso8601String(),
+            ]
         );
     }
 

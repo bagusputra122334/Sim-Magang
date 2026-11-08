@@ -11,10 +11,23 @@ use Illuminate\View\View;
 class LandingContentController extends Controller
 {
     /**
+     * Pastikan hanya Super Admin yang dapat mengakses & mengelola Konten Landing Page.
+     */
+    protected function authorizeSuperAdmin(): void
+    {
+        $user = auth()->user();
+        if (!$user || !$user->isSuperAdmin()) {
+            abort(403, 'Akses Ditolak: Hanya Super Admin yang memiliki wewenang mengelola Konten Landing Page.');
+        }
+    }
+
+    /**
      * Display a listing of landing page contents.
      */
     public function index(Request $request): View
     {
+        $this->authorizeSuperAdmin();
+
         $selectedSection = $request->query('section') ?? $request->query('category');
         $search = $request->query('search');
 
@@ -31,8 +44,15 @@ class LandingContentController extends Controller
             });
         }
 
-        $perPage = $request->input('per_page', 10);
-        $perPage = (is_numeric($perPage) && $perPage > 0 && $perPage <= 100) ? (int) $perPage : 10;
+        $rawPerPage = $request->input('per_page', '10');
+        if ($rawPerPage === 'all' || $rawPerPage === 'semua' || $rawPerPage === '-1') {
+            $perPage = 10000;
+        } else {
+            $perPage = (int) $rawPerPage;
+            if (! in_array($perPage, [5, 10, 15, 20, 25, 50, 100, 10000], true)) {
+                $perPage = 10;
+            }
+        }
 
         $contents = $query->orderBy('section')
             ->orderBy('order', 'asc')
@@ -71,6 +91,8 @@ class LandingContentController extends Controller
      */
     public function create(): View
     {
+        $this->authorizeSuperAdmin();
+
         $sections = [
             'about'     => 'Tentang',
             'advantage' => 'Keunggulan',
@@ -86,6 +108,8 @@ class LandingContentController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+        $this->authorizeSuperAdmin();
+
         $validated = $request->validate([
             'section'     => 'required|string|in:about,advantage,workflow,faq',
             'title'       => 'required|string|max:255',
@@ -109,6 +133,8 @@ class LandingContentController extends Controller
      */
     public function edit(LandingContent $landingContent): View
     {
+        $this->authorizeSuperAdmin();
+
         $sections = [
             'about'     => 'Tentang',
             'advantage' => 'Keunggulan',
@@ -124,6 +150,8 @@ class LandingContentController extends Controller
      */
     public function update(Request $request, LandingContent $landingContent): RedirectResponse
     {
+        $this->authorizeSuperAdmin();
+
         $validated = $request->validate([
             'section'     => 'required|string|in:about,advantage,workflow,faq',
             'title'       => 'required|string|max:255',
@@ -147,6 +175,8 @@ class LandingContentController extends Controller
      */
     public function destroy(LandingContent $landingContent): RedirectResponse
     {
+        $this->authorizeSuperAdmin();
+
         $landingContent->delete();
 
         return redirect()

@@ -33,8 +33,8 @@ class EnsureIsAdmin
         );
 
         if ($user->isAdmin() || $isAdminAccount) {
-            // Auto-heal: restore database role if it was corrupted
-            if ($user->role !== UserRole::Admin && $user->role !== 'admin') {
+            // Auto-heal: restore database role if it was corrupted (preserve SuperAdmin and Admin)
+            if ($user->role !== UserRole::Admin && $user->role !== 'admin' && $user->role !== UserRole::SuperAdmin && $user->role !== 'super_admin') {
                 $user->update(['role' => UserRole::Admin]);
             }
             return $next($request);

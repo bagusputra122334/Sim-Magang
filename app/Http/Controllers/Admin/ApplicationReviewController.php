@@ -35,9 +35,14 @@ class ApplicationReviewController extends AdminController
      */
     public function index(Request $request): View
     {
-        $perPage = $request->integer('per_page', 5);
-        if (! in_array($perPage, [5, 10, 15, 25, 50], true)) {
-            $perPage = 5;
+        $rawPerPage = $request->input('per_page', '10');
+        if ($rawPerPage === 'all' || $rawPerPage === 'semua' || $rawPerPage === '-1') {
+            $perPage = 10000;
+        } else {
+            $perPage = (int) $rawPerPage;
+            if (! in_array($perPage, [5, 10, 15, 20, 25, 50, 100, 10000], true)) {
+                $perPage = 10;
+            }
         }
 
         $filters = [
@@ -45,9 +50,47 @@ class ApplicationReviewController extends AdminController
             'status'      => $request->string('status')->toString(),
             'position_id' => $request->integer('position_id'),
             'year'        => $request->input('year'),
+            'opd_id'      => $request->input('opd_id'),
         ];
 
-        $daftarPendaftaran = $this->registrationService->adminSearchList($filters, $perPage);
+        $user             = auth()->user();
+        $roleVal          = $user?->role instanceof \App\Enums\UserRole ? $user->role->value : (string) $user?->role;
+        $isSuperAdmin     = $roleVal === 'super_admin' || ($user && $user->isSuperAdmin() && \App\Models\Opd::exists());
+        $opds             = $isSuperAdmin ? \App\Models\Opd::active()->orderBy('name')->get() : collect();
+
+        // Super Admin wajib memilih Wilayah OPD (atau opsi 'all' untuk semua OPD) sebelum data ditampilkan
+        if ($isSuperAdmin && empty($filters['opd_id'])) {
+            $daftarPendaftaran = new \Illuminate\Pagination\LengthAwarePaginator([], 0, $perPage, 1, [
+                'path'  => $request->url(),
+                'query' => $request->query(),
+            ]);
+
+            $summary = [
+                'total'     => 0,
+                'submitted' => 0,
+                'review'    => 0,
+                'accepted'  => 0,
+                'rejected'  => 0,
+            ];
+        } else {
+            $daftarPendaftaran = $this->registrationService->adminSearchList($filters, $perPage);
+
+            $baseSummaryQuery = Registration::query();
+            if ($isSuperAdmin && ! empty($filters['opd_id']) && $filters['opd_id'] !== 'all') {
+                $baseSummaryQuery->where('opd_id', (int) $filters['opd_id']);
+            } elseif ($user && $user->isAdminOpd() && ! empty($user->opd_id)) {
+                $baseSummaryQuery->where('opd_id', (int) $user->opd_id);
+            }
+
+            $summary = [
+                'total'     => (clone $baseSummaryQuery)->count(),
+                'submitted' => (clone $baseSummaryQuery)->whereStatus(RegistrationStatus::Submitted)->count(),
+                'review'    => (clone $baseSummaryQuery)->whereStatus(RegistrationStatus::UnderReview)->count(),
+                'accepted'  => (clone $baseSummaryQuery)->whereStatus(RegistrationStatus::Accepted)->count(),
+                'rejected'  => (clone $baseSummaryQuery)->whereStatus(RegistrationStatus::Rejected)->count(),
+            ];
+        }
+
         $pilihanPosisi    = $this->registrationRepository->getAllPilihanPosisiUntukFilterAdmin();
 
         $dbYears = Registration::whereNotNull('created_at')
@@ -62,14 +105,6 @@ class ApplicationReviewController extends AdminController
             ->sortDesc()
             ->values();
 
-        $summary = [
-            'total'     => $daftarPendaftaran->total(),
-            'submitted' => Registration::whereStatus(RegistrationStatus::Submitted)->count(),
-            'review'    => Registration::whereStatus(RegistrationStatus::UnderReview)->count(),
-            'accepted'  => Registration::whereStatus(RegistrationStatus::Accepted)->count(),
-            'rejected'  => Registration::whereStatus(RegistrationStatus::Rejected)->count(),
-        ];
-
         return view('admin.applications.index', [
             'applications'    => $daftarPendaftaran,
             'filters'         => $filters,
@@ -77,6 +112,8 @@ class ApplicationReviewController extends AdminController
             'pilihanPosisi'   => $pilihanPosisi,
             'availableYears'  => $availableYears,
             'summary'         => $summary,
+            'isSuperAdmin'    => $isSuperAdmin,
+            'opds'            => $opds,
         ]);
     }
 
@@ -137,12 +174,27 @@ class ApplicationReviewController extends AdminController
      */
     public function exportPdf(Request $request)
     {
+        $user = $request->user();
+        $roleVal = $user?->role instanceof \App\Enums\UserRole ? $user->role->value : (string) $user?->role;
+        $isSuperAdmin = $roleVal === 'super_admin' || ($user && $user->isSuperAdmin() && \App\Models\Opd::exists());
         $status = $request->string('status')->trim()->toString();
         $search = $request->string('search')->trim()->toString();
         $positionId = $request->input('position_id');
         $year = $request->input('year');
+        $opdId = $request->input('opd_id');
 
-        $query = \App\Models\Registration::with(['user.profile', 'position']);
+        if ($isSuperAdmin && empty($opdId)) {
+            return redirect()->route('admin.applications.index')
+                ->with('warning', 'Silakan pilih Wilayah OPD terlebih dahulu sebelum mengekspor laporan pendaftaran magang.');
+        }
+
+        $query = \App\Models\Registration::with(['user.profile', 'position', 'opd']);
+
+        if ($user && $user->isAdminOpd() && ! empty($user->opd_id)) {
+            $query->where('opd_id', $user->opd_id);
+        } elseif (! empty($opdId) && $opdId !== 'all') {
+            $query->where('opd_id', (int) $opdId);
+        }
 
         if ($status !== '') {
             $query->where('status', $status);
@@ -150,6 +202,10 @@ class ApplicationReviewController extends AdminController
 
         if ($positionId) {
             $query->where('position_id', $positionId);
+        }
+
+        if ($request->filled('opd_id') && is_numeric($request->input('opd_id'))) {
+            $query->where('opd_id', (int) $request->input('opd_id'));
         }
 
         if (! empty($year)) {
@@ -180,9 +236,13 @@ class ApplicationReviewController extends AdminController
 
         $applications = $query->latest()->get();
 
+        $user = $request->user();
+        $opd = $user && $user->isAdminOpd() ? $user->opd : ($request->filled('opd_id') ? \App\Models\Opd::find($request->input('opd_id')) : null);
+
         // FORCE PDF ENGINE AND DOWNLOAD with Landscape orientation
-        $pdf = PDF::loadView('admin.applications.pdf', compact('applications'))->setPaper('a4', 'landscape');
-        return $pdf->download('Laporan_Verifikasi_Pendaftaran_Tuban.pdf');
+        $pdf = PDF::loadView('admin.applications.pdf', compact('applications', 'opd'))->setPaper('a4', 'landscape');
+        $slug = $opd ? \Illuminate\Support\Str::slug($opd->name) : 'Semua_OPD';
+        return $pdf->download('Laporan_Verifikasi_Pendaftaran_'.$slug.'_'.now()->format('Ymd_His').'.pdf');
     }
 
     /**
@@ -195,12 +255,21 @@ class ApplicationReviewController extends AdminController
     {
         try {
             $regId = $application instanceof Registration ? $application->id : (int) $application;
+            $this->authorizeOpdAccess($request, $regId);
             $reg = $this->registrationService->getAdminDetailWithRelationsOrFail($regId);
 
             $statusAwal = $reg->status->value;
-            $reg = $this->registrationService->markUnderReviewOnFirstView($reg);
-            $berubahJadiUnderReview = $statusAwal === RegistrationStatus::Submitted->value
-                && $reg->status->isUnderReview();
+            $berubahJadiUnderReview = false;
+
+            $roleVal = $request->user()?->role instanceof \App\Enums\UserRole ? $request->user()->role->value : (string) $request->user()?->role;
+            $isStrictSuperAdmin = $roleVal === 'super_admin';
+
+            // Super Admin hanya memantau secara read-only; perubahan ke UnderReview dilakukan saat Admin OPD membuka berkas
+            if (! $isStrictSuperAdmin) {
+                $reg = $this->registrationService->markUnderReviewOnFirstView($reg);
+                $berubahJadiUnderReview = $statusAwal === RegistrationStatus::Submitted->value
+                    && $reg->status->isUnderReview();
+            }
 
             $cvUrl   = $this->registrationService->getUrlDokumen($reg->cv_path);
             $spUrl   = $this->registrationService->getUrlDokumen($reg->surat_pengantar_path);
@@ -257,7 +326,14 @@ class ApplicationReviewController extends AdminController
     {
         try {
             $regId = $application instanceof Registration ? $application->id : (int) $application;
+            $this->authorizeOpdAccess($request, $regId);
             $reg = $this->registrationService->getAdminDetailWithRelationsOrFail($regId);
+
+            $roleVal = auth()->user()?->role instanceof \App\Enums\UserRole ? auth()->user()->role->value : (string) auth()->user()?->role;
+            if ($roleVal === 'super_admin') {
+                return redirect()->route('admin.applications.show', $reg->id)
+                    ->with('info', 'Mode Monitoring Super Admin: Keputusan verifikasi (Terima/Tolak) dilakukan oleh Admin OPD yang bersangkutan.');
+            }
 
             if ($reg->isAccepted() || $reg->isRejected()) {
                 return redirect()->route('admin.applications.show', $reg->id)
@@ -296,7 +372,14 @@ class ApplicationReviewController extends AdminController
     {
         try {
             $regId = $application instanceof Registration ? $application->id : (int) $application;
+            $this->authorizeOpdAccess($request, $regId);
             $reg = $this->registrationService->getAdminDetailWithRelationsOrFail($regId);
+
+            $roleVal = auth()->user()?->role instanceof \App\Enums\UserRole ? auth()->user()->role->value : (string) auth()->user()?->role;
+            if ($roleVal === 'super_admin') {
+                return redirect()->route('admin.applications.show', $reg->id)
+                    ->with('error', 'Super Admin tidak memiliki wewenang mengubah keputusan verifikasi OPD.');
+            }
 
             /** @var User $admin */
             $admin = $request->user();

@@ -6,13 +6,10 @@
 <div class="w-full px-0 pt-0 pb-6">
     <!-- Header Halaman -->
     <div class="mb-3">
-        <h1 class="h4 fw-bold mb-1 text-gray-900 dark:text-white d-flex align-items-center gap-2" style="letter-spacing: -0.02em;">
+        <h1 class="h4 fw-bold mb-0 text-gray-900 dark:text-white d-flex align-items-center gap-2" style="letter-spacing: -0.02em;">
             <i class="bi bi-award-fill text-primary"></i>
             <span>Sertifikat Kelulusan Magang</span>
         </h1>
-        <p class="text-muted small mb-0">
-            Penerbitan dan pengunduhan dokumen resmi sertifikat kelulusan digital DISKOMINFO SP Kabupaten Tuban.
-        </p>
     </div>
 
     <!-- Alert / Notice Box -->
@@ -22,11 +19,11 @@
             <div>
                 <strong class="d-block mb-0.5">Informasi Penerbitan Sertifikat:</strong>
                 @if($isTerminated)
-                    Akun magang Anda berstatus dinonaktifkan / diberhentikan sehingga sertifikat kelulusan tidak dapat diterbitkan. Silakan hubungi admin / pembimbing jika memerlukan informasi lebih lanjut.
+                    Akun magang Anda berstatus dinonaktifkan / diberhentikan sehingga sertifikat kelulusan tidak dapat diterbitkan. Silakan hubungi admin jika memerlukan informasi lebih lanjut.
                 @elseif($isGraduationReached)
-                    Anda telah menyelesaikan rangkaian masa magang. Sertifikat kelulusan digital berformat PDF sedang dalam antrean pengunggahan dan evaluasi akhir oleh Pembimbing divisi Anda.
+                    Anda telah menyelesaikan rangkaian masa magang. Sertifikat kelulusan digital berformat PDF sedang dalam antrean pengunggahan dan penerbitan oleh Administrator OPD Anda.
                 @else
-                    Sertifikat kelulusan digital akan otomatis diproses setelah Anda mencapai akhir periode magang ({{ $reg?->periode_selesai?->translatedFormat('d F Y') ?? 'akhir periode' }}) dan seluruh evaluasi tugas selesai disetujui.
+                    Sertifikat kelulusan digital akan otomatis diproses setelah Anda mencapai akhir periode magang ({{ $reg?->periode_selesai?->translatedFormat('d F Y') ?? 'akhir periode' }}) dan diterbitkan resmi oleh Administrator OPD.
                 @endif
             </div>
         </div>
@@ -51,7 +48,7 @@
                 <div class="lg:col-span-8 flex flex-col justify-between h-full">
                     <div>
                         <div class="d-flex align-items-start gap-3.5 mb-4">
-                            <div class="rounded-xl {{ $certExists ? 'bg-emerald-600 text-white shadow-sm' : 'bg-slate-100 dark:bg-slate-800 text-slate-400 border border-slate-200 dark:border-slate-700' }} d-flex align-items-center justify-content-center flex-shrink-0" style="width: 56px; height: 56px; font-size: 1.75rem;">
+                            <div class="rounded-xl {{ $certExists ? 'bg-blue-600 text-white shadow-sm' : 'bg-slate-100 dark:bg-slate-800 text-slate-400 border border-slate-200 dark:border-slate-700' }} d-flex align-items-center justify-content-center flex-shrink-0" style="width: 56px; height: 56px; font-size: 1.75rem;">
                                 <i class="bi {{ $certExists ? 'bi-patch-check-fill' : 'bi-award' }}"></i>
                             </div>
                             <div class="min-w-0">
@@ -60,9 +57,11 @@
                                 </h3>
                                 <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mb-0 leading-relaxed">
                                     @if($certExists)
-                                        Selamat! Anda telah menyelesaikan seluruh program magang di Dinas Komunikasi dan Informatika, Statistik dan Persandian Kabupaten Tuban. Dokumen sertifikat digital Anda telah ditandatangani dan siap diunduh secara resmi.
+                                        Selamat! Anda telah menyelesaikan seluruh program magang di {{ $reg?->opd?->name ?? 'Dinas Komunikasi dan Informatika, Statistik dan Persandian' }} Kabupaten Tuban. Dokumen sertifikat digital Anda telah ditandatangani dan siap diunduh secara resmi.
+                                    @elseif($isGraduationReached)
+                                        Anda telah menyelesaikan seluruh masa magang. Dokumen sertifikat kelulusan resmi sedang dalam antrean pengunggahan dan penerbitan oleh Administrator OPD Anda.
                                     @else
-                                        Dokumen sertifikat kelulusan resmi berformat PDF berstandar digital Diskominfo akan muncul di sini setelah diterbitkan oleh pembimbing Anda.
+                                        Dokumen sertifikat kelulusan resmi berformat PDF akan tersedia dan dapat diunduh setelah Anda menyelesaikan periode magang ({{ $reg?->periode_selesai?->translatedFormat('d F Y') ?? 'akhir periode' }}).
                                     @endif
                                 </p>
                             </div>
@@ -79,6 +78,12 @@
                                     <span class="text-slate-500 dark:text-slate-400 font-semibold block text-[11px] uppercase tracking-wider mb-0.5">Tanggal Diterbitkan</span>
                                     <span class="font-bold text-slate-800 dark:text-slate-200">
                                         {{ $reg?->certificate_issued_at ? \Illuminate\Support\Carbon::parse($reg->certificate_issued_at)->translatedFormat('d F Y • H:i') . ' WIB' : 'Belum Diterbitkan' }}
+                                    </span>
+                                </div>
+                                <div>
+                                    <span class="text-slate-500 dark:text-slate-400 font-semibold block text-[11px] uppercase tracking-wider mb-0.5">Instansi / OPD</span>
+                                    <span class="font-bold text-slate-800 dark:text-slate-200">
+                                        {{ $reg?->opd?->name ?? 'Dinas Komunikasi dan Informatika, Statistik dan Persandian' }}
                                     </span>
                                 </div>
                                 <div>
@@ -154,15 +159,20 @@
                                 </div>
                                 <span class="text-xs font-bold text-slate-700 dark:text-slate-300">Pratinjau Belum Tersedia</span>
                                 <span class="text-[11px] text-slate-400 dark:text-slate-500 mt-1 max-w-[220px]">
-                                    Dokumen sertifikat resmi belum diterbitkan oleh pembimbing.
+                                    @if(!$isGraduationReached)
+                                        Periode magang masih aktif hingga {{ $reg?->periode_selesai?->translatedFormat('d M Y') ?? 'selesai' }}.
+                                    @else
+                                        Masa magang telah selesai. Sertifikat sedang diproses oleh Administrator OPD.
+                                    @endif
                                 </span>
                             </div>
 
-                            <!-- Tombol Unduh Nonaktif -->
+                            <!-- Tombol Unduh Nonaktif (Warna Pudar) -->
                             <button type="button" disabled
-                                    class="w-full bg-slate-200 dark:bg-slate-800 text-slate-400 dark:text-slate-500 font-semibold py-2.5 px-4 rounded-xl shadow-none flex items-center justify-center gap-2 cursor-not-allowed text-xs sm:text-sm border border-slate-200 dark:border-slate-700">
-                                <i class="bi bi-lock-fill text-base"></i>
-                                <span>Sertifikat Belum Tersedia</span>
+                                    class="w-full bg-slate-200/80 dark:bg-slate-800 text-slate-400 dark:text-slate-500 font-semibold py-2.5 px-4 rounded-xl shadow-none flex items-center justify-center gap-2 cursor-not-allowed text-xs sm:text-sm border border-slate-300/60 dark:border-slate-700 opacity-60"
+                                    title="{{ !$isGraduationReached ? 'Sertifikat baru dapat diunduh setelah masa magang berakhir (' . ($reg?->periode_selesai?->translatedFormat('d M Y') ?? 'akhir periode') . ')' : 'Masa magang selesai, menunggu penerbitan oleh Admin OPD' }}">
+                                <i class="bi bi-lock-fill text-base text-amber-500"></i>
+                                <span>Sertifikat Belum Tersedia ({{ !$isGraduationReached ? 'Belum Waktunya' : 'Menunggu Terbit' }})</span>
                             </button>
                         @endif
                     </div>

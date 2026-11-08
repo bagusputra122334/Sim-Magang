@@ -5,18 +5,24 @@
  */
 $isEdit = isset($reg) && $reg !== null;
 $selectedPosId = old('position_id', $isEdit ? $reg?->position_id ?? '' : '');
+$opdGroups = $positions->groupBy(function($pos) {
+    return $pos->opd_id ?: 0;
+});
+$currentSelectedPos = $positions->firstWhere('id', (int) $selectedPosId);
 ?>
 
 <div class="row g-2.5 mb-3">
     <div class="col-lg-8">
         <div class="mb-3">
-            <div class="d-flex align-items-center gap-2 mb-2 pb-1.5 border-bottom">
-                <div class="p-1.5 rounded-2 bg-success-subtle text-success">
-                    <i class="bi bi-briefcase-fill fs-5"></i>
-                </div>
-                <div>
-                    <h5 class="text-xs font-bold !text-slate-800 dark:!text-slate-200 uppercase tracking-wider mb-0">Pilih Posisi Magang</h5>
-                    <small class="text-muted !text-slate-600 dark:!text-slate-300 text-xs">Pilih salah satu posisi magang aktif yang tersedia di Diskominfo SP</small>
+            <div class="d-flex align-items-center justify-content-between gap-2 mb-2 pb-1.5 border-bottom flex-wrap">
+                <div class="d-flex align-items-center gap-2">
+                    <div class="p-1.5 rounded-2 bg-blue-50 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400">
+                        <i class="bi bi-buildings-fill fs-5"></i>
+                    </div>
+                    <div>
+                        <h5 class="text-xs font-bold !text-slate-800 dark:!text-slate-200 uppercase tracking-wider mb-0">Pilih OPD & Posisi Magang</h5>
+                        <small class="text-muted !text-slate-600 dark:!text-slate-300 text-xs">Pilih instansi OPD tujuan di bawah ini untuk melihat formasi magang aktif yang tersedia</small>
+                    </div>
                 </div>
             </div>
 
@@ -31,42 +37,257 @@ $selectedPosId = old('position_id', $isEdit ? $reg?->position_id ?? '' : '');
                     </div>
                 </div>
             @else
-            <div class="row g-2.5">
-                @foreach($positions as $pos)
-                    @php
-                        $active = (string) $selectedPosId === (string) $pos->id;
-                    @endphp
-                <label class="col-md-6 position-select-card-label">
-                    <input type="radio" name="position_id" value="{{ $pos->id }}" class="d-none position-select-radio"
-                           @required(true)
-                           @checked($active)>
-                    <div class="card border-2 rounded-2 h-100 transition-all position-select-card {{ $active ? 'border-success shadow-sm bg-success-subtle bg-opacity-25' : 'border-light-subtle bg-white' }}">
-                        <div class="card-body p-3">
-                            <div class="d-flex align-items-start justify-content-between mb-1.5">
-                                <div>
-                                    <div class="fw-bold text-xs text-dark mb-0.5">{{ $pos->nama_posisi }}</div>
-                                    <div class="text-[11px] text-muted font-monospace">
-                                        <i class="bi bi-hash me-0.5"></i>{{ $pos->slug ?? 'slug' }}
+
+            {{-- 1. Selected Position Banner --}}
+            <div id="selectedPositionBanner" class="p-3.5 rounded-xl border-2 border-blue-600 bg-blue-50/70 dark:bg-blue-950/40 mb-3 shadow-sm {{ $currentSelectedPos ? '' : 'd-none' }}">
+                <div class="d-flex flex-column sm:flex-row sm:items-center justify-content-between gap-2 pb-2 mb-2 border-b border-blue-200 dark:border-blue-800">
+                    <div class="d-flex align-items-center gap-2 flex-wrap">
+                        <span class="badge bg-blue-600 text-white font-bold px-2.5 py-1 text-xs rounded-pill shadow-xs">
+                            <i class="bi bi-check-circle-fill me-1"></i> Formasi Magang Terpilih
+                        </span>
+                        <span class="badge bg-white text-blue-800 border border-blue-300 font-mono text-xs uppercase" id="bannerOpdCode">
+                            {{ $currentSelectedPos?->opd?->code ?? 'OPD' }}
+                        </span>
+                    </div>
+                    <button type="button" class="btn btn-sm btn-outline-primary py-1 px-2.5 text-xs font-bold rounded-lg bg-white dark:bg-slate-800 shadow-2xs hover:bg-blue-50" onclick="scrollToOpdSection()">
+                        <i class="bi bi-arrow-repeat me-1"></i> Ganti OPD / Formasi Lain
+                    </button>
+                </div>
+                <div>
+                    <h4 class="h5 fw-extrabold text-slate-900 dark:text-white mb-1" id="bannerPosName">
+                        {{ $currentSelectedPos?->nama_posisi ?? '-' }}
+                    </h4>
+                    <div class="d-flex align-items-center gap-2 flex-wrap text-xs text-slate-600 dark:text-slate-300 mb-1.5">
+                        <span class="fw-bold text-blue-700 dark:text-blue-300" id="bannerOpdName">
+                            <i class="bi bi-buildings me-1"></i>{{ $currentSelectedPos?->opd?->name ?? 'Pemerintah Kabupaten Tuban' }}
+                        </span>
+                        <span class="text-slate-300">•</span>
+                        <span class="badge bg-emerald-100 text-emerald-800 border border-emerald-200 px-2 py-0.5 text-xs font-bold rounded-pill">
+                            <i class="bi bi-check-circle-fill me-1"></i>Terbuka
+                        </span>
+                    </div>
+                    <p class="text-xs text-slate-600 dark:text-slate-400 mb-0 line-clamp-2" id="bannerPosDesc">
+                        {{ $currentSelectedPos?->deskripsi ?? '' }}
+                    </p>
+                </div>
+            </div>
+
+            <div id="positionIdErrorMsg" class="alert alert-danger py-2 px-3 text-xs rounded-lg mb-2.5 d-none">
+                <i class="bi bi-exclamation-triangle-fill me-1"></i> Silakan pilih salah satu OPD dan formasi magang terlebih dahulu.
+            </div>
+
+            {{-- 2. OPD Cards Grid --}}
+            <div class="mb-2" id="opdGridSection">
+                <div class="d-flex align-items-center justify-content-between mb-2">
+                    <span class="text-xs font-bold text-slate-700 dark:text-slate-300">
+                        <i class="bi bi-buildings me-1"></i>Daftar OPD Kabupaten Tuban ({{ $opdGroups->count() }} Instansi)
+                    </span>
+                    <span class="text-xs text-muted">Klik OPD untuk melihat formasi</span>
+                </div>
+
+                <div class="row g-2.5" id="opdCardsRow">
+                    @foreach($opdGroups as $opdId => $posList)
+                        @php
+                            $opdObj = $posList->first()?->opd;
+                            $opdName = $opdObj?->name ?? ($opdId === 0 ? 'Pemerintah Kabupaten Tuban' : 'OPD Kabupaten Tuban');
+                            $opdCode = $opdObj?->code ?? '';
+                            $opdAddress = $opdObj?->address ?? '';
+                            $isThisOpdSelected = $currentSelectedPos && ((int)$currentSelectedPos->opd_id === (int)$opdId);
+                        @endphp
+                        <div class="col-md-6 mb-1">
+                            <div class="card h-100 border-2 {{ $isThisOpdSelected ? 'border-blue-600 shadow-sm bg-blue-50/20' : 'border-slate-200 dark:border-slate-700 hover:border-blue-400' }} rounded-xl transition-all duration-200 bg-white dark:bg-slate-800 opd-card-item"
+                                 style="cursor: pointer;"
+                                 onclick="openOpdModal({{ $opdId }})">
+                                <div class="card-body p-3 d-flex flex-column justify-content-between h-100">
+                                    <div>
+                                        <div class="d-flex align-items-start justify-content-between gap-2 mb-2">
+                                            <div class="w-9 h-9 rounded-lg bg-blue-50 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400 d-flex align-items-center justify-content-center flex-shrink-0 shadow-2xs">
+                                                <i class="bi bi-buildings fs-5"></i>
+                                            </div>
+                                            <span class="badge bg-blue-50 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300 border border-blue-200 dark:border-blue-800 rounded-pill px-2.5 py-0.5 text-xs font-bold">
+                                                {{ $posList->count() }} Formasi Magang
+                                            </span>
+                                        </div>
+                                        <h6 class="fw-bold text-slate-900 dark:text-white mb-1 text-xs sm:text-sm leading-snug">
+                                            {{ $opdName }}
+                                        </h6>
+                                        @if($opdCode)
+                                            <div class="mb-1">
+                                                <span class="badge bg-slate-100 text-slate-700 dark:bg-slate-700 dark:text-slate-300 text-[10px] font-mono uppercase">
+                                                    {{ $opdCode }}
+                                                </span>
+                                            </div>
+                                        @endif
+                                        @if($opdAddress)
+                                            <p class="text-xs text-slate-500 dark:text-slate-400 mb-0 line-clamp-1">
+                                                <i class="bi bi-geo-alt me-1"></i>{{ $opdAddress }}
+                                            </p>
+                                        @endif
+                                    </div>
+                                    <div class="mt-2.5 pt-2 border-top border-slate-100 dark:border-slate-700/60 d-flex align-items-center justify-content-between">
+                                        <span class="text-xs font-semibold text-blue-600 dark:text-blue-400 d-inline-flex align-items-center gap-1">
+                                            Lihat Formasi <i class="bi bi-arrow-right"></i>
+                                        </span>
+                                        <button type="button" class="btn btn-sm btn-primary py-1 px-2.5 text-xs font-bold rounded-lg shadow-2xs" onclick="event.stopPropagation(); openOpdModal({{ $opdId }});">
+                                            Pilih Formasi
+                                        </button>
                                     </div>
                                 </div>
-                                <div class="ms-1.5">
-                                    <span class="badge rounded-pill text-[10px] bg-success-subtle text-success border border-success-subtle px-2 py-0.5 fw-bold">
-                                        <i class="bi bi-check-circle-fill me-0.5"></i>Terbuka
-                                    </span>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+
+            {{-- 3. Hidden Radio Inputs --}}
+            <div class="visually-hidden" id="hiddenPositionRadios">
+                @foreach($positions as $pos)
+                    @php
+                        $opdObj = $pos->opd;
+                        $opdName = $opdObj?->name ?? 'Pemerintah Kabupaten Tuban';
+                        $opdCode = $opdObj?->code ?? 'OPD';
+                        $active = (string) $selectedPosId === (string) $pos->id;
+                    @endphp
+                    <input type="radio" name="position_id" value="{{ $pos->id }}" id="radioPos{{ $pos->id }}"
+                           data-pos-name="{{ $pos->nama_posisi }}"
+                           data-opd-name="{{ $opdName }}"
+                           data-opd-code="{{ $opdCode }}"
+                           data-opd-id="{{ $pos->opd_id ?? 0 }}"
+                           data-kuota="{{ $pos->kuota ? $pos->kuota . ' orang' : '-' }}"
+                           data-deskripsi="{{ e($pos->deskripsi ?? '') }}"
+                           @checked($active) required>
+                @endforeach
+            </div>
+
+            {{-- 4. Modals for each OPD --}}
+            @foreach($opdGroups as $opdId => $posList)
+                @php
+                    $opdObj = $posList->first()?->opd;
+                    $opdName = $opdObj?->name ?? ($opdId === 0 ? 'Pemerintah Kabupaten Tuban' : 'OPD Kabupaten Tuban');
+                    $opdCode = $opdObj?->code ?? '';
+                @endphp
+                <div class="modal fade" id="modalOpdPositions{{ $opdId }}" tabindex="-1" aria-labelledby="modalOpdLabel{{ $opdId }}" aria-hidden="true" style="z-index: 1060;">
+                    <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
+                        <div class="modal-content rounded-2xl border-0 shadow-2xl overflow-hidden">
+                            <div class="modal-header border-bottom px-4 py-3 bg-white dark:bg-slate-800 d-flex align-items-center justify-content-between">
+                                <div class="d-flex align-items-center gap-2.5">
+                                    <div class="w-10 h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center fs-5 flex-shrink-0 shadow-sm">
+                                        <i class="bi bi-buildings"></i>
+                                    </div>
+                                    <div>
+                                        <div class="d-flex align-items-center gap-1.5 mb-0.5">
+                                            @if($opdCode)
+                                                <span class="badge bg-blue-100 text-blue-900 border border-blue-200 text-[10px] font-bold uppercase">{{ $opdCode }}</span>
+                                            @endif
+                                            <span class="badge bg-emerald-100 text-emerald-800 border border-emerald-200 text-[10px] font-bold">{{ $posList->count() }} Formasi Aktif</span>
+                                        </div>
+                                        <h5 class="modal-title font-bold text-sm sm:text-base text-slate-900 dark:text-white mb-0" id="modalOpdLabel{{ $opdId }}">
+                                            {{ $opdName }}
+                                        </h5>
+                                    </div>
+                                </div>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body p-3.5 sm:p-4 bg-slate-50/70 dark:bg-slate-900/60">
+                                <div class="alert alert-info bg-blue-50 border border-blue-200 text-blue-900 rounded-xl py-2 px-3 text-xs mb-3 d-flex align-items-center gap-2">
+                                    <i class="bi bi-info-circle-fill text-blue-600 fs-5 flex-shrink-0"></i>
+                                    <span>Pilih salah satu formasi magang di bawah ini untuk melamar ke <strong>{{ $opdName }}</strong>:</span>
+                                </div>
+                                <div class="d-flex flex-column gap-2.5">
+                                    @foreach($posList as $pos)
+                                        @php
+                                            $isPosSelected = (string)$selectedPosId === (string)$pos->id;
+                                        @endphp
+                                        <div class="card rounded-xl border-2 {{ $isPosSelected ? 'border-blue-600 bg-blue-50/20' : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:border-blue-400' }} p-3 sm:p-3.5 transition-all shadow-xs">
+                                            <div class="d-flex flex-column sm:flex-row sm:items-start justify-content-between gap-3">
+                                                <div class="min-w-0 flex-grow-1">
+                                                    <div class="d-flex align-items-center gap-2 flex-wrap mb-1">
+                                                        <h6 class="fw-bold text-slate-900 dark:text-white mb-0 text-sm sm:text-base">
+                                                            {{ $pos->nama_posisi }}
+                                                        </h6>
+                                                        <span class="badge bg-emerald-50 text-emerald-700 border border-emerald-200 rounded px-2 py-0.5 text-[11px] font-bold">
+                                                            <i class="bi bi-check-circle-fill me-1"></i>Terbuka
+                                                        </span>
+                                                        @if($pos->slug)
+                                                            <span class="text-[11px] font-mono text-slate-400">#{{ $pos->slug }}</span>
+                                                        @endif
+                                                    </div>
+                                                    @if(!empty(trim($pos->deskripsi ?? '')))
+                                                        <p class="text-xs text-slate-600 dark:text-slate-300 mb-2 leading-relaxed">
+                                                            {{ $pos->deskripsi }}
+                                                        </p>
+                                                    @endif
+                                                    @if(!empty(trim($pos->kualifikasi ?? '')))
+                                                        <div class="p-2.5 rounded-lg bg-slate-50 dark:bg-slate-700/50 border border-slate-200 dark:border-slate-600 text-xs text-slate-700 dark:text-slate-200">
+                                                            <strong class="text-slate-800 dark:text-slate-100 d-block mb-1"><i class="bi bi-check2-circle text-blue-600 me-1"></i>Kualifikasi / Persyaratan:</strong>
+                                                            <span class="leading-relaxed">{{ $pos->kualifikasi }}</span>
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                                <div class="shrink-0 d-flex align-items-center">
+                                                    <button type="button" class="btn btn-primary fw-bold text-xs py-2 px-3.5 rounded-lg shadow-sm d-inline-flex align-items-center gap-1.5"
+                                                            onclick="selectPositionFromModal({{ $pos->id }}, {{ $opdId }})">
+                                                        <i class="bi bi-check-circle-fill"></i> Pilih Posisi Ini
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
                                 </div>
                             </div>
-                            @if(!empty(trim($pos->deskripsi ?? '')))
-                            <p class="text-xs text-secondary mt-1.5 mb-0 lh-sm line-clamp-2 text-truncate-3">{{ \Illuminate\Support\Str::limit($pos->deskripsi, 120) }}</p>
-                            @endif
-                            <div class="mt-2 text-[11px] text-muted d-flex align-items-center gap-1">
-                                <i class="bi bi-clock-history text-secondary"></i>
-                                Update: {{ $pos->updated_at?->locale('id')->translatedFormat('d M Y') ?? '-' }}
+                            <div class="modal-footer py-2 px-3 bg-white dark:bg-slate-800 border-top d-flex justify-content-between align-items-center">
+                                <span class="text-xs text-muted">Pastikan kualifikasi Anda sesuai sebelum memilih formasi.</span>
+                                <button type="button" class="btn btn-sm btn-secondary text-xs font-semibold rounded-lg" data-bs-dismiss="modal">Tutup</button>
                             </div>
                         </div>
                     </div>
-                </label>
-                @endforeach
-            </div>
+                </div>
+            @endforeach
+
+            <script>
+            function openOpdModal(opdId) {
+                const modalEl = document.getElementById('modalOpdPositions' + opdId);
+                if (modalEl) {
+                    const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
+                    modal.show();
+                }
+            }
+
+            function selectPositionFromModal(posId, opdId) {
+                const radio = document.getElementById('radioPos' + posId);
+                if (radio) {
+                    radio.checked = true;
+
+                    document.getElementById('bannerPosName').textContent = radio.getAttribute('data-pos-name') || '-';
+                    document.getElementById('bannerOpdName').innerHTML = '<i class="bi bi-buildings me-1"></i>' + (radio.getAttribute('data-opd-name') || '-');
+                    document.getElementById('bannerOpdCode').textContent = radio.getAttribute('data-opd-code') || 'OPD';
+                    document.getElementById('bannerPosDesc').textContent = radio.getAttribute('data-deskripsi') || '';
+
+                    const banner = document.getElementById('selectedPositionBanner');
+                    if (banner) {
+                        banner.classList.remove('d-none');
+                        banner.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    }
+
+                    const errEl = document.getElementById('positionIdErrorMsg');
+                    if (errEl) errEl.classList.add('d-none');
+
+                    const modalEl = document.getElementById('modalOpdPositions' + opdId);
+                    if (modalEl) {
+                        const modal = bootstrap.Modal.getInstance(modalEl);
+                        if (modal) modal.hide();
+                    }
+                }
+            }
+
+            function scrollToOpdSection() {
+                const el = document.getElementById('opdGridSection');
+                if (el) {
+                    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }
+            </script>
+
             @error('position_id')
                 <div class="text-danger text-xs mt-1.5 fw-bold">
                     <i class="bi bi-exclamation-triangle-fill me-1"></i>{{ $message }}

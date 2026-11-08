@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta name="description" content="SIMAGANG - Sistem Informasi Magang Dinas Komunikasi dan Informatika, Statistik dan Persandian Kabupaten Tuban">
+    <meta name="description" content="SIMAGANG - Sistem Informasi Magang Pemerintah Kabupaten Tuban">
 
-    <title>@yield('title', 'Dashboard') — SIMAGANG Diskominfo SP Tuban</title>
+    <title>@yield('title', 'Dashboard') — SIMAGANG Pemerintah Kabupaten Tuban</title>
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="{{ asset('traveland/images/logo.png') }}">
@@ -89,6 +89,21 @@
                             </div>
                         @endif
                     @endforeach
+
+                    @if(auth()->check() && auth()->user()->hasDefaultPassword() && !request()->routeIs('profile*'))
+                        <div class="alert alert-danger bg-rose-50 border border-rose-300 text-rose-800 dark:bg-rose-950/40 dark:text-rose-200 dark:border-rose-800 px-3.5 py-2.5 rounded-xl mb-3 d-flex flex-column flex-sm-row align-items-sm-center justify-content-between gap-2.5 shadow-xs" role="alert">
+                            <div class="d-flex align-items-center gap-2.5">
+                                <i class="bi bi-shield-exclamation fs-4 text-rose-600 dark:text-rose-400 flex-shrink-0"></i>
+                                <div>
+                                    <span class="fw-bold text-xs sm:text-sm d-block">Peringatan Keamanan Akun:</span>
+                                    <span class="text-xs text-rose-700 dark:text-rose-300">Akun Anda saat ini masih menggunakan password default. Harap segera ganti kata sandi Anda di menu Pengaturan Akun demi menjaga keamanan akun dan data magang instansi Anda.</span>
+                                </div>
+                            </div>
+                            <a href="{{ route('profile.edit') }}" class="btn btn-sm btn-danger text-nowrap flex-shrink-0 font-bold py-1.5 px-3 text-xs rounded-lg shadow-xs">
+                                <i class="bi bi-key-fill me-1"></i> Ganti Password Sekarang
+                            </a>
+                        </div>
+                    @endif
 
                     @yield('content')
                 </div>

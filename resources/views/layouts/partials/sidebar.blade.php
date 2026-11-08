@@ -62,7 +62,7 @@
             <img src="{{ asset('traveland/images/logo.png') }}" alt="Logo Tuban" class="h-10 w-auto object-contain flex-shrink-0 sidebar-brand-logo">
             <div>
                 <h1 class="text-white font-bold text-lg leading-tight tracking-wide mb-0" style="font-size: 1.05rem; font-weight: 700; color: #ffffff;">SIMAGANG</h1>
-                <p class="text-slate-400 text-xs font-medium mb-0" style="font-size: 0.75rem; color: #94a3b8;">Diskominfo SP Kab. Tuban</p>
+                <p class="text-slate-400 text-xs font-medium mb-0" style="font-size: 0.75rem; color: #94a3b8;">Pemerintah Kab. Tuban</p>
             </div>
         </a>
     </div>
@@ -85,22 +85,38 @@
                         <span class="nav-text">Dashboard</span>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link {{ str_starts_with($currentRoute, 'admin.positions') ? 'active' : '' }}" href="{{ route('admin.positions.index') }}">
-                        <span class="nav-icon"><i class="bi bi-briefcase" aria-hidden="true"></i></span>
-                        <span class="nav-text">Posisi Magang</span>
-                    </a>
-                </li>
+                @if(auth()->user()->isSuperAdmin())
+                    <li class="nav-item">
+                        <a class="nav-link {{ str_starts_with($currentRoute, 'admin.opds') ? 'active' : '' }}" href="{{ route('admin.opds.index') }}">
+                            <span class="nav-icon"><i class="bi bi-buildings" aria-hidden="true"></i></span>
+                            <span class="nav-text">Manajemen OPD</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ str_starts_with($currentRoute, 'admin.opd-admins') ? 'active' : '' }}" href="{{ route('admin.opd-admins.index') }}">
+                            <span class="nav-icon"><i class="bi bi-person-badge-fill" aria-hidden="true"></i></span>
+                            <span class="nav-text">Admin OPD</span>
+                        </a>
+                    </li>
+                @endif
+                @if(!auth()->user()->isSuperAdmin())
+                    <li class="nav-item">
+                        <a class="nav-link {{ str_starts_with($currentRoute, 'admin.positions') ? 'active' : '' }}" href="{{ route('admin.positions.index') }}">
+                            <span class="nav-icon"><i class="bi bi-briefcase" aria-hidden="true"></i></span>
+                            <span class="nav-text">Posisi Magang</span>
+                        </a>
+                    </li>
+                @endif
                 <li class="nav-item">
                     <a class="nav-link {{ str_starts_with($currentRoute, 'admin.applications') ? 'active' : '' }}" href="{{ route('admin.applications.index') }}">
-                        <span class="nav-icon"><i class="bi bi-journal-check" aria-hidden="true"></i></span>
-                        <span class="nav-text">Verifikasi Pendaftaran</span>
+                        <span class="nav-icon"><i class="bi {{ auth()->user()->isSuperAdmin() ? 'bi-clipboard-data' : 'bi-journal-check' }}" aria-hidden="true"></i></span>
+                        <span class="nav-text">{{ auth()->user()->isSuperAdmin() ? 'Monitoring Pendaftaran' : 'Verifikasi Pendaftaran' }}</span>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {{ str_starts_with($currentRoute, 'admin.active-interns') ? 'active' : '' }}" href="{{ route('admin.active-interns.index') }}">
                         <span class="nav-icon"><i class="bi bi-people-fill" aria-hidden="true"></i></span>
-                        <span class="nav-text">Status Magang</span>
+                        <span class="nav-text">{{ auth()->user()->isSuperAdmin() ? 'Monitoring Status Magang' : 'Status Magang' }}</span>
                     </a>
                 </li>
                 <li class="nav-item">
@@ -110,42 +126,50 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ str_starts_with($currentRoute, 'admin.surveys') ? 'active' : '' }}" href="{{ route('admin.surveys.index') }}">
-                        <span class="nav-icon"><i class="bi bi-star-fill" aria-hidden="true"></i></span>
-                        <span class="nav-text">Survei Kepuasan</span>
+                    <a class="nav-link {{ str_starts_with($currentRoute, 'admin.certificates') ? 'active' : '' }}" href="{{ route('admin.certificates.index') }}">
+                        <span class="nav-icon"><i class="bi bi-award" aria-hidden="true"></i></span>
+                        <span class="nav-text">Sertifikat Magang</span>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link {{ $isPengaturanActive ? 'active' : '' }}" href="#" onclick="event.preventDefault(); const sub = document.getElementById('subPengaturan'); sub.style.display = (sub.style.display === 'none' || sub.style.display === '') ? 'block' : 'none';">
-                        <i class="bi bi-gear me-2"></i>
-                        <span>Pengaturan</span>
-                        <i class="bi bi-chevron-down ms-auto float-end"></i>
-                    </a>
-                    <div id="subPengaturan" style="display: {{ $isPengaturanActive ? 'block' : 'none' }};">
-                        <ul class="nav flex-column ms-3 mt-1">
-                            <li class="nav-item">
-                                <a class="nav-link py-1" href="{{ url('/admin/settings#pengaturan-global') }}">
-                                    <i class="bi bi-globe me-2"></i>Pengaturan Global
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link py-1" href="{{ url('/admin/settings#landing-page-portal') }}">
-                                    <i class="bi bi-layout-text-window-reverse me-2"></i>Landing Page Portal
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link py-1" href="{{ url('/admin/settings#informasi-kontak') }}">
-                                    <i class="bi bi-person-lines-fill me-2"></i>Informasi Kontak & Sosial Media
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link py-1" href="{{ url('/admin/landing-contents') }}">
-                                    <i class="bi bi-grid-fill me-2"></i>Konten Landing
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
+                @if(auth()->user()->isSuperAdmin())
+                    <li class="nav-item">
+                        <a class="nav-link {{ str_starts_with($currentRoute, 'admin.surveys') ? 'active' : '' }}" href="{{ route('admin.surveys.index') }}">
+                            <span class="nav-icon"><i class="bi bi-star-fill" aria-hidden="true"></i></span>
+                            <span class="nav-text">Survei Kepuasan</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ $isPengaturanActive ? 'active' : '' }}" href="#" onclick="event.preventDefault(); const sub = document.getElementById('subPengaturan'); sub.style.display = (sub.style.display === 'none' || sub.style.display === '') ? 'block' : 'none';">
+                            <i class="bi bi-gear me-2"></i>
+                            <span>Pengaturan</span>
+                            <i class="bi bi-chevron-down ms-auto float-end"></i>
+                        </a>
+                        <div id="subPengaturan" style="display: {{ $isPengaturanActive ? 'block' : 'none' }};">
+                            <ul class="nav flex-column ms-3 mt-1">
+                                <li class="nav-item">
+                                    <a class="nav-link py-1" href="{{ url('/admin/settings#pengaturan-global') }}">
+                                        <i class="bi bi-globe me-2"></i>Pengaturan Global
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link py-1" href="{{ url('/admin/settings#landing-page-portal') }}">
+                                        <i class="bi bi-layout-text-window-reverse me-2"></i>Landing Page Portal
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link py-1" href="{{ url('/admin/settings#informasi-kontak') }}">
+                                        <i class="bi bi-person-lines-fill me-2"></i>Informasi Kontak & Sosial Media
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link py-1" href="{{ url('/admin/landing-contents') }}">
+                                        <i class="bi bi-grid-fill me-2"></i>Konten Landing
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                @endif
                 <li class="nav-item">
                     <a class="nav-link {{ str_starts_with($currentRoute, 'profile.edit') ? 'active' : '' }}" href="{{ route('profile.edit') }}">
                         <span class="nav-icon"><i class="bi bi-person-gear" aria-hidden="true"></i></span>
@@ -163,12 +187,6 @@
                     <a class="nav-link {{ str_starts_with($currentRoute, 'pembimbing.materials') ? 'active' : '' }}" href="{{ route('pembimbing.materials.index') }}">
                         <span class="nav-icon"><i class="bi bi-clipboard-check" aria-hidden="true"></i></span>
                         <span class="nav-text">Penugasan</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {{ str_starts_with($currentRoute, 'pembimbing.certificates') ? 'active' : '' }}" href="{{ route('pembimbing.certificates.index') }}">
-                        <span class="nav-icon"><i class="bi bi-award" aria-hidden="true"></i></span>
-                        <span class="nav-text">Sertifikat Magang</span>
                     </a>
                 </li>
                 <li class="nav-item">

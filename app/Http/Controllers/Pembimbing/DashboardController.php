@@ -25,12 +25,12 @@ class DashboardController extends Controller
         if (! in_array($status, ['all', 'active', 'inactive'], true)) {
             $status = 'all';
         }
-        $allowedPerPage = ['10', '20', '50', 'all'];
+        $allowedPerPage = ['5', '10', '15', '20', '25', '50', '100', 'all'];
         if (! in_array($perPageRaw, $allowedPerPage, true)) {
             $perPageRaw = '10';
         }
         $isAllPerPage = $perPageRaw === 'all';
-        $perPage = $isAllPerPage ? 10 : (int) $perPageRaw;
+        $perPage = $isAllPerPage ? 10000 : (int) $perPageRaw;
 
         $today = now()->toDateString();
         $opStatus = $status;
@@ -42,6 +42,14 @@ class DashboardController extends Controller
             ->whereHas('user', function (Builder $q) use ($user) {
                 $q->where('division_id', $user->division_id);
             });
+
+        if (! empty($user->opd_id)) {
+            $query->where(function (Builder $q) use ($user): void {
+                $q->where('opd_id', $user->opd_id)
+                    ->orWhereHas('position', fn (Builder $pq) => $pq->where('opd_id', $user->opd_id))
+                    ->orWhereHas('user', fn (Builder $uq) => $uq->where('opd_id', $user->opd_id));
+            });
+        }
 
         if ($search !== '') {
             $query->where(function ($q) use ($search): void {
@@ -99,10 +107,20 @@ class DashboardController extends Controller
             $interns = $query->latest('updated_at')->paginate($perPage)->withQueryString();
         }
 
-        $allAccepted = \App\Models\Registration::where('status', \App\Enums\RegistrationStatus::Accepted->value)
+        $allAcceptedQuery = \App\Models\Registration::where('status', \App\Enums\RegistrationStatus::Accepted->value)
             ->whereHas('user', function (Builder $q) use ($user) {
                 $q->where('division_id', $user->division_id);
-            })->get();
+            });
+
+        if (! empty($user->opd_id)) {
+            $allAcceptedQuery->where(function (Builder $q) use ($user): void {
+                $q->where('opd_id', $user->opd_id)
+                    ->orWhereHas('position', fn (Builder $pq) => $pq->where('opd_id', $user->opd_id))
+                    ->orWhereHas('user', fn (Builder $uq) => $uq->where('opd_id', $user->opd_id));
+            });
+        }
+
+        $allAccepted = $allAcceptedQuery->get();
             
         $statsTotalInterns = $allAccepted->count();
         $statsActiveInterns = $allAccepted->filter(fn ($r) => $r->operational_status === 'active' || $r->operational_status === 'upcoming')->count();
@@ -162,6 +180,14 @@ class DashboardController extends Controller
                 $q->where('division_id', $user->division_id);
             });
 
+        if (! empty($user->opd_id)) {
+            $query->where(function (Builder $q) use ($user): void {
+                $q->where('opd_id', $user->opd_id)
+                    ->orWhereHas('position', fn (Builder $pq) => $pq->where('opd_id', $user->opd_id))
+                    ->orWhereHas('user', fn (Builder $uq) => $uq->where('opd_id', $user->opd_id));
+            });
+        }
+
         if ($search !== '') {
             $query->where(function ($q) use ($search): void {
                 $q->where('nomor_pendaftaran', 'like', "%{$search}%")
@@ -203,20 +229,32 @@ class DashboardController extends Controller
 
         $interns = $query->latest('updated_at')->get();
 
-        $allAccepted = \App\Models\Registration::where('status', \App\Enums\RegistrationStatus::Accepted->value)
+        $allAcceptedQuery = \App\Models\Registration::where('status', \App\Enums\RegistrationStatus::Accepted->value)
             ->whereHas('user', function (Builder $q) use ($user) {
                 $q->where('division_id', $user->division_id);
-            })->get();
+            });
+
+        if (! empty($user->opd_id)) {
+            $allAcceptedQuery->where(function (Builder $q) use ($user): void {
+                $q->where('opd_id', $user->opd_id)
+                    ->orWhereHas('position', fn (Builder $pq) => $pq->where('opd_id', $user->opd_id))
+                    ->orWhereHas('user', fn (Builder $uq) => $uq->where('opd_id', $user->opd_id));
+            });
+        }
+
+        $allAccepted = $allAcceptedQuery->get();
             
         $statsTotalInterns = $allAccepted->count();
         $statsActiveInterns = $allAccepted->filter(fn ($r) => $r->operational_status === 'active' || $r->operational_status === 'upcoming')->count();
         $statsInactiveInterns = $allAccepted->filter(fn ($r) => $r->operational_status === 'completed' || $r->operational_status === 'terminated')->count();
 
         $printedAt = now()->translatedFormat('d F Y H:i').' WIB';
+        $opd = $user->opd ?? $user->division?->opd;
 
         $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('pembimbing.dashboard-pdf', compact(
             'interns',
             'user',
+            'opd',
             'divisionName',
             'search',
             'status',
