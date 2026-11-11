@@ -31,9 +31,9 @@ class LandingContentController extends Controller
         $selectedSection = $request->query('section') ?? $request->query('category');
         $search = $request->query('search');
 
-        $query = LandingContent::query();
+        $query = LandingContent::query()->whereIn('section', ['advantage', 'workflow', 'faq']);
 
-        if ($selectedSection) {
+        if ($selectedSection && in_array($selectedSection, ['advantage', 'workflow', 'faq'], true)) {
             $query->where('section', $selectedSection);
         }
 
@@ -61,16 +61,14 @@ class LandingContentController extends Controller
             ->withQueryString();
 
         $statistics = [
-            'total'     => LandingContent::count(),
-            'active'    => LandingContent::where('is_active', true)->count(),
-            'about'     => LandingContent::where('section', 'about')->count(),
+            'total'     => LandingContent::whereIn('section', ['advantage', 'workflow', 'faq'])->count(),
+            'active'    => LandingContent::whereIn('section', ['advantage', 'workflow', 'faq'])->where('is_active', true)->count(),
             'advantage' => LandingContent::where('section', 'advantage')->count(),
             'workflow'  => LandingContent::where('section', 'workflow')->count(),
             'faq'       => LandingContent::where('section', 'faq')->count(),
         ];
 
         $sections = [
-            'about'     => 'Tentang',
             'advantage' => 'Keunggulan',
             'workflow'  => 'Alur Pendaftaran',
             'faq'       => 'FAQ',
@@ -94,7 +92,6 @@ class LandingContentController extends Controller
         $this->authorizeSuperAdmin();
 
         $sections = [
-            'about'     => 'Tentang',
             'advantage' => 'Keunggulan',
             'workflow'  => 'Alur Pendaftaran',
             'faq'       => 'FAQ',
@@ -111,7 +108,7 @@ class LandingContentController extends Controller
         $this->authorizeSuperAdmin();
 
         $validated = $request->validate([
-            'section'     => 'required|string|in:about,advantage,workflow,faq',
+            'section'     => 'required|string|in:advantage,workflow,faq',
             'title'       => 'required|string|max:255',
             'description' => 'nullable|string',
             'icon'        => 'nullable|string|max:255',
@@ -136,7 +133,6 @@ class LandingContentController extends Controller
         $this->authorizeSuperAdmin();
 
         $sections = [
-            'about'     => 'Tentang',
             'advantage' => 'Keunggulan',
             'workflow'  => 'Alur Pendaftaran',
             'faq'       => 'FAQ',
@@ -153,7 +149,7 @@ class LandingContentController extends Controller
         $this->authorizeSuperAdmin();
 
         $validated = $request->validate([
-            'section'     => 'required|string|in:about,advantage,workflow,faq',
+            'section'     => 'required|string|in:advantage,workflow,faq',
             'title'       => 'required|string|max:255',
             'description' => 'nullable|string',
             'icon'        => 'nullable|string|max:255',

@@ -355,8 +355,8 @@
                                                 <div class="row g-2 py-1">
                                                     <div class="col-4 text-slate-500 font-semibold">Aktivitas Modul</div>
                                                     <div class="col-8 text-slate-700 dark:text-slate-300">
-                                                        <span class="badge bg-blue-50 text-blue-700 border border-blue-200 me-1">{{ $materialsCount }} Materi Modul</span>
-                                                        <span class="badge bg-emerald-50 text-emerald-700 border border-emerald-200">{{ $tasksCount }} Penugasan</span>
+                                                        <span style="background-color: #dbeafe !important; color: #1e40af !important; border: 1px solid #bfdbfe !important; padding: 0.2rem 0.5rem; border-radius: 9999px; font-weight: 700; font-size: 0.72rem;" class="d-inline-flex align-items-center me-1">{{ $materialsCount }} Materi Modul</span>
+                                                        <span style="background-color: #d1fae5 !important; color: #065f46 !important; border: 1px solid #a7f3d0 !important; padding: 0.2rem 0.5rem; border-radius: 9999px; font-weight: 700; font-size: 0.72rem;" class="d-inline-flex align-items-center">{{ $tasksCount }} Penugasan</span>
                                                     </div>
                                                 </div>
                                             </div>

@@ -75,7 +75,7 @@
                                 <td>{{ $task->deadline->format('d M Y H:i') }}</td>
                                 <td>
                                     @foreach($task->allowed_format as $format)
-                                        <span class="badge bg-slate-200 text-slate-900 border border-slate-400 text-xs px-2.5 py-0.5 rounded-pill font-bold shadow-xs">{{ strtoupper($format) }}</span>
+                                        <span class="text-xs px-2.5 py-0.5 rounded-pill font-bold shadow-xs" style="background-color: #e2e8f0 !important; color: #0f172a !important; border: 1px solid #94a3b8 !important;">{{ strtoupper($format) }}</span>
                                     @endforeach
                                 </td>
                                 <td>

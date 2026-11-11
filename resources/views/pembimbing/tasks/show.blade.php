@@ -36,13 +36,13 @@
                                 <td>{{ $submission->created_at->format('d M Y H:i') }}</td>
                                 <td>
                                     @if($submission->status === 'reviewed')
-                                        <span class="badge bg-emerald-100 text-emerald-950 border border-emerald-400 py-1 px-2.5 text-xs rounded-pill font-bold shadow-xs">Reviewed</span>
+                                        <span class="py-1 px-2.5 text-xs rounded-pill font-bold shadow-xs d-inline-block" style="background-color: #d1fae5 !important; color: #064e3b !important; border: 1px solid #34d399 !important;">Reviewed</span>
                                     @elseif($submission->status === 'revision')
-                                        <span class="badge bg-amber-100 text-amber-950 border border-amber-400 py-1 px-2.5 text-xs rounded-pill font-bold shadow-xs">Revision</span>
+                                        <span class="py-1 px-2.5 text-xs rounded-pill font-bold shadow-xs d-inline-block" style="background-color: #fef3c7 !important; color: #78350f !important; border: 1px solid #fbbf24 !important;">Revision</span>
                                     @elseif($submission->status === 'submitted')
-                                        <span class="badge bg-blue-100 text-blue-950 border border-blue-400 py-1 px-2.5 text-xs rounded-pill font-bold shadow-xs">Submitted</span>
+                                        <span class="py-1 px-2.5 text-xs rounded-pill font-bold shadow-xs d-inline-block" style="background-color: #dbeafe !important; color: #1e3a8a !important; border: 1px solid #60a5fa !important;">Submitted</span>
                                     @else
-                                        <span class="badge bg-slate-200 text-slate-900 border border-slate-400 py-1 px-2.5 text-xs rounded-pill font-bold shadow-xs">{{ ucfirst($submission->status) }}</span>
+                                        <span class="py-1 px-2.5 text-xs rounded-pill font-bold shadow-xs d-inline-block" style="background-color: #e2e8f0 !important; color: #0f172a !important; border: 1px solid #94a3b8 !important;">{{ ucfirst($submission->status) }}</span>
                                     @endif
                                 </td>
                                 <td>

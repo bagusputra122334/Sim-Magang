@@ -105,15 +105,26 @@ class LoginRequest extends FormRequest
             // Siklus 3: Total akumulasi gagal >= 15x -> Lockout 15 Menit (900 detik)
             if ($cumulativeFailures >= 15 && $currentCycleAttempts >= 5) {
                 $this->applyLockout(900);
+                $lockoutSeconds = 900;
             }
             // Siklus 2: Total akumulasi gagal >= 10x -> Lockout 5 Menit (300 detik) + Kirim Email Alert
             elseif ($cumulativeFailures >= 10 && $currentCycleAttempts >= 5) {
                 $this->applyLockout(300);
                 $this->sendSecurityAlertMail($credentials['email']);
+                $lockoutSeconds = 300;
             }
             // Siklus 1: 5x gagal -> Lockout 60 Detik Penuh (1 menit)
             elseif ($currentCycleAttempts >= 5) {
                 $this->applyLockout(60);
+                $lockoutSeconds = 60;
+            } else {
+                $lockoutSeconds = null;
+            }
+
+            if ($lockoutSeconds !== null) {
+                throw ValidationException::withMessages([
+                    'email' => 'Terlalu banyak percobaan login yang gagal. Akses masuk dikunci sementara selama ' . ceil($lockoutSeconds / 60) . ' menit demi keamanan akun.',
+                ]);
             }
 
             throw ValidationException::withMessages([

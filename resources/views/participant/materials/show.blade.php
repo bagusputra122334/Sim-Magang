@@ -5,7 +5,7 @@
     $sourceType = $material->source_type ?? 'material';
     $isTaskSubmission = !empty($submission->source_task_submission);
     $hasSubmissionLink = !empty($submission->submission_link);
-    $hasSubmissionFile = !empty($submission->file_path);
+    $hasSubmissionFile = $submission && (count($submission->all_files) > 0 || !empty($submission->file_path));
 
     $submissionType = $material->submission_type;
     $isFileAllowed = $material->isFileSubmission();
@@ -64,6 +64,11 @@
                         <h6 class="m-0 fw-bold text-primary">
                             <i class="bi bi-journal-text me-1.5"></i>Konten Materi
                         </h6>
+                        @if(($material->target_type ?? 'all') === 'custom')
+                            <span style="background-color: #ede9fe !important; color: #5b21b6 !important; padding: 0.2rem 0.5rem !important; border-radius: 9999px !important; font-size: 0.72rem !important; font-weight: 700 !important; border: 1px solid #ddd6fe !important;" class="d-inline-flex align-items-center">
+                                <i class="bi bi-person-fill me-1"></i> Tugas Mandiri Khusus Anda
+                            </span>
+                        @endif
                         @if($material->is_task)
                             <span style="background-color: #fef3c7 !important; color: #92400e !important; padding: 0.2rem 0.5rem !important; border-radius: 9999px !important; font-size: 0.72rem !important; font-weight: 700 !important; border: 1px solid #fde68a !important;" class="d-inline-flex align-items-center">
                                 <i class="bi bi-clipboard-check me-1"></i> Tugas
@@ -103,26 +108,39 @@
                         </div>
                     </div>
 
-                    @if(!empty($material->file_materi))
+                    @php
+                        $materialFiles = $material->all_files;
+                    @endphp
+                    @if(count($materialFiles) > 0)
                         <div class="mt-3">
                             <label class="block text-xs font-bold !text-slate-800 dark:!text-slate-200 uppercase mb-1.5" style="letter-spacing: 0.05em;">
-                                <i class="bi bi-file-earmark-text text-primary me-1"></i>Dokumen Materi
+                                <i class="bi bi-paperclip text-primary me-1"></i>Lampiran Berkas Materi ({{ count($materialFiles) }} Berkas)
                             </label>
-                            <div class="p-2.5 border rounded-2 bg-light d-flex align-items-center justify-content-between gap-2.5">
-                                <div class="d-flex align-items-center gap-2 min-w-0">
-                                    <i class="bi bi-file-earmark-text fs-3 text-primary flex-shrink-0"></i>
-                                    <div class="min-w-0">
-                                        <div class="fw-bold text-xs text-truncate">
-                                            {{ basename($material->file_materi) }}
+                            <div class="d-flex flex-column gap-2">
+                                @foreach($materialFiles as $f)
+                                    <div class="p-2.5 border rounded-2 bg-light d-flex align-items-center justify-content-between gap-2.5">
+                                        <div class="d-flex align-items-center gap-2 min-w-0">
+                                            <i class="bi bi-file-earmark-arrow-down fs-4 text-primary flex-shrink-0"></i>
+                                            <div class="min-w-0">
+                                                <div class="fw-bold text-xs text-truncate" title="{{ $f['name'] ?? basename($f['path']) }}">
+                                                    {{ $f['name'] ?? basename($f['path']) }}
+                                                </div>
+                                                <div class="d-flex align-items-center gap-1.5 mt-0.5">
+                                                    @if(!empty($f['size']))
+                                                        <span style="background-color: #e2e8f0 !important; color: #0f172a !important; font-weight: 700; font-size: 0.68rem; padding: 0.1rem 0.45rem; border-radius: 4px; border: 1px solid #cbd5e1;" class="d-inline-flex align-items-center">
+                                                            <i class="bi bi-hdd-fill text-slate-500 me-1" style="font-size: 0.6rem;"></i>
+                                                            {{ $f['size'] >= 1048576 ? number_format($f['size'] / 1048576, 1) . ' MB' : number_format($f['size'] / 1024, 0) . ' KB' }}
+                                                        </span>
+                                                    @endif
+                                                    <span class="text-muted text-xs">&bull; Lampiran dari Pembimbing</span>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <small class="text-muted text-xs">
-                                            Lampiran dokumen dari Pembimbing
-                                        </small>
+                                        <a href="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($f['path']) }}" target="_blank" download="{{ $f['name'] ?? basename($f['path']) }}" class="btn btn-primary btn-sm rounded-2 flex-shrink-0 px-3 py-1.5 fw-bold text-xs shadow-sm">
+                                            <i class="bi bi-download me-1"></i>Unduh
+                                        </a>
                                     </div>
-                                </div>
-                                <a href="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($material->file_materi) }}" target="_blank" class="btn btn-primary btn-sm rounded-2 flex-shrink-0 px-3 py-1.5 fw-bold text-xs shadow-sm">
-                                    <i class="bi bi-download me-1"></i>Unduh Dokumen
-                                </a>
+                                @endforeach
                             </div>
                         </div>
                     @endif
@@ -254,7 +272,7 @@
                                     <strong class="alert-heading fw-bold d-block mb-1">Sudah Dikumpulkan!</strong>
                                     <p class="mb-1">
                                         <strong>Status:</strong>
-                                        <span class="badge bg-emerald-100 text-emerald-950 border border-emerald-400 rounded-pill px-2.5 py-0.5 text-xs font-bold shadow-xs">
+                                        <span class="rounded-pill px-2.5 py-0.5 text-xs font-bold shadow-xs d-inline-block" style="background-color: #d1fae5 !important; color: #064e3b !important; border: 1px solid #34d399 !important;">
                                             {{ ucfirst(is_string($submission->status) ? $submission->status : ($submission->status?->value ?? 'Submitted')) }}
                                         </span>
                                     </p>
@@ -268,24 +286,39 @@
                                 </div>
                             </div>
 
-                            @if($hasSubmissionFile)
+                            @php
+                                $submissionFiles = $submission->all_files;
+                            @endphp
+                            @if(count($submissionFiles) > 0)
                                 <div class="mb-3">
-                                    <label class="form-label block text-xs font-bold !text-slate-800 dark:!text-slate-200 uppercase mb-1.5" style="letter-spacing: 0.05em;">File Pengumpulan</label>
-                                    <div class="p-2.5 border rounded-2 bg-light d-flex align-items-center justify-content-between gap-2.5">
-                                        <div class="d-flex align-items-center gap-2 flex-grow-1 min-w-0" style="min-width: 0;">
-                                            <i class="bi bi-file-earmark-arrow-up fs-4 text-primary flex-shrink-0"></i>
-                                            <div class="flex-grow-1 min-w-0">
-                                                <div class="fw-bold text-xs text-truncate" title="{{ basename($submission->file_path) }}">
-                                                    {{ basename($submission->file_path) }}
+                                    <label class="form-label block text-xs font-bold !text-slate-800 dark:!text-slate-200 uppercase mb-1.5" style="letter-spacing: 0.05em;">
+                                        Berkas Pengumpulan ({{ count($submissionFiles) }} Berkas)
+                                    </label>
+                                    <div class="d-flex flex-column gap-2">
+                                        @foreach($submissionFiles as $subF)
+                                            <div class="p-2.5 border rounded-2 bg-light d-flex align-items-center justify-content-between gap-2.5">
+                                                <div class="d-flex align-items-center gap-2 flex-grow-1 min-w-0" style="min-width: 0;">
+                                                    <i class="bi bi-file-earmark-arrow-up fs-4 text-primary flex-shrink-0"></i>
+                                                    <div class="flex-grow-1 min-w-0">
+                                                        <div class="fw-bold text-xs text-truncate" title="{{ $subF['name'] ?? basename($subF['path']) }}">
+                                                            {{ $subF['name'] ?? basename($subF['path']) }}
+                                                        </div>
+                                                        <div class="d-flex align-items-center gap-1.5 mt-0.5">
+                                                            @if(!empty($subF['size']))
+                                                                <span style="background-color: #e2e8f0 !important; color: #0f172a !important; font-weight: 700; font-size: 0.68rem; padding: 0.1rem 0.45rem; border-radius: 4px; border: 1px solid #cbd5e1;" class="d-inline-flex align-items-center">
+                                                                    <i class="bi bi-hdd-fill text-slate-500 me-1" style="font-size: 0.6rem;"></i>
+                                                                    {{ $subF['size'] >= 1048576 ? number_format($subF['size'] / 1048576, 1) . ' MB' : number_format($subF['size'] / 1024, 0) . ' KB' }}
+                                                                </span>
+                                                            @endif
+                                                            <span class="text-muted text-xs">&bull; Telah Dikumpulkan</span>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                                <small class="text-muted d-block text-truncate text-xs" title="{{ \Illuminate\Support\Str::of($submission->file_path)->after('submissions/') }}">
-                                                    {{ \Illuminate\Support\Str::of($submission->file_path)->after('submissions/')->limit(32) }}
-                                                </small>
+                                                <a href="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($subF['path']) }}" target="_blank" download="{{ $subF['name'] ?? basename($subF['path']) }}" class="btn btn-outline-primary btn-sm rounded-2 flex-shrink-0 px-2.5 py-1 text-xs fw-bold">
+                                                    <i class="bi bi-download me-1"></i> Unduh
+                                                </a>
                                             </div>
-                                        </div>
-                                        <a href="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($submission->file_path) }}" target="_blank" class="btn btn-outline-primary btn-sm rounded-2 flex-shrink-0 px-2.5 py-1 text-xs fw-bold">
-                                            <i class="bi bi-download me-1"></i> Unduh
-                                        </a>
+                                        @endforeach
                                     </div>
                                 </div>
                             @endif
@@ -345,24 +378,26 @@
                                             @if($isFileAllowed)
                                                 <div class="mb-2">
                                                     <label class="form-label block text-xs font-bold !text-slate-800 dark:!text-slate-200 mb-1.5">
-                                                        <i class="bi bi-file-earmark-arrow-up me-1"></i>File Pengganti
+                                                        <i class="bi bi-file-earmark-arrow-up me-1"></i>Berkas Pengganti (Bisa pilih lebih dari satu)
                                                         @if($onlyFileAllowed)<span class="text-danger ms-1">*</span>@endif
                                                     </label>
                                                     <input
                                                         type="file"
-                                                        name="file"
-                                                        class="form-control rounded-2 py-1.5 px-2.5 text-xs @error('file') is-invalid @enderror"
+                                                        name="files[]"
+                                                        id="resubmitFilesInput"
+                                                        multiple
+                                                        class="form-control rounded-2 py-1.5 px-2.5 text-xs @error('files') is-invalid @enderror @error('files.*') is-invalid @enderror @error('file') is-invalid @enderror"
                                                         accept="{{ $acceptAttr }}">
                                                     <div class="form-text text-muted text-xs mt-1">
-                                                        Format: <strong>
-                                                            @if($onlyFileAllowed || $onlyLinkAllowed)
-                                                                {{ $fileFormatsHuman }}
-                                                            @else
-                                                                Umum (PDF, DOC, DOCX, ZIP, RAR, JPG, JPEG, PNG)
-                                                            @endif
-                                                        </strong> (Maks. 10 MB)
+                                                        Format: <strong>{{ $fileFormatsHuman }}</strong>. Maks. 100 MB per file.
                                                     </div>
-                                                    @error('file')<div class="invalid-feedback text-xs">{{ $message }}</div>@enderror
+                                                    <div id="resubmitFilePreviewList" class="mt-2 d-none">
+                                                        <div class="text-[11px] font-bold text-slate-700 dark:text-slate-300 mb-1">Daftar Berkas Pengganti yang Dipilih:</div>
+                                                        <div id="resubmitFilePreviewItems" class="d-flex flex-column gap-1"></div>
+                                                    </div>
+                                                    @error('files')<div class="invalid-feedback text-xs d-block">{{ $message }}</div>@enderror
+                                                    @error('files.*')<div class="invalid-feedback text-xs d-block">{{ $message }}</div>@enderror
+                                                    @error('file')<div class="invalid-feedback text-xs d-block">{{ $message }}</div>@enderror
                                                 </div>
                                             @endif
 
@@ -454,26 +489,28 @@
                                 @if($isFileAllowed)
                                     <div>
                                         <label class="form-label block text-xs font-bold !text-slate-800 dark:!text-slate-200 mb-1.5">
-                                            <i class="bi bi-file-earmark-arrow-up me-1 text-gray"></i>Upload File Tugas
+                                            <i class="bi bi-file-earmark-arrow-up me-1 text-gray"></i>Upload Berkas Tugas (Bisa pilih lebih dari satu)
                                             @if($onlyFileAllowed)<span class="text-danger ms-1">*</span>@endif
                                         </label>
                                         <input
                                             type="file"
-                                            name="file"
-                                            class="form-control rounded-2 py-1.5 px-2.5 text-xs @error('file') is-invalid @enderror"
+                                            name="files[]"
+                                            id="submitFilesInput"
+                                            multiple
+                                            class="form-control rounded-2 py-1.5 px-2.5 text-xs @error('files') is-invalid @enderror @error('files.*') is-invalid @enderror @error('file') is-invalid @enderror"
                                             accept="{{ $acceptAttr }}"
                                             @if($onlyFileAllowed) required @endif>
                                         <div class="form-text text-muted text-xs mt-1">
                                             <i class="bi bi-info-circle me-1"></i>
-                                            Format: <strong>
-                                                @if($onlyFileAllowed || $onlyLinkAllowed)
-                                                    {{ $fileFormatsHuman }}
-                                                @else
-                                                    Umum (PDF, DOC, DOCX, ZIP, RAR, JPG, JPEG, PNG)
-                                                @endif
-                                            </strong> (Maks. 10 MB)
+                                            Format didukung: <strong>{{ $fileFormatsHuman }}</strong>. Maks. 100 MB per file.
                                         </div>
-                                        @error('file')<div class="invalid-feedback text-xs">{{ $message }}</div>@enderror
+                                        <div id="submitFilePreviewList" class="mt-2 d-none">
+                                            <div class="text-[11px] font-bold text-slate-700 dark:text-slate-300 mb-1">Daftar Berkas yang Akan Dikirim:</div>
+                                            <div id="submitFilePreviewItems" class="d-flex flex-column gap-1"></div>
+                                        </div>
+                                        @error('files')<div class="invalid-feedback text-xs d-block">{{ $message }}</div>@enderror
+                                        @error('files.*')<div class="invalid-feedback text-xs d-block">{{ $message }}</div>@enderror
+                                        @error('file')<div class="invalid-feedback text-xs d-block">{{ $message }}</div>@enderror
                                     </div>
                                 @endif
 
@@ -691,6 +728,43 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
+    function formatBytes(bytes) {
+        if (!bytes || bytes === 0) return '0 B';
+        var k = 1024, dm = 1, sizes = ['B', 'KB', 'MB', 'GB'];
+        var i = Math.floor(Math.log(bytes) / Math.log(k));
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+    }
+
+    function setupFilePreview(inputId, listId, itemsId) {
+        var input = document.getElementById(inputId);
+        var list = document.getElementById(listId);
+        var items = document.getElementById(itemsId);
+        if (!input || !list || !items) return;
+
+        input.addEventListener('change', function () {
+            items.innerHTML = '';
+            if (this.files && this.files.length > 0) {
+                list.classList.remove('d-none');
+                Array.from(this.files).forEach(function (f) {
+                    var div = document.createElement('div');
+                    div.className = 'd-flex align-items-center justify-content-between p-1.5 px-2.5 bg-white rounded border border-slate-200 text-xs gap-2';
+                    div.innerHTML = '<span class="text-truncate fw-semibold text-slate-800" style="max-width: 78%;">' +
+                        '<i class="bi bi-file-earmark-check-fill text-primary me-1.5"></i>' + f.name.replace(/</g, '&lt;') +
+                        '</span>' +
+                        '<span style="background-color: #e2e8f0 !important; color: #0f172a !important; font-weight: 700; font-size: 0.72rem; padding: 0.2rem 0.55rem; border-radius: 6px; border: 1px solid #cbd5e1; white-space: nowrap; flex-shrink: 0;">' +
+                        '<i class="bi bi-hdd-fill text-slate-500 me-1" style="font-size: 0.65rem;"></i>' + formatBytes(f.size) +
+                        '</span>';
+                    items.appendChild(div);
+                });
+            } else {
+                list.classList.add('d-none');
+            }
+        });
+    }
+
+    setupFilePreview('submitFilesInput', 'submitFilePreviewList', 'submitFilePreviewItems');
+    setupFilePreview('resubmitFilesInput', 'resubmitFilePreviewList', 'resubmitFilePreviewItems');
+
     function setupTaskConfirm(btnId, isResubmit) {
         var btn = document.getElementById(btnId);
         if (!btn) return;
@@ -705,13 +779,18 @@ document.addEventListener('DOMContentLoaded', function () {
 
             var fileInput = form.querySelector('input[type="file"]');
             var linkInput = form.querySelector('input[name="submission_link"]');
-            var fileName = fileInput && fileInput.files[0] ? fileInput.files[0].name : '';
+            var files = fileInput && fileInput.files ? fileInput.files : [];
             var linkVal = linkInput ? linkInput.value.trim() : '';
 
             var details = '<div class="row g-1">';
             details += '<div class="col-4 text-slate-500 font-semibold">Tugas Materi</div><div class="col-8 fw-bold text-slate-900">{{ addslashes($material->title) }}</div>';
-            if (fileName) {
-                details += '<div class="col-4 text-slate-500 font-semibold">Berkas Lampiran</div><div class="col-8 font-monospace text-emerald-700">' + fileName.replace(/</g, '&lt;') + '</div>';
+            if (files.length > 0) {
+                var fileNames = [];
+                for (var i = 0; i < files.length; i++) {
+                    var sz = (files[i].size / (1024 * 1024)).toFixed(1);
+                    fileNames.push(files[i].name + ' (' + sz + ' MB)');
+                }
+                details += '<div class="col-4 text-slate-500 font-semibold">Berkas Lampiran</div><div class="col-8 font-monospace text-emerald-700">' + fileNames.join(', ').replace(/</g, '&lt;') + '</div>';
             }
             if (linkVal) {
                 details += '<div class="col-4 text-slate-500 font-semibold">Link URL</div><div class="col-8 text-blue-600 truncate">' + linkVal.replace(/</g, '&lt;') + '</div>';

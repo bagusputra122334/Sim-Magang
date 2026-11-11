@@ -1064,18 +1064,229 @@
             border-color: #2563eb !important;
         }
 
-        /* Qualification Pill Switcher Buttons */
+        /* =========================================================================
+           QUALIFICATION SWITCHER & ACCESSIBILITY CONTRAST STYLES (WCAG COMPLIANT)
+           ========================================================================= */
+        /* Switch group wrapper */
+        .qual-switch-group {
+            background-color: #f1f5f9 !important;
+            border: 1px solid #cbd5e1 !important;
+        }
+        html[data-theme="dark"] .qual-switch-group {
+            background-color: #0b1326 !important;
+            border: 1px solid #1e293b !important;
+        }
+
+        /* Buttons common base */
         .qual-btn-siswa, .qual-btn-mhs {
             cursor: pointer !important;
             transition: all 0.18s ease-in-out !important;
             outline: none !important;
             user-select: none !important;
+            border-radius: 6px !important;
+            padding: 4px 10px !important;
+            font-size: 11px !important;
+            font-weight: 700 !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 4px !important;
+            line-height: 1.2 !important;
         }
         .qual-btn-siswa:hover, .qual-btn-mhs:hover {
             transform: translateY(-1px);
         }
         .qual-btn-siswa:active, .qual-btn-mhs:active {
             transform: translateY(0px) scale(0.97);
+        }
+
+        /* INACTIVE STATE - LIGHT MODE */
+        .qual-btn-siswa {
+            background-color: #ffffff !important;
+            color: #1e293b !important;
+            border: 1px solid #cbd5e1 !important;
+        }
+        .qual-btn-siswa .qual-icon {
+            color: #2563eb !important;
+        }
+        .qual-btn-siswa:hover {
+            background-color: #eff6ff !important;
+            color: #1d4ed8 !important;
+            border-color: #93c5fd !important;
+        }
+
+        .qual-btn-mhs {
+            background-color: #ffffff !important;
+            color: #1e293b !important;
+            border: 1px solid #cbd5e1 !important;
+        }
+        .qual-btn-mhs .qual-icon {
+            color: #4f46e5 !important;
+        }
+        .qual-btn-mhs:hover {
+            background-color: #eef2ff !important;
+            color: #4338ca !important;
+            border-color: #a5b4fc !important;
+        }
+
+        /* INACTIVE STATE - DARK MODE */
+        html[data-theme="dark"] .qual-btn-siswa {
+            background-color: #1e293b !important;
+            color: #f8fafc !important;
+            border: 1px solid #334155 !important;
+        }
+        html[data-theme="dark"] .qual-btn-siswa .qual-icon {
+            color: #60a5fa !important;
+        }
+        html[data-theme="dark"] .qual-btn-siswa:hover {
+            background-color: #334155 !important;
+            color: #ffffff !important;
+            border-color: #60a5fa !important;
+        }
+
+        html[data-theme="dark"] .qual-btn-mhs {
+            background-color: #1e293b !important;
+            color: #f8fafc !important;
+            border: 1px solid #334155 !important;
+        }
+        html[data-theme="dark"] .qual-btn-mhs .qual-icon {
+            color: #a5b4fc !important;
+        }
+        html[data-theme="dark"] .qual-btn-mhs:hover {
+            background-color: #334155 !important;
+            color: #ffffff !important;
+            border-color: #a5b4fc !important;
+        }
+
+        /* ACTIVE STATE - LIGHT & DARK */
+        .qual-btn-siswa.is-active,
+        html[data-theme="dark"] .qual-btn-siswa.is-active {
+            background-color: #2563eb !important;
+            color: #ffffff !important;
+            border: 1px solid #1d4ed8 !important;
+            box-shadow: 0 2px 4px rgba(37, 99, 235, 0.3) !important;
+        }
+        .qual-btn-siswa.is-active .qual-icon,
+        html[data-theme="dark"] .qual-btn-siswa.is-active .qual-icon {
+            color: #ffffff !important;
+        }
+
+        .qual-btn-mhs.is-active,
+        html[data-theme="dark"] .qual-btn-mhs.is-active {
+            background-color: #4f46e5 !important;
+            color: #ffffff !important;
+            border: 1px solid #4338ca !important;
+            box-shadow: 0 2px 4px rgba(79, 70, 229, 0.3) !important;
+        }
+        .qual-btn-mhs.is-active .qual-icon,
+        html[data-theme="dark"] .qual-btn-mhs.is-active .qual-icon {
+            color: #ffffff !important;
+        }
+
+        /* Placeholder Box */
+        .qual-placeholder-box {
+            background-color: rgba(239, 246, 255, 0.7) !important;
+            border: 1px dashed #93c5fd !important;
+        }
+        .qual-placeholder-title {
+            color: #1e40af !important;
+        }
+        .qual-placeholder-desc {
+            color: #475569 !important;
+        }
+        .qual-hint-badge-siswa {
+            background-color: #ffffff !important;
+            color: #1d4ed8 !important;
+            border: 1px solid #93c5fd !important;
+            font-weight: 700 !important;
+            padding: 2px 6px !important;
+            border-radius: 4px !important;
+        }
+        .qual-hint-badge-mhs {
+            background-color: #ffffff !important;
+            color: #4338ca !important;
+            border: 1px solid #a5b4fc !important;
+            font-weight: 700 !important;
+            padding: 2px 6px !important;
+            border-radius: 4px !important;
+        }
+
+        /* Placeholder Box - DARK MODE */
+        html[data-theme="dark"] .qual-placeholder-box {
+            background-color: rgba(15, 28, 63, 0.6) !important;
+            border: 1px dashed #3b82f6 !important;
+        }
+        html[data-theme="dark"] .qual-placeholder-title {
+            color: #93c5fd !important;
+        }
+        html[data-theme="dark"] .qual-placeholder-desc {
+            color: #cbd5e1 !important;
+        }
+        html[data-theme="dark"] .qual-hint-badge-siswa {
+            background-color: #1e293b !important;
+            color: #93c5fd !important;
+            border: 1px solid #3b82f6 !important;
+        }
+        html[data-theme="dark"] .qual-hint-badge-mhs {
+            background-color: #1e293b !important;
+            color: #c7d2fe !important;
+            border: 1px solid #6366f1 !important;
+        }
+
+        /* Siswa Detail Box */
+        .qual-detail-box-siswa {
+            background-color: rgba(239, 246, 255, 0.6) !important;
+            border: 1px solid #bfdbfe !important;
+        }
+        .qual-detail-box-siswa .qual-detail-header {
+            color: #1e40af !important;
+        }
+        .qual-detail-box-siswa .qual-detail-content {
+            color: #334155 !important;
+        }
+
+        html[data-theme="dark"] .qual-detail-box-siswa {
+            background-color: rgba(12, 24, 54, 0.7) !important;
+            border: 1px solid #1e3a8a !important;
+        }
+        html[data-theme="dark"] .qual-detail-box-siswa .qual-detail-header {
+            color: #93c5fd !important;
+        }
+        html[data-theme="dark"] .qual-detail-box-siswa .qual-detail-content {
+            color: #f1f5f9 !important;
+        }
+
+        /* Mahasiswa Detail Box */
+        .qual-detail-box-mhs {
+            background-color: rgba(238, 242, 255, 0.6) !important;
+            border: 1px solid #c7d2fe !important;
+        }
+        .qual-detail-box-mhs .qual-detail-header {
+            color: #3730a3 !important;
+        }
+        .qual-detail-box-mhs .qual-detail-content {
+            color: #334155 !important;
+        }
+
+        html[data-theme="dark"] .qual-detail-box-mhs {
+            background-color: rgba(20, 22, 56, 0.7) !important;
+            border: 1px solid #312e81 !important;
+        }
+        html[data-theme="dark"] .qual-detail-box-mhs .qual-detail-header {
+            color: #a5b4fc !important;
+        }
+        html[data-theme="dark"] .qual-detail-box-mhs .qual-detail-content {
+            color: #f1f5f9 !important;
+        }
+
+        html[data-theme="dark"] .badge-tipe-pos {
+            background-color: #1e293b !important;
+            color: #93c5fd !important;
+            border: 1px solid #3b82f6 !important;
+        }
+        html[data-theme="dark"] .badge-kuota-pos {
+            background-color: #1e293b !important;
+            color: #cbd5e1 !important;
+            border: 1px solid #334155 !important;
         }
 
         /* Modal Dark Theme */
@@ -1891,7 +2102,7 @@
                                         <i class="bi bi-moon-stars" id="themeIcon"></i>
                                     </button>
 
-                                    <form action="{{ url('/') }}#search-results" method="GET" class="relative hidden md:flex items-center w-56 lg:w-64" x-data="{ searchQuery: '{{ request('search') }}' }">
+                                    <form action="{{ url('/') }}#search-results" method="GET" class="relative hidden md:flex items-center w-56 lg:w-64">
                                         <!-- Icon wrapper with absolute positioning inside padded region -->
                                         <div class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none z-10">
                                             <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1902,7 +2113,7 @@
                                         <!-- Input: Permanent static left padding so placeholder/text never overlaps icon -->
                                         <input type="text" 
                                                name="search" 
-                                               x-model="searchQuery" 
+                                               value="{{ request('search') }}"
                                                autocomplete="off"
                                                placeholder="Cari formasi, panduan..." 
                                                class="w-full !pl-12 pl-12 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-full text-sm text-slate-700 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all shadow-inner"
@@ -1918,7 +2129,7 @@
                                             <i class="bi bi-moon-stars mr-1"></i> Switch Theme
                                         </button>
                                     </div>
-                                    <form action="{{ url('/') }}#search-results" method="GET" class="relative flex items-center w-full mt-2" x-data="{ searchQuery: '{{ request('search') }}' }">
+                                    <form action="{{ url('/') }}#search-results" method="GET" class="relative flex items-center w-full mt-2">
                                         <!-- Icon wrapper with absolute positioning inside padded region -->
                                         <div class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none z-10">
                                             <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1929,7 +2140,7 @@
                                         <!-- Input: Permanent static left padding so placeholder/text never overlaps icon -->
                                         <input type="text" 
                                                name="search" 
-                                               x-model="searchQuery" 
+                                               value="{{ request('search') }}"
                                                autocomplete="off"
                                                placeholder="Cari formasi, panduan..." 
                                                class="w-full !pl-12 pl-12 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-full text-sm text-slate-700 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all shadow-inner"
@@ -2008,30 +2219,19 @@
                     </div>
 
                     <div class="about-narrative">
-                        <p class="leading-relaxed">
-                            <strong>SIMAGANG (Sistem Informasi Magang)</strong> adalah portal resmi terpadu Pemerintah Kabupaten Tuban yang memfasilitasi mahasiswa dan siswa SMK untuk mendapatkan pengalaman kerja nyata di seluruh Organisasi Perangkat Daerah (OPD) se-Kabupaten Tuban.
-                        </p>
+                        @php
+                            $defaultNarrative = "SIMAGANG (Sistem Informasi Magang) adalah portal resmi terpadu Pemerintah Kabupaten Tuban yang memfasilitasi mahasiswa dan siswa SMK untuk mendapatkan pengalaman kerja nyata di seluruh Organisasi Perangkat Daerah (OPD) se-Kabupaten Tuban.\n\nSeluruh tahapan diselenggarakan 100% digital dan paperless—mulai dari pengajuan berkas, pemantauan seleksi secara real-time, bimbingan intensif bersama mentor ASN, hingga penerbitan sertifikat kelulusan digital resmi ber-QR Code.";
+                            $aboutNarrative = get_setting('about_description') ?: $defaultNarrative;
+                            $paragraphs = array_filter(array_map('trim', explode("\n", str_replace(["\r\n", "\r"], "\n", $aboutNarrative))));
+                        @endphp
 
-                        <p class="leading-relaxed">
-                            Seluruh tahapan diselenggarakan <strong>100% digital dan paperless</strong>—mulai dari pengajuan berkas, pemantauan seleksi secara <em>real-time</em>, bimbingan intensif bersama mentor ASN, hingga penerbitan sertifikat kelulusan digital resmi ber-QR Code.
-                        </p>
+                        @foreach($paragraphs as $para)
+                            <p class="leading-relaxed mb-4 text-slate-700 dark:text-slate-300">
+                                {!! $para !!}
+                            </p>
+                        @endforeach
 
-                        <div class="pt-1 mb-4">
-                            <div class="about-feature-item">
-                                <i class="bi bi-check-circle-fill about-feature-icon"></i>
-                                <span>Pendaftaran dan verifikasi berkas daring cepat tanpa dokumen fisik.</span>
-                            </div>
-                            <div class="about-feature-item">
-                                <i class="bi bi-check-circle-fill about-feature-icon"></i>
-                                <span>Pendampingan intensif oleh praktisi ASN pada proyek nyata daerah.</span>
-                            </div>
-                            <div class="about-feature-item">
-                                <i class="bi bi-check-circle-fill about-feature-icon"></i>
-                                <span>Penerbitan Surat Balasan Resmi dan Sertifikat Digital terverifikasi.</span>
-                            </div>
-                        </div>
-
-                        <div class="d-flex align-items-center gap-3 pt-2 flex-wrap">
+                        <div class="d-flex align-items-center gap-3 pt-3 flex-wrap">
                             <a href="#positions" class="main-btn page-scroll d-inline-flex align-items-center gap-2 text-sm font-bold py-2.5 px-4 rounded-xl">
                                 <i class="bi bi-briefcase-fill"></i> Lihat Pilihan Formasi
                             </a>
@@ -2545,15 +2745,20 @@
                 <!-- COLUMN 2: LOKASI KANTOR -->
                 <div class="w-full flex flex-col">
                     <h3 class="text-white font-bold text-sm mb-4 tracking-wider uppercase">LOKASI KANTOR</h3>
-                    <div class="w-full bg-slate-800/60 p-2 rounded-2xl mb-4 shadow-sm">
-                        <div class="w-full h-32 bg-slate-700/60 rounded-xl overflow-hidden flex items-center justify-center">
+                    <div class="w-full bg-slate-800/60 p-2 rounded-2xl mb-4 shadow-sm border border-slate-700/60">
+                        <div class="w-full h-40 bg-slate-700/60 rounded-xl overflow-hidden relative">
                             <iframe 
-                                src="{{ get_setting('maps_embed_url', 'https://www.google.com/maps/embed?pb=!4v1788316632382!6m8!1m7!1szab-FoOpFkmJVJ79X0G0Pw!2m2!1d-6.901873934235668!2d112.0440727763729!3f117.32336345271811!4f-6.10453670657121!5f0.4000000000000002') }}" 
+                                src="{{ get_setting('maps_embed_url', 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3960.9722959624523!2d112.0445401!3d-6.9008171!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e7798377c5f1b75%3A0x6a9a6e8d47b0b26a!2sDinas%20Komunikasi%20dan%20Informatika%20Kabupaten%20Tuban!5e0!3m2!1sid!2sid!4v1700000000000!5m2!1sid!2sid') }}" 
                                 class="w-full h-full border-0 object-cover" 
                                 allowfullscreen="" 
                                 loading="lazy" 
-                                referrerpolicy="strict-origin-when-cross-origin">
+                                referrerpolicy="no-referrer-when-downgrade">
                             </iframe>
+                        </div>
+                        <div class="mt-2 text-center">
+                            <a href="https://maps.google.com/?q=Dinas+Komunikasi+dan+Informatika+Kabupaten+Tuban" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-[11px] font-semibold text-indigo-400 hover:text-indigo-300 transition-colors">
+                                <i class="bi bi-box-arrow-up-right text-[10px]"></i> Buka di Google Maps
+                            </a>
                         </div>
                     </div>
                     <div class="w-full text-xs sm:text-sm flex flex-col gap-1">
@@ -2788,10 +2993,10 @@
                                 </div>
                                 <div>
                                     <div class="d-flex align-items-center gap-2 flex-wrap mb-0.5">
-                                        <span class="badge bg-blue-100 text-blue-800 dark:bg-blue-900/60 dark:text-blue-200 text-xs px-2.5 py-0.5 rounded-full font-semibold">
+                                        <span class="inline-flex items-center text-xs px-2.5 py-0.5 rounded-full font-bold shadow-xs" style="background-color: #dbeafe !important; color: #1e40af !important; border: 1px solid #bfdbfe !important;">
                                             {{ $opdModalItem->code }}
                                         </span>
-                                        <span class="badge {{ $opdModalItem->positions_count > 0 ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/60 dark:text-emerald-200' : 'bg-slate-200 text-slate-700' }} text-xs px-2.5 py-0.5 rounded-full font-bold">
+                                        <span class="inline-flex items-center text-xs px-2.5 py-0.5 rounded-full font-bold shadow-xs" style="{{ $opdModalItem->positions_count > 0 ? 'background-color: #d1fae5 !important; color: #065f46 !important; border: 1px solid #a7f3d0 !important;' : 'background-color: #f1f5f9 !important; color: #475569 !important; border: 1px solid #cbd5e1 !important;' }}">
                                             {{ $opdModalItem->positions_count }} Posisi / Bidang Aktif
                                         </span>
                                     </div>
@@ -2819,7 +3024,7 @@
                                             <div class="modal-position-card p-4 rounded-xl border h-100 d-flex flex-column justify-content-between hover:border-blue-400 transition-all duration-200">
                                                 <div>
                                                     <div class="d-flex align-items-center justify-content-between gap-1 mb-2">
-                                                        <span class="badge bg-blue-50 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300 border border-blue-200 dark:border-blue-800 text-[11px] font-bold">
+                                                        <span class="inline-flex items-center text-[11px] font-bold px-2 py-0.5 rounded-md badge-tipe-pos" style="background-color: #eff6ff !important; color: #1d4ed8 !important; border: 1px solid #bfdbfe !important;">
                                                             @if(($pos->tipe_pendaftar ?? 'all') === 'siswa')
                                                                 <i class="bi bi-backpack-fill me-1"></i> Khusus Siswa (SMK)
                                                             @elseif(($pos->tipe_pendaftar ?? 'all') === 'mahasiswa')
@@ -2829,7 +3034,7 @@
                                                             @endif
                                                         </span>
                                                         @if($pos->kuota)
-                                                            <span class="badge bg-white dark:bg-slate-700 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-600 text-[11px]">
+                                                            <span class="inline-flex items-center text-[11px] font-semibold px-2 py-0.5 rounded-md badge-kuota-pos" style="background-color: #f8fafc !important; color: #334155 !important; border: 1px solid #cbd5e1 !important;">
                                                                 Kuota: {{ $pos->kuota }}
                                                             </span>
                                                         @endif
@@ -2876,59 +3081,56 @@
                                                                 <strong class="text-slate-800 dark:text-slate-100 text-xs d-flex align-items-center gap-1 font-bold">
                                                                     <i class="bi bi-ui-checks-grid text-blue-600 fs-6"></i>
                                                                     <span>Kualifikasi:</span>
-                                                                    <span class="badge bg-amber-100 text-amber-800 dark:bg-amber-900/60 dark:text-amber-200 border border-amber-300 dark:border-amber-700 text-[9.5px] px-1.5 py-0.5 rounded font-bold ms-0.5">
-                                                                        <i class="bi bi-hand-index-thumb-fill me-0.5"></i> Klik Pilihan
-                                                                    </span>
                                                                 </strong>
-                                                                <div class="d-inline-flex p-1 bg-slate-100 dark:bg-slate-800 rounded-lg border border-slate-300 dark:border-slate-600 shadow-2xs gap-1.5 qual-switch-group-{{ $pos->id }}">
+                                                                <div class="d-inline-flex p-1 rounded-lg shadow-2xs gap-1.5 qual-switch-group qual-switch-group-{{ $pos->id }}">
                                                                     <button type="button"
                                                                             id="btn-qual-siswa-{{ $pos->id }}"
-                                                                            class="btn btn-xs py-1 px-2.5 rounded-md font-bold text-[11px] transition-all bg-white dark:bg-slate-700 text-slate-800 dark:text-slate-100 border border-slate-300 dark:border-slate-500 shadow-2xs hover:bg-blue-50 dark:hover:bg-slate-600 hover:text-blue-600 hover:border-blue-400 qual-btn-siswa cursor-pointer d-inline-flex align-items-center gap-1"
+                                                                            class="btn btn-xs py-1 px-2.5 rounded-md font-bold text-[11px] qual-btn-siswa cursor-pointer d-inline-flex align-items-center gap-1"
                                                                             onclick="window.switchKualifikasi('{{ $pos->id }}', 'siswa', this)"
                                                                             title="Klik untuk melihat persyaratan Siswa SMK">
-                                                                        <i class="bi bi-backpack-fill text-blue-600 qual-icon"></i>
+                                                                        <i class="bi bi-backpack-fill qual-icon"></i>
                                                                         <span>Siswa</span>
                                                                     </button>
                                                                     <button type="button"
                                                                             id="btn-qual-mhs-{{ $pos->id }}"
-                                                                            class="btn btn-xs py-1 px-2.5 rounded-md font-bold text-[11px] transition-all bg-white dark:bg-slate-700 text-slate-800 dark:text-slate-100 border border-slate-300 dark:border-slate-500 shadow-2xs hover:bg-indigo-50 dark:hover:bg-slate-600 hover:text-indigo-600 hover:border-indigo-400 qual-btn-mhs cursor-pointer d-inline-flex align-items-center gap-1"
+                                                                            class="btn btn-xs py-1 px-2.5 rounded-md font-bold text-[11px] qual-btn-mhs cursor-pointer d-inline-flex align-items-center gap-1"
                                                                             onclick="window.switchKualifikasi('{{ $pos->id }}', 'mahasiswa', this)"
                                                                             title="Klik untuk melihat persyaratan Mahasiswa">
-                                                                        <i class="bi bi-mortarboard-fill text-indigo-600 qual-icon"></i>
+                                                                        <i class="bi bi-mortarboard-fill qual-icon"></i>
                                                                         <span>Mahasiswa</span>
                                                                     </button>
                                                                 </div>
                                                             </div>
 
                                                             {{-- Placeholder / Instruksi Awal (Sebelum tombol diklik) --}}
-                                                            <div id="qual-placeholder-{{ $pos->id }}" class="py-2.5 px-3 rounded-xl border border-dashed border-blue-300 dark:border-blue-700/80 bg-blue-50/70 dark:bg-blue-950/40 text-center transition-all">
-                                                                <div class="text-blue-800 dark:text-blue-300 font-bold text-[11.5px] d-flex align-items-center justify-content-center gap-1.5 mb-0.5">
+                                                            <div id="qual-placeholder-{{ $pos->id }}" class="qual-placeholder-box py-2.5 px-3 rounded-xl text-center transition-all">
+                                                                <div class="qual-placeholder-title font-bold text-[11.5px] d-flex align-items-center justify-content-center gap-1.5 mb-0.5">
                                                                     <i class="bi bi-hand-index-thumb-fill text-blue-600"></i>
                                                                     <span>Silakan Pilih Jenjang di Atas</span>
                                                                 </div>
-                                                                <div class="text-slate-600 dark:text-slate-400 text-[11px] leading-snug">
-                                                                    Klik tombol <span class="badge bg-white dark:bg-slate-800 text-blue-700 dark:text-blue-300 border border-blue-300 dark:border-blue-600 font-bold px-1.5 py-0.5">Siswa</span> atau <span class="badge bg-white dark:bg-slate-800 text-indigo-700 dark:text-indigo-300 border border-indigo-300 dark:border-indigo-600 font-bold px-1.5 py-0.5">Mahasiswa</span> untuk melihat rincian syarat kualifikasi.
+                                                                <div class="qual-placeholder-desc text-[11px] leading-snug">
+                                                                    Klik tombol <span class="qual-hint-badge-siswa">Siswa</span> atau <span class="qual-hint-badge-mhs">Mahasiswa</span> untuk melihat rincian syarat kualifikasi.
                                                                 </div>
                                                             </div>
 
                                                             {{-- Konten Kualifikasi Siswa (Awalnya Tersembunyi) --}}
-                                                            <div id="qual-siswa-{{ $pos->id }}" class="p-2.5 rounded-xl border border-blue-200 dark:border-blue-900/60 bg-blue-50/50 dark:bg-blue-950/30 text-slate-700 dark:text-slate-300 text-xs leading-relaxed transition-all" style="display: none;">
-                                                                <div class="d-flex align-items-center justify-content-between mb-1 text-blue-900 dark:text-blue-300 font-bold text-[11px]">
-                                                                    <span><i class="bi bi-backpack-fill text-blue-600 me-1"></i> Syarat Kualifikasi Siswa (SMK):</span>
-                                                                    <span class="badge bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 text-[9.5px]">SMK Aktif</span>
+                                                            <div id="qual-siswa-{{ $pos->id }}" class="qual-detail-box-siswa p-2.5 rounded-xl text-xs leading-relaxed transition-all" style="display: none;">
+                                                                <div class="qual-detail-header d-flex align-items-center justify-content-between mb-1 font-bold text-[11px]">
+                                                                    <span><i class="bi bi-backpack-fill me-1"></i> Syarat Kualifikasi Siswa (SMK):</span>
+                                                                    <span class="inline-flex items-center text-[9.5px] font-bold px-1.5 py-0.5 rounded shadow-2xs" style="background-color: #dbeafe !important; color: #1e40af !important; border: 1px solid #bfdbfe !important;">SMK Aktif</span>
                                                                 </div>
-                                                                <div class="text-slate-700 dark:text-slate-300 text-[11.5px] leading-relaxed">
+                                                                <div class="qual-detail-content text-[11.5px] leading-relaxed">
                                                                     {!! nl2br(e($kualSiswa ?: ($kualUmum ?: 'Siswa aktif SMK jurusan terkait dengan surat pengantar resmi sekolah.'))) !!}
                                                                 </div>
                                                             </div>
 
                                                             {{-- Konten Kualifikasi Mahasiswa (Awalnya Tersembunyi) --}}
-                                                            <div id="qual-mahasiswa-{{ $pos->id }}" class="p-2.5 rounded-xl border border-indigo-200 dark:border-indigo-900/60 bg-indigo-50/50 dark:bg-indigo-950/30 text-slate-700 dark:text-slate-300 text-xs leading-relaxed transition-all" style="display: none;">
-                                                                <div class="d-flex align-items-center justify-content-between mb-1 text-indigo-900 dark:text-indigo-300 font-bold text-[11px]">
-                                                                    <span><i class="bi bi-mortarboard-fill text-indigo-600 me-1"></i> Syarat Kualifikasi Mahasiswa:</span>
-                                                                    <span class="badge bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-200 text-[9.5px]">D3 / D4 / S1</span>
+                                                            <div id="qual-mahasiswa-{{ $pos->id }}" class="qual-detail-box-mhs p-2.5 rounded-xl text-xs leading-relaxed transition-all" style="display: none;">
+                                                                <div class="qual-detail-header d-flex align-items-center justify-content-between mb-1 font-bold text-[11px]">
+                                                                    <span><i class="bi bi-mortarboard-fill me-1"></i> Syarat Kualifikasi Mahasiswa:</span>
+                                                                    <span class="inline-flex items-center text-[9.5px] font-bold px-1.5 py-0.5 rounded shadow-2xs" style="background-color: #e0e7ff !important; color: #3730a3 !important; border: 1px solid #c7d2fe !important;">D3 / D4 / S1</span>
                                                                 </div>
-                                                                <div class="text-slate-700 dark:text-slate-300 text-[11.5px] leading-relaxed">
+                                                                <div class="qual-detail-content text-[11.5px] leading-relaxed">
                                                                     {!! nl2br(e($kualMahasiswa ?: ($kualUmum ?: 'Mahasiswa aktif program D3/D4/S1 jurusan terkait.'))) !!}
                                                                 </div>
                                                             </div>
@@ -3010,35 +3212,25 @@
                 placeholderEl.style.display = 'none';
             }
 
-            var inactiveClass = 'btn btn-xs py-1 px-2.5 rounded-md font-bold text-[11px] transition-all bg-white dark:bg-slate-700 text-slate-800 dark:text-slate-100 border border-slate-300 dark:border-slate-500 shadow-2xs hover:bg-slate-100 dark:hover:bg-slate-600 cursor-pointer d-inline-flex align-items-center gap-1';
-
             if (type === 'siswa') {
                 if (siswaEl) siswaEl.style.display = 'block';
                 if (mhsEl) mhsEl.style.display = 'none';
 
                 if (btnSiswa) {
-                    btnSiswa.className = 'btn btn-xs py-1 px-2.5 rounded-md font-bold text-[11px] transition-all bg-blue-600 text-white border border-blue-600 shadow-xs qual-btn-siswa cursor-pointer d-inline-flex align-items-center gap-1';
-                    var iconS = btnSiswa.querySelector('.qual-icon');
-                    if (iconS) iconS.className = 'bi bi-backpack-fill text-white qual-icon';
+                    btnSiswa.classList.add('is-active');
                 }
                 if (btnMhs) {
-                    btnMhs.className = inactiveClass + ' qual-btn-mhs';
-                    var iconM = btnMhs.querySelector('.qual-icon');
-                    if (iconM) iconM.className = 'bi bi-mortarboard-fill text-indigo-600 qual-icon';
+                    btnMhs.classList.remove('is-active');
                 }
             } else {
                 if (siswaEl) siswaEl.style.display = 'none';
                 if (mhsEl) mhsEl.style.display = 'block';
 
                 if (btnMhs) {
-                    btnMhs.className = 'btn btn-xs py-1 px-2.5 rounded-md font-bold text-[11px] transition-all bg-indigo-600 text-white border border-indigo-600 shadow-xs qual-btn-mhs cursor-pointer d-inline-flex align-items-center gap-1';
-                    var iconM = btnMhs.querySelector('.qual-icon');
-                    if (iconM) iconM.className = 'bi bi-mortarboard-fill text-white qual-icon';
+                    btnMhs.classList.add('is-active');
                 }
                 if (btnSiswa) {
-                    btnSiswa.className = inactiveClass + ' qual-btn-siswa';
-                    var iconS = btnSiswa.querySelector('.qual-icon');
-                    if (iconS) iconS.className = 'bi bi-backpack-fill text-blue-600 qual-icon';
+                    btnSiswa.classList.remove('is-active');
                 }
             }
         };

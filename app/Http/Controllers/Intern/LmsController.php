@@ -35,6 +35,7 @@ class LmsController extends Controller
             ->pluck('id');
 
         $materialsQuery = Material::whereIn('pembimbing_id', $pembimbingIds)
+            ->visibleToIntern($intern->id)
             ->whereDoesntHave('progresses', function ($query) use ($intern) {
                 $query->where('intern_id', $intern->id)->where('is_completed', true);
             });
@@ -70,6 +71,10 @@ class LmsController extends Controller
         $pembimbing = User::find($material->pembimbing_id);
         if ($intern->division_id !== null && $pembimbing->division_id !== $intern->division_id) {
             abort(403);
+        }
+
+        if ($material->target_type === 'custom' && ! $material->isAssignedTo($intern->id)) {
+            abort(403, 'Anda tidak ditugaskan untuk materi ini.');
         }
 
         $acceptedRegistration = $this->getActiveAcceptedRegistration($intern);
@@ -128,6 +133,10 @@ class LmsController extends Controller
             abort(403);
         }
 
+        if ($material->target_type === 'custom' && ! $material->isAssignedTo($intern->id)) {
+            abort(403, 'Anda tidak ditugaskan untuk materi ini.');
+        }
+
         $acceptedRegistration = $this->getActiveAcceptedRegistration($intern);
         $startDate = $acceptedRegistration?->periode_mulai;
         $endDate   = $acceptedRegistration?->periode_selesai;
@@ -156,6 +165,10 @@ class LmsController extends Controller
         $pembimbing = User::find($task->pembimbing_id);
         if ($intern->division_id !== null && $pembimbing->division_id !== $intern->division_id) {
             abort(403);
+        }
+
+        if ($material->target_type === 'custom' && ! $material->isAssignedTo($intern->id)) {
+            abort(403, 'Anda tidak ditugaskan untuk materi ini.');
         }
 
         $acceptedRegistration = $this->getActiveAcceptedRegistration($intern);

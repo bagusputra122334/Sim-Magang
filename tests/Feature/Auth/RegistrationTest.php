@@ -25,7 +25,30 @@ class RegistrationTest extends TestCase
             'password_confirmation' => 'StrongPass123',
         ]);
 
-        $this->assertAuthenticated();
-        $response->assertRedirect(route('participant.dashboard', absolute: false));
+        $this->assertDatabaseHas('users', [
+            'email' => 'test@example.com',
+            'name' => 'Test User',
+        ]);
+        $response->assertRedirect(route('login'));
+        $response->assertSessionHas('status');
+    }
+
+    public function test_registration_with_existing_email_prevents_user_enumeration(): void
+    {
+        \App\Models\User::factory()->create([
+            'email' => 'existing@example.com',
+        ]);
+
+        $response = $this->post('/register', [
+            'name' => 'Duplicate Attempt',
+            'email' => 'existing@example.com',
+            'password' => 'StrongPass123',
+            'password_confirmation' => 'StrongPass123',
+        ]);
+
+        // Anti-enumeration: must redirect to login with generic status, NOT return validation error
+        $response->assertRedirect(route('login'));
+        $response->assertSessionHas('status');
+        $response->assertSessionDoesntHaveErrors();
     }
 }

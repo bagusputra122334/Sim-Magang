@@ -313,7 +313,7 @@
                                         @endif
                                     @elseif($intern->is_graduation_eligible)
                                         @if(!empty($isSuperAdmin))
-                                            <span class="badge bg-slate-100 text-slate-600 border border-slate-300 py-1.5 px-2.5 text-xs font-medium" title="Menunggu penerbitan oleh Administrator OPD terkait">
+                                            <span class="border border-slate-300 py-1.5 px-2.5 text-xs font-semibold rounded d-inline-flex align-items-center" style="background-color: #f1f5f9 !important; color: #334155 !important;" title="Menunggu penerbitan oleh Administrator OPD terkait">
                                                 <i class="bi bi-eye text-slate-400 me-1"></i> View Only
                                             </span>
                                         @else

@@ -45,11 +45,16 @@ class NewPasswordController extends Controller
             'password_confirmation.required' => 'Konfirmasi kata sandi baru wajib diisi.',
         ]);
 
+        $email = strtolower(trim((string) $request->input('email')));
+
         // Here we will attempt to reset the user's password. If it is successful we
         // will update the password on an actual user model and persist it to the
         // database. Otherwise we will parse the error and return the response.
         $status = Password::reset(
-            $request->only('email', 'password', 'password_confirmation', 'token'),
+            array_merge(
+                $request->only('password', 'password_confirmation', 'token'),
+                ['email' => $email]
+            ),
             function (User $user) use ($request) {
                 $user->forceFill([
                     'password' => Hash::make($request->password),
@@ -65,7 +70,7 @@ class NewPasswordController extends Controller
         // redirect them back to where they came from with their error message.
         return $status == Password::PASSWORD_RESET
                     ? redirect()->route('login')->with('status', __($status))
-                    : back()->withInput($request->only('email'))
+                    : back()->withInput($request->only('email', 'token'))
                         ->withErrors(['email' => __($status)]);
     }
 }

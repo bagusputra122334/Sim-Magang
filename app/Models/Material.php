@@ -6,6 +6,7 @@ use App\Enums\SubmissionType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Material extends Model
@@ -14,9 +15,11 @@ class Material extends Model
 
     protected $fillable = [
         'pembimbing_id',
+        'target_type',
         'title',
         'description',
         'file_materi',
+        'files',
         'youtube_url',
         'is_task',
         'task_instruction',
@@ -25,6 +28,7 @@ class Material extends Model
     ];
 
     protected $casts = [
+        'files' => 'array',
         'is_task' => 'boolean',
         'deadline' => 'datetime',
         'submission_type' => SubmissionType::class,
@@ -33,6 +37,53 @@ class Material extends Model
     public function pembimbing(): BelongsTo
     {
         return $this->belongsTo(User::class, 'pembimbing_id');
+    }
+
+    public function assignedUsers(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'material_assignments', 'material_id', 'user_id')
+            ->withTimestamps();
+    }
+
+    public function isTargetAll(): bool
+    {
+        return ($this->target_type ?? 'all') === 'all';
+    }
+
+    public function isTargetCustom(): bool
+    {
+        return ($this->target_type ?? 'all') === 'custom';
+    }
+
+    public function isAssignedTo($user): bool
+    {
+        if ($this->isTargetAll()) {
+            return true;
+        }
+
+        $userId = $user instanceof User ? $user->id : (int) $user;
+        if ($this->relationLoaded('assignedUsers')) {
+            return $this->assignedUsers->contains('id', $userId);
+        }
+
+        return $this->assignedUsers()->where('users.id', $userId)->exists();
+    }
+
+    public function scopeVisibleToIntern($query, $user)
+    {
+        $userId = $user instanceof User ? $user->id : (int) $user;
+
+        return $query->where(function ($q) use ($userId) {
+            $q->where(function ($allQ) {
+                $allQ->whereNull('target_type')
+                     ->orWhere('target_type', 'all');
+            })->orWhere(function ($sub) use ($userId) {
+                $sub->where('target_type', 'custom')
+                    ->whereHas('assignedUsers', function ($u) use ($userId) {
+                        $u->where('users.id', $userId);
+                    });
+            });
+        });
     }
 
     public function progresses(): HasMany
@@ -84,7 +135,7 @@ class Material extends Model
     public function getAcceptedMimesAttribute(): string
     {
         if ($this->submission_type === null) {
-            return 'pdf,doc,docx,zip,rar,jpg,jpeg,png';
+            return 'pdf,doc,docx,xls,xlsx,ppt,pptx,csv,txt,odt,zip,rar,7z,tar,gz,jpg,jpeg,png,webp,gif,svg,mp4,mkv,avi,mov,webm,mp3,wav';
         }
 
         return $this->submission_type->acceptedMimes();
@@ -93,7 +144,7 @@ class Material extends Model
     public function getAcceptedExtensionsAttribute(): string
     {
         if ($this->submission_type === null) {
-            return '.pdf,.doc,.docx,.zip,.rar,.jpg,.jpeg,.png';
+            return '.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.csv,.txt,.odt,.zip,.rar,.7z,.tar,.gz,.jpg,.jpeg,.png,.webp,.gif,.svg,.mp4,.mkv,.avi,.mov,.webm,.mp3,.wav';
         }
 
         return $this->submission_type->acceptedExtensions();
@@ -102,9 +153,38 @@ class Material extends Model
     public function getSubmissionTypeLabelAttribute(): string
     {
         if ($this->submission_type === null) {
-            return 'Umum (File / Link)';
+            return 'Umum (File / Link Bebas)';
         }
 
         return $this->submission_type->label();
+    }
+
+    public function getAllFilesAttribute(): array
+    {
+        $list = [];
+
+        if (is_array($this->files) && count($this->files) > 0) {
+            foreach ($this->files as $f) {
+                if (!empty($f['path'])) {
+                    $list[] = [
+                        'name' => $f['name'] ?? basename($f['path']),
+                        'path' => $f['path'],
+                        'size' => $f['size'] ?? null,
+                        'mime' => $f['mime'] ?? null,
+                    ];
+                }
+            }
+        }
+
+        if (empty($list) && !empty($this->file_materi)) {
+            $list[] = [
+                'name' => basename($this->file_materi),
+                'path' => $this->file_materi,
+                'size' => null,
+                'mime' => null,
+            ];
+        }
+
+        return $list;
     }
 }

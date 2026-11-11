@@ -189,7 +189,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function routeNotificationForMail($notification = null): string
     {
-        return 'bagusdwijunior@gmail.com';
+        return $this->email;
     }
 
     public function opd(): \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -210,6 +210,12 @@ class User extends Authenticatable implements MustVerifyEmail
     public function materials(): HasMany
     {
         return $this->hasMany(Material::class, 'pembimbing_id');
+    }
+
+    public function assignedMaterials(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(Material::class, 'material_assignments', 'user_id', 'material_id')
+            ->withTimestamps();
     }
 
     public function tasks(): HasMany

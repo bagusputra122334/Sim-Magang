@@ -337,6 +337,7 @@ class SecurityEnvironmentTest extends TestCase
      */
     public function test_tiered_lockout_cycles_and_security_alert_mail(): void
     {
+        $this->withoutMiddleware(\Illuminate\Routing\Middleware\ThrottleRequests::class);
         \Illuminate\Support\Facades\Mail::fake();
 
         $user = User::factory()->create([

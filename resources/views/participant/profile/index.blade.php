@@ -9,7 +9,7 @@
                 <div class="row align-items-center">
                     <div class="col-md-8">
                         <div class="d-flex align-items-center gap-2 mb-1">
-                            <span class="badge profile-header-badge bg-white dark:bg-slate-800 text-primary dark:text-blue-300 rounded-pill px-2.5 py-1 text-xs fw-bold border border-white/20 dark:border-slate-700">
+                            <span class="rounded-pill px-2.5 py-1 text-xs fw-bold shadow-xs d-inline-block" style="background-color: #ffffff !important; color: #1d4ed8 !important; border: 1px solid rgba(255,255,255,0.4) !important;">
                                 {{ $profile->isSiswa() ? '🏫 Siswa / SMK' : '🎓 Mahasiswa' }}
                             </span>
                         </div>
@@ -42,8 +42,8 @@
                         </div>
 
                         <div class="d-grid gap-1">
-                            <span class="badge profile-type-badge bg-blue-100 dark:bg-blue-950/70 text-blue-950 dark:text-blue-200 border border-blue-400 dark:border-blue-600 rounded-pill py-1.5 px-3 text-xs font-bold shadow-xs">
-                                <i class="bi bi-person-badge me-1 text-blue-700 dark:text-blue-300"></i>{{ $profile->participantTypeLabel() }}
+                            <span class="rounded-pill py-1.5 px-3 text-xs font-bold shadow-xs text-center d-inline-block" style="background-color: #dbeafe !important; color: #1e3a8a !important; border: 1px solid #60a5fa !important;">
+                                <i class="bi bi-person-badge me-1" style="color: #1d4ed8 !important;"></i>{{ $profile->participantTypeLabel() }}
                             </span>
                         </div>
                     </div>
@@ -132,7 +132,7 @@
                                                 <th class="text-xs font-bold !text-slate-800 dark:!text-slate-200 py-1.5 px-2"><i class="bi bi-award me-1.5 text-primary dark:text-blue-400"></i>Semester</th>
                                                 <td class="py-1.5 px-2">
                                                     @if($profile->semester)
-                                                        <span class="badge profile-type-badge bg-blue-100 dark:bg-blue-950/70 text-blue-950 dark:text-blue-200 border border-blue-400 dark:border-blue-600 rounded-pill px-2.5 py-0.5 text-xs font-bold shadow-xs">
+                                                        <span class="rounded-pill px-2.5 py-0.5 text-xs font-bold shadow-xs d-inline-block" style="background-color: #dbeafe !important; color: #1e3a8a !important; border: 1px solid #60a5fa !important;">
                                                             Semester {{ $profile->semester }}
                                                         </span>
                                                     @else

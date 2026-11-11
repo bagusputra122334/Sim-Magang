@@ -13,7 +13,7 @@
                 <i class="bi bi-calendar2-check me-1.5 text-primary"></i>
                 Absensi Harian
             </h1>
-            <span class="badge bg-blue-100 text-blue-950 border border-blue-400 rounded-pill px-2.5 py-1 text-xs font-bold shadow-xs">
+            <span class="rounded-pill px-2.5 py-1 text-xs font-bold shadow-xs d-inline-flex align-items-center" style="background-color: #dbeafe !important; color: #1e3a8a !important; border: 1px solid #60a5fa !important;">
                 <i class="bi bi-calendar-event text-blue-700 me-1"></i>Hari ini: {{ $today->isoFormat('dddd, D MMM YYYY') }}
             </span>
         </div>
@@ -667,7 +667,7 @@
                 confirmText: 'Ya, Simpan Absensi',
                 confirmIcon: 'bi-cloud-arrow-up-fill',
                 onConfirm: function () {
-                    performActualSubmit(activity);
+                    return performActualSubmit(activity);
                 }
             });
         } else {
@@ -679,7 +679,7 @@
         setSubmitLoading(true);
         var bodyObj = { date: state.activeDate, activity: activity };
 
-        fetch(storeEndpoint, {
+        return fetch(storeEndpoint, {
             method: 'POST',
             credentials: 'same-origin',
             headers: {
@@ -737,6 +737,9 @@
         })
         .finally(function(){
             setSubmitLoading(false);
+            if (window.SimangModal && typeof window.SimangModal.close === 'function') {
+                window.SimangModal.close();
+            }
         });
     }
 

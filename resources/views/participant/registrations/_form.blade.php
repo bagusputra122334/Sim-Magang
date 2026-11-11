@@ -42,10 +42,10 @@ $currentSelectedPos = $positions->firstWhere('id', (int) $selectedPosId);
             <div id="selectedPositionBanner" class="p-3.5 rounded-xl border-2 border-blue-600 bg-blue-50/70 dark:bg-blue-950/40 mb-3 shadow-sm {{ $currentSelectedPos ? '' : 'd-none' }}">
                 <div class="d-flex flex-column sm:flex-row sm:items-center justify-content-between gap-2 pb-2 mb-2 border-b border-blue-200 dark:border-blue-800">
                     <div class="d-flex align-items-center gap-2 flex-wrap">
-                        <span class="badge bg-blue-600 text-white font-bold px-2.5 py-1 text-xs rounded-pill shadow-xs">
+                        <span class="bg-blue-600 text-white font-bold px-2.5 py-1 text-xs rounded-pill shadow-xs d-inline-flex align-items-center">
                             <i class="bi bi-check-circle-fill me-1"></i> Formasi Magang Terpilih
                         </span>
-                        <span class="badge bg-white text-blue-800 border border-blue-300 font-mono text-xs uppercase" id="bannerOpdCode">
+                        <span class="font-mono text-xs uppercase px-2 py-0.5 rounded-pill font-bold" id="bannerOpdCode" style="background-color: #eff6ff !important; color: #1d4ed8 !important; border: 1px solid #93c5fd !important;">
                             {{ $currentSelectedPos?->opd?->code ?? 'OPD' }}
                         </span>
                     </div>
@@ -62,7 +62,7 @@ $currentSelectedPos = $positions->firstWhere('id', (int) $selectedPosId);
                             <i class="bi bi-buildings me-1"></i>{{ $currentSelectedPos?->opd?->name ?? 'Pemerintah Kabupaten Tuban' }}
                         </span>
                         <span class="text-slate-300">•</span>
-                        <span class="badge bg-emerald-100 text-emerald-800 border border-emerald-200 px-2 py-0.5 text-xs font-bold rounded-pill">
+                        <span class="px-2 py-0.5 text-xs font-bold rounded-pill d-inline-flex align-items-center" style="background-color: #d1fae5 !important; color: #064e3b !important; border: 1px solid #34d399 !important;">
                             <i class="bi bi-check-circle-fill me-1"></i>Terbuka
                         </span>
                     </div>
@@ -104,7 +104,7 @@ $currentSelectedPos = $positions->firstWhere('id', (int) $selectedPosId);
                                             <div class="w-9 h-9 rounded-lg bg-blue-50 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400 d-flex align-items-center justify-content-center flex-shrink-0 shadow-2xs">
                                                 <i class="bi bi-buildings fs-5"></i>
                                             </div>
-                                            <span class="badge bg-blue-50 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300 border border-blue-200 dark:border-blue-800 rounded-pill px-2.5 py-0.5 text-xs font-bold">
+                                            <span class="rounded-pill px-2.5 py-0.5 text-xs font-bold" style="background-color: #eff6ff !important; color: #1d4ed8 !important; border: 1px solid #bfdbfe !important;">
                                                 {{ $posList->count() }} Formasi Magang
                                             </span>
                                         </div>
@@ -113,7 +113,7 @@ $currentSelectedPos = $positions->firstWhere('id', (int) $selectedPosId);
                                         </h6>
                                         @if($opdCode)
                                             <div class="mb-1">
-                                                <span class="badge bg-slate-100 text-slate-700 dark:bg-slate-700 dark:text-slate-300 text-[10px] font-mono uppercase">
+                                                <span class="text-[10px] font-mono uppercase px-1.5 py-0.5 rounded font-semibold" style="background-color: #f1f5f9 !important; color: #334155 !important; border: 1px solid #cbd5e1 !important;">
                                                     {{ $opdCode }}
                                                 </span>
                                             </div>
@@ -177,9 +177,9 @@ $currentSelectedPos = $positions->firstWhere('id', (int) $selectedPosId);
                                     <div>
                                         <div class="d-flex align-items-center gap-1.5 mb-0.5">
                                             @if($opdCode)
-                                                <span class="badge bg-blue-100 text-blue-900 border border-blue-200 text-[10px] font-bold uppercase">{{ $opdCode }}</span>
+                                                <span class="text-[10px] font-bold uppercase px-2 py-0.5 rounded" style="background-color: #dbeafe !important; color: #1e3a8a !important; border: 1px solid #bfdbfe !important;">{{ $opdCode }}</span>
                                             @endif
-                                            <span class="badge bg-emerald-100 text-emerald-800 border border-emerald-200 text-[10px] font-bold">{{ $posList->count() }} Formasi Aktif</span>
+                                            <span class="text-[10px] font-bold px-2 py-0.5 rounded" style="background-color: #d1fae5 !important; color: #064e3b !important; border: 1px solid #a7f3d0 !important;">{{ $posList->count() }} Formasi Aktif</span>
                                         </div>
                                         <h5 class="modal-title font-bold text-sm sm:text-base text-slate-900 dark:text-white mb-0" id="modalOpdLabel{{ $opdId }}">
                                             {{ $opdName }}
@@ -205,7 +205,7 @@ $currentSelectedPos = $positions->firstWhere('id', (int) $selectedPosId);
                                                         <h6 class="fw-bold text-slate-900 dark:text-white mb-0 text-sm sm:text-base">
                                                             {{ $pos->nama_posisi }}
                                                         </h6>
-                                                        <span class="badge bg-emerald-50 text-emerald-700 border border-emerald-200 rounded px-2 py-0.5 text-[11px] font-bold">
+                                                        <span class="rounded px-2 py-0.5 text-[11px] font-bold d-inline-flex align-items-center" style="background-color: #d1fae5 !important; color: #064e3b !important; border: 1px solid #a7f3d0 !important;">
                                                             <i class="bi bi-check-circle-fill me-1"></i>Terbuka
                                                         </span>
                                                         @if($pos->slug)

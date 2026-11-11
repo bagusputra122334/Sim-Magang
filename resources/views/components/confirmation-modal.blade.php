@@ -104,56 +104,135 @@ window.SimangModal = (function () {
         const btnIcon = document.getElementById('gcm-btn-icon');
         const btnSpinner = document.getElementById('gcm-btn-spinner');
 
-        // Reset state
-        if (btnConfirm) {
-            btnConfirm.disabled = false;
-            btnConfirm.classList.remove('opacity-75', 'cursor-not-allowed');
-        }
-        if (btnCancel) btnCancel.disabled = false;
-        if (btnSpinner) btnSpinner.classList.add('d-none');
-        if (btnIcon) btnIcon.className = 'bi ' + confirmIcon;
-        if (btnText) btnText.textContent = confirmText;
+        // Reset loading/button state
+        resetState(confirmText, confirmIcon);
 
         if (titleEl) titleEl.textContent = title;
         if (iconEl) iconEl.className = 'bi ' + icon + ' fs-6';
         if (summaryContent) summaryContent.innerHTML = summaryHtml;
         if (alertTextEl) alertTextEl.innerHTML = alertText;
 
-        // Theme Classes for Header, Alert, and Confirm Button
+        // Theme Classes & Explicit Background Colors (Overrides style.css .modal-header)
         if (header && btnConfirm && alertBox && alertIcon) {
             header.className = 'modal-header py-2.5 px-3.5 text-white transition-colors';
             btnConfirm.className = 'px-4 py-2 rounded-lg text-xs font-semibold shadow-sm transition-all border-0 d-inline-flex align-items-center gap-1.5 cursor-pointer text-white';
             alertBox.className = 'p-3 text-xs border rounded-xl d-flex align-items-start gap-2';
 
+            let accentColor = '#2563eb';
             if (theme === 'rose' || theme === 'danger') {
+                accentColor = '#e11d48';
                 header.classList.add('bg-rose-600');
                 btnConfirm.classList.add('bg-rose-600', 'hover:bg-rose-700');
                 alertBox.classList.add('bg-rose-50', 'text-rose-900', 'border-rose-200', 'dark:bg-rose-950/40', 'dark:text-rose-200', 'dark:border-rose-800');
                 alertIcon.className = 'bi bi-exclamation-triangle-fill text-rose-600 dark:text-rose-400 mt-0.5 flex-shrink-0 fs-6';
             } else if (theme === 'emerald' || theme === 'success') {
+                accentColor = '#059669';
                 header.classList.add('bg-emerald-600');
                 btnConfirm.classList.add('bg-emerald-600', 'hover:bg-emerald-700');
                 alertBox.classList.add('bg-emerald-50', 'text-emerald-900', 'border-emerald-200', 'dark:bg-emerald-950/40', 'dark:text-emerald-200', 'dark:border-emerald-800');
                 alertIcon.className = 'bi bi-check-circle-fill text-emerald-600 dark:text-emerald-400 mt-0.5 flex-shrink-0 fs-6';
             } else if (theme === 'amber' || theme === 'warning') {
+                accentColor = '#d97706';
                 header.classList.add('bg-amber-600');
                 btnConfirm.classList.add('bg-amber-600', 'hover:bg-amber-700');
                 alertBox.classList.add('bg-amber-50', 'text-amber-900', 'border-amber-200', 'dark:bg-amber-950/40', 'dark:text-amber-200', 'dark:border-amber-800');
                 alertIcon.className = 'bi bi-exclamation-diamond-fill text-amber-600 dark:text-amber-400 mt-0.5 flex-shrink-0 fs-6';
+            } else if (theme === 'indigo') {
+                accentColor = '#4f46e5';
+                header.classList.add('bg-indigo-600');
+                btnConfirm.classList.add('bg-indigo-600', 'hover:bg-indigo-700');
+                alertBox.classList.add('bg-indigo-50', 'text-indigo-900', 'border-indigo-200', 'dark:bg-indigo-950/40', 'dark:text-indigo-200', 'dark:border-indigo-800');
+                alertIcon.className = 'bi bi-person-check-fill text-indigo-600 dark:text-indigo-400 mt-0.5 flex-shrink-0 fs-6';
             } else {
+                accentColor = '#2563eb';
                 header.classList.add('bg-blue-600');
                 btnConfirm.classList.add('bg-blue-600', 'hover:bg-blue-700');
                 alertBox.classList.add('bg-sky-50', 'text-sky-900', 'border-sky-200', 'dark:bg-sky-950/40', 'dark:text-sky-200', 'dark:border-sky-800');
                 alertIcon.className = 'bi bi-info-circle-fill text-sky-600 dark:text-sky-400 mt-0.5 flex-shrink-0 fs-6';
             }
+
+            header.style.setProperty('background-color', accentColor, 'important');
+            header.style.setProperty('color', '#ffffff', 'important');
+            header.style.setProperty('border-bottom-color', accentColor, 'important');
+            btnConfirm.style.setProperty('background-color', accentColor, 'important');
+            btnConfirm.style.setProperty('color', '#ffffff', 'important');
         }
 
         const modal = getBsModal();
         if (modal) modal.show();
     }
 
+    function resetState(confirmText, confirmIcon) {
+        const btnConfirm = document.getElementById('gcm-btn-confirm');
+        const btnCancel = document.getElementById('gcm-btn-cancel');
+        const btnText = document.getElementById('gcm-btn-text');
+        const btnIcon = document.getElementById('gcm-btn-icon');
+        const btnSpinner = document.getElementById('gcm-btn-spinner');
+
+        if (btnConfirm) {
+            btnConfirm.disabled = false;
+            btnConfirm.classList.remove('opacity-75', 'cursor-not-allowed');
+        }
+        if (btnCancel) btnCancel.disabled = false;
+        if (btnSpinner) btnSpinner.classList.add('d-none');
+        if (btnIcon) {
+            btnIcon.classList.remove('d-none');
+            if (confirmIcon) btnIcon.className = 'bi ' + confirmIcon;
+        }
+        if (btnText && confirmText) btnText.textContent = confirmText;
+    }
+
+    function close() {
+        const el = getModalEl();
+        const modal = getBsModal();
+        resetState();
+
+        if (!el) return;
+
+        if (modal) {
+            if (modal._isTransitioning) {
+                el.addEventListener('shown.bs.modal', function onShown() {
+                    el.removeEventListener('shown.bs.modal', onShown);
+                    modal.hide();
+                }, { once: true });
+            } else {
+                modal.hide();
+            }
+        }
+
+        // Failsafe cleanup in case Bootstrap transition state gets stuck
+        setTimeout(function () {
+            if (el.classList.contains('show')) {
+                el.classList.remove('show');
+                el.style.display = 'none';
+                el.setAttribute('aria-hidden', 'true');
+                el.removeAttribute('aria-modal');
+                el.removeAttribute('role');
+            }
+            document.querySelectorAll('.modal-backdrop').forEach(function (bd) {
+                if (!document.querySelector('.modal.show')) {
+                    bd.remove();
+                }
+            });
+            if (!document.querySelector('.modal.show')) {
+                document.body.classList.remove('modal-open');
+                document.body.style.overflow = '';
+                document.body.style.paddingRight = '';
+            }
+        }, 350);
+    }
+
     // Attach Confirm Click Listener Once
     document.addEventListener('DOMContentLoaded', function () {
+        const modalEl = getModalEl();
+        if (modalEl) {
+            modalEl.addEventListener('hidden.bs.modal', function () {
+                pendingCallback = null;
+                pendingForm = null;
+                resetState();
+            });
+        }
+
         const btnConfirm = document.getElementById('gcm-btn-confirm');
         const btnCancel = document.getElementById('gcm-btn-cancel');
         const btnSpinner = document.getElementById('gcm-btn-spinner');
@@ -181,10 +260,19 @@ window.SimangModal = (function () {
                     const cb = pendingCallback;
                     pendingCallback = null;
                     try {
-                        cb();
+                        const result = cb();
+                        if (result && typeof result.then === 'function') {
+                            result.then(
+                                function () { close(); },
+                                function () { close(); }
+                            );
+                        }
                     } catch (e) {
                         console.error('SimangModal callback error:', e);
+                        close();
                     }
+                } else {
+                    close();
                 }
             });
         }
@@ -226,7 +314,10 @@ window.SimangModal = (function () {
     });
 
     return {
-        confirm: confirm
+        confirm: confirm,
+        close: close,
+        hide: close,
+        reset: resetState
     };
 })();
 </script>

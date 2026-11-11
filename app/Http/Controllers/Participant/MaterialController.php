@@ -16,7 +16,7 @@ class MaterialController extends Controller
 {
     public function __construct(protected RegistrationService $registrationService) {}
 
-    public function index()
+    public function index(Request $request)
     {
         $user = auth()->user();
         $user = $this->ensureDivisionIdResolved($user);
@@ -34,18 +34,18 @@ class MaterialController extends Controller
         $pembimbingIds = $dashboardController->resolvePembimbingIdsForDashboard($user);
         $divisionId = $dashboardController->resolveDivisionIdForDashboard($user);
 
-        $query = Material::with(['submissions' => function ($q) {
+        $baseQuery = Material::with(['submissions' => function ($q) {
             $q->where('user_id', auth()->id());
         }]);
 
         if (!empty($pembimbingIds)) {
-            $query->whereIn('pembimbing_id', $pembimbingIds);
+            $baseQuery->whereIn('pembimbing_id', $pembimbingIds);
         } elseif ($divisionId !== null) {
-            $query->whereHas('pembimbing', function ($q) use ($divisionId) {
+            $baseQuery->whereHas('pembimbing', function ($q) use ($divisionId) {
                 $q->where('division_id', $divisionId);
             });
         } else {
-            $query->where(function ($q) use ($user) {
+            $baseQuery->where(function ($q) use ($user) {
                 if (\Illuminate\Support\Facades\Schema::hasColumn('materials', 'division_id')) {
                     $q->where('division_id', $user->division_id);
                 }
@@ -55,19 +55,52 @@ class MaterialController extends Controller
             });
         }
 
+        // Pastikan hanya materi umum divisi atau tugas mandiri milik peserta ini yang bisa dilihat
+        $baseQuery->where(function ($q) use ($user) {
+            $q->where(function ($allQ) {
+                $allQ->whereNull('target_type')
+                     ->orWhere('target_type', 'all');
+            })->orWhere(function ($sub) use ($user) {
+                $sub->where('target_type', 'custom')
+                    ->whereHas('assignedUsers', function ($u) use ($user) {
+                        $u->where('users.id', $user->id);
+                    });
+            });
+        });
+
         if ($acceptedRegistration && $startDate) {
-            $query->whereDate('created_at', '>=', $startDate);
+            $baseQuery->whereDate('created_at', '>=', $startDate);
             if ($endDate) {
-                $query->whereDate('created_at', '<=', $endDate);
+                $baseQuery->whereDate('created_at', '<=', $endDate);
             }
         } else {
             // Jika belum accepted / belum ada start_date, jangan tampilkan materi/tugas masa lalu
-            $query->whereRaw('1 = 0');
+            $baseQuery->whereRaw('1 = 0');
         }
 
-        $materials = $query->latest()->paginate(10);
+        $filterType = $request->query('type', 'all');
+        if (! in_array($filterType, ['all', 'division', 'personal'], true)) {
+            $filterType = 'all';
+        }
 
-        return view('participant.materials.index', compact('materials'));
+        $countAll = (clone $baseQuery)->count();
+        $countDivision = (clone $baseQuery)->where(function ($q) {
+            $q->whereNull('target_type')->orWhere('target_type', 'all');
+        })->count();
+        $countPersonal = (clone $baseQuery)->where('target_type', 'custom')->count();
+
+        $query = clone $baseQuery;
+        if ($filterType === 'division') {
+            $query->where(function ($q) {
+                $q->whereNull('target_type')->orWhere('target_type', 'all');
+            });
+        } elseif ($filterType === 'personal') {
+            $query->where('target_type', 'custom');
+        }
+
+        $materials = $query->latest()->paginate(10)->withQueryString();
+
+        return view('participant.materials.index', compact('materials', 'filterType', 'countAll', 'countDivision', 'countPersonal'));
     }
 
     public function show(Material $material)
@@ -93,6 +126,15 @@ class MaterialController extends Controller
             if ($material->division_id !== $intern->division_id) {
                 abort(403);
             }
+        }
+
+        if ($material->target_type === 'custom' && ! $material->isAssignedTo($intern->id)) {
+            abort(403, 'Anda tidak ditugaskan untuk materi / tugas mandiri ini.');
+        }
+
+        // Keamanan Penugasan Mandiri: Jika bertipe custom, pastikan peserta terdaftar dalam penugasan
+        if ($material->target_type === 'custom' && ! $material->isAssignedTo($intern->id)) {
+            abort(403, 'Anda tidak ditugaskan untuk materi / tugas mandiri ini.');
         }
 
         $acceptedRegistration = $this->getActiveAcceptedRegistration($intern);
@@ -157,6 +199,10 @@ class MaterialController extends Controller
             }
         }
 
+        if ($material->target_type === 'custom' && ! $material->isAssignedTo($intern->id)) {
+            abort(403, 'Anda tidak ditugaskan untuk materi / tugas mandiri ini.');
+        }
+
         $acceptedRegistration = $this->getActiveAcceptedRegistration($intern);
         $startDate = $acceptedRegistration?->periode_mulai;
         $endDate   = $acceptedRegistration?->periode_selesai;
@@ -186,39 +232,92 @@ class MaterialController extends Controller
             ->where('user_id', auth()->id())
             ->first();
 
-        $defaultMimes = 'pdf,doc,docx,zip,rar,jpg,png,jpeg';
+        $defaultMimes = 'pdf,doc,docx,xls,xlsx,ppt,pptx,csv,txt,odt,zip,rar,7z,tar,gz,jpg,jpeg,png,webp,gif,svg,mp4,mkv,avi,mov,webm,mp3,wav';
 
-        if ($submissionType === null) {
-            $hasFile = $request->hasFile('file');
-            $hasLink = filled($request->input('submission_link'));
+        $hasFile = $request->hasFile('files') || $request->hasFile('file');
+        $hasLink = filled($request->input('submission_link'));
 
-            if (!$hasFile && !$hasLink) {
-                return back()->withErrors([
-                    'file' => 'Harap upload file atau masukkan link pengumpulan.',
-                    'submission_link' => 'Harap upload file atau masukkan link pengumpulan.',
-                ])->withInput();
+        if ($submissionType === null || $submissionType->isFileUpload()) {
+            $mimes = ($submissionType && !$submissionType->isLink() && $submissionType->acceptedMimes()) 
+                ? $submissionType->acceptedMimes() 
+                : $defaultMimes;
+
+            $rules = [
+                'submission_text' => 'nullable|string',
+                'submission_link' => 'nullable|url|max:500',
+            ];
+
+            if ($submissionType === null) {
+                if (!$hasFile && !$hasLink) {
+                    return back()->withErrors([
+                        'file' => 'Harap upload file tugas atau masukkan link pengumpulan.',
+                        'submission_link' => 'Harap upload file tugas atau masukkan link pengumpulan.',
+                    ])->withInput();
+                }
+            } else {
+                if (!$hasFile) {
+                    return back()->withErrors([
+                        'file' => 'Harap unggah minimal satu file tugas.',
+                    ])->withInput();
+                }
             }
 
             if ($hasFile) {
-                $validated = $request->validate([
-                    'file' => 'required|file|mimes:' . $defaultMimes . '|max:10240',
-                    'submission_link' => 'nullable|url|max:500',
-                    'submission_text' => 'nullable|string',
-                ]);
-                if ($existingSubmission && !empty($existingSubmission->file_path)) {
-                    Storage::disk('public')->delete($existingSubmission->file_path);
+                if ($request->hasFile('files')) {
+                    $rules['files'] = 'required|array|min:1';
+                    $rules['files.*'] = 'file|mimes:' . $mimes . '|max:102400';
+                } else {
+                    $rules['file'] = 'required|file|mimes:' . $mimes . '|max:102400';
                 }
-                $path = $request->file('file')->store('submissions', 'public');
-                $submissionData['file_path'] = $path;
-                if (filled($request->input('submission_link'))) {
-                    $submissionData['submission_link'] = $request->input('submission_link');
+            }
+
+            $validated = $request->validate($rules);
+
+            if ($hasFile) {
+                // Hapus file lama jika ada
+                if ($existingSubmission) {
+                    if (is_array($existingSubmission->files)) {
+                        foreach ($existingSubmission->files as $oldF) {
+                            if (!empty($oldF['path'])) {
+                                Storage::disk('public')->delete($oldF['path']);
+                            }
+                        }
+                    }
+                    if (!empty($existingSubmission->file_path)) {
+                        Storage::disk('public')->delete($existingSubmission->file_path);
+                    }
                 }
-            } else {
-                $validated = $request->validate([
-                    'submission_link' => 'required|url|max:500',
-                    'submission_text' => 'nullable|string',
-                ]);
-                $submissionData['submission_link'] = $validated['submission_link'];
+
+                $uploadedFiles = [];
+                if ($request->hasFile('files')) {
+                    foreach ($request->file('files') as $uploaded) {
+                        if ($uploaded->isValid()) {
+                            $path = $uploaded->store('submissions', 'public');
+                            $uploadedFiles[] = [
+                                'name' => $uploaded->getClientOriginalName(),
+                                'path' => $path,
+                                'size' => $uploaded->getSize(),
+                                'mime' => $uploaded->getClientMimeType(),
+                            ];
+                        }
+                    }
+                } elseif ($request->hasFile('file')) {
+                    $uploaded = $request->file('file');
+                    $path = $uploaded->store('submissions', 'public');
+                    $uploadedFiles[] = [
+                        'name' => $uploaded->getClientOriginalName(),
+                        'path' => $path,
+                        'size' => $uploaded->getSize(),
+                        'mime' => $uploaded->getClientMimeType(),
+                    ];
+                }
+
+                $submissionData['files'] = !empty($uploadedFiles) ? $uploadedFiles : null;
+                $submissionData['file_path'] = !empty($uploadedFiles) ? $uploadedFiles[0]['path'] : null;
+            }
+
+            if ($hasLink) {
+                $submissionData['submission_link'] = $request->input('submission_link');
             }
         } elseif ($submissionType->isLink()) {
             $validated = $request->validate([
@@ -226,17 +325,6 @@ class MaterialController extends Controller
                 'submission_text' => 'nullable|string',
             ]);
             $submissionData['submission_link'] = $validated['submission_link'];
-        } else {
-            $mimes = $submissionType->acceptedMimes();
-            $validated = $request->validate([
-                'file' => 'required|file|mimes:' . $mimes . '|max:10240',
-                'submission_text' => 'nullable|string',
-            ]);
-            if ($existingSubmission && !empty($existingSubmission->file_path)) {
-                Storage::disk('public')->delete($existingSubmission->file_path);
-            }
-            $path = $request->file('file')->store('submissions', 'public');
-            $submissionData['file_path'] = $path;
         }
 
         ModuleSubmission::updateOrCreate(
@@ -289,6 +377,13 @@ class MaterialController extends Controller
                     'message' => 'Anda tidak memiliki izin mengakses materi ini.',
                 ], 403);
             }
+        }
+
+        if ($material->target_type === 'custom' && ! $material->isAssignedTo($intern->id)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Anda tidak ditugaskan untuk materi ini.',
+            ], 403);
         }
 
         $submission = ModuleSubmission::updateOrCreate(
@@ -352,6 +447,13 @@ class MaterialController extends Controller
                     'message' => 'Anda tidak memiliki izin mengakses materi ini.',
                 ], 403);
             }
+        }
+
+        if ($material->target_type === 'custom' && ! $material->isAssignedTo($intern->id)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Anda tidak ditugaskan untuk materi ini.',
+            ], 403);
         }
 
         $completed = (bool) ($request->json('completed', false) ?: $request->input('completed', false));

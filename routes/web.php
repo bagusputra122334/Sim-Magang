@@ -208,6 +208,7 @@ Route::prefix('pembimbing')
     ->group(function () {
         Route::get('/dashboard/export-pdf', [\App\Http\Controllers\Pembimbing\DashboardController::class, 'exportPdf'])->name('dashboard.export-pdf');
         Route::get('/dashboard', [\App\Http\Controllers\Pembimbing\DashboardController::class, 'index'])->name('dashboard');
+        Route::get('/materials/personal/{intern}', [\App\Http\Controllers\Pembimbing\MaterialController::class, 'personal'])->name('materials.personal');
         Route::resource('materials', \App\Http\Controllers\Pembimbing\MaterialController::class);
         Route::get('/materials/{material}/submissions', [\App\Http\Controllers\Pembimbing\MaterialController::class, 'submissions'])->name('materials.submissions');
         Route::resource('tasks', \App\Http\Controllers\Pembimbing\TaskController::class);

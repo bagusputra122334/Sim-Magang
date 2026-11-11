@@ -25,7 +25,7 @@ class AdminSettingTest extends TestCase
         $this->seed(SettingSeeder::class);
 
         $this->admin = User::factory()->create([
-            'role' => UserRole::Admin,
+            'role' => UserRole::SuperAdmin,
         ]);
 
         $this->participant = User::factory()->create([
@@ -37,6 +37,16 @@ class AdminSettingTest extends TestCase
     {
         $response = $this->get(route('admin.settings.index'));
         $response->assertRedirect(route('login'));
+    }
+
+    public function test_opd_admin_cannot_access_settings(): void
+    {
+        $opdAdmin = User::factory()->create([
+            'role' => UserRole::Admin,
+        ]);
+
+        $response = $this->actingAs($opdAdmin)->get(route('admin.settings.index'));
+        $response->assertStatus(403);
     }
 
     public function test_participant_cannot_access_settings(): void

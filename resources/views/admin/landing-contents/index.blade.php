@@ -83,6 +83,17 @@
         </div>
     </div>
 
+    <!-- Alert Edukasi Pengaturan Tentang Program -->
+    <div class="alert alert-info border border-blue-200 dark:border-blue-800 bg-blue-50 dark:bg-blue-950/40 text-blue-900 dark:text-blue-200 rounded-xl p-3 mb-4 d-flex align-items-center justify-content-between flex-wrap gap-2 text-xs shadow-2xs">
+        <div class="d-flex align-items-center gap-2">
+            <i class="bi bi-info-circle-fill fs-6 text-primary"></i>
+            <span>Bagian <strong>Foto &amp; Narasi Tentang SIMAGANG</strong> dikelola terpusat melalui menu <strong>Pengaturan Global</strong> (hanya foto dan narasi utuh, tanpa poin-poin).</span>
+        </div>
+        <a href="{{ url('/admin/settings#landing-page-portal') }}" class="btn btn-xs btn-primary font-bold px-2.5 py-1 rounded-md text-[11px] text-white">
+            <i class="bi bi-gear-fill me-1"></i> Buka Pengaturan Tentang
+        </a>
+    </div>
+
     {{-- Filter & Search Card --}}
     <div class="card border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-sm rounded-xl mb-4">
         <div class="card-body p-3">

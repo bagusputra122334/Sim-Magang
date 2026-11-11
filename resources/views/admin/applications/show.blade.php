@@ -323,7 +323,7 @@
         <div>
             <h1 class="h4 fw-bold mb-0 text-slate-800 dark:text-slate-100 d-flex align-items-center gap-2 flex-wrap">
                 <i class="bi bi-file-earmark-text text-primary"></i> Detail Pendaftaran
-                <span class="badge bg-light text-primary border font-monospace text-xs px-2 py-0.5">
+                <span class="font-monospace text-xs px-2.5 py-0.5 rounded-pill font-bold" style="background-color: #eff6ff !important; color: #1d4ed8 !important; border: 1px solid #bfdbfe !important;">
                     {{ $reg->nomor_pendaftaran }}
                 </span>
             </h1>
@@ -334,7 +334,7 @@
             </a>
             @if (! $reg->isAccepted() && ! $reg->isRejected())
                 @if (auth()->user()->isSuperAdmin())
-                    <span class="badge bg-purple-50 text-purple-700 border border-purple-200 px-3 py-1.5 text-xs font-semibold rounded-lg d-inline-flex align-items-center gap-1 shadow-xs">
+                    <span class="px-3 py-1.5 text-xs font-bold rounded-lg d-inline-flex align-items-center gap-1 shadow-xs" style="background-color: #f3e8ff !important; color: #6b21a8 !important; border: 1px solid #d8b4fe !important;">
                         <i class="bi bi-shield-check text-purple-600"></i> Mode Monitoring Super Admin (Wewenang Keputusan di Admin OPD)
                     </span>
                 @else
@@ -388,7 +388,7 @@
 
                         <dt class="col-sm-4 text-xs font-bold !text-slate-800 dark:!text-slate-200">Instansi / Wilayah OPD</dt>
                         <dd class="col-sm-8 fw-semibold mb-0 text-xs">
-                            <span class="badge bg-blue-50 text-blue-700 border border-blue-200 text-xs px-2 py-0.5 rounded">
+                            <span class="text-xs px-2.5 py-0.5 rounded font-bold d-inline-flex align-items-center" style="background-color: #eff6ff !important; color: #1d4ed8 !important; border: 1px solid #bfdbfe !important;">
                                 <i class="bi bi-building me-1"></i>{{ $reg->opd?->name ?? $reg->position?->opd?->name ?? 'Dinas Komunikasi dan Informatika, Statistik dan Persandian' }}
                             </span>
                         </dd>
@@ -801,7 +801,7 @@
                     @endif
 
                     <div class="mb-1.5">
-                        <span class="badge {{ $profil?->isSiswa() ? 'bg-slate-200 text-slate-900 border border-slate-400' : 'bg-blue-100 text-blue-950 border border-blue-400' }} rounded-pill px-2.5 py-0.5 text-xs font-bold shadow-xs">
+                        <span class="rounded-pill px-2.5 py-0.5 text-xs font-bold shadow-xs d-inline-block" style="{{ $profil?->isSiswa() ? 'background-color: #e2e8f0 !important; color: #0f172a !important; border: 1px solid #94a3b8 !important;' : 'background-color: #dbeafe !important; color: #1e3a8a !important; border: 1px solid #93c5fd !important;' }}">
                             {{ $profil ? ($profil->isSiswa() ? '🏫 Siswa / SMK' : '🎓 Mahasiswa') : 'Belum Ada Profil' }}
                         </span>
                     </div>
@@ -834,7 +834,7 @@
                             <li class="list-group-item py-1 px-0">
                                 <span class="profile-info-label text-xs font-bold !text-slate-800 dark:!text-slate-200">Semester</span>
                                 <span class="profile-info-value text-xs">
-                                    <span class="badge bg-light text-body border rounded-pill px-2 py-0.5 text-xs">Semester {{ $profil->semester ?? '-' }}</span>
+                                    <span class="rounded-pill px-2 py-0.5 text-xs font-bold" style="background-color: #f1f5f9 !important; color: #1e293b !important; border: 1px solid #cbd5e1 !important;">Semester {{ $profil->semester ?? '-' }}</span>
                                 </span>
                             </li>
                         @endif

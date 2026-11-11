@@ -137,8 +137,8 @@
                         <h5 class="text-xs font-bold !text-slate-900 dark:!text-slate-100 uppercase tracking-wider mb-0 d-flex align-items-center gap-1.5">
                             <i class="bi bi-patch-check-fill text-emerald-600 dark:text-emerald-400"></i>SERTIFIKAT KELULUSAN MAGANG
                         </h5>
-                        <span class="badge !bg-emerald-100 !text-emerald-900 font-bold border border-emerald-300 px-2.5 py-0.5 rounded-pill text-xs d-inline-flex align-items-center gap-1 shadow-xs">
-                            <i class="bi bi-check-circle-fill !text-emerald-700"></i> Sertifikat Telah Terbit
+                        <span class="font-bold border border-emerald-300 px-2.5 py-0.5 rounded-pill text-xs d-inline-flex align-items-center gap-1 shadow-xs" style="background-color: #d1fae5 !important; color: #064e3b !important;">
+                            <i class="bi bi-check-circle-fill" style="color: #047857 !important;"></i> Sertifikat Telah Terbit
                         </span>
                     </div>
                     <div class="card-body p-3 sm:p-4 text-xs">
@@ -149,7 +149,7 @@
                             <div class="flex-grow-1">
                                 <div class="d-flex align-items-center gap-2 flex-wrap mb-1">
                                     <h6 class="text-xs font-bold !text-slate-900 dark:!text-slate-100 uppercase mb-0">Sertifikat Kelulusan Digital</h6>
-                                    <span class="badge !bg-emerald-100 !text-emerald-900 border border-emerald-300 font-bold px-2 py-0.5 rounded-pill text-xs">Resmi Diterbitkan</span>
+                                    <span class="border border-emerald-300 font-bold px-2 py-0.5 rounded-pill text-xs d-inline-block" style="background-color: #d1fae5 !important; color: #064e3b !important;">Resmi Diterbitkan</span>
                                 </div>
                                 <p class="text-slate-600 dark:text-slate-300 text-xs mb-2">
                                     Sertifikat kelulusan magang resmi telah diterbitkan dan tersedia untuk diunduh oleh peserta melalui portal magang mereka.

@@ -32,6 +32,21 @@ class SecurityHeaders
         // Restrict unnecessary browser device capabilities
         $response->headers->set('Permissions-Policy', 'camera=(), microphone=(), geolocation=(self)');
 
+        // Content Security Policy (CSP) - Hardening against XSS & content injection
+        $csp = [
+            "default-src 'self'",
+            "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://challenges.cloudflare.com https://*.google.com https://*.google.co.id https://*.googleapis.com https://*.gstatic.com",
+            "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com",
+            "font-src 'self' data: https://fonts.gstatic.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com",
+            "img-src 'self' data: blob: https:",
+            "frame-src 'self' https://www.google.com https://maps.google.com https://*.google.com https://*.google.co.id https://google.co.id https://*.gstatic.com https://*.googleapis.com https://www.youtube.com https://youtube.com https://challenges.cloudflare.com https://*.openstreetmap.org https://openstreetmap.org",
+            "connect-src 'self' https://challenges.cloudflare.com https://*.google.com https://*.google.co.id https://*.googleapis.com https://*.gstatic.com https://*.openstreetmap.org",
+            "frame-ancestors 'self'",
+            "base-uri 'self'",
+            "form-action 'self'",
+        ];
+        $response->headers->set('Content-Security-Policy', implode('; ', $csp));
+
         // Enforce HTTPS via HSTS when on secure connection or in production
         if ($request->isSecure() || app()->environment('production')) {
             $response->headers->set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');

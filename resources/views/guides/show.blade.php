@@ -645,23 +645,22 @@
                         <i class="bi bi-moon-stars" id="themeIcon"></i>
                     </button>
 
-                    <form action="{{ url('/') }}#search-results" method="GET" class="relative hidden md:flex items-center w-56 lg:w-64" x-data="{ searchQuery: '{{ request('search') }}' }">
-                        <!-- Icon: Only shows when input is empty -->
-                        <div class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none z-10" x-show="searchQuery.length === 0" x-transition.opacity>
+                    <form action="{{ url('/') }}#search-results" method="GET" class="relative hidden md:flex items-center w-56 lg:w-64">
+                        <!-- Icon wrapper with absolute positioning inside padded region -->
+                        <div class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none z-10">
                             <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                             </svg>
                         </div>
                         
-                        <!-- Input: Padding adjusts dynamically based on content length -->
+                        <!-- Input: Permanent static left padding so placeholder/text never overlaps icon -->
                         <input type="text" 
                                name="search" 
-                               x-model="searchQuery" 
+                               value="{{ request('search') }}"
                                autocomplete="off"
                                placeholder="Cari formasi, panduan..." 
-                               class="w-full !pl-12 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-full text-sm text-slate-700 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all shadow-inner"
-                               :class="searchQuery.length > 0 ? '!pl-4' : '!pl-12'"
-                               :style="searchQuery.length > 0 ? 'padding-left: 1rem !important;' : 'padding-left: 3rem !important;'">
+                               class="w-full !pl-12 pl-12 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-full text-sm text-slate-700 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all shadow-inner"
+                               style="padding-left: 3rem !important;">
                     </form>
                 </div>
 

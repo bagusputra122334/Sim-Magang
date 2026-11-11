@@ -317,6 +317,7 @@ class DashboardController extends ParticipantController
             }
 
             if ($materialsQuery !== null && $tasksQuery !== null) {
+                $materialsQuery->visibleToIntern($user->id);
                 $materialsQuery->whereDate('created_at', '>=', $startDate);
                 $tasksQuery->whereDate('created_at', '>=', $startDate);
 

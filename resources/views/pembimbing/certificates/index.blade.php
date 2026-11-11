@@ -21,7 +21,7 @@
             </h1>
         </div>
         <div class="d-flex align-items-center gap-2">
-            <span class="badge bg-blue-50 text-blue-900 border border-blue-200 dark:bg-blue-950/40 dark:text-blue-300 dark:border-blue-800 px-2 py-0.5 rounded text-[11px] font-bold">
+            <span class="px-2 py-0.5 rounded text-[11px] font-bold d-inline-flex align-items-center" style="background-color: #eff6ff !important; color: #1e3a8a !important; border: 1px solid #bfdbfe !important;">
                 <i class="bi bi-diagram-3 me-1"></i>Divisi: {{ $divisionName }}
             </span>
         </div>

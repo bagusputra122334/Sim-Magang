@@ -34,13 +34,15 @@ class PasswordResetLinkController extends Controller
             'email.email'    => 'Format alamat email tidak valid.',
         ]);
 
+        $email = strtolower(trim((string) $request->input('email')));
+
         try {
             $status = Password::sendResetLink(
-                $request->only('email')
+                ['email' => $email]
             );
         } catch (\Throwable $e) {
             Log::error('Gagal mengirim email reset password: ' . $e->getMessage(), [
-                'email' => $request->input('email'),
+                'email' => $email,
             ]);
 
             return back()->withInput($request->only('email'))
